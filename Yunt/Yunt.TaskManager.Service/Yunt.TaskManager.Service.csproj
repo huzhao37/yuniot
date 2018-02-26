@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Yunt.TaskManager.Model\Yunt.TaskManager.Model.csproj" />
+    <ProjectReference Include="..\Yunt.TaskManager.Repository.Contract\Yunt.TaskManager.Repository.Contract.csproj" />
+    <ProjectReference Include="..\Yunt.TaskManager.Service.Contract\Yunt.TaskManager.Service.Contract.csproj" />
+  </ItemGroup>
+
+</Project>

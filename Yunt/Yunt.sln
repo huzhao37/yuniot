@@ -1,0 +1,97 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{65228A37-BBDF-40F7-8CEE-0344FF8F9958}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Demo.ConsoleApp1", "Yunt.Demo.ConsoleApp1\Yunt.Demo.ConsoleApp1.csproj", "{0977DDBD-8F6A-4DA7-A268-AE7CF91EF38E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.Demo.SendEmail", "Yunt.Demo.SendEmail\Yunt.Demo.SendEmail.csproj", "{EBEEE472-3E41-404F-B3BB-288EFDF601DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.Demo.Core", "Yunt.Demo.Core\Yunt.Demo.Core.csproj", "{F13D0D4F-D93A-40BA-B979-E0DC8B9B93B3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskManager【任务监控】", "TaskManager【任务监控】", "{34019C27-4A7F-445F-AEAC-F9BD2921C14C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Model", "Yunt.TaskManager.Model\Yunt.TaskManager.Model.csproj", "{44E1A07A-25D8-434B-8242-490DB2221426}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrameWork【开源框架】", "FrameWork【开源框架】", "{E884E304-129F-47A3-A81A-A3B6178E6F2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.EF", "Yunt.EF\Yunt.EF.csproj", "{F58E3F0C-A590-45BD-B9C5-330A787CB6BC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager", "Yunt.TaskManager\Yunt.TaskManager.csproj", "{C93ECB32-6C1E-424F-9F6E-257A4FA562E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Service.Contract", "Yunt.TaskManager.Service.Contract\Yunt.TaskManager.Service.Contract.csproj", "{36A769A9-84B8-4166-B5F4-1F665781274E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Service", "Yunt.TaskManager.Service\Yunt.TaskManager.Service.csproj", "{AAB11832-13F6-4A3B-9D9D-23D90AABD5FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Repository.Contract", "Yunt.TaskManager.Repository.Contract\Yunt.TaskManager.Repository.Contract.csproj", "{D184E1FE-AB48-4DC5-B064-564ACBD12D93}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Repository.EF", "Yunt.TaskManager.Repository.EF\Yunt.TaskManager.Repository.EF.csproj", "{89E3339A-DDCD-4D66-95EF-7300359BCB87}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0977DDBD-8F6A-4DA7-A268-AE7CF91EF38E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0977DDBD-8F6A-4DA7-A268-AE7CF91EF38E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0977DDBD-8F6A-4DA7-A268-AE7CF91EF38E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0977DDBD-8F6A-4DA7-A268-AE7CF91EF38E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EBEEE472-3E41-404F-B3BB-288EFDF601DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBEEE472-3E41-404F-B3BB-288EFDF601DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBEEE472-3E41-404F-B3BB-288EFDF601DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBEEE472-3E41-404F-B3BB-288EFDF601DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F13D0D4F-D93A-40BA-B979-E0DC8B9B93B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F13D0D4F-D93A-40BA-B979-E0DC8B9B93B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F13D0D4F-D93A-40BA-B979-E0DC8B9B93B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F13D0D4F-D93A-40BA-B979-E0DC8B9B93B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44E1A07A-25D8-434B-8242-490DB2221426}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44E1A07A-25D8-434B-8242-490DB2221426}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44E1A07A-25D8-434B-8242-490DB2221426}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44E1A07A-25D8-434B-8242-490DB2221426}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F58E3F0C-A590-45BD-B9C5-330A787CB6BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F58E3F0C-A590-45BD-B9C5-330A787CB6BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F58E3F0C-A590-45BD-B9C5-330A787CB6BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F58E3F0C-A590-45BD-B9C5-330A787CB6BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C93ECB32-6C1E-424F-9F6E-257A4FA562E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C93ECB32-6C1E-424F-9F6E-257A4FA562E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C93ECB32-6C1E-424F-9F6E-257A4FA562E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C93ECB32-6C1E-424F-9F6E-257A4FA562E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36A769A9-84B8-4166-B5F4-1F665781274E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36A769A9-84B8-4166-B5F4-1F665781274E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36A769A9-84B8-4166-B5F4-1F665781274E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36A769A9-84B8-4166-B5F4-1F665781274E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AAB11832-13F6-4A3B-9D9D-23D90AABD5FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AAB11832-13F6-4A3B-9D9D-23D90AABD5FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AAB11832-13F6-4A3B-9D9D-23D90AABD5FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AAB11832-13F6-4A3B-9D9D-23D90AABD5FA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D184E1FE-AB48-4DC5-B064-564ACBD12D93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D184E1FE-AB48-4DC5-B064-564ACBD12D93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D184E1FE-AB48-4DC5-B064-564ACBD12D93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D184E1FE-AB48-4DC5-B064-564ACBD12D93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89E3339A-DDCD-4D66-95EF-7300359BCB87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89E3339A-DDCD-4D66-95EF-7300359BCB87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89E3339A-DDCD-4D66-95EF-7300359BCB87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89E3339A-DDCD-4D66-95EF-7300359BCB87}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0977DDBD-8F6A-4DA7-A268-AE7CF91EF38E} = {65228A37-BBDF-40F7-8CEE-0344FF8F9958}
+		{EBEEE472-3E41-404F-B3BB-288EFDF601DD} = {65228A37-BBDF-40F7-8CEE-0344FF8F9958}
+		{F13D0D4F-D93A-40BA-B979-E0DC8B9B93B3} = {65228A37-BBDF-40F7-8CEE-0344FF8F9958}
+		{44E1A07A-25D8-434B-8242-490DB2221426} = {34019C27-4A7F-445F-AEAC-F9BD2921C14C}
+		{F58E3F0C-A590-45BD-B9C5-330A787CB6BC} = {E884E304-129F-47A3-A81A-A3B6178E6F2E}
+		{C93ECB32-6C1E-424F-9F6E-257A4FA562E3} = {34019C27-4A7F-445F-AEAC-F9BD2921C14C}
+		{36A769A9-84B8-4166-B5F4-1F665781274E} = {34019C27-4A7F-445F-AEAC-F9BD2921C14C}
+		{AAB11832-13F6-4A3B-9D9D-23D90AABD5FA} = {34019C27-4A7F-445F-AEAC-F9BD2921C14C}
+		{D184E1FE-AB48-4DC5-B064-564ACBD12D93} = {34019C27-4A7F-445F-AEAC-F9BD2921C14C}
+		{89E3339A-DDCD-4D66-95EF-7300359BCB87} = {34019C27-4A7F-445F-AEAC-F9BD2921C14C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {21291A92-566E-4900-A78D-61F038214566}
+	EndGlobalSection
+EndGlobal

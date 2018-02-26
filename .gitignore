@@ -3,3 +3,9 @@
 ################################################################################
 
 *.dll
+/Yunt/.vs/Yunt/v15/.suo
+/Yunt/Yunt.TaskManager.Model/TaskManagerContext - 复制.cs
+/Yunt/.vs/Yunt/v15/Server/sqlite3/storage.ide-wal
+/Yunt/.vs/Yunt/v15/Server/sqlite3/storage.ide-shm
+/Yunt/.vs/Yunt/v15/Server/sqlite3/storage.ide
+/Yunt/.vs/Yunt/v15/Server/sqlite3/db.lock
