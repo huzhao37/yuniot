@@ -1,0 +1,38 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v2.0",
+    "signature": "05224331269d15d9264fb72e85c6a64f47287599"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v2.0": {
+      "Yunt.TaskManager.Core/1.0.0": {
+        "dependencies": {
+          "NewLife.Core": "6.6.6631.1417"
+        },
+        "runtime": {
+          "Yunt.TaskManager.Core.dll": {}
+        }
+      },
+      "NewLife.Core/6.6.6631.1417": {
+        "runtime": {
+          "lib/netstandard2.0/NewLife.Core.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Yunt.TaskManager.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "NewLife.Core/6.6.6631.1417": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-TELLuAGkNY9tJlYXhZS1tEnudMV9nCnahomHjV+ybJ14Qtbw8fDKZHlq/rW4DC74+8cApX0m8WQK2JDHDEvXZg==",
+      "path": "newlife.core/6.6.6631.1417",
+      "hashPath": "newlife.core.6.6.6631.1417.nupkg.sha512"
+    }
+  }
+}

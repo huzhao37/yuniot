@@ -1,0 +1,9 @@
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Model\bin\Debug\netcoreapp2.0\Yunt.TaskManager.Model.deps.json
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Model\bin\Debug\netcoreapp2.0\Yunt.TaskManager.Model.dll
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Model\bin\Debug\netcoreapp2.0\Yunt.TaskManager.Model.pdb
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Model\obj\Debug\netcoreapp2.0\Yunt.TaskManager.Model.csprojResolveAssemblyReference.cache
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Model\obj\Debug\netcoreapp2.0\Yunt.TaskManager.Model.csproj.CoreCompileInputs.cache
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Model\obj\Debug\netcoreapp2.0\Yunt.TaskManager.Model.AssemblyInfoInputs.cache
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Model\obj\Debug\netcoreapp2.0\Yunt.TaskManager.Model.AssemblyInfo.cs
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Model\obj\Debug\netcoreapp2.0\Yunt.TaskManager.Model.dll
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Model\obj\Debug\netcoreapp2.0\Yunt.TaskManager.Model.pdb

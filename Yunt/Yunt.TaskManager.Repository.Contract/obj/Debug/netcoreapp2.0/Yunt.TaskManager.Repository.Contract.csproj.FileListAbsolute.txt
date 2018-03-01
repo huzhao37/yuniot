@@ -1,0 +1,11 @@
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Repository.Contract\bin\Debug\netcoreapp2.0\Yunt.TaskManager.Repository.Contract.deps.json
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Repository.Contract\bin\Debug\netcoreapp2.0\Yunt.TaskManager.Repository.Contract.dll
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Repository.Contract\bin\Debug\netcoreapp2.0\Yunt.TaskManager.Repository.Contract.pdb
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Repository.Contract\bin\Debug\netcoreapp2.0\Yunt.TaskManager.Model.dll
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Repository.Contract\bin\Debug\netcoreapp2.0\Yunt.TaskManager.Model.pdb
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Repository.Contract\obj\Debug\netcoreapp2.0\Yunt.TaskManager.Repository.Contract.csprojResolveAssemblyReference.cache
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Repository.Contract\obj\Debug\netcoreapp2.0\Yunt.TaskManager.Repository.Contract.csproj.CoreCompileInputs.cache
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Repository.Contract\obj\Debug\netcoreapp2.0\Yunt.TaskManager.Repository.Contract.AssemblyInfoInputs.cache
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Repository.Contract\obj\Debug\netcoreapp2.0\Yunt.TaskManager.Repository.Contract.AssemblyInfo.cs
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Repository.Contract\obj\Debug\netcoreapp2.0\Yunt.TaskManager.Repository.Contract.dll
+G:\2018\Yunt\Yunt\Yunt.TaskManager.Repository.Contract\obj\Debug\netcoreapp2.0\Yunt.TaskManager.Repository.Contract.pdb

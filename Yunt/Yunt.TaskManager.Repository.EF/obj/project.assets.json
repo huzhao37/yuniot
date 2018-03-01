@@ -456,6 +456,15 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
+      "NewLife.Core/6.6.6631.1417": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/NewLife.Core.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/NewLife.Core.dll": {}
+        }
+      },
       "Newtonsoft.Json/10.0.1": {
         "type": "package",
         "dependencies": {
@@ -1326,6 +1335,19 @@
           "lib/netstandard1.3/System.Xml.XmlDocument.dll": {}
         }
       },
+      "Yunt.TaskManager.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "NewLife.Core": "6.6.6631.1417"
+        },
+        "compile": {
+          "bin/placeholder/Yunt.TaskManager.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Yunt.TaskManager.Core.dll": {}
+        }
+      },
       "Yunt.TaskManager.Model/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
@@ -2136,6 +2158,24 @@
         "lib/netstandard1.0/_._",
         "netstandard.library.2.0.0.nupkg.sha512",
         "netstandard.library.nuspec"
+      ]
+    },
+    "NewLife.Core/6.6.6631.1417": {
+      "sha512": "TELLuAGkNY9tJlYXhZS1tEnudMV9nCnahomHjV+ybJ14Qtbw8fDKZHlq/rW4DC74+8cApX0m8WQK2JDHDEvXZg==",
+      "type": "package",
+      "path": "newlife.core/6.6.6631.1417",
+      "files": [
+        "lib/net40/NewLife.Core.XML",
+        "lib/net40/NewLife.Core.dll",
+        "lib/net40/NewLife.Core.pdb",
+        "lib/net45/NewLife.Core.XML",
+        "lib/net45/NewLife.Core.dll",
+        "lib/net45/NewLife.Core.pdb",
+        "lib/netstandard2.0/NewLife.Core.dll",
+        "lib/netstandard2.0/NewLife.Core.pdb",
+        "lib/netstandard2.0/NewLife.Core.xml",
+        "newlife.core.6.6.6631.1417.nupkg.sha512",
+        "newlife.core.nuspec"
       ]
     },
     "Newtonsoft.Json/10.0.1": {
@@ -5006,6 +5046,11 @@
         "system.xml.xmldocument.nuspec"
       ]
     },
+    "Yunt.TaskManager.Core/1.0.0": {
+      "type": "project",
+      "path": "../Yunt.TaskManager.Core/Yunt.TaskManager.Core.csproj",
+      "msbuildProject": "../Yunt.TaskManager.Core/Yunt.TaskManager.Core.csproj"
+    },
     "Yunt.TaskManager.Model/1.0.0": {
       "type": "project",
       "path": "../Yunt.TaskManager.Model/Yunt.TaskManager.Model.csproj",
@@ -5025,6 +5070,7 @@
       "Microsoft.EntityFrameworkCore.SqlServer.Design >= 2.0.0-preview1-final",
       "Microsoft.EntityFrameworkCore.Tools >= 2.0.1",
       "Microsoft.NETCore.App >= 2.0.0",
+      "Yunt.TaskManager.Core >= 1.0.0",
       "Yunt.TaskManager.Model >= 1.0.0",
       "Yunt.TaskManager.Repository.Contract >= 1.0.0"
     ]
@@ -5067,6 +5113,9 @@
           "projectReferences": {
             "G:\\2018\\Yunt\\Yunt\\Yunt.TaskManager.Repository.Contract\\Yunt.TaskManager.Repository.Contract.csproj": {
               "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.TaskManager.Repository.Contract\\Yunt.TaskManager.Repository.Contract.csproj"
+            },
+            "G:\\2018\\Yunt\\Yunt\\Yunt.TaskManager.Core\\Yunt.TaskManager.Core.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.TaskManager.Core\\Yunt.TaskManager.Core.csproj"
             },
             "G:\\2018\\Yunt\\Yunt\\Yunt.TaskManager.Model\\Yunt.TaskManager.Model.csproj": {
               "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.TaskManager.Model\\Yunt.TaskManager.Model.csproj"
