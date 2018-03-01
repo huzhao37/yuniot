@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Yunt.TaskManager.Model;
 using Yunt.TaskManager.Repository.Contract;
 using Yunt.TaskManager.Repository.EF;
+using Yunt.TaskManager.Repository.EF.Core;
 using Yunt.TaskManager.Service;
 using Yunt.TaskManager.Service.Contract;
 
@@ -52,7 +53,8 @@ namespace Yunt.TaskManager
             {
                 c.UseSqlServer("Server=rm-bp1e7cw4xl2ns45aoo.sqlserver.rds.aliyuncs.com,3433; Database=dyd_bs_task;Persist Security Info=True;User ID=xenomorph;password=U2n0i1t7oon;");
             });
-            services.AddTransient<ITbCategoryRepository, TbCategoryRepository>();
+            services.AddTransient<ITaskRepositoryBase<BaseModel>, TaskRepositoryBase<BaseModel>>();
+            services.AddTransient<ITbCategoryRepository, TbCategoryRepository<TbCategory>>();
             services.AddTransient<ITbCategoryService, TbCategoryService>();
             //构建容器
             IServiceProvider serviceProvider = services.BuildServiceProvider();
@@ -62,6 +64,9 @@ namespace Yunt.TaskManager
             var list = tbService.GetTbCategories(new DateTime(2017, 1, 1, 0, 0, 0), new DateTime(2018, 3, 1, 0, 0, 0), 1,
                 5);
             Console.WriteLine("Hello World!");
+            var test = tbService.Get();
+            Console.ReadKey();
+            
         }
     }
 }

@@ -9,9 +9,9 @@ namespace Yunt.TaskManager.Model
         public int PageIndex { get; private set; }
         public int PageSize { get; private set; }
         public int Count { get; private set; }
-        public List<T> Items { get; }
+        public IEnumerable<T> Items { get; }
 
-        public PaginatedList(int pageIndex, int pageSize, int count, List<T> items)
+        public PaginatedList(int pageIndex, int pageSize, int count, IEnumerable<T> items)
         {
             this.PageIndex = pageIndex;
             this.PageSize = pageSize;

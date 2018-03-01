@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Yunt.TaskManager.Model
 {
-    public partial class TbConfig
+    public partial class TbConfig : BaseModel
     {
-        public int Id { get; set; }
         public string Configkey { get; set; }
         public string Configvalue { get; set; }
         public string Remark { get; set; }

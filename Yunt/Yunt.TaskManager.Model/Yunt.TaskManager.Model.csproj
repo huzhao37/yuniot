@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <Compile Remove="TaskContextFactory.cs" />
+    <Compile Remove="TaskManagerContext - 复制.cs" />
   </ItemGroup>
 
   <ItemGroup>

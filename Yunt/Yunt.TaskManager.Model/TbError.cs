@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Yunt.TaskManager.Model
 {
-    public partial class TbError
+    public partial class TbError : BaseModel
     {
-        public int Id { get; set; }
         public string Msg { get; set; }
         public byte Errortype { get; set; }
         public DateTime Errorcreatetime { get; set; }

@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Yunt.TaskManager.Core\Yunt.TaskManager.Core.csproj" />
     <ProjectReference Include="..\Yunt.TaskManager.Model\Yunt.TaskManager.Model.csproj" />
     <ProjectReference Include="..\Yunt.TaskManager.Repository.Contract\Yunt.TaskManager.Repository.Contract.csproj" />
   </ItemGroup>

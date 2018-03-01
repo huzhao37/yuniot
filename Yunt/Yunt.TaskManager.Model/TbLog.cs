@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Yunt.TaskManager.Model
 {
-    public partial class TbLog
+    public partial class TbLog : BaseModel
     {
-        public int Id { get; set; }
         public string Msg { get; set; }
         public byte Logtype { get; set; }
         public DateTime Logcreatetime { get; set; }

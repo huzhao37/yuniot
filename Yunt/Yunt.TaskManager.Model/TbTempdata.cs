@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Yunt.TaskManager.Model
 {
-    public partial class TbTempdata
+    public partial class TbTempdata : BaseModel
     {
-        public int Id { get; set; }
         public int Taskid { get; set; }
         public string Tempdatajson { get; set; }
         public DateTime Tempdatalastupdatetime { get; set; }

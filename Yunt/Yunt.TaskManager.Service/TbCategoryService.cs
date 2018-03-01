@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Yunt.TaskManager.Model;
 using Yunt.TaskManager.Repository.Contract;
@@ -15,6 +17,10 @@ namespace Yunt.TaskManager.Service
             _tbCategoryRepository = tbCategoryRepository;
         }
 
+        public IQueryable<TbCategory> Get()
+        {
+            return  _tbCategoryRepository.Get();
+        }
         public async Task<PaginatedList<TbCategory>> GetTbCategories(DateTime start, DateTime end, int pageIndex, int pageSize)
         {
             var pagedList = await _tbCategoryRepository.GetTbCategories(start, end, pageIndex, pageSize);

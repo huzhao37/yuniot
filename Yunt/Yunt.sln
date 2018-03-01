@@ -29,6 +29,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Repository
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Repository.EF", "Yunt.TaskManager.Repository.EF\Yunt.TaskManager.Repository.EF.csproj", "{89E3339A-DDCD-4D66-95EF-7300359BCB87}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Core", "Yunt.TaskManager.Core\Yunt.TaskManager.Core.csproj", "{BC919154-FFC9-4443-9BEE-10F87AD5CDA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{89E3339A-DDCD-4D66-95EF-7300359BCB87}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{89E3339A-DDCD-4D66-95EF-7300359BCB87}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{89E3339A-DDCD-4D66-95EF-7300359BCB87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC919154-FFC9-4443-9BEE-10F87AD5CDA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC919154-FFC9-4443-9BEE-10F87AD5CDA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC919154-FFC9-4443-9BEE-10F87AD5CDA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC919154-FFC9-4443-9BEE-10F87AD5CDA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{AAB11832-13F6-4A3B-9D9D-23D90AABD5FA} = {34019C27-4A7F-445F-AEAC-F9BD2921C14C}
 		{D184E1FE-AB48-4DC5-B064-564ACBD12D93} = {34019C27-4A7F-445F-AEAC-F9BD2921C14C}
 		{89E3339A-DDCD-4D66-95EF-7300359BCB87} = {34019C27-4A7F-445F-AEAC-F9BD2921C14C}
+		{BC919154-FFC9-4443-9BEE-10F87AD5CDA7} = {34019C27-4A7F-445F-AEAC-F9BD2921C14C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {21291A92-566E-4900-A78D-61F038214566}

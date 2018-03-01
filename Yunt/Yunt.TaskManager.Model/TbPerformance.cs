@@ -3,9 +3,8 @@ using System.Collections.Generic;
 
 namespace Yunt.TaskManager.Model
 {
-    public partial class TbPerformance
+    public partial class TbPerformance : BaseModel
     {
-        public int Id { get; set; }
         public int Nodeid { get; set; }
         public int Taskid { get; set; }
         public double Cpu { get; set; }
