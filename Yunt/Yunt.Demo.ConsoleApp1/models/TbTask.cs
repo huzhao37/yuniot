@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Yunt.Demo.ConsoleApp1.models
+namespace Yunt.Demo.ConsoleApp1
 {
     public partial class TbTask
     {

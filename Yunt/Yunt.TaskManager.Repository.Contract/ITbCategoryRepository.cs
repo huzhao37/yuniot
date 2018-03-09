@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Yunt.TaskManager.Model;
 
@@ -8,10 +9,15 @@ namespace Yunt.TaskManager.Repository.Contract
 {
     public interface ITbCategoryRepository
     {
-        IQueryable<TbCategory> Get();
+        #region query
+        IQueryable<TbCategory> Get(Expression<Func<TbCategory, bool>> where = null);
 
         Task<PaginatedList<TbCategory>> GetByPage(DateTime start, DateTime end, int pageIndex,
             int pageSize);
+
+
+        #endregion
+
 
         #region add
 

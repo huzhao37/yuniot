@@ -21,7 +21,7 @@ namespace Yunt.TaskManager
     {
         static void Main(string[] args)
         {
-            XTrace.UseConsole(true, false);
+            //XTrace.UseConsole(true, false);
 
             //using (var db=new TaskManagerContext())
             //{
@@ -61,6 +61,7 @@ namespace Yunt.TaskManager
             //{
             //    c.UseSqlServer("Server=rm-bp1e7cw4xl2ns45aoo.sqlserver.rds.aliyuncs.com,3433; Database=yunt_test;Persist Security Info=True;User ID=xenomorph;password=U2n0i1t7oon;");
             //});
+            //Server=rm-bp1e7cw4xl2ns45aoo.sqlserver.rds.aliyuncs.com,3433; Database=yunt_test;Persist Security Info=True;User ID=xenomorph;password=U2n0i1t7oon;Connection Timeout=60;
             var contextOptions = new DbContextOptionsBuilder().UseSqlServer("Server=rm-bp1e7cw4xl2ns45aoo.sqlserver.rds.aliyuncs.com,3433; Database=yunt_test;Persist Security Info=True;User ID=xenomorph;password=U2n0i1t7oon;Connection Timeout=60;").Options;
             services.AddSingleton(contextOptions)
               .AddTransient<TaskManagerContext>();
@@ -76,22 +77,22 @@ namespace Yunt.TaskManager
 
             #region add test
 
-            //var entities = new List<TbCategory>();
-            //for (var i = 0; i < 8_000; i++)
-            //{
-            //    entities.Add(new TbCategory()
-            //    {
-            //        //Categoryname = i.ToString(),
-            //        //Categorycreatetime = DateTime.Now
-            //    });
-            //}
+            var entities = new List<TbCategory>();
+            for (var i = 0; i < 400_000; i++)
+            {
+                entities.Add(new TbCategory()
+                {
+                    Categoryname = i.ToString(),
+                    Categorycreatetime = DateTime.Now
+                });
+            }
 
             //var entities2 = new List<TbCategory>();
             //for (var i = 0; i < 8_000; i++)
             //{
             //    entities2.Add(new TbCategory()
             //    {
-            //       // Categoryname = i.ToString(),
+            //        // Categoryname = i.ToString(),
             //        //Categorycreatetime = DateTime.Now
             //    });
             //}
@@ -164,26 +165,26 @@ namespace Yunt.TaskManager
             #endregion
 
             #region delete test
-            var entities = tbService.Get();
-            var deletes = new List<TbCategory>();
-            var deletes2 = new List<TbCategory>();
-            var deletes3 = new List<TbCategory>();
-            var deletes4 = new List<TbCategory>();
-            var count = 0;
-            foreach (var tbCategory in entities)
-            {
-                count++;
-                if (count <= 4_000)
-                {
-                    deletes.Add(tbCategory);
-                    //deletes2.Add(tbCategory);
-                    deletes3.Add(tbCategory);
-                    deletes4.Add(tbCategory);
-                }
-                if (count > 4_000 && count <= 20_000)
-                {
-                    deletes2.Add(tbCategory);
-                }
+            //var entities = tbService.Get();
+            //var deletes = new List<TbCategory>();
+            //var deletes2 = new List<TbCategory>();
+            //var deletes3 = new List<TbCategory>();
+            //var deletes4 = new List<TbCategory>();
+            //var count = 0;
+            //foreach (var tbCategory in entities)
+            //{
+            //    count++;
+            //    if (count <= 4_000)
+            //    {
+            //        deletes.Add(tbCategory);
+            //        //deletes2.Add(tbCategory);
+            //        deletes3.Add(tbCategory);
+            //        deletes4.Add(tbCategory);
+            //    }
+            //    if (count > 4_000 && count <= 20_000)
+            //    {
+            //        deletes2.Add(tbCategory);
+            //    }
 
                 //if (count > 20_000 && count <= 30_000)
                 //{
@@ -195,20 +196,21 @@ namespace Yunt.TaskManager
                 //    deletes4.Add(tbCategory);
                 //}
 
-            }
+            //}
 
 
 
             #endregion
             var sw = new Stopwatch();
             sw.Start();
-            var task1 = Task.Factory.StartNew(() => tbService.DeleteAsync(deletes));
-            var task2 = Task.Factory.StartNew(() => tbService.DeleteAsync(deletes2));
-            var task3 = Task.Factory.StartNew(() => tbService.DeleteAsync(deletes3));
-            var task4 = Task.Factory.StartNew(() => tbService.DeleteAsync(deletes4));
-            Task.WaitAll(task1, task2, task3, task4);
+            var task1 = Task.Factory.StartNew(() => tbService.Add(entities));
+            //var task2 = Task.Factory.StartNew(() => tbService.DeleteAsync(deletes2));
+            //var task3 = Task.Factory.StartNew(() => tbService.DeleteAsync(deletes3));
+            //var task4 = Task.Factory.StartNew(() => tbService.DeleteAsync(deletes4));
+            Task.WaitAll(task1);
             sw.Stop();
-            Logger.Info($"删除记录：{10_000:n},耗时：{sw.ElapsedMilliseconds:n}ms");
+            Logger.Info($"新增记录：{400_000:n},耗时：{sw.ElapsedMilliseconds:n}ms");
+            //Logger.Info($"新增记录：{200_000:n},耗时：{200_000/sw.ElapsedMilliseconds*1_000:n}ms");
             //var list = tbService.GetTbCategories(new System.DateTime(2017, 1, 1, 0, 0, 0), new System.DateTime(2018, 3, 1, 0, 0, 0), 1,
             //    5);
             //Console.WriteLine("Hello World!");

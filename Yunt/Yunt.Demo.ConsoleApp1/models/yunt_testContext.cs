@@ -2,28 +2,29 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace Yunt.Demo.ConsoleApp1.models
+namespace Yunt.Demo.ConsoleApp1
 {
-    public partial class dyd_bs_taskContext : DbContext
+    public partial class yunt_testContext : DbContext
     {
-        public virtual DbSet<TbCategory> TbCategory { get; set; }
-        public virtual DbSet<TbCommand> TbCommand { get; set; }
-        public virtual DbSet<TbConfig> TbConfig { get; set; }
-        public virtual DbSet<TbError> TbError { get; set; }
-        public virtual DbSet<TbLog> TbLog { get; set; }
-        public virtual DbSet<TbNode> TbNode { get; set; }
-        public virtual DbSet<TbPerformance> TbPerformance { get; set; }
-        public virtual DbSet<TbTask> TbTask { get; set; }
-        public virtual DbSet<TbTempdata> TbTempdata { get; set; }
-        public virtual DbSet<TbUser> TbUser { get; set; }
-        public virtual DbSet<TbVersion> TbVersion { get; set; }
+        public virtual DbSet<TbCategory> tb_category { get; set; }
+        public virtual DbSet<TbCommand>  tb_command { get; set; }
+        public virtual DbSet<TbConfig> tb_config { get; set; }
+        public virtual DbSet<TbError> tb_error { get; set; }
+        public virtual DbSet<TbLog> tb_log { get; set; }
+        public virtual DbSet<TbNode> tbnode { get; set; }
+        public virtual DbSet<TbPerformance> tb_performance { get; set; }
+        public virtual DbSet<TbTask> tb_task { get; set; }
+        public virtual DbSet<TbTempdata> tb_tempdata { get; set; }
+        public virtual DbSet<TbUser> tb_user { get; set; }
+        public virtual DbSet<TbVersion> tb_version { get; set; }
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseSqlServer(@"Server=rm-bp1e7cw4xl2ns45aoo.sqlserver.rds.aliyuncs.com,3433; Database=dyd_bs_task;Persist Security Info=True;User ID=xenomorph;password=U2n0i1t7oon;");
+                optionsBuilder.UseMySql("server=10.1.5.25;port=3306;database=yunt_test;uid=root;pwd=unitoon2017;");
             }
         }
 
@@ -178,8 +179,7 @@ namespace Yunt.Demo.ConsoleApp1.models
 
                 entity.Property(e => e.Nodelastupdatetime)
                     .HasColumnName("nodelastupdatetime")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("('')");
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Nodename)
                     .IsRequired()
@@ -202,14 +202,12 @@ namespace Yunt.Demo.ConsoleApp1.models
 
                 entity.Property(e => e.Lastupdatetime)
                     .HasColumnName("lastupdatetime")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("(getdate())");
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Memory).HasColumnName("memory");
 
                 entity.Property(e => e.Nodeid)
-                    .HasColumnName("nodeid")
-                    .HasDefaultValueSql("((0))");
+                    .HasColumnName("nodeid");
 
                 entity.Property(e => e.Taskid).HasColumnName("taskid");
             });
@@ -247,23 +245,19 @@ namespace Yunt.Demo.ConsoleApp1.models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Taskerrorcount)
-                    .HasColumnName("taskerrorcount")
-                    .HasDefaultValueSql("((0))");
+                    .HasColumnName("taskerrorcount");
 
                 entity.Property(e => e.Tasklastendtime)
                     .HasColumnName("tasklastendtime")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("('')");
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Tasklasterrortime)
                     .HasColumnName("tasklasterrortime")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("('')");
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Tasklaststarttime)
                     .HasColumnName("tasklaststarttime")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("('')");
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Taskmainclassdllfilename)
                     .IsRequired()
@@ -290,15 +284,13 @@ namespace Yunt.Demo.ConsoleApp1.models
                     .IsUnicode(false);
 
                 entity.Property(e => e.Taskruncount)
-                    .HasColumnName("taskruncount")
-                    .HasDefaultValueSql("((0))");
+                    .HasColumnName("taskruncount");
 
                 entity.Property(e => e.Taskstate).HasColumnName("taskstate");
 
                 entity.Property(e => e.Taskupdatetime)
                     .HasColumnName("taskupdatetime")
-                    .HasColumnType("datetime")
-                    .HasDefaultValueSql("('')");
+                    .HasColumnType("datetime");
 
                 entity.Property(e => e.Taskversion).HasColumnName("taskversion");
             });
@@ -378,11 +370,11 @@ namespace Yunt.Demo.ConsoleApp1.models
                 entity.Property(e => e.Versioncreatetime)
                     .HasColumnName("versioncreatetime")
                     .HasColumnType("datetime");
-
+            
                 entity.Property(e => e.Zipfile)
                     .IsRequired()
                     .HasColumnName("zipfile")
-                    .HasColumnType("image");
+                    .HasColumnType("mediumblob ");
 
                 entity.Property(e => e.Zipfilename)
                     .HasColumnName("zipfilename")

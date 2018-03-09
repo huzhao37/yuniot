@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Yunt.TaskManager.Model;
 using Yunt.TaskManager.Repository.Contract;
@@ -17,22 +18,17 @@ namespace Yunt.TaskManager.Service
             _tbCategoryRepository = tbCategoryRepository;
         }
 
-        public IQueryable<TbCategory> Get()
+        #region query
+        public IQueryable<TbCategory> Get(Expression<Func<TbCategory, bool>> where = null)
         {
-            return  _tbCategoryRepository.Get();
+            return  _tbCategoryRepository.Get(where);
         }
-        public async Task<PaginatedList<TbCategory>> GetTbCategories(DateTime start, DateTime end, int pageIndex, int pageSize)
+        public async Task<PaginatedList<TbCategory>> GetByPage(DateTime start, DateTime end, int pageIndex,
+            int pageSize)
         {
-            var pagedList = await _tbCategoryRepository.GetByPage(start, end, pageIndex, pageSize);
-
-            if (pageSize * (pageIndex - 1) >= pagedList.Count)
-            {
-                pageIndex = (int)Math.Ceiling(((double)pagedList.Count) / pageSize);
-                pagedList = await _tbCategoryRepository.GetByPage(start, end, pageIndex, pageSize);
-            }
-
-            return pagedList;
+            return await _tbCategoryRepository.GetByPage(start, end, pageIndex, pageSize);
         }
+        #endregion
 
         #region add
 

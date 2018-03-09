@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -24,32 +25,20 @@ namespace Yunt.TaskManager.Repository.EF
         {
 
         }
+
         #region query
         public async Task<PaginatedList<TbCategory>> GetByPage(DateTime start, DateTime end, int pageIndex,
             int pageSize)
         {
-
             return await GetPage(start, end, pageIndex, pageSize);
         }
 
-        public IQueryable<TbCategory> Get()
+        public IQueryable<TbCategory> Get(Expression<Func<TbCategory, bool>> where = null)
         {
-            return GetEntities();
+            return GetEntities(where);
         }
         #endregion
-        //public async Task<PaginatedList<TbCategory>> GetTbCategories(DateTime start, DateTime end, int pageIndex, int pageSize)
-        //{
-        //    var source = _context.TbCategory.Where(x => x.Categorycreatetime >= start && x.Categorycreatetime < new DateTime(end.Year, end.Month, end.Day).InsertDays(1));
-        //    int count = await source.CountAsync();
-        //    List<TbCategory> dailys = null;
-        //    if (count > 0)
-        //    {
-        //        dailys = await source.OrderBy(x => x.Categorycreatetime).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
-        //    }
-
-        //    return new PaginatedList<TbCategory>(pageIndex, pageSize, count, dailys ?? new List<TbCategory>());
-        //}
-
+        
         #region add
 
         public int Add(IEnumerable<TbCategory> dbs)

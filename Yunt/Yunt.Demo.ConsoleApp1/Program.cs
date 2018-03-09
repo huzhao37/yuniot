@@ -1,10 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using NewLife.Log;
 using Quartz;
 using Quartz.Impl;
 using Yunt.Demo.Core;
+using Logger = Yunt.TaskManager.Core.Logger;
 
 namespace Yunt.Demo.ConsoleApp1
 {
@@ -12,54 +18,202 @@ namespace Yunt.Demo.ConsoleApp1
     {
         static void Main(string[] args)
         {
+            XTrace.UseConsole(true,false);
 
-            Action<Type> JoinToQuartz = (type) =>
+            #region test
+
+            //Action<Type> JoinToQuartz = (type) =>
+            //{
+            //    var obj = Activator.CreateInstance(type);
+            //    string cron = type.GetProperty("Cron").GetValue(obj).ToString();
+            //    var jobDetail = JobBuilder.Create(type)
+            //                              .WithIdentity(type.Name)
+            //                              .Build();
+
+            //    var jobTrigger = TriggerBuilder.Create()
+            //                                   .WithIdentity(type.Name + "Trigger")
+            //                                   .StartNow()
+            //                                   .WithCronSchedule(cron)
+            //                                   .Build();
+
+            //    StdSchedulerFactory.GetDefaultScheduler().Result.ScheduleJob(jobDetail, jobTrigger);
+            //    StdSchedulerFactory.GetDefaultScheduler().Result.Start();
+            //    Console.ForegroundColor = ConsoleColor.Yellow;
+            //    Console.WriteLine($"新添加了一个服务{nameof(type)}，通过心跳Job自动被加载！");
+            //};
+
+
+            //var watcher = new FileSystemWatcher();
+            //watcher.Path = AppDomain.CurrentDomain.BaseDirectory;
+            //watcher.NotifyFilter = NotifyFilters.Attributes |
+            //                       NotifyFilters.CreationTime |
+            //                       NotifyFilters.DirectoryName |
+            //                       NotifyFilters.FileName |
+            //                       NotifyFilters.LastAccess |
+            //                       NotifyFilters.LastWrite |
+            //                       NotifyFilters.Security |
+            //                       NotifyFilters.Size;
+            //watcher.Filter = "*.dll";
+            //// quartz运行时，可以添加新job，但不能覆盖，删除等
+            //watcher.Changed += new FileSystemEventHandler((o, e) =>
+            //{
+            //    foreach (var module in Assembly.LoadFile(e.FullPath).GetModules())
+            //    {
+            //        foreach (var type in module.GetTypes().Where(i => i.BaseType == typeof(JobBase)))
+            //        {
+            //            JoinToQuartz(type);
+            //        }
+            //    }
+            //});
+
+            ////Start monitoring.
+            //watcher.EnableRaisingEvents = true;  
+
+            #endregion
+
+            #region mysql test
+
+            var dbconn = new yunt_testContext();
+            #region add test
+
+            var count = 200_000;
+            var entities = new List<TbCategory>();
+            for (var i = 0; i < count; i++)
             {
-                var obj = Activator.CreateInstance(type);
-                string cron = type.GetProperty("Cron").GetValue(obj).ToString();
-                var jobDetail = JobBuilder.Create(type)
-                                          .WithIdentity(type.Name)
-                                          .Build();
-
-                var jobTrigger = TriggerBuilder.Create()
-                                               .WithIdentity(type.Name + "Trigger")
-                                               .StartNow()
-                                               .WithCronSchedule(cron)
-                                               .Build();
-
-                StdSchedulerFactory.GetDefaultScheduler().Result.ScheduleJob(jobDetail, jobTrigger);
-                StdSchedulerFactory.GetDefaultScheduler().Result.Start();
-                Console.ForegroundColor = ConsoleColor.Yellow;
-                Console.WriteLine($"新添加了一个服务{nameof(type)}，通过心跳Job自动被加载！");
-            };
-
-
-            var watcher = new FileSystemWatcher();
-            watcher.Path = AppDomain.CurrentDomain.BaseDirectory;
-            watcher.NotifyFilter = NotifyFilters.Attributes |
-                                   NotifyFilters.CreationTime |
-                                   NotifyFilters.DirectoryName |
-                                   NotifyFilters.FileName |
-                                   NotifyFilters.LastAccess |
-                                   NotifyFilters.LastWrite |
-                                   NotifyFilters.Security |
-                                   NotifyFilters.Size;
-            watcher.Filter = "*.dll";
-            // quartz运行时，可以添加新job，但不能覆盖，删除等
-            watcher.Changed += new FileSystemEventHandler((o, e) =>
-            {
-                foreach (var module in Assembly.LoadFile(e.FullPath).GetModules())
+                entities.Add(new TbCategory()
                 {
-                    foreach (var type in module.GetTypes().Where(i => i.BaseType == typeof(JobBase)))
-                    {
-                        JoinToQuartz(type);
-                    }
-                }
-            });
+                    Categoryname = i.ToString(),
+                    Categorycreatetime = DateTime.Now
+                });
+            }
 
-            //Start monitoring.
-            watcher.EnableRaisingEvents = true;
+            var entities2 = new List<TbCategory>();
+            for (var i = 0; i < 8_000; i++)
+            {
+                entities2.Add(new TbCategory()
+                {
+                    // Categoryname = i.ToString(),
+                    //Categorycreatetime = DateTime.Now
+                });
+            }
+            var entities3 = new List<TbCategory>();
+            for (var i = 0; i < 8_000; i++)
+            {
+                entities3.Add(new TbCategory()
+                {
+                    //Categoryname = i.ToString(),
+                    //Categorycreatetime = DateTime.Now
+                });
+            }
+            var entities4 = new List<TbCategory>();
+            for (var i = 0; i < 8_000; i++)
+            {
+                entities4.Add(new TbCategory()
+                {
+                    //Categoryname = i.ToString(),
+                    //Categorycreatetime = DateTime.Now
+                });
+            }
+            //var task1 = Task.Factory.StartNew(() => tbService.AddAsyn(entities));
+            //var task2 = Task.Factory.StartNew(() => tbService.AddAsyn(entities2));
+            //var task3 = Task.Factory.StartNew(() => tbService.AddAsyn(entities3));
+            //var task4 = Task.Factory.StartNew(() => tbService.AddAsyn(entities4));
+            #endregion
 
+            #region update test
+            //var entities = tbService.Get();
+            //var updates=new List<TbCategory>();
+            //var updates2 = new List<TbCategory>();
+            //var updates3 = new List<TbCategory>();
+            //var updates4 = new List<TbCategory>();
+            //var count = 0;
+            //foreach (var tbCategory in entities)
+            //{
+            //    tbCategory.Categorycreatetime=DateTime.Now;
+            //    count++;
+            //    if (count <=10_000)
+            //    {
+            //        updates.Add(tbCategory);
+            //        updates2.Add(tbCategory);
+            //        updates3.Add(tbCategory);
+            //        updates4.Add(tbCategory);
+
+            //    }
+            //if (count> 10_000 && count <= 20_000)
+            //{
+            //    updates2.Add(tbCategory);
+            //}
+
+            //if (count > 20_000 && count <= 30_000)
+            //{
+            //    updates3.Add(tbCategory);
+            //}
+
+            //if (count > 30_000 && count <= 40_000)
+            //{
+            //    updates4.Add(tbCategory);
+            //}
+            //var task1 = Task.Factory.StartNew(() => tbService.Update(updates));
+            //var task2 = Task.Factory.StartNew(() => tbService.Update(updates2));
+            //var task3 = Task.Factory.StartNew(() => tbService.Update(updates3));
+            //var task4 = Task.Factory.StartNew(() => tbService.Update(updates4));
+
+            //}
+
+
+
+            #endregion
+
+            #region delete test
+            //var entities = tbService.Get();
+            //var deletes = new List<TbCategory>();
+            //var deletes2 = new List<TbCategory>();
+            //var deletes3 = new List<TbCategory>();
+            //var deletes4 = new List<TbCategory>();
+            //var count = 0;
+            //foreach (var tbCategory in entities)
+            //{
+            //    count++;
+            //    if (count <= 4_000)
+            //    {
+            //        deletes.Add(tbCategory);
+            //        //deletes2.Add(tbCategory);
+            //        deletes3.Add(tbCategory);
+            //        deletes4.Add(tbCategory);
+            //    }
+            //    if (count > 4_000 && count <= 20_000)
+            //    {
+            //        deletes2.Add(tbCategory);
+            //    }
+
+            //    //if (count > 20_000 && count <= 30_000)
+            //    //{
+            //    //    deletes3.Add(tbCategory);
+            //    //}
+
+            //    //if (count > 30_000 && count <= 40_000)
+            //    //{
+            //    //    deletes4.Add(tbCategory);
+            //    //}
+
+            //}
+
+
+
+            #endregion
+            var sw = new Stopwatch();
+            sw.Start();
+            dbconn.tb_category.AddRange(entities);
+            dbconn.SaveChanges();
+            //var task2 = Task.Factory.StartNew(() => dbconn.tb_category.DeleteAsync(deletes2));
+            //var task3 = Task.Factory.StartNew(() => dbconn.tb_category.DeleteAsync(deletes3));
+            //var task4 = Task.Factory.StartNew(() => dbconn.tb_category.DeleteAsync(deletes4));
+            //Task.WaitAll(task1, task2, task3, task4);
+            sw.Stop();
+            Logger.Info($"add记录：{count:n},耗时：{sw.ElapsedMilliseconds:n}ms,qps:{count / sw.ElapsedMilliseconds * 1_000:n}q/s");
+
+
+            #endregion
 
             Console.WriteLine("Hello World!");
             Console.ReadKey();
