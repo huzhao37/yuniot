@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Yunt.TaskManager.Repository.EF
 {
@@ -11,17 +12,25 @@ namespace Yunt.TaskManager.Repository.EF
         IQueryable<T> GetEntities(Expression<Func<T, bool>> where = null);
         T GetEntityById(int id);
 
-        int CreateEntity(T t);
-        int CreateEntities(IEnumerable<T> ts);
+        int Insert(T t);
+        Task InsertAsync(T t);
+        int Insert(IEnumerable<T> ts);
+        Task InsertAsync(IEnumerable<T> ts);
         int DeleteEntity(T t);
+        Task DeleteEntityAsync(T t);
         int DeleteEntity(int id);
-        int DeleteEntities(IEnumerable<T> ts);
-
+        Task DeleteEntityAsync(int id);
+        int DeleteEntity(IEnumerable<T> ts);
+        Task DeleteEntityAsync(IEnumerable<T> ts);
 
         int UpdateEntity(T t);
-        int UpdateEntities(IEnumerable<T> ts);
+        int UpdateEntity(IEnumerable<T> ts);
+        void InsertOrUpdate(T t);
+        Task UpdateEntityAsync(T t);
+        Task UpdateEntityAsync(IEnumerable<T> ts);
 
-
-
+        Task InsertOrUpdateAsync(T t);
+        // Task CommitAsync();
+        //int Commit();
     }
 }

@@ -9,3 +9,12 @@
 /Yunt/.vs/Yunt/v15/Server/sqlite3/storage.ide-shm
 /Yunt/.vs/Yunt/v15/Server/sqlite3/storage.ide
 /Yunt/.vs/Yunt/v15/Server/sqlite3/db.lock
+/Yunt/Yunt.TaskManager/bin/Debug/netcoreapp2.0/Log/2018_03_05.log
+/Yunt/Yunt.TaskManager/bin/Debug/netcoreapp2.0/Config/Core.config
+/Yunt/Publisher/obj/Publisher.csproj.nuget.g.targets
+/Yunt/Publisher/obj/Publisher.csproj.nuget.g.props
+/Yunt/Publisher/obj/project.assets.json
+/Yunt/Consumer/obj/project.assets.json
+/Yunt/Consumer/obj/Consumer.csproj.nuget.g.targets
+/Yunt/Consumer/obj/Consumer.csproj.nuget.g.props
+/Yunt/.vs/config/applicationhost.config
