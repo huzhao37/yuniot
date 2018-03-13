@@ -5,7 +5,7 @@ using Yunt.TaskManager.Model;
 
 namespace Yunt.TaskManager.Repository.EF
 {
-    public partial class TaskManagerContext : DbContext
+    public partial class TaskManagerContext : DbContext,IDisposable
     {
         public TaskManagerContext(DbContextOptions options) : base(options)
         {

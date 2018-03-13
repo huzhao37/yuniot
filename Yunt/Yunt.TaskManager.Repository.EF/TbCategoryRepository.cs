@@ -33,12 +33,17 @@ namespace Yunt.TaskManager.Repository.EF
             return await GetPage(start, end, pageIndex, pageSize);
         }
 
-        public IQueryable<TbCategory> Get(Expression<Func<TbCategory, bool>> where = null)
+        public IQueryable<TbCategory> Get(Expression<Func<TbCategory, bool>> where = null, Expression<Func<TbCategory, object>> order = null)
         {
-            return GetEntities(where);
+            return GetEntities(where,order);
+
+        }
+        public IQueryable<IGrouping<object, TbCategory>> Get(object paramter)
+        {
+            return GetEntities(paramter);
         }
         #endregion
-        
+
         #region add
 
         public int Add(IEnumerable<TbCategory> dbs)

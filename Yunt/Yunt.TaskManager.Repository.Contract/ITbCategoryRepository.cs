@@ -10,8 +10,9 @@ namespace Yunt.TaskManager.Repository.Contract
     public interface ITbCategoryRepository
     {
         #region query
-        IQueryable<TbCategory> Get(Expression<Func<TbCategory, bool>> where = null);
+        IQueryable<TbCategory> Get(Expression<Func<TbCategory, bool>> where = null, Expression<Func<TbCategory, object>> order = null);
 
+        IQueryable<IGrouping<object, TbCategory>> Get(object paramter);
         Task<PaginatedList<TbCategory>> GetByPage(DateTime start, DateTime end, int pageIndex,
             int pageSize);
 

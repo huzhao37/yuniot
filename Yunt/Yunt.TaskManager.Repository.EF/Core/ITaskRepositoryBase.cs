@@ -9,7 +9,10 @@ namespace Yunt.TaskManager.Repository.EF
 {
     public interface ITaskRepositoryBase<T> where T : class
     {
-        IQueryable<T> GetEntities(Expression<Func<T, bool>> where = null);
+        IQueryable<T> GetEntities(Expression<Func<T, bool>> where = null, Expression<Func<T, object>> order = null);
+
+        IQueryable<IGrouping<object, T>> GetEntities(object paramter);
+
         T GetEntityById(int id);
 
         int Insert(T t);

@@ -21,7 +21,7 @@ namespace Yunt.TaskManager
     {
         static void Main(string[] args)
         {
-            //XTrace.UseConsole(true, false);
+            XTrace.UseConsole(true, false);
 
             //using (var db=new TaskManagerContext())
             //{
@@ -56,7 +56,6 @@ namespace Yunt.TaskManager
 
             var services = new ServiceCollection();
             //注入
-
             //services.AddDbContextPool<TaskManagerContext>(c =>
             //{
             //    c.UseSqlServer("Server=rm-bp1e7cw4xl2ns45aoo.sqlserver.rds.aliyuncs.com,3433; Database=yunt_test;Persist Security Info=True;User ID=xenomorph;password=U2n0i1t7oon;");
@@ -77,15 +76,15 @@ namespace Yunt.TaskManager
 
             #region add test
 
-            var entities = new List<TbCategory>();
-            for (var i = 0; i < 400_000; i++)
-            {
-                entities.Add(new TbCategory()
-                {
-                    Categoryname = i.ToString(),
-                    Categorycreatetime = DateTime.Now
-                });
-            }
+            //var entities = new List<TbCategory>();
+            //for (var i = 0; i < 10_000; i++)
+            //{
+            //    entities.Add(new TbCategory()
+            //    {
+            //        Categoryname = i.ToString(),
+            //        Categorycreatetime = DateTime.Now
+            //    });
+            //}
 
             //var entities2 = new List<TbCategory>();
             //for (var i = 0; i < 8_000; i++)
@@ -203,11 +202,15 @@ namespace Yunt.TaskManager
             #endregion
             var sw = new Stopwatch();
             sw.Start();
-            var task1 = Task.Factory.StartNew(() => tbService.Add(entities));
+            //var task1 = Task.Factory.StartNew(() => tbService.Add(entities));
             //var task2 = Task.Factory.StartNew(() => tbService.DeleteAsync(deletes2));
             //var task3 = Task.Factory.StartNew(() => tbService.DeleteAsync(deletes3));
             //var task4 = Task.Factory.StartNew(() => tbService.DeleteAsync(deletes4));
-            Task.WaitAll(task1);
+           // Task.WaitAll(task1);
+
+            //var x = tbService.Get(e => e.Categoryname.Equals("1"), m=>m.Categorycreatetime);
+
+            var x= tbService.Get("Categoryname");
             sw.Stop();
             Logger.Info($"新增记录：{400_000:n},耗时：{sw.ElapsedMilliseconds:n}ms");
             //Logger.Info($"新增记录：{200_000:n},耗时：{200_000/sw.ElapsedMilliseconds*1_000:n}ms");

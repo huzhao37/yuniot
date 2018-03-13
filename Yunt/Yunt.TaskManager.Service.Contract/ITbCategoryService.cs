@@ -9,10 +9,16 @@ namespace Yunt.TaskManager.Service.Contract
 {
     public interface ITbCategoryService
     {
-        IQueryable<TbCategory> Get(Expression<Func<TbCategory, bool>> where = null);
+        #region query
+        IQueryable<TbCategory> Get(Expression<Func<TbCategory, bool>> where = null, Expression<Func<TbCategory, object>> order = null);
 
+        IQueryable<IGrouping<object, TbCategory>> Get(object paramter);
         Task<PaginatedList<TbCategory>> GetByPage(DateTime start, DateTime end, int pageIndex,
             int pageSize);
+
+
+        #endregion
+
 
         #region add
 
@@ -28,14 +34,14 @@ namespace Yunt.TaskManager.Service.Contract
 
         int Update(TbCategory db);
 
-         int Update(IEnumerable<TbCategory> dbs);
+        int Update(IEnumerable<TbCategory> dbs);
 
-         void InsertOrUpd(TbCategory db);
+        void InsertOrUpd(TbCategory db);
 
         Task UpdateAsync(TbCategory db);
         Task UpdateAsync(IEnumerable<TbCategory> dbs);
 
-         Task InsertOrUpdAsync(TbCategory db);
+        Task InsertOrUpdAsync(TbCategory db);
 
         #endregion
 

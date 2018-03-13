@@ -4,11 +4,17 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using NewLife.Log;
 using Quartz;
 using Quartz.Impl;
+using Yunt.Auth.Domain.BaseModel;
+using Yunt.Auth.Domain.IRepository;
+using Yunt.Auth.Repository.EF;
+using Yunt.Auth.Repository.EF.Models;
+using Yunt.Auth.Repository.EF.Repositories;
 using Yunt.Demo.Core;
 using Logger = Yunt.TaskManager.Core.Logger;
 
@@ -73,47 +79,47 @@ namespace Yunt.Demo.ConsoleApp1
 
             #region mysql test
 
-            var dbconn = new yunt_testContext();
+            //var dbconn = new yunt_testContext();
             #region add test
 
-            var count = 200_000;
-            var entities = new List<TbCategory>();
-            for (var i = 0; i < count; i++)
-            {
-                entities.Add(new TbCategory()
-                {
-                    Categoryname = i.ToString(),
-                    Categorycreatetime = DateTime.Now
-                });
-            }
+            //var count = 10_000;
+            //var entities = new List<TbCategory>();
+            //for (var i = 0; i < count; i++)
+            //{
+            //    entities.Add(new TbCategory()
+            //    {
+            //        Categoryname = i.ToString(),
+            //        Categorycreatetime = DateTime.Now
+            //    });
+            //}
 
-            var entities2 = new List<TbCategory>();
-            for (var i = 0; i < 8_000; i++)
-            {
-                entities2.Add(new TbCategory()
-                {
-                    // Categoryname = i.ToString(),
-                    //Categorycreatetime = DateTime.Now
-                });
-            }
-            var entities3 = new List<TbCategory>();
-            for (var i = 0; i < 8_000; i++)
-            {
-                entities3.Add(new TbCategory()
-                {
-                    //Categoryname = i.ToString(),
-                    //Categorycreatetime = DateTime.Now
-                });
-            }
-            var entities4 = new List<TbCategory>();
-            for (var i = 0; i < 8_000; i++)
-            {
-                entities4.Add(new TbCategory()
-                {
-                    //Categoryname = i.ToString(),
-                    //Categorycreatetime = DateTime.Now
-                });
-            }
+            //var entities2 = new List<TbCategory>();
+            //for (var i = 0; i < 8_000; i++)
+            //{
+            //    entities2.Add(new TbCategory()
+            //    {
+            //        // Categoryname = i.ToString(),
+            //        //Categorycreatetime = DateTime.Now
+            //    });
+            //}
+            //var entities3 = new List<TbCategory>();
+            //for (var i = 0; i < 8_000; i++)
+            //{
+            //    entities3.Add(new TbCategory()
+            //    {
+            //        //Categoryname = i.ToString(),
+            //        //Categorycreatetime = DateTime.Now
+            //    });
+            //}
+            //var entities4 = new List<TbCategory>();
+            //for (var i = 0; i < 8_000; i++)
+            //{
+            //    entities4.Add(new TbCategory()
+            //    {
+            //        //Categoryname = i.ToString(),
+            //        //Categorycreatetime = DateTime.Now
+            //    });
+            //}
             //var task1 = Task.Factory.StartNew(() => tbService.AddAsyn(entities));
             //var task2 = Task.Factory.StartNew(() => tbService.AddAsyn(entities2));
             //var task3 = Task.Factory.StartNew(() => tbService.AddAsyn(entities3));
@@ -201,16 +207,47 @@ namespace Yunt.Demo.ConsoleApp1
 
 
             #endregion
-            var sw = new Stopwatch();
-            sw.Start();
-            dbconn.tb_category.AddRange(entities);
-            dbconn.SaveChanges();
+
+
+            #region domain
+            var services = new ServiceCollection();
+            //注入
+            IConfigurationProvider config = new MapperConfiguration(cfg =>
+            {
+                cfg.AddProfile<AutoMapperProfileConfiguration>();
+            });
+            services.AddSingleton(config);
+            services.AddScoped<IMapper, Mapper>();
+
+            services.AddAutoMapper();
+
+            var contextOptions = new DbContextOptionsBuilder().UseMySql("server=10.1.5.25;port=3306;database=yunt_test;uid=root;pwd=unitoon2017;").Options;
+            services.AddSingleton(contextOptions)
+              .AddTransient<TaskManagerContext>();
+            services.AddTransient<ITaskRepositoryBase<AggregateRoot>, TaskRepositoryBase<AggregateRoot,BaseModel>>();
+            services.AddTransient<ITbCategoryRepository,TbCategoryRepository>();
+            //services.AddTransient<TbCategory, TbCategoryService>();
+
+            //构建容器
+            IServiceProvider serviceProvider = services.BuildServiceProvider();
+            ContextFactory.Init(serviceProvider);
+            //解析
+            var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(serviceProvider);
+
+            var count = tbService.GetEntityById(5775);//tbService.GetEntities(e=>e.Categoryname.Equals("1"),e=>e.Categorycreatetime);
+            #endregion
+            //var sw = new Stopwatch();
+            //sw.Start();
+            //dbconn.tb_category.AddRange(entities);
+            //dbconn.SaveChanges();
             //var task2 = Task.Factory.StartNew(() => dbconn.tb_category.DeleteAsync(deletes2));
             //var task3 = Task.Factory.StartNew(() => dbconn.tb_category.DeleteAsync(deletes3));
             //var task4 = Task.Factory.StartNew(() => dbconn.tb_category.DeleteAsync(deletes4));
             //Task.WaitAll(task1, task2, task3, task4);
-            sw.Stop();
-            Logger.Info($"add记录：{count:n},耗时：{sw.ElapsedMilliseconds:n}ms,qps:{count / sw.ElapsedMilliseconds * 1_000:n}q/s");
+
+
+            // sw.Stop();
+            //Logger.Info($"add记录：{count:n},耗时：{sw.ElapsedMilliseconds:n}ms,qps:{count / sw.ElapsedMilliseconds * 1_000:n}q/s");
 
 
             #endregion

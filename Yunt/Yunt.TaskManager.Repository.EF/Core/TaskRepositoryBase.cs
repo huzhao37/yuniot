@@ -7,6 +7,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using Microsoft.EntityFrameworkCore.Query.Sql.Internal;
 using Yunt.TaskManager.Core;
 using Yunt.TaskManager.Model;
 
@@ -21,17 +23,17 @@ namespace Yunt.TaskManager.Repository.EF.Core
         }
 
         #region Insert
-        public int Insert(T t)
+        public virtual int Insert(T t)
         {
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().Add(t);
             return Commit();
         }
-        public async Task InsertAsync(T t)
+        public virtual async Task InsertAsync(T t)
         {
             await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().AddAsync(t);
             await CommitAsync();
         }
-        public int Insert(IEnumerable<T> ts)
+        public virtual int Insert(IEnumerable<T> ts)
         {
             //using (var transaction = _context.Database.BeginTransaction())
             //{
@@ -50,7 +52,7 @@ namespace Yunt.TaskManager.Repository.EF.Core
                 return 0;
             }
         }
-        public async Task InsertAsync(IEnumerable<T> ts)
+        public virtual async Task InsertAsync(IEnumerable<T> ts)
         {
             //using (var transaction = _context.Database.BeginTransaction())
             //{
@@ -67,41 +69,41 @@ namespace Yunt.TaskManager.Repository.EF.Core
             catch (Exception ex)
             {
                 Logger.Exception(ex, $"提交事务错误");
-            
+
             }
         }
 
         #endregion
 
         #region delete
-        public int DeleteEntity(int id)
+        public virtual int DeleteEntity(int id)
         {
             var t = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().Find(id);
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().Remove(t);
             return Commit();
         }
-        public async Task DeleteEntityAsync(int id)
+        public virtual async Task DeleteEntityAsync(int id)
         {
-            var t =await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().FindAsync(id);
+            var t = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().FindAsync(id);
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().Remove(t);
             await CommitAsync();
         }
-        public int DeleteEntity(T t)
+        public virtual int DeleteEntity(T t)
         {
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().Remove(t);
             return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).SaveChanges();
         }
 
-        public async Task DeleteEntityAsync(T t)
+        public virtual async Task DeleteEntityAsync(T t)
         {
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().Remove(t);
             await CommitAsync();
         }
 
-        public int DeleteEntity(IEnumerable<T> ts)
+        public virtual int DeleteEntity(IEnumerable<T> ts)
         {
             int results;
-           // using (var transaction = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Database.BeginTransaction())
+            // using (var transaction = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Database.BeginTransaction())
             {
                 try
                 {
@@ -120,14 +122,14 @@ namespace Yunt.TaskManager.Repository.EF.Core
             }
             return results;
         }
-        public async Task DeleteEntityAsync(IEnumerable<T> ts)
+        public virtual async Task DeleteEntityAsync(IEnumerable<T> ts)
         {
             //using (var transaction = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Database.BeginTransactionAsync())
             {
                 try
                 {
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().RemoveRange(ts);
-                    await  CommitAsync();
+                    await CommitAsync();
                     // Commit transaction if all commands succeed, transaction will auto-rollback
                     // when disposed if either commands fails
                     //transaction.Commit();
@@ -142,22 +144,62 @@ namespace Yunt.TaskManager.Repository.EF.Core
         #endregion
 
         #region query
-        public IQueryable<T> GetEntities(Expression<Func<T, bool>> where = null)
+        //注意闭包效率，参数应设置成作用域变量，可重复利用sql查询计划
+        public virtual IQueryable<T> GetEntities(Expression<Func<T, bool>> where = null, Expression<Func<T, object>> order = null)
         {
-            return where == null ? ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>() : 
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().Where(where);
+            var sql = where == null ? ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>() :
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().OrderBy(order).Where(where);
+#if DEBUG
+            Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+            Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+            return sql;
         }
 
-
-        public T GetEntityById(int id)
+        public virtual IQueryable<IGrouping<object, T>> GetEntities( object paramter)
+        {
+            var sql=new RawSqlString($"select {paramter} from dbo.{typeof(T).Name} group by {paramter}");
+            var query = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().FromSql(sql);
+#if DEBUG
+            Logger.Info($"translate sql:{query.ToSql()} \n untranslate sql:");
+            Logger.Info(string.Join(Environment.NewLine, query.ToUnevaluated()));
+#endif
+            return null;
+        }
+        /// <summary>
+        /// 复杂查询
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramterss"></param>
+        /// <returns></returns>
+        public virtual IQueryable<T> GetEntities(RawSqlString sql, params object[] paramterss)
+        {
+            try
+            {
+                var query = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().FromSql(sql, paramterss);
+#if DEBUG
+                Logger.Info($"translate sql:{query.ToSql()} \n untranslate sql:");
+                Logger.Info(string.Join(Environment.NewLine, query.ToUnevaluated()));
+#endif
+                return query;
+            }
+            catch (Exception e)
+            {
+                Logger.Exception(e);
+                //throw;
+                return null;
+            }
+    
+        }
+        public virtual T GetEntityById(int id)
         {
             //return _context.Set<T>().SingleOrDefault(e => e.Id == id);
             return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Find<T>(id);
         }
-        public async Task<PaginatedList<TbCategory>> GetPage(DateTime start, DateTime end, int pageIndex,
+        public virtual async Task<PaginatedList<TbCategory>> GetPage(DateTime start, DateTime end, int pageIndex,
           int pageSize)
         {
-            var source = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<TbCategory >().Where(x => x.Categorycreatetime >= start && x.Categorycreatetime < new DateTime(end.Year, end.Month, end.Day).AddDays(1));
+            var source = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<TbCategory>().Where(x => x.Categorycreatetime >= start && x.Categorycreatetime < new DateTime(end.Year, end.Month, end.Day).AddDays(1));
             var count = await source.CountAsync();
             List<TbCategory> dailys = null;
             if (count > 0)
@@ -172,13 +214,13 @@ namespace Yunt.TaskManager.Repository.EF.Core
 
         #region update
 
-        public int UpdateEntity(T t)
+        public virtual int UpdateEntity(T t)
         {
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().Update(t);
             return Commit();
         }
 
-        public int UpdateEntity(IEnumerable<T> ts)
+        public virtual int UpdateEntity(IEnumerable<T> ts)
         {
             var results = 0;
             //using (var transaction = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Database.BeginTransaction())
@@ -186,7 +228,7 @@ namespace Yunt.TaskManager.Repository.EF.Core
                 try
                 {
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().UpdateRange(ts);
-                    results =Commit();
+                    results = Commit();
 
                     // Commit transaction if all commands succeed, transaction will auto-rollback
                     // when disposed if either commands fails
@@ -202,7 +244,7 @@ namespace Yunt.TaskManager.Repository.EF.Core
 
         }
 
-        public void InsertOrUpdate(T t)
+        public virtual void InsertOrUpdate(T t)
         {
             var existing = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().Find(t.Id);
             if (existing == null)
@@ -217,24 +259,24 @@ namespace Yunt.TaskManager.Repository.EF.Core
             Commit();
         }
 
-        public async Task UpdateEntityAsync(T t)
+        public virtual async Task UpdateEntityAsync(T t)
         {
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().Update(t);
-            await  CommitAsync();
+            await CommitAsync();
         }
 
-        public async Task UpdateEntityAsync(IEnumerable<T> ts)
+        public virtual async Task UpdateEntityAsync(IEnumerable<T> ts)
         {
             //using (var transaction =await  ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Database.BeginTransactionAsync())
             {
                 try
                 {
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().UpdateRange(ts);
-                    await  CommitAsync();
+                    await CommitAsync();
 
                     // Commit transaction if all commands succeed, transaction will auto-rollback
                     // when disposed if either commands fails
-                   // transaction.Commit();
+                    // transaction.Commit();
                 }
                 catch (Exception ex)
                 {
@@ -244,16 +286,16 @@ namespace Yunt.TaskManager.Repository.EF.Core
 
         }
 
-        public async Task InsertOrUpdateAsync(T t)
+        public virtual async Task InsertOrUpdateAsync(T t)
         {
-            var existing =await  ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().FindAsync(t.Id);
+            var existing = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<T>().FindAsync(t.Id);
             if (existing == null)
             {
                 await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).AddAsync(t);
             }
             else
             {
-                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(t);
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(t);
             }
 
             await CommitAsync();
@@ -271,7 +313,7 @@ namespace Yunt.TaskManager.Repository.EF.Core
             }
             catch (DbUpdateConcurrencyException e)
             {
-                Logger.Exception(e,"可接受范围内的异常");
+                Logger.Exception(e, "可接受范围内的异常");
             }
         }
         private static int Commit()

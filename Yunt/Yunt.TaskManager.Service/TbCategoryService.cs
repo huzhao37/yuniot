@@ -19,9 +19,13 @@ namespace Yunt.TaskManager.Service
         }
 
         #region query
-        public IQueryable<TbCategory> Get(Expression<Func<TbCategory, bool>> where = null)
+        public IQueryable<TbCategory> Get(Expression<Func<TbCategory, bool>> where = null, Expression<Func<TbCategory, object>> order = null)
         {
-            return  _tbCategoryRepository.Get(where);
+            return  _tbCategoryRepository.Get(where,order);
+        }
+        public IQueryable<IGrouping<object, TbCategory>> Get(object paramter)
+        {
+           return _tbCategoryRepository.Get(paramter);
         }
         public async Task<PaginatedList<TbCategory>> GetByPage(DateTime start, DateTime end, int pageIndex,
             int pageSize)
