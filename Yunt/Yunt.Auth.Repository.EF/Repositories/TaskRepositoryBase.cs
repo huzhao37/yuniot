@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using AutoMapper.XpressionMapper.Extensions;
+using EasyCaching.Core;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Query.Sql.Internal;
@@ -16,23 +17,28 @@ using Yunt.Auth.Domain.BaseModel;
 using Yunt.Auth.Domain.IRepository;
 using Yunt.Auth.Repository.EF.Models;
 using Yunt.Common;
+using Yunt.Redis;
 
 namespace Yunt.Auth.Repository.EF.Repositories
 {
     public class TaskRepositoryBase<DT,ST> : ITaskRepositoryBase<DT> where DT : AggregateRoot
         where ST : BaseModel
     {
+        private readonly IRedisCachingProvider _provider;
+
         private IMapper _mapper { get; set; }
         private readonly TaskManagerContext _context;
-        public TaskRepositoryBase(TaskManagerContext context, IMapper mapper)
+        public TaskRepositoryBase(TaskManagerContext context, IMapper mapper, IRedisCachingProvider provider)
         {
             _context = context;
             _mapper = mapper;
+            _provider = provider;
         }
 
         #region Insert
         public virtual int Insert(DT t)
         {
+           // _provider.Set("t", t,DataType.Protobuf);
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Add(_mapper.Map<ST>(t));
             return Commit();
         }
@@ -188,10 +194,9 @@ namespace Yunt.Auth.Repository.EF.Repositories
         public virtual async Task DeleteEntityAsync(Expression<Func<DT, bool>> where = null)
         {
             IQueryable<ST> ts;
-            Expression<Func<ST, bool>> wheres;
             if (where != null)
             {
-                wheres = _mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
+                var wheres = _mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(@where);
                 ts = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres);
             }
             else

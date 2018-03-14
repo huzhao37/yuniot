@@ -7,9 +7,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Demo", "Demo", "{65228A37-B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Demo.ConsoleApp1", "Yunt.Demo.ConsoleApp1\Yunt.Demo.ConsoleApp1.csproj", "{0977DDBD-8F6A-4DA7-A268-AE7CF91EF38E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.Demo.SendEmail", "Yunt.Demo.SendEmail\Yunt.Demo.SendEmail.csproj", "{EBEEE472-3E41-404F-B3BB-288EFDF601DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Demo.SendEmail", "Yunt.Demo.SendEmail\Yunt.Demo.SendEmail.csproj", "{EBEEE472-3E41-404F-B3BB-288EFDF601DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.Demo.Core", "Yunt.Demo.Core\Yunt.Demo.Core.csproj", "{F13D0D4F-D93A-40BA-B979-E0DC8B9B93B3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Demo.Core", "Yunt.Demo.Core\Yunt.Demo.Core.csproj", "{F13D0D4F-D93A-40BA-B979-E0DC8B9B93B3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskManager【任务监控】", "TaskManager【任务监控】", "{34019C27-4A7F-445F-AEAC-F9BD2921C14C}"
 	ProjectSection(SolutionItems) = preProject
@@ -17,19 +17,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TaskManager【任务监控�
 		C:\Users\zhaoh\Desktop\notice.jpg = C:\Users\zhaoh\Desktop\notice.jpg
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Model", "Yunt.TaskManager.Model\Yunt.TaskManager.Model.csproj", "{44E1A07A-25D8-434B-8242-490DB2221426}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.TaskManager.Model", "Yunt.TaskManager.Model\Yunt.TaskManager.Model.csproj", "{44E1A07A-25D8-434B-8242-490DB2221426}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager", "Yunt.TaskManager\Yunt.TaskManager.csproj", "{C93ECB32-6C1E-424F-9F6E-257A4FA562E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.TaskManager", "Yunt.TaskManager\Yunt.TaskManager.csproj", "{C93ECB32-6C1E-424F-9F6E-257A4FA562E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Service.Contract", "Yunt.TaskManager.Service.Contract\Yunt.TaskManager.Service.Contract.csproj", "{36A769A9-84B8-4166-B5F4-1F665781274E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.TaskManager.Service.Contract", "Yunt.TaskManager.Service.Contract\Yunt.TaskManager.Service.Contract.csproj", "{36A769A9-84B8-4166-B5F4-1F665781274E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Service", "Yunt.TaskManager.Service\Yunt.TaskManager.Service.csproj", "{AAB11832-13F6-4A3B-9D9D-23D90AABD5FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.TaskManager.Service", "Yunt.TaskManager.Service\Yunt.TaskManager.Service.csproj", "{AAB11832-13F6-4A3B-9D9D-23D90AABD5FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Repository.Contract", "Yunt.TaskManager.Repository.Contract\Yunt.TaskManager.Repository.Contract.csproj", "{D184E1FE-AB48-4DC5-B064-564ACBD12D93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.TaskManager.Repository.Contract", "Yunt.TaskManager.Repository.Contract\Yunt.TaskManager.Repository.Contract.csproj", "{D184E1FE-AB48-4DC5-B064-564ACBD12D93}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Repository.EF", "Yunt.TaskManager.Repository.EF\Yunt.TaskManager.Repository.EF.csproj", "{89E3339A-DDCD-4D66-95EF-7300359BCB87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.TaskManager.Repository.EF", "Yunt.TaskManager.Repository.EF\Yunt.TaskManager.Repository.EF.csproj", "{89E3339A-DDCD-4D66-95EF-7300359BCB87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.TaskManager.Core", "Yunt.TaskManager.Core\Yunt.TaskManager.Core.csproj", "{BC919154-FFC9-4443-9BEE-10F87AD5CDA7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.TaskManager.Core", "Yunt.TaskManager.Core\Yunt.TaskManager.Core.csproj", "{BC919154-FFC9-4443-9BEE-10F87AD5CDA7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "QuartzDemo", "QuartzDemo", "{65ADA9B8-705B-44F2-B69F-C9D4BDD0826F}"
 EndProject
@@ -37,7 +37,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CAPDemo", "CAPDemo", "{1B3C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Consumer", "Consumer\Consumer.csproj", "{CD9A70C8-7DAA-4790-81F7-3FAD64772F96}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Publisher", "Publisher\Publisher.csproj", "{0B3AAF82-D9FD-425A-87B8-C7D19D1F11CD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Publisher", "Publisher\Publisher.csproj", "{0B3AAF82-D9FD-425A-87B8-C7D19D1F11CD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain【服务组件】", "Domain【服务组件】", "{08806F1C-82C8-48A1-B657-C141F011DCD7}"
 EndProject
@@ -53,15 +53,21 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Auth【权限管理】", "A
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Device【设备管理】", "Device【设备管理】", "{115D4F24-11DC-40E5-A880-2FA68EED0131}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.Auth.Domain", "Yunt.Auth.Domain\Yunt.Auth.Domain.csproj", "{13BB0593-13EC-49A5-9F39-A68858C1D6B4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Auth.Domain", "Yunt.Auth.Domain\Yunt.Auth.Domain.csproj", "{13BB0593-13EC-49A5-9F39-A68858C1D6B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.Device.Domain", "Yunt.Device.Domain\Yunt.Device.Domain.csproj", "{B0C8EF08-4672-4ED3-B5EF-7204CDB6D9B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Device.Domain", "Yunt.Device.Domain\Yunt.Device.Domain.csproj", "{B0C8EF08-4672-4ED3-B5EF-7204CDB6D9B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.Auth.Repository.EF", "Yunt.Auth.Repository.EF\Yunt.Auth.Repository.EF.csproj", "{FECBAC94-EB39-4C52-94FA-B5C5039349F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Auth.Repository.EF", "Yunt.Auth.Repository.EF\Yunt.Auth.Repository.EF.csproj", "{FECBAC94-EB39-4C52-94FA-B5C5039349F7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.Device.Repository.EF", "Yunt.Device.Repository.EF\Yunt.Device.Repository.EF.csproj", "{0F8AFBE9-7B6C-4B9D-94AB-F7FF24D37F67}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Device.Repository.EF", "Yunt.Device.Repository.EF\Yunt.Device.Repository.EF.csproj", "{0F8AFBE9-7B6C-4B9D-94AB-F7FF24D37F67}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.Common", "Yunt.Common\Yunt.Common.csproj", "{B2C12BA6-D8A3-4A40-AD2B-CC71AB527C79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Common", "Yunt.Common\Yunt.Common.csproj", "{B2C12BA6-D8A3-4A40-AD2B-CC71AB527C79}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FrameWork【云统框架】", "FrameWork【云统框架】", "{20A6FE70-1DAA-4085-86F5-36EFC479FF03}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core【核心组件】", "Core【核心组件】", "{F35F62E0-3676-4134-98F8-F769CF142380}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.Redis", "Yunt.Redis\Yunt.Redis.csproj", "{16716634-420D-479B-8BA9-8CA9B33BECDD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -137,6 +143,10 @@ Global
 		{B2C12BA6-D8A3-4A40-AD2B-CC71AB527C79}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B2C12BA6-D8A3-4A40-AD2B-CC71AB527C79}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B2C12BA6-D8A3-4A40-AD2B-CC71AB527C79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16716634-420D-479B-8BA9-8CA9B33BECDD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16716634-420D-479B-8BA9-8CA9B33BECDD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16716634-420D-479B-8BA9-8CA9B33BECDD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16716634-420D-479B-8BA9-8CA9B33BECDD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -164,7 +174,10 @@ Global
 		{B0C8EF08-4672-4ED3-B5EF-7204CDB6D9B1} = {32A6BF62-EF7A-47A8-B5DE-02EC2E549B82}
 		{FECBAC94-EB39-4C52-94FA-B5C5039349F7} = {F79BC7BD-D322-4D06-A23A-48F160DD2689}
 		{0F8AFBE9-7B6C-4B9D-94AB-F7FF24D37F67} = {115D4F24-11DC-40E5-A880-2FA68EED0131}
-		{B2C12BA6-D8A3-4A40-AD2B-CC71AB527C79} = {E3B2BA8E-8321-4F3C-B26F-086B884BACB1}
+		{B2C12BA6-D8A3-4A40-AD2B-CC71AB527C79} = {F35F62E0-3676-4134-98F8-F769CF142380}
+		{20A6FE70-1DAA-4085-86F5-36EFC479FF03} = {E3B2BA8E-8321-4F3C-B26F-086B884BACB1}
+		{F35F62E0-3676-4134-98F8-F769CF142380} = {E3B2BA8E-8321-4F3C-B26F-086B884BACB1}
+		{16716634-420D-479B-8BA9-8CA9B33BECDD} = {20A6FE70-1DAA-4085-86F5-36EFC479FF03}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {21291A92-566E-4900-A78D-61F038214566}

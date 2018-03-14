@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NewLife.Log;
 using Quartz;
@@ -16,12 +18,13 @@ using Yunt.Auth.Repository.EF;
 using Yunt.Auth.Repository.EF.Models;
 using Yunt.Auth.Repository.EF.Repositories;
 using Yunt.Demo.Core;
-using Logger = Yunt.TaskManager.Core.Logger;
-
+using Yunt.Redis;
+using Yunt.Redis.Config;
 namespace Yunt.Demo.ConsoleApp1
 {
     class Program
     {
+
         static void Main(string[] args)
         {
             XTrace.UseConsole(true,false);
@@ -83,10 +86,10 @@ namespace Yunt.Demo.ConsoleApp1
             #region add test
 
             //var count = 10_000;
-            //var entities = new List<TbCategory>();
+            //var entities = new List<Auth.Domain.Model.TbCategory>();
             //for (var i = 0; i < count; i++)
             //{
-            //    entities.Add(new TbCategory()
+            //    entities.Add(new Auth.Domain.Model.TbCategory()
             //    {
             //        Categoryname = i.ToString(),
             //        Categorycreatetime = DateTime.Now
@@ -207,12 +210,79 @@ namespace Yunt.Demo.ConsoleApp1
 
 
             #endregion
-
-
+        
             #region domain
             var services = new ServiceCollection();
             //注入
-            IConfigurationProvider config = new MapperConfiguration(cfg =>
+            //AutoMapper.IConfigurationProvider config = new MapperConfiguration(cfg =>
+            //{
+            //    cfg.AddProfile<AutoMapperProfileConfiguration>();
+            //});
+            //services.AddSingleton(config);
+            //services.AddScoped<IMapper, Mapper>();
+
+            //services.AddAutoMapper();
+
+            //var contextOptions = new DbContextOptionsBuilder().UseMySql("server=10.1.5.25;port=3306;database=yunt_test;uid=root;pwd=unitoon2017;").Options;
+            //services.AddSingleton(contextOptions)
+            //  .AddTransient<TaskManagerContext>();
+            //services.AddTransient<ITaskRepositoryBase<AggregateRoot>, TaskRepositoryBase<AggregateRoot, BaseModel>>();
+            //services.AddTransient<ITbCategoryRepository, TbCategoryRepository>();
+            ////services.AddTransient<TbCategory, TbCategoryService>();
+            //Register(services);
+            ////构建容器
+            //IServiceProvider serviceProvider = services.BuildServiceProvider();
+            //ContextFactory.Init(serviceProvider);
+            //解析
+            //var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(serviceProvider);
+
+            // var count = tbService.GetEntityById(5775);//tbService.GetEntities(e=>e.Categoryname.Equals("1"),e=>e.Categorycreatetime);
+            #endregion
+
+            // var sw = new Stopwatch();
+            // sw.Start();
+            //dbconn.tb_category.AddRange(entities);
+            //dbconn.SaveChanges();
+            //var task2 = Task.Factory.StartNew(() => dbconn.tb_category.DeleteAsync(deletes2));
+            //var task3 = Task.Factory.StartNew(() => dbconn.tb_category.DeleteAsync(deletes3));
+            //var task4 = Task.Factory.StartNew(() => dbconn.tb_category.DeleteAsync(deletes4));
+            //Task.WaitAll(task1, task2, task3, task4);
+
+            // tbService.GetEntities(e => e.Categoryname.Equals("1"));//tbService.Insert(entities);
+            //sw.Stop();
+            // Logger.Info($"add记录：{count:n},耗时：{sw.ElapsedMilliseconds:n}ms,qps:{count / sw.ElapsedMilliseconds * 1_000:n}q/s");
+
+
+            #endregion
+
+            #region config/redis test
+
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            var configuration = builder.Build();
+
+            services.AddSingleton<IConfiguration>(configuration);
+
+            #region easycahing inspect
+
+            //services.AddDefaultRedisCache(option =>
+            //{
+            //    option.Endpoints.Add(new ServerEndPoint("127.0.0.1", 6379));
+            //    //option.Password = "";
+            //});
+            ////specify to use protobuf serializer
+            //services.AddDefaultProtobufSerializer();
+
+            #endregion
+
+
+
+
+
+            #region yunt-redis register
+            AutoMapper.IConfigurationProvider config = new MapperConfiguration(cfg =>
             {
                 cfg.AddProfile<AutoMapperProfileConfiguration>();
             });
@@ -224,36 +294,56 @@ namespace Yunt.Demo.ConsoleApp1
             var contextOptions = new DbContextOptionsBuilder().UseMySql("server=10.1.5.25;port=3306;database=yunt_test;uid=root;pwd=unitoon2017;").Options;
             services.AddSingleton(contextOptions)
               .AddTransient<TaskManagerContext>();
-            services.AddTransient<ITaskRepositoryBase<AggregateRoot>, TaskRepositoryBase<AggregateRoot,BaseModel>>();
-            services.AddTransient<ITbCategoryRepository,TbCategoryRepository>();
+            services.AddTransient<ITaskRepositoryBase<AggregateRoot>, TaskRepositoryBase<AggregateRoot, BaseModel>>();
+            services.AddTransient<ITbCategoryRepository, TbCategoryRepository>();
             //services.AddTransient<TbCategory, TbCategoryService>();
-
+            services.AddDefaultRedisCache(option =>
+            {
+                //option.Endpoints.Add(new Redis.Config.ServerEndPoint("127.0.0.1", 6379));
+                option.RedisServer.Add(new HostItem() { Host = "127.0.0.1:6379" });
+                //option.Password = "";
+            });
+            //specify to use protobuf serializer
+            //services.AddDefaultProtobufSerializer();
+            Register(services);
             //构建容器
             IServiceProvider serviceProvider = services.BuildServiceProvider();
             ContextFactory.Init(serviceProvider);
-            //解析
+          
             var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(serviceProvider);
 
-            var count = tbService.GetEntityById(5775);//tbService.GetEntities(e=>e.Categoryname.Equals("1"),e=>e.Categorycreatetime);
+            //redis.Set("yunty", new Auth.Domain.Model.TbCategory() { Categoryname = "test1", Categorycreatetime = DateTime.Now }, DataType.Protobuf);
+            tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });
+
             #endregion
-            //var sw = new Stopwatch();
-            //sw.Start();
-            //dbconn.tb_category.AddRange(entities);
-            //dbconn.SaveChanges();
-            //var task2 = Task.Factory.StartNew(() => dbconn.tb_category.DeleteAsync(deletes2));
-            //var task3 = Task.Factory.StartNew(() => dbconn.tb_category.DeleteAsync(deletes3));
-            //var task4 = Task.Factory.StartNew(() => dbconn.tb_category.DeleteAsync(deletes4));
-            //Task.WaitAll(task1, task2, task3, task4);
-
-
-            // sw.Stop();
-            //Logger.Info($"add记录：{count:n},耗时：{sw.ElapsedMilliseconds:n}ms,qps:{count / sw.ElapsedMilliseconds * 1_000:n}q/s");
 
 
             #endregion
 
             Console.WriteLine("Hello World!");
             Console.ReadKey();
+        }
+
+        public static void Register(IServiceCollection services)
+        {
+            var allTypes = Assembly.GetCallingAssembly().GetTypes();
+            var type = typeof(ITaskRepositoryBase<>);//IBaseEntityService
+
+
+            allTypes.Where(t => !t.IsGenericType && t.IsClass).ToList().ForEach(t =>
+            {
+                //var ins = t.GetInterfaces();
+                //if (ins.Any(i => i.Name.Equals(type.Name)))
+                //{
+                //    var tfrom = ins.FirstOrDefault(i => !i.Name.Equals(type.Name));
+                //    //注册到容器中
+                //    services.AddTransient<ITbCategoryRepository, TbCategoryRepository>();
+                //    services.Contains().Builder.RegisterType(t).As(tfrom).SingleInstance().PropertiesAutowired();
+
+                //    //LogHelper.Trace("AhnqIot.Bussiness.Register:{0}=>{1}", tfrom.Name, t.Name);
+                //}
+
+            });
         }
     }
 }
