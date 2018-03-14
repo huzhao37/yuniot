@@ -10,6 +10,15 @@ namespace Yunt.Redis.Config
     public class BaseRedisOptions
     {
         /// <summary>
+        /// 单一服务器模式，如果为False 将启用读取分离模式"
+        /// </summary>
+        public bool SingleMode { get; set; } = true;
+
+        /// <summary>
+        /// 第几个数据库
+        /// </summary>
+        public int DbIndex { get; set; } = 0;
+        /// <summary>
         /// Gets or sets the password to be used to connect to the Redis server.
         /// </summary>
         /// <value>

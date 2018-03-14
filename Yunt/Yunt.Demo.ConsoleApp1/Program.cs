@@ -301,6 +301,7 @@ namespace Yunt.Demo.ConsoleApp1
             {
                 //option.Endpoints.Add(new Redis.Config.ServerEndPoint("127.0.0.1", 6379));
                 option.RedisServer.Add(new HostItem() { Host = "127.0.0.1:6379" });
+                option.SingleMode = true;
                 //option.Password = "";
             });
             //specify to use protobuf serializer

@@ -2176,7 +2176,7 @@ namespace Yunt.Redis
         public void Init()
         {     
 
-            if (RedisClientSeting.Current.SingleMode)
+            if (_options.SingleMode)
             {
                 
                     foreach (var hostStrings in _options.RedisServer)

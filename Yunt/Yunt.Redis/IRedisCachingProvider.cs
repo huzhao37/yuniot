@@ -8,7 +8,7 @@ namespace Yunt.Redis
     {
 
         #region 常用方法
-
+        int DB { get; set; }
         /// <summary>
         ///     返回哈希表key中域的数量
         /// </summary>
@@ -23,7 +23,7 @@ namespace Yunt.Redis
         /// </summary>
         /// <param name="key"></param>
         /// <returns>哈希表中域的数量 当key不存在时，返回0</returns>
-         int HLen(string key);
+        int HLen(string key);
 
         /// <summary>
         ///     为给定key设置生存时间

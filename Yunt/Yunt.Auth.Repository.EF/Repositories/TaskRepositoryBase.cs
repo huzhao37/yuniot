@@ -38,7 +38,8 @@ namespace Yunt.Auth.Repository.EF.Repositories
         #region Insert
         public virtual int Insert(DT t)
         {
-           // _provider.Set("t", t,DataType.Protobuf);
+            //_provider.DB = 0;
+            //_provider.Set("t1", "t",DataType.Protobuf);
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Add(_mapper.Map<ST>(t));
             return Commit();
         }
