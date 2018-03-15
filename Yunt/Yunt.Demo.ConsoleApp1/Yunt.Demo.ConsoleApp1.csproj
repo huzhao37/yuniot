@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
@@ -18,10 +17,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Yunt.Auth.Domain\Yunt.Auth.Domain.csproj" />
-    <ProjectReference Include="..\Yunt.Auth.Repository.EF\Yunt.Auth.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.Demo.Core\Yunt.Demo.Core.csproj" />
     <ProjectReference Include="..\Yunt.Redis\Yunt.Redis.csproj" />
     <ProjectReference Include="..\Yunt.TaskManager.Core\Yunt.TaskManager.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

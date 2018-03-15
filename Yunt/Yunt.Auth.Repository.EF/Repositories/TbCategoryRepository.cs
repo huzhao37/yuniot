@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
-using EasyCaching.Core;
+
 using Microsoft.EntityFrameworkCore;
 using Yunt.Auth.Domain.IRepository;
 using Yunt.Auth.Domain.Model;

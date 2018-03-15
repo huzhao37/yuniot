@@ -5,18 +5,17 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using AutoMapper;
+using System.Runtime.Loader;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using NewLife.Log;
 using Quartz;
 using Quartz.Impl;
-using Yunt.Auth.Domain.BaseModel;
-using Yunt.Auth.Domain.IRepository;
-using Yunt.Auth.Repository.EF;
-using Yunt.Auth.Repository.EF.Models;
-using Yunt.Auth.Repository.EF.Repositories;
+using Yunt.Common;
+using Yunt.Demo.ConsoleApp1.Migrations;
 using Yunt.Demo.Core;
 using Yunt.Redis;
 using Yunt.Redis.Config;
@@ -27,7 +26,7 @@ namespace Yunt.Demo.ConsoleApp1
 
         static void Main(string[] args)
         {
-            XTrace.UseConsole(true,false);
+            XTrace.UseConsole(true, false);
 
             #region test
 
@@ -210,7 +209,7 @@ namespace Yunt.Demo.ConsoleApp1
 
 
             #endregion
-        
+
             #region domain
             var services = new ServiceCollection();
             //注入
@@ -255,15 +254,6 @@ namespace Yunt.Demo.ConsoleApp1
 
             #endregion
 
-            #region config/redis test
-
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
-
-            var configuration = builder.Build();
-
-            services.AddSingleton<IConfiguration>(configuration);
 
             #region easycahing inspect
 
@@ -277,74 +267,153 @@ namespace Yunt.Demo.ConsoleApp1
 
             #endregion
 
-
-
-
-
             #region yunt-redis register
-            AutoMapper.IConfigurationProvider config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<AutoMapperProfileConfiguration>();
-            });
-            services.AddSingleton(config);
-            services.AddScoped<IMapper, Mapper>();
 
-            services.AddAutoMapper();
 
-            var contextOptions = new DbContextOptionsBuilder().UseMySql("server=10.1.5.25;port=3306;database=yunt_test;uid=root;pwd=unitoon2017;").Options;
-            services.AddSingleton(contextOptions)
-              .AddTransient<TaskManagerContext>();
-            services.AddTransient<ITaskRepositoryBase<AggregateRoot>, TaskRepositoryBase<AggregateRoot, BaseModel>>();
-            services.AddTransient<ITbCategoryRepository, TbCategoryRepository>();
-            //services.AddTransient<TbCategory, TbCategoryService>();
-            services.AddDefaultRedisCache(option =>
-            {
-                //option.Endpoints.Add(new Redis.Config.ServerEndPoint("127.0.0.1", 6379));
-                option.RedisServer.Add(new HostItem() { Host = "127.0.0.1:6379" });
-                option.SingleMode = true;
-                //option.Password = "";
-            });
-            //specify to use protobuf serializer
-            //services.AddDefaultProtobufSerializer();
-            Register(services);
-            //构建容器
-            IServiceProvider serviceProvider = services.BuildServiceProvider();
-            ContextFactory.Init(serviceProvider);
-          
-            var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(serviceProvider);
+            //var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(serviceProvider);
 
             //redis.Set("yunty", new Auth.Domain.Model.TbCategory() { Categoryname = "test1", Categorycreatetime = DateTime.Now }, DataType.Protobuf);
-            tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });
+            // tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });
 
             #endregion
 
+            #region register
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
 
+            var configuration = builder.Build();
+            services.AddSingleton<IConfiguration>(configuration);
+
+            var providers = StartServices(services,configuration);
+
+            //var authProvider=Register(services);
+            //var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(authProvider);
+            //tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });
             #endregion
 
             Console.WriteLine("Hello World!");
             Console.ReadKey();
         }
 
-        public static void Register(IServiceCollection services)
+        /// <summary>
+        /// 启动所有的服务插件
+        /// </summary>
+        /// <param name="services"></param>
+        public static Dictionary<string, IServiceProvider> StartServices(IServiceCollection services,IConfigurationRoot configuration)
         {
-            var allTypes = Assembly.GetCallingAssembly().GetTypes();
-            var type = typeof(ITaskRepositoryBase<>);//IBaseEntityService
+            var providers = new Dictionary<string, IServiceProvider>();
+            var path = AppDomain.CurrentDomain.BaseDirectory;
+            FileEx.MoveFolderTo(path + "commondll", path);
 
+            //FileEx.TryLoadAssembly();
+            var files = new DirectoryInfo(path).GetFiles();
 
-            allTypes.Where(t => !t.IsGenericType && t.IsClass).ToList().ForEach(t =>
+            foreach (var f in files)
             {
-                //var ins = t.GetInterfaces();
-                //if (ins.Any(i => i.Name.Equals(type.Name)))
-                //{
-                //    var tfrom = ins.FirstOrDefault(i => !i.Name.Equals(type.Name));
-                //    //注册到容器中
-                //    services.AddTransient<ITbCategoryRepository, TbCategoryRepository>();
-                //    services.Contains().Builder.RegisterType(t).As(tfrom).SingleInstance().PropertiesAutowired();
+                if (f.Name.Contains(".dll") && f.Name.Contains("Repository"))
+                {
+                    var dll = Assembly.LoadFrom(f.FullName);
 
-                //    //LogHelper.Trace("AhnqIot.Bussiness.Register:{0}=>{1}", tfrom.Name, t.Name);
-                //}
+                    var types = dll.GetTypes().Where(a => a.IsClass && a.Name.Equals("BootStrap"));
 
-            });
+                    types.ToList().ForEach(d =>
+                    {
+                        var method = d.GetMethod("Start", BindingFlags.Instance | BindingFlags.Public);
+
+                        var method2 = d.GetMethod("ContextInit", BindingFlags.Instance | BindingFlags.Public);
+                        var obj = Activator.CreateInstance(d);
+                        try
+                        {
+                            method.Invoke(obj, new object[] { services ,configuration});
+                            var serviceProvider = services.BuildServiceProvider();
+                            method2.Invoke(obj, new object[] { serviceProvider });
+
+                            var attribute = d.GetCustomAttributes(typeof(ServiceAttribute), false).FirstOrDefault();
+
+                            if (attribute != null)
+                            {
+                                providers.Add(((ServiceAttribute)attribute).Name.ToString(), serviceProvider); ;
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+
+                            Common.Logger.Exception(ex);
+                        }
+                        
+                    });
+
+                }
+            }
+            return providers;
+
+
+        }
+
+        /// <summary>
+        /// auth初始化
+        /// </summary>
+        /// <param name="services"></param>
+        public static IServiceProvider Register(IServiceCollection services)
+        {
+            //AutoMapper.IConfigurationProvider config = new MapperConfiguration(cfg =>
+            //{
+            //    cfg.AddProfile<AutoMapperProfileConfiguration>();
+            //});
+            //services.AddSingleton(config);
+            //services.AddScoped<IMapper, Mapper>();
+
+            //services.AddAutoMapper();
+
+            //var contextOptions = new DbContextOptionsBuilder().UseMySql("server=10.1.5.25;port=3306;database=yunt_test;uid=root;pwd=unitoon2017;").Options;
+            //services.AddSingleton(contextOptions)
+            //  .AddTransient<TaskManagerContext>();
+
+            //var currentpath = AppDomain.CurrentDomain.BaseDirectory;
+            //var allTypes = Assembly.LoadFrom($"{currentpath}Yunt.Auth.Repository.EF.dll").GetTypes();
+            //var type = typeof(ITaskRepositoryBase<>);
+
+            //allTypes.Where(t =>  t.IsClass).ToList().ForEach(t =>
+            //{
+            //    var ins = t.GetInterfaces();
+            //    if (!ins.Any(e => e.Name.Equals(type.Name))) return;
+            //    if (ins.Length >= 2)
+            //    {
+            //        foreach (var i in ins)
+            //        {
+            //            if (!i.Name.Equals(type.Name))
+            //            {
+            //                //services.AddTransient<ITbCategoryRepository, TbCategoryRepository>();
+            //                services.TryAddTransient(i,t );
+            //            }
+
+            //        }
+            //    }
+            //    else
+            //    {
+            //        foreach (var i in ins)
+            //        {
+            //            if (!i.Name.Equals(type.Name)) continue;
+            //           // services.AddTransient<ITaskRepositoryBase<AggregateRoot>, TaskRepositoryBase<AggregateRoot, BaseModel>>();
+            //            var arg =new Type[]{ typeof(AggregateRoot),typeof(BaseModel)};                          
+            //            var tp= t.MakeGenericType(arg);                         
+            //            services.TryAddTransient(i, tp);
+            //        }
+            //    }
+            //});
+
+            //services.AddDefaultRedisCache(option =>
+            //{
+            //    option.RedisServer.Add(new HostItem() { Host = "127.0.0.1:6379" });
+            //    option.SingleMode = true;
+            //    //option.Password = "";
+            //});
+
+            //构建容器
+            var serviceProvider = services.BuildServiceProvider();
+            //ContextFactory.Init(serviceProvider);
+            return serviceProvider;
         }
     }
 }

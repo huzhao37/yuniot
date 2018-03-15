@@ -40,9 +40,7 @@ namespace Yunt.Auth.Repository.EF
             CreateMap<List<TbCategory>, List<Models.TbCategory>>();
             CreateMap<List<Models.TbCategory>, List<TbCategory>>();
 
-
-            CreateMap<IQueryable<Models.TbCategory>, IEnumerable<TbCategory>>();
-            CreateMap<IEnumerable<Models.TbCategory>, IQueryable<TbCategory>>();
+           
             //todo
         }
     }
