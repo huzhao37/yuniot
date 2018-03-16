@@ -47,6 +47,50 @@ namespace Yunt.Common
                 MoveFolderTo(Path.Combine(directorySource, dir.Name), Path.Combine(directoryTarget, dir.Name));
             }
         }
+
+        /// <summary>
+        /// 从一个目录将其内容移动到另一目录  
+        /// </summary>
+        /// <param name="directorySource">源目录</param>
+        /// <param name="directoryTarget">目标目录</param>
+        public static void CopyFolderTo(string directorySource, string directoryTarget)
+        {
+            //检查是否存在目的目录  
+            if (!Directory.Exists(directoryTarget))
+            {
+                Directory.CreateDirectory(directoryTarget);
+            }
+            //先来移动文件  
+            DirectoryInfo directoryInfo = new DirectoryInfo(directorySource);
+            FileInfo[] files = directoryInfo.GetFiles();
+            //移动所有文件  
+            foreach (FileInfo file in files)
+            {
+                //直接覆盖
+                if (File.Exists(Path.Combine(directoryTarget, file.Name)))
+                {
+                    if (File.Exists(Path.Combine(directoryTarget, file.Name)))
+                    {
+                        File.Delete(Path.Combine(directoryTarget, file.Name));
+                    }
+                    File.Copy(Path.Combine(directorySource, file.Name), Path.Combine(directoryTarget, file.Name));
+
+                }
+                else
+                {
+                    file.CopyTo(Path.Combine(directoryTarget, file.Name));
+
+                }
+       
+
+            }
+            ////最后移动目录  
+            //DirectoryInfo[] directoryInfoArray = directoryInfo.GetDirectories();
+            //foreach (DirectoryInfo dir in directoryInfoArray)
+            //{
+            //    MoveFolderTo(Path.Combine(directorySource, dir.Name), Path.Combine(directoryTarget, dir.Name));
+            //}
+        }
         /// <summary>
         /// 加载根目录下所有dll文件
         /// </summary>

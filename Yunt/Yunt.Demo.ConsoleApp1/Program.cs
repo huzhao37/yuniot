@@ -280,12 +280,15 @@ namespace Yunt.Demo.ConsoleApp1
             #region register
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json");
+                .AddJsonFile("appsettings.json", true, reloadOnChange: true);
 
             var configuration = builder.Build();
             services.AddSingleton<IConfiguration>(configuration);
 
-            var providers = StartServices(services,configuration);
+            //services.AddOptions();
+            //  services.Configure<AppSetting>(Configuration.GetSection("AppSettings"));
+
+            var providers = StartServices(services, configuration);
 
             //var authProvider=Register(services);
             //var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(authProvider);
@@ -300,32 +303,33 @@ namespace Yunt.Demo.ConsoleApp1
         /// 启动所有的服务插件
         /// </summary>
         /// <param name="services"></param>
-        public static Dictionary<string, IServiceProvider> StartServices(IServiceCollection services,IConfigurationRoot configuration)
+        public static Dictionary<string, IServiceProvider> StartServices(IServiceCollection services, IConfigurationRoot configuration)
         {
             var providers = new Dictionary<string, IServiceProvider>();
-            var path = AppDomain.CurrentDomain.BaseDirectory;
-            FileEx.MoveFolderTo(path + "commondll", path);
-
-            //FileEx.TryLoadAssembly();
-            var files = new DirectoryInfo(path).GetFiles();
-
-            foreach (var f in files)
+            try
             {
-                if (f.Name.Contains(".dll") && f.Name.Contains("Repository"))
+                var path = AppDomain.CurrentDomain.BaseDirectory;
+                FileEx.CopyFolderTo(path + "commondll", path);
+
+                //FileEx.TryLoadAssembly();
+                var files = new DirectoryInfo(path).GetFiles();
+
+                foreach (var f in files)
                 {
-                    var dll = Assembly.LoadFrom(f.FullName);
-
-                    var types = dll.GetTypes().Where(a => a.IsClass && a.Name.Equals("BootStrap"));
-
-                    types.ToList().ForEach(d =>
+                    if (f.Name.Contains(".dll") && f.Name.Contains("Repository"))
                     {
-                        var method = d.GetMethod("Start", BindingFlags.Instance | BindingFlags.Public);
+                        var dll = Assembly.LoadFrom(f.FullName);
 
-                        var method2 = d.GetMethod("ContextInit", BindingFlags.Instance | BindingFlags.Public);
-                        var obj = Activator.CreateInstance(d);
-                        try
+                        var types = dll.GetTypes().Where(a => a.IsClass && a.Name.Equals("BootStrap"));
+
+                        types.ToList().ForEach(d =>
                         {
-                            method.Invoke(obj, new object[] { services ,configuration});
+                            var method = d.GetMethod("Start", BindingFlags.Instance | BindingFlags.Public);
+
+                            var method2 = d.GetMethod("ContextInit", BindingFlags.Instance | BindingFlags.Public);
+                            var obj = Activator.CreateInstance(d);
+
+                            method.Invoke(obj, new object[] { services, configuration });
                             var serviceProvider = services.BuildServiceProvider();
                             method2.Invoke(obj, new object[] { serviceProvider });
 
@@ -335,85 +339,21 @@ namespace Yunt.Demo.ConsoleApp1
                             {
                                 providers.Add(((ServiceAttribute)attribute).Name.ToString(), serviceProvider); ;
                             }
-                        }
-                        catch (Exception ex)
-                        {
 
-                            Common.Logger.Exception(ex);
-                        }
-                        
-                    });
+                        });
 
+                    }
                 }
+
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.Exception(ex);
             }
             return providers;
 
 
         }
 
-        /// <summary>
-        /// auth初始化
-        /// </summary>
-        /// <param name="services"></param>
-        public static IServiceProvider Register(IServiceCollection services)
-        {
-            //AutoMapper.IConfigurationProvider config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.AddProfile<AutoMapperProfileConfiguration>();
-            //});
-            //services.AddSingleton(config);
-            //services.AddScoped<IMapper, Mapper>();
-
-            //services.AddAutoMapper();
-
-            //var contextOptions = new DbContextOptionsBuilder().UseMySql("server=10.1.5.25;port=3306;database=yunt_test;uid=root;pwd=unitoon2017;").Options;
-            //services.AddSingleton(contextOptions)
-            //  .AddTransient<TaskManagerContext>();
-
-            //var currentpath = AppDomain.CurrentDomain.BaseDirectory;
-            //var allTypes = Assembly.LoadFrom($"{currentpath}Yunt.Auth.Repository.EF.dll").GetTypes();
-            //var type = typeof(ITaskRepositoryBase<>);
-
-            //allTypes.Where(t =>  t.IsClass).ToList().ForEach(t =>
-            //{
-            //    var ins = t.GetInterfaces();
-            //    if (!ins.Any(e => e.Name.Equals(type.Name))) return;
-            //    if (ins.Length >= 2)
-            //    {
-            //        foreach (var i in ins)
-            //        {
-            //            if (!i.Name.Equals(type.Name))
-            //            {
-            //                //services.AddTransient<ITbCategoryRepository, TbCategoryRepository>();
-            //                services.TryAddTransient(i,t );
-            //            }
-
-            //        }
-            //    }
-            //    else
-            //    {
-            //        foreach (var i in ins)
-            //        {
-            //            if (!i.Name.Equals(type.Name)) continue;
-            //           // services.AddTransient<ITaskRepositoryBase<AggregateRoot>, TaskRepositoryBase<AggregateRoot, BaseModel>>();
-            //            var arg =new Type[]{ typeof(AggregateRoot),typeof(BaseModel)};                          
-            //            var tp= t.MakeGenericType(arg);                         
-            //            services.TryAddTransient(i, tp);
-            //        }
-            //    }
-            //});
-
-            //services.AddDefaultRedisCache(option =>
-            //{
-            //    option.RedisServer.Add(new HostItem() { Host = "127.0.0.1:6379" });
-            //    option.SingleMode = true;
-            //    //option.Password = "";
-            //});
-
-            //构建容器
-            var serviceProvider = services.BuildServiceProvider();
-            //ContextFactory.Init(serviceProvider);
-            return serviceProvider;
-        }
     }
 }
