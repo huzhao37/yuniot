@@ -5,9 +5,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="BaseModel\" />
-    <Folder Include="IRepository\" />
-    <Folder Include="Model\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

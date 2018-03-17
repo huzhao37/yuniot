@@ -69,6 +69,19 @@
           "lib/netstandard1.3/Microsoft.EntityFrameworkCore.Relational.Design.dll": {}
         }
       },
+      "Microsoft.EntityFrameworkCore.SqlServer/2.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.Relational": "2.0.1",
+          "System.Data.SqlClient": "4.4.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.EntityFrameworkCore.SqlServer.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.EntityFrameworkCore.SqlServer.dll": {}
+        }
+      },
       "Microsoft.EntityFrameworkCore.Tools/2.0.1": {
         "type": "package",
         "dependencies": {
@@ -2230,6 +2243,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
+          "Microsoft.EntityFrameworkCore": "2.0.1",
           "NewLife.Core": "6.6.6631.1417"
         },
         "compile": {
@@ -2250,6 +2264,16 @@
         },
         "runtime": {
           "bin/placeholder/Yunt.Demo.Core.dll": {}
+        }
+      },
+      "Yunt.Device.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "compile": {
+          "bin/placeholder/Yunt.Device.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Yunt.Device.Domain.dll": {}
         }
       },
       "Yunt.Redis/1.0.0": {
@@ -2397,6 +2421,17 @@
         "lib/netstandard1.3/Microsoft.EntityFrameworkCore.Relational.Design.xml",
         "microsoft.entityframeworkcore.relational.design.1.1.1.nupkg.sha512",
         "microsoft.entityframeworkcore.relational.design.nuspec"
+      ]
+    },
+    "Microsoft.EntityFrameworkCore.SqlServer/2.0.1": {
+      "sha512": "+UnKJpkVpuNWRjF3BWSzbkQLL7gxY18Hnh5uXmlagO4Ua8BstqWIJaIUV+Ps2rw/2n62UPTQQV9RQWggV7OH9Q==",
+      "type": "package",
+      "path": "microsoft.entityframeworkcore.sqlserver/2.0.1",
+      "files": [
+        "lib/netstandard2.0/Microsoft.EntityFrameworkCore.SqlServer.dll",
+        "lib/netstandard2.0/Microsoft.EntityFrameworkCore.SqlServer.xml",
+        "microsoft.entityframeworkcore.sqlserver.2.0.1.nupkg.sha512",
+        "microsoft.entityframeworkcore.sqlserver.nuspec"
       ]
     },
     "Microsoft.EntityFrameworkCore.Tools/2.0.1": {
@@ -7330,6 +7365,11 @@
       "path": "../Yunt.Demo.Core/Yunt.Demo.Core.csproj",
       "msbuildProject": "../Yunt.Demo.Core/Yunt.Demo.Core.csproj"
     },
+    "Yunt.Device.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Yunt.Device.Domain/Yunt.Device.Domain.csproj",
+      "msbuildProject": "../Yunt.Device.Domain/Yunt.Device.Domain.csproj"
+    },
     "Yunt.Redis/1.0.0": {
       "type": "project",
       "path": "../Yunt.Redis/Yunt.Redis.csproj",
@@ -7345,6 +7385,7 @@
     ".NETCoreApp,Version=v2.0": [
       "Microsoft.EntityFrameworkCore >= 2.0.1",
       "Microsoft.EntityFrameworkCore.Design >= 2.0.1",
+      "Microsoft.EntityFrameworkCore.SqlServer >= 2.0.1",
       "Microsoft.EntityFrameworkCore.Tools >= 2.0.1",
       "Microsoft.Extensions.Configuration.Json >= 2.0.1",
       "Microsoft.Extensions.Options.ConfigurationExtensions >= 2.0.1",
@@ -7354,6 +7395,7 @@
       "Quartz >= 3.0.3",
       "Yunt.Auth.Domain >= 1.0.0",
       "Yunt.Demo.Core >= 1.0.0",
+      "Yunt.Device.Domain >= 1.0.0",
       "Yunt.Redis >= 1.0.0",
       "Yunt.TaskManager.Core >= 1.0.0"
     ]
@@ -7394,6 +7436,9 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Domain\\Yunt.Device.Domain.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Domain\\Yunt.Device.Domain.csproj"
+            },
             "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.Core\\Yunt.Demo.Core.csproj": {
               "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.Core\\Yunt.Demo.Core.csproj"
             },
@@ -7423,6 +7468,10 @@
             "version": "[2.0.1, )"
           },
           "Microsoft.EntityFrameworkCore.Design": {
+            "target": "Package",
+            "version": "[2.0.1, )"
+          },
+          "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",
             "version": "[2.0.1, )"
           },

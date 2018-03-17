@@ -63,8 +63,8 @@ namespace Yunt.Auth.Repository.EF
                         {
                             if (!i.Name.Equals(type.Name))
                             {
-                            //services.AddTransient<ITbCategoryRepository, TbCategoryRepository>();
-                            services.TryAddTransient(i, t);
+                                //services.AddTransient<ITbCategoryRepository, TbCategoryRepository>();
+                                services.TryAddTransient(i, t);
                             }
 
                         }
@@ -74,8 +74,8 @@ namespace Yunt.Auth.Repository.EF
                         foreach (var i in ins)
                         {
                             if (!i.Name.Equals(type.Name)) continue;
-                        // services.AddTransient<ITaskRepositoryBase<AggregateRoot>, TaskRepositoryBase<AggregateRoot, BaseModel>>();
-                        var arg = new Type[] { typeof(AggregateRoot), typeof(BaseModel) };
+                            // services.AddTransient<ITaskRepositoryBase<AggregateRoot>, TaskRepositoryBase<AggregateRoot, BaseModel>>();
+                            var arg = new Type[] { typeof(AggregateRoot), typeof(BaseModel) };
                             var tp = t.MakeGenericType(arg);
                             services.TryAddTransient(i, tp);
                         }
@@ -86,8 +86,8 @@ namespace Yunt.Auth.Repository.EF
                 {
                     option.RedisServer.Add(new HostItem() { Host = redisConn });
                     option.SingleMode = true;
-                //option.Password = "";
-            });
+                    //option.Password = "";
+                });
             }
             catch (Exception ex)
             {

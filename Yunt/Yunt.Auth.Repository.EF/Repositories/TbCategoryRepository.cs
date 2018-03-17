@@ -17,9 +17,9 @@ namespace Yunt.Auth.Repository.EF.Repositories
     public class TbCategoryRepository :TaskRepositoryBase<TbCategory,Models.TbCategory>,ITbCategoryRepository
     {
 
-        public TbCategoryRepository(TaskManagerContext context, IMapper mapper, IRedisCachingProvider provider) : base(context,mapper, provider)
+        public TbCategoryRepository( IMapper mapper, IRedisCachingProvider provider) : base(mapper, provider)
         {
-
+            
         }
 
      

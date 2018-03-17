@@ -24,15 +24,14 @@ namespace Yunt.Auth.Repository.EF.Repositories
     public class TaskRepositoryBase<DT,ST> : ITaskRepositoryBase<DT> where DT : AggregateRoot
         where ST : BaseModel
     {
-        private readonly IRedisCachingProvider _provider;
-
+        private readonly IRedisCachingProvider _redisProvider;
         private IMapper _mapper { get; set; }
-        private readonly TaskManagerContext _context;
-        public TaskRepositoryBase(TaskManagerContext context, IMapper mapper, IRedisCachingProvider provider)
+       // private readonly TaskManagerContext _context;
+        public TaskRepositoryBase(IMapper mapper, IRedisCachingProvider redisProvider)//TaskManagerContext context, 
         {
-            _context = context;
+           // _context = context;
             _mapper = mapper;
-            _provider = provider;
+            _redisProvider = redisProvider;
         }
 
         #region Insert

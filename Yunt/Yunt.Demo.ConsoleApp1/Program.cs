@@ -14,9 +14,11 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using NewLife.Log;
 using Quartz;
 using Quartz.Impl;
+using Yunt.Auth.Domain.IRepository;
 using Yunt.Common;
-using Yunt.Demo.ConsoleApp1.Migrations;
 using Yunt.Demo.Core;
+using Yunt.Device.Domain.IRepository;
+using Yunt.Device.Domain.Model;
 using Yunt.Redis;
 using Yunt.Redis.Config;
 namespace Yunt.Demo.ConsoleApp1
@@ -291,8 +293,11 @@ namespace Yunt.Demo.ConsoleApp1
             var providers = StartServices(services, configuration);
 
             //var authProvider=Register(services);
-            //var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(authProvider);
-            //tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });
+            var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(providers["Device"]);
+            tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });
+
+            var cy = ServiceProviderServiceExtensions.GetService<IConveyorRepository>(providers["Device"]);
+            cy.Insert(new Conveyor() {Current = 0, MotorId = 1});
             #endregion
 
             Console.WriteLine("Hello World!");

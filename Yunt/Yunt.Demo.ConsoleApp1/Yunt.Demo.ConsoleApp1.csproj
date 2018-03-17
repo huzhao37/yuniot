@@ -6,6 +6,84 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="conecrusher2\**" />
+    <Compile Remove="cone\**" />
+    <Compile Remove="config\**" />
+    <Compile Remove="conveyor2\**" />
+    <Compile Remove="conveyor\**" />
+    <Compile Remove="doubletoothrollcrusher2\**" />
+    <Compile Remove="doubletoothrollcrusher\**" />
+    <Compile Remove="impactcrusher2\**" />
+    <Compile Remove="impactcrusher\**" />
+    <Compile Remove="jawcrusher2\**" />
+    <Compile Remove="jawcrusher\**" />
+    <Compile Remove="materialfeeder2\**" />
+    <Compile Remove="materialfeeder\**" />
+    <Compile Remove="Migrations\**" />
+    <Compile Remove="models\**" />
+    <Compile Remove="pulverizer2\**" />
+    <Compile Remove="reverhammercrusher2\**" />
+    <Compile Remove="reverhammercrusher\**" />
+    <Compile Remove="Services\**" />
+    <Compile Remove="simonsconecrusher2\**" />
+    <Compile Remove="simonsconecrusher\**" />
+    <Compile Remove="verticalcrusher2\**" />
+    <Compile Remove="verticalcrusher\**" />
+    <Compile Remove="vibrosieve2\**" />
+    <Compile Remove="vibrosieve\**" />
+    <EmbeddedResource Remove="conecrusher2\**" />
+    <EmbeddedResource Remove="cone\**" />
+    <EmbeddedResource Remove="config\**" />
+    <EmbeddedResource Remove="conveyor2\**" />
+    <EmbeddedResource Remove="conveyor\**" />
+    <EmbeddedResource Remove="doubletoothrollcrusher2\**" />
+    <EmbeddedResource Remove="doubletoothrollcrusher\**" />
+    <EmbeddedResource Remove="impactcrusher2\**" />
+    <EmbeddedResource Remove="impactcrusher\**" />
+    <EmbeddedResource Remove="jawcrusher2\**" />
+    <EmbeddedResource Remove="jawcrusher\**" />
+    <EmbeddedResource Remove="materialfeeder2\**" />
+    <EmbeddedResource Remove="materialfeeder\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <EmbeddedResource Remove="models\**" />
+    <EmbeddedResource Remove="pulverizer2\**" />
+    <EmbeddedResource Remove="reverhammercrusher2\**" />
+    <EmbeddedResource Remove="reverhammercrusher\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <EmbeddedResource Remove="simonsconecrusher2\**" />
+    <EmbeddedResource Remove="simonsconecrusher\**" />
+    <EmbeddedResource Remove="verticalcrusher2\**" />
+    <EmbeddedResource Remove="verticalcrusher\**" />
+    <EmbeddedResource Remove="vibrosieve2\**" />
+    <EmbeddedResource Remove="vibrosieve\**" />
+    <None Remove="conecrusher2\**" />
+    <None Remove="cone\**" />
+    <None Remove="config\**" />
+    <None Remove="conveyor2\**" />
+    <None Remove="conveyor\**" />
+    <None Remove="doubletoothrollcrusher2\**" />
+    <None Remove="doubletoothrollcrusher\**" />
+    <None Remove="impactcrusher2\**" />
+    <None Remove="impactcrusher\**" />
+    <None Remove="jawcrusher2\**" />
+    <None Remove="jawcrusher\**" />
+    <None Remove="materialfeeder2\**" />
+    <None Remove="materialfeeder\**" />
+    <None Remove="Migrations\**" />
+    <None Remove="models\**" />
+    <None Remove="pulverizer2\**" />
+    <None Remove="reverhammercrusher2\**" />
+    <None Remove="reverhammercrusher\**" />
+    <None Remove="Services\**" />
+    <None Remove="simonsconecrusher2\**" />
+    <None Remove="simonsconecrusher\**" />
+    <None Remove="verticalcrusher2\**" />
+    <None Remove="verticalcrusher\**" />
+    <None Remove="vibrosieve2\**" />
+    <None Remove="vibrosieve\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.json" />
   </ItemGroup>
 
@@ -18,6 +96,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.1" />
@@ -29,12 +108,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Yunt.Auth.Domain\Yunt.Auth.Domain.csproj" />
     <ProjectReference Include="..\Yunt.Demo.Core\Yunt.Demo.Core.csproj" />
+    <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
     <ProjectReference Include="..\Yunt.Redis\Yunt.Redis.csproj" />
     <ProjectReference Include="..\Yunt.TaskManager.Core\Yunt.TaskManager.Core.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
