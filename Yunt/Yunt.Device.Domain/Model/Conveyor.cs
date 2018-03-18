@@ -6,19 +6,19 @@ namespace Yunt.Device.Domain.Model
 {
     public partial class Conveyor : AggregateRoot
     {
-        public long MotorId { get; set; }
-        public float? Voltage { get; set; }
-        public float? PowerFactor { get; set; }
-        public float? ReactivePower { get; set; }
-        public float? TotalPower { get; set; }
-        public float? InstantWeight { get; set; }
-        public float? AccumulativeWeight { get; set; }
-        public float? Velocity { get; set; }
-        public float? Frequency { get; set; }
-        public int? Unit { get; set; }
-        public sbyte? BootFlagBit { get; set; }
-        public sbyte? ZeroCalibration { get; set; }
-        public float? Current { get; set; }
+        public string MotorId { get; set; }
+        public double Voltage { get; set; }
+        public double PowerFactor { get; set; }
+        public double ReactivePower { get; set; }
+        public double TotalPower { get; set; }
+        public double InstantWeight { get; set; }
+        public double AccumulativeWeight { get; set; }
+        public double Velocity { get; set; }
+        public double Frequency { get; set; }
+        public int Unit { get; set; }
+        public int BootFlagBit { get; set; }
+        public int ZeroCalibration { get; set; }
+        public double Current { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

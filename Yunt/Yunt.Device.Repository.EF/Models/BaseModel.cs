@@ -57,6 +57,6 @@ namespace Yunt.Device.Repository.EF.Models
         public long Id { get; set; }
         [DataMember]
         [ProtoMember(48)]
-        public DateTimeOffset? Time { get; set; }
+        public DateTimeOffset Time { get; set; }
     }
 }

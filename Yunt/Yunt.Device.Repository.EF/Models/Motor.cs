@@ -10,9 +10,12 @@ namespace Yunt.Device.Repository.EF.Models
        /// 设备ID
        /// </summary>
         [ProtoMember(19)]
-        public int MotorId { get; set; }
+        public string MotorId { get; set; }
         [ProtoMember(20)]
         public bool IsDeleted { get; set; }
+
+        [ProtoMember(21)]
+        public string ProductionLineId { get; set; }
         [ProtoMember(1)]
         public string Name { get; set; }
         [ProtoMember(2)]
@@ -26,7 +29,7 @@ namespace Yunt.Device.Repository.EF.Models
         [ProtoMember(6)]
         public int Status { get; set; }
         [ProtoMember(8)]
-        public int MotorTypeId { get; set; }
+        public string MotorTypeId { get; set; }
         [ProtoMember(9)]
         public double Capicity { get; set; }
         [ProtoMember(10)]
@@ -47,5 +50,7 @@ namespace Yunt.Device.Repository.EF.Models
         public bool IsOutConveyor { get; set; }
         [ProtoMember(18)]
         public int EmbeddedDeviceId { get; set; }
+
+
     }
 }

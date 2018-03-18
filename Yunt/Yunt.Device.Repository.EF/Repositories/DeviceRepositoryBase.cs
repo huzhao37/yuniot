@@ -21,17 +21,18 @@ using Yunt.Redis;
 
 namespace Yunt.Device.Repository.EF.Repositories
 {
-    public class DeviceRepositoryBase<DT,ST> : IDeviceRepositoryBase<DT> where DT : AggregateRoot
+    public class DeviceRepositoryBase<DT, ST> : IDeviceRepositoryBase<DT> where DT : AggregateRoot
         where ST : BaseModel
     {
-        private readonly IRedisCachingProvider _redisProvider;
-        private IMapper _mapper { get; set; }
-       // private readonly TaskManagerContext _context;
+        protected readonly IRedisCachingProvider RedisProvider;
+        protected IMapper Mapper { get; set; }
+        // private readonly TaskManagerContext _context;
+        //  public IDeviceRepositoryBase<DT> Rep { get; }
         public DeviceRepositoryBase(IMapper mapper, IRedisCachingProvider redisProvider)//TaskManagerContext context, 
         {
-           // _context = context;
-            _mapper = mapper;
-            _redisProvider = redisProvider;
+            // _context = context;
+            Mapper = mapper;
+            RedisProvider = redisProvider;
         }
 
         #region Insert
@@ -39,12 +40,12 @@ namespace Yunt.Device.Repository.EF.Repositories
         {
             //_provider.DB = 0;
             //_provider.Set("t1", "t",DataType.Protobuf);
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Add(_mapper.Map<ST>(t));
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Add(Mapper.Map<ST>(t));
             return Commit();
         }
         public virtual async Task InsertAsync(DT t)
         {
-            await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().AddAsync(_mapper.Map<ST>(t));
+            await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().AddAsync(Mapper.Map<ST>(t));
             await CommitAsync();
         }
         public virtual int Insert(IEnumerable<DT> ts)
@@ -53,7 +54,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             //{
             try
             {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().AddRange(_mapper.Map<IEnumerable<ST>>(ts));
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().AddRange(Mapper.Map<IEnumerable<ST>>(ts));
                 return Commit();
 
                 // Commit transaction if all commands succeed, transaction will auto-rollback
@@ -72,7 +73,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             //{
             try
             {
-                await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().AddRangeAsync(_mapper.Map<IEnumerable<ST>>(ts));
+                await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().AddRangeAsync(Mapper.Map<IEnumerable<ST>>(ts));
                 await CommitAsync();
                 //await _safecontext.SaveChangesAsync();
                 //Commit();
@@ -99,18 +100,18 @@ namespace Yunt.Device.Repository.EF.Repositories
         public virtual async Task DeleteEntityAsync(int id)
         {
             var t = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().FindAsync(id);
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Remove(_mapper.Map<ST>(t));
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Remove(Mapper.Map<ST>(t));
             await CommitAsync();
         }
         public virtual int DeleteEntity(DT t)
         {
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Remove(_mapper.Map<ST>(t));
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Remove(Mapper.Map<ST>(t));
             return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).SaveChanges();
         }
 
         public virtual async Task DeleteEntityAsync(DT t)
         {
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Remove(_mapper.Map<ST>(t));
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Remove(Mapper.Map<ST>(t));
             await CommitAsync();
         }
 
@@ -121,7 +122,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 try
                 {
-                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().RemoveRange(_mapper.Map<IEnumerable<ST>>(ts));
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().RemoveRange(Mapper.Map<IEnumerable<ST>>(ts));
                     results = Commit();
 
                     // Commit transaction if all commands succeed, transaction will auto-rollback
@@ -142,7 +143,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 try
                 {
-                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().RemoveRange(_mapper.Map<IEnumerable<ST>>(ts));
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().RemoveRange(Mapper.Map<IEnumerable<ST>>(ts));
                     await CommitAsync();
                     // Commit transaction if all commands succeed, transaction will auto-rollback
                     // when disposed if either commands fails
@@ -161,7 +162,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             Expression<Func<ST, bool>> wheres;
             if (where != null)
             {
-                wheres = _mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
+                wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
                 ts = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres);
             }
             else
@@ -175,7 +176,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 {
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId)
                         .Set<ST>()
-                        .RemoveRange(_mapper.Map<IEnumerable<ST>>(ts));
+                        .RemoveRange(Mapper.Map<IEnumerable<ST>>(ts));
                     results = Commit();
 
                     // Commit transaction if all commands succeed, transaction will auto-rollback
@@ -196,7 +197,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             IQueryable<ST> ts;
             if (where != null)
             {
-                var wheres = _mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(@where);
+                var wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(@where);
                 ts = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres);
             }
             else
@@ -208,8 +209,8 @@ namespace Yunt.Device.Repository.EF.Repositories
                 {
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId)
                         .Set<ST>()
-                        .RemoveRange(_mapper.Map<IEnumerable<ST>>(ts));
-                   await  CommitAsync();
+                        .RemoveRange(Mapper.Map<IEnumerable<ST>>(ts));
+                    await CommitAsync();
                 }
                 catch (Exception ex)
                 {
@@ -223,14 +224,15 @@ namespace Yunt.Device.Repository.EF.Repositories
         //注意闭包效率，参数应设置成作用域变量，可重复利用sql查询计划
         public virtual IQueryable<DT> GetEntities(Expression<Func<DT, bool>> where = null, Expression<Func<DT, object>> order = null)
         {
+
             Expression<Func<ST, bool>> wheres;
             Expression<Func<ST, object>> orderby;
-            IQueryable<DT> sql=null;
-            if (where != null&& order != null)
+            IQueryable<DT> sql = null;
+            if (where != null && order != null)
             {
-                wheres = _mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
-                orderby = _mapper.MapExpression<Expression<Func<DT, object>>, Expression<Func<ST, object>>>(order);
-                sql= ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().OrderBy(orderby).Where(wheres).ProjectTo<DT>(_mapper);
+                wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
+                orderby = Mapper.MapExpression<Expression<Func<DT, object>>, Expression<Func<ST, object>>>(order);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().OrderBy(orderby).Where(wheres).ProjectTo<DT>(Mapper);
 #if DEBUG
                 Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
                 Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
@@ -240,8 +242,8 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             if (order != null)
             {
-                orderby = _mapper.MapExpression<Expression<Func<DT, object>>, Expression<Func<ST, object>>>(order);
-                sql= ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().OrderBy(orderby).ProjectTo<DT>(_mapper);
+                orderby = Mapper.MapExpression<Expression<Func<DT, object>>, Expression<Func<ST, object>>>(order);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().OrderBy(orderby).ProjectTo<DT>(Mapper);
 #if DEBUG
                 Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
                 Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
@@ -250,26 +252,28 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
             if (where != null)
             {
-                wheres = _mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
-                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).ProjectTo<DT>(_mapper);
+                wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).ProjectTo<DT>(Mapper);
 #if DEBUG
-                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
-                Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+                //Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+               // Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
 #endif
                 return sql;
             }
-            sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().ProjectTo<DT>(_mapper);
+            sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().ProjectTo<DT>(Mapper);
 #if DEBUG
             Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
             Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
 #endif
-            return  sql;
+            return sql;
+
+
         }
 
-        public virtual IQueryable<IGrouping<object, DT>> GetEntities( object paramter)
+        public virtual IQueryable<IGrouping<object, DT>> GetEntities(object paramter)
         {
-            var sql=new RawSqlString($"select {paramter} from dbo.{typeof(ST).Name} group by {paramter}");
-            var query = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().FromSql(sql).ProjectTo<DT>(_mapper);
+            var sql = new RawSqlString($"select {paramter} from dbo.{typeof(ST).Name} group by {paramter}");
+            var query = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().FromSql(sql).ProjectTo<DT>(Mapper);
 #if DEBUG
             Logger.Info($"translate sql:{query.ToSql()} \n untranslate sql:");
             Logger.Info(string.Join(Environment.NewLine, query.ToUnevaluated()));
@@ -286,7 +290,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         {
             try
             {
-                var query = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().FromSql(sql, paramterss).ProjectTo<DT>(_mapper);
+                var query = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().FromSql(sql, paramterss).ProjectTo<DT>(Mapper);
 #if DEBUG
                 Logger.Info($"translate sql:{query.ToSql()} \n untranslate sql:");
                 Logger.Info(string.Join(Environment.NewLine, query.ToUnevaluated()));
@@ -299,14 +303,14 @@ namespace Yunt.Device.Repository.EF.Repositories
                 //throw;
                 return null;
             }
-    
+
         }
         public virtual DT GetEntityById(int id)
         {
             //return _context.Set<T>().SingleOrDefault(e => e.Id == id);
             return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Find<ST>(id).MapTo<DT>();
         }
-   
+
 
         #endregion
 
@@ -315,7 +319,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public virtual int UpdateEntity(DT t)
         {
 
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Update(_mapper.Map<ST>(t));
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Update(Mapper.Map<ST>(t));
             return Commit();
         }
 
@@ -326,7 +330,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 try
                 {
-                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().UpdateRange(_mapper.Map<IEnumerable<ST>>(ts));
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().UpdateRange(Mapper.Map<IEnumerable<ST>>(ts));
                     results = Commit();
 
                     // Commit transaction if all commands succeed, transaction will auto-rollback
@@ -348,11 +352,11 @@ namespace Yunt.Device.Repository.EF.Repositories
             var existing = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Find(t.Id);
             if (existing == null)
             {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Add(_mapper.Map<ST>(t));
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Add(Mapper.Map<ST>(t));
             }
             else
             {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(_mapper.Map<ST>(t));
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<ST>(t));
             }
 
             Commit();
@@ -360,7 +364,7 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         public virtual async Task UpdateEntityAsync(DT t)
         {
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Update(_mapper.Map<ST>(t));
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Update(Mapper.Map<ST>(t));
             await CommitAsync();
         }
 
@@ -370,7 +374,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 try
                 {
-                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().UpdateRange(_mapper.Map<IEnumerable<ST>>(ts));
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().UpdateRange(Mapper.Map<IEnumerable<ST>>(ts));
                     await CommitAsync();
 
                     // Commit transaction if all commands succeed, transaction will auto-rollback
@@ -390,11 +394,11 @@ namespace Yunt.Device.Repository.EF.Repositories
             var existing = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<DT>().FindAsync(t.Id);
             if (existing == null)
             {
-                await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).AddAsync(_mapper.Map<ST>(t));
+                await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).AddAsync(Mapper.Map<ST>(t));
             }
             else
             {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(_mapper.Map<ST>(t));
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<ST>(t));
             }
 
             await CommitAsync();
@@ -403,7 +407,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         #endregion
 
         #region private commit 
-        private static async Task CommitAsync()
+        protected static async Task CommitAsync()
         {
             try
             {
@@ -415,7 +419,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 Logger.Exception(e, "可接受范围内的异常");
             }
         }
-        private static int Commit()
+        protected static int Commit()
         {
             try
             {

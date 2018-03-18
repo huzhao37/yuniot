@@ -7,7 +7,7 @@ namespace Yunt.Device.Domain.Model
     public partial class Vibrosieve : AggregateRoot
     {
         public bool IsDeleted { get; set; }
-        public long MotorId { get; set; }
+        public string MotorId { get; set; }
         public float? Current { get; set; }
         public float? Voltage { get; set; }
         public float? PowerFactor { get; set; }

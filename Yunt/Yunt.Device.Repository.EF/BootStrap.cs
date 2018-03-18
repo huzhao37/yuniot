@@ -16,12 +16,14 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Yunt.Redis;
 using Yunt.Common;
 using Microsoft.Extensions.Configuration;
+using Yunt.Device.Domain.Model.IdModel;
 
 namespace Yunt.Device.Repository.EF
 {
     [Service(ServiceType.Device)]
     public class BootStrap //: IBootStrap
     {
+        internal static IServiceProvider ServiceProvider;
         public void Start(IServiceCollection services, IConfigurationRoot configuration)
         {
             try
@@ -32,14 +34,14 @@ namespace Yunt.Device.Repository.EF
                          });
                 services.AddSingleton(config);
                 services.AddScoped<IMapper, Mapper>();
-
-               // services.AddAutoMapper();
+                // services.AddAutoMapper();
 
                 var redisConn = configuration.GetSection("AppSettings").GetSection("Device").GetValue<string>("RedisConn");
                 var mySqlConn = configuration.GetSection("AppSettings").GetSection("Device").GetValue<string>("MySqlConn");
 
                 if (redisConn.IsNullOrWhiteSpace() || mySqlConn.IsNullOrWhiteSpace())
                 {
+                   //todo 可写入初始配置
                     Logger.Error($"[Device]:appsettings not entirely!");
                     Logger.Error($"please write Device service's settings into appsettings! \n exp：\"Device\":{{\"RedisConn\":\"***\"," +
                         $"\"MySqlConn\":\"***\"}}");
@@ -52,7 +54,7 @@ namespace Yunt.Device.Repository.EF
                 var currentpath = AppDomain.CurrentDomain.BaseDirectory;
                 var allTypes = Assembly.LoadFrom($"{currentpath}{ MethodBase.GetCurrentMethod().DeclaringType.Namespace}.dll").GetTypes();
                 var type = typeof(IDeviceRepositoryBase<>);
-
+             
                 allTypes.Where(t => t.IsClass).ToList().ForEach(t =>
                 {
                     var ins = t.GetInterfaces();
@@ -74,7 +76,7 @@ namespace Yunt.Device.Repository.EF
                         foreach (var i in ins)
                         {
                             if (!i.Name.Equals(type.Name)) continue;
-                            // services.AddTransient<ITaskRepositoryBase<AggregateRoot>, TaskRepositoryBase<AggregateRoot, BaseModel>>();
+                            //services.AddTransient<IDeviceRepositoryBase<AggregateRoot>, DeviceRepositoryBase<AggregateRoot, BaseModel>>();
                             var arg = new Type[] { typeof(AggregateRoot), typeof(BaseModel) };
                             var tp = t.MakeGenericType(arg);
                             services.TryAddTransient(i, tp);
@@ -95,7 +97,6 @@ namespace Yunt.Device.Repository.EF
                 Logger.Exception(ex);
             }
 
-
         }
         /// <summary>
         /// 数据库上下文池初始化
@@ -103,6 +104,7 @@ namespace Yunt.Device.Repository.EF
         /// <param name="serviceProvider"></param>
         public void ContextInit(IServiceProvider serviceProvider)
         {
+            ServiceProvider = serviceProvider;
             ContextFactory.Init(serviceProvider);
         }
     }

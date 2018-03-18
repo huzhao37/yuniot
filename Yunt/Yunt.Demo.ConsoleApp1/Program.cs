@@ -28,6 +28,7 @@ namespace Yunt.Demo.ConsoleApp1
 
         static void Main(string[] args)
         {
+
             XTrace.UseConsole(true, false);
 
             #region test
@@ -290,14 +291,30 @@ namespace Yunt.Demo.ConsoleApp1
             //services.AddOptions();
             //  services.Configure<AppSetting>(Configuration.GetSection("AppSettings"));
 
-            var providers = StartServices(services, configuration);
+            var providers =ServiceEx.StartServices(services, configuration);
 
             //var authProvider=Register(services);
-            var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(providers["Device"]);
-            tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });
+           // var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(providers["Device"]);
+            //tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });
 
-            var cy = ServiceProviderServiceExtensions.GetService<IConveyorRepository>(providers["Device"]);
-            cy.Insert(new Conveyor() {Current = 0, MotorId = 1});
+           // var x2 = tbService.GetEntities();
+           var cy= ServiceProviderServiceExtensions.GetService<IConveyorRepository>(providers["Device"]);
+            var m = ServiceProviderServiceExtensions.GetService<IMotorRepository>(providers["Device"]);
+            
+            try
+            {
+                m.Insert(new Motor() { MotorTypeId = "CY", ProductionLineId = "WDD-P000001" });
+                //cy.Insert(new Conveyor() {Current = 8, MotorId = "1"});
+                //var x = cy.GetEntities();
+
+                var x = m.GetEntities();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+           
             #endregion
 
             Console.WriteLine("Hello World!");

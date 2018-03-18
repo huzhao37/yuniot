@@ -22,7 +22,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             lock (Objlock)
             {
                 if (ContextDic.ContainsKey(threadId)) return (DeviceContext) ContextDic[threadId];
-                ContextDic[threadId] = (DeviceContext)ServiceProvider.GetService(typeof(DeviceContext));
+                ContextDic[threadId] = ServiceProvider.GetService(typeof(DeviceContext));//第一次缓存的时候速度会慢很多，之后速度就上去了
 #if DEBUG
                 Console.WriteLine($"current threadid is :{threadId}");
 #endif

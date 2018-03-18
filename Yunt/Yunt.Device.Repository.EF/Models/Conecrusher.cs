@@ -19,7 +19,7 @@ namespace Yunt.Device.Repository.EF.Models
         /// 设备ID
         /// </summary>
         [ProtoMember(1)]
-        public int MotorId { get; set; }
+        public string MotorId { get; set; }
         [ProtoMember(12)]
         public bool IsDeleted { get; set; }
 

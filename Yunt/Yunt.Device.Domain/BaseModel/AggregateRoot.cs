@@ -11,6 +11,6 @@ namespace Yunt.Device.Domain.BaseModel
     {
         public long Id { get; set; }
 
-        public DateTimeOffset? Time { get; set; }
+        public DateTimeOffset Time { get; set; }
     }
 }

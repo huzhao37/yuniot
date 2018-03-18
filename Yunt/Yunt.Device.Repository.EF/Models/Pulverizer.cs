@@ -21,7 +21,7 @@ namespace Yunt.Device.Repository.EF.Models
         /// 设备ID
         /// </summary>
         [ProtoMember(5)]
-        public int MotorId { get; set; }
+        public string MotorId { get; set; }
         [ProtoMember(6)]
         public bool IsDeleted { get; set; }
         /// <summary>
@@ -58,6 +58,6 @@ namespace Yunt.Device.Repository.EF.Models
         //[ProtoMember(5)]
         //public DateTimeOffset Time { get; set; }
         //[ProtoMember(6)]
-        //public int MotorId { get; set; }
+        //public string MotorId { get; set; }
     }
 }
