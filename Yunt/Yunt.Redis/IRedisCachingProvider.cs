@@ -217,6 +217,8 @@ namespace Yunt.Redis
         /// <returns></returns>
         List<T> HashGetAllValues<T>(string key, DataType type);
 
+        IEnumerable<T> HashGetAllValues2<T>(string key, DataType type);
+
         /// <summary>
         ///     返回哈希表key中的所有值（key-List<T>）
         /// </summary>

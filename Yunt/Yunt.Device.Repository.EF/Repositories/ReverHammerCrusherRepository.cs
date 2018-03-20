@@ -18,39 +18,39 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Yunt.Device.Repository.EF.Repositories
 {
-    public class ConveyorRepository : DeviceRepositoryBase<Conveyor, Models.Conveyor>, IConveyorRepository
+    public class ReverHammerCrusherRepository : DeviceRepositoryBase<ReverHammerCrusher, Models.ReverHammerCrusher>, IReverHammerCrusherRepository
     {
 
-        public ConveyorRepository( IMapper mapper, IRedisCachingProvider provider) : base(mapper, provider)
+        public ReverHammerCrusherRepository( IMapper mapper, IRedisCachingProvider provider) : base(mapper, provider)
         {
             
         }
 
 
         #region Insert
-        public override int Insert(Conveyor t)
+        public override int Insert(ReverHammerCrusher t)
         {
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().Add(Mapper.Map<Models.Conveyor>(t));
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Add(Mapper.Map<Models.ReverHammerCrusher>(t));
             Commit();
             //redis缓存，暂定2h
             RedisProvider.DB = 16;
             return RedisProvider.Sadd(t.MotorId, t, DataType.Protobuf);
         }
-        public override async Task InsertAsync(Conveyor t)
+        public override async Task InsertAsync(ReverHammerCrusher t)
         {
             RedisProvider.DB = 16;
             RedisProvider.Sadd(t.MotorId, t, DataType.Protobuf);
 
-            await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().AddAsync(Mapper.Map<Models.Conveyor>(t));
+            await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().AddAsync(Mapper.Map<Models.ReverHammerCrusher>(t));
             await CommitAsync();
         }
-        public override int Insert(IEnumerable<Conveyor> ts)
+        public override int Insert(IEnumerable<ReverHammerCrusher> ts)
         {
             try
             {
                        
 
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().AddRange(Mapper.Map<IEnumerable<Models.Conveyor>>(ts));
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().AddRange(Mapper.Map<IEnumerable<Models.ReverHammerCrusher>>(ts));
                 var result=Commit();
 
                  RedisProvider.DB = 16;
@@ -64,13 +64,13 @@ namespace Yunt.Device.Repository.EF.Repositories
                 return 0;
             }
         }
-        public override async Task InsertAsync(IEnumerable<Conveyor> ts)
+        public override async Task InsertAsync(IEnumerable<ReverHammerCrusher> ts)
         {
 
             try
             {             
 
-                await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().AddRangeAsync(Mapper.Map<IEnumerable<Models.Conveyor>>(ts));
+                await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().AddRangeAsync(Mapper.Map<IEnumerable<Models.ReverHammerCrusher>>(ts));
                 await CommitAsync();
 
                 RedisProvider.DB = 16;
@@ -90,43 +90,43 @@ namespace Yunt.Device.Repository.EF.Repositories
         public override int DeleteEntity(int id)
         {
           
-            var t = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().Find(id);
+            var t = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Find(id);
 
             RedisProvider.DB = 16;
             RedisProvider.Srem(t.MotorId, t, DataType.Protobuf);
 
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().Remove(t);
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Remove(t);
             return Commit();
         }
         public override async Task DeleteEntityAsync(int id)
         {
-            var t = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().FindAsync(id);
+            var t = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().FindAsync(id);
 
             RedisProvider.DB = 16;
             RedisProvider.Srem(t.MotorId, t, DataType.Protobuf);
 
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().Remove(Mapper.Map<Models.Conveyor>(t));
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Remove(Mapper.Map<Models.ReverHammerCrusher>(t));
             await CommitAsync();
         }
-        public override int DeleteEntity(Conveyor t)
+        public override int DeleteEntity(ReverHammerCrusher t)
         {
             RedisProvider.DB = 16;
             RedisProvider.Srem(t.MotorId, t, DataType.Protobuf);
 
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().Remove(Mapper.Map<Models.Conveyor>(t));
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Remove(Mapper.Map<Models.ReverHammerCrusher>(t));
             return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).SaveChanges();
         }
 
-        public override async Task DeleteEntityAsync(Conveyor t)
+        public override async Task DeleteEntityAsync(ReverHammerCrusher t)
         {
             RedisProvider.DB = 16;
             RedisProvider.Srem(t.MotorId, t, DataType.Protobuf);
 
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().Remove(Mapper.Map<Models.Conveyor>(t));
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Remove(Mapper.Map<Models.ReverHammerCrusher>(t));
             await CommitAsync();
         }
 
-        public override int DeleteEntity(IEnumerable<Conveyor> ts)
+        public override int DeleteEntity(IEnumerable<ReverHammerCrusher> ts)
         {
             int results;
 
@@ -136,7 +136,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 RedisProvider.Srem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
         
 
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().RemoveRange(Mapper.Map<IEnumerable<Models.Conveyor>>(ts));
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().RemoveRange(Mapper.Map<IEnumerable<Models.ReverHammerCrusher>>(ts));
                 results = Commit();
 
                 // Commit transaction if all commands succeed, transaction will auto-rollback
@@ -151,7 +151,7 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             return results;
         }
-        public override async Task DeleteEntityAsync(IEnumerable<Conveyor> ts)
+        public override async Task DeleteEntityAsync(IEnumerable<ReverHammerCrusher> ts)
         {
             //using (var transaction = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Database.BeginTransactionAsync())
             {
@@ -160,7 +160,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                     RedisProvider.DB = 16;
                     RedisProvider.Srem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
 
-                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().RemoveRange(Mapper.Map<IEnumerable<Models.Conveyor>>(ts));
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().RemoveRange(Mapper.Map<IEnumerable<Models.ReverHammerCrusher>>(ts));
                     await CommitAsync();
 
                 }
@@ -171,17 +171,17 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
         }
 
-        public override int DeleteEntity(Expression<Func<Conveyor, bool>> where = null)
+        public override int DeleteEntity(Expression<Func<ReverHammerCrusher, bool>> where = null)
         {
-            IQueryable<Models.Conveyor> ts;
+            IQueryable<Models.ReverHammerCrusher> ts;
             if (where != null)
             {
-                var wheres = Mapper.MapExpression<Expression<Func<Conveyor, bool>>, Expression<Func<Models.Conveyor, bool>>>(@where);
-                ts = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().Where(wheres);
+                var wheres = Mapper.MapExpression<Expression<Func<ReverHammerCrusher, bool>>, Expression<Func<Models.ReverHammerCrusher, bool>>>(@where);
+                ts = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Where(wheres);
             }
             else
             {
-                ts = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>();
+                ts = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>();
             }
             int results;
             // using (var transaction = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Database.BeginTransaction())
@@ -193,8 +193,8 @@ namespace Yunt.Device.Repository.EF.Repositories
                     RedisProvider.Srem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId)
-                        .Set<Models.Conveyor>()
-                        .RemoveRange(Mapper.Map<IEnumerable<Models.Conveyor>>(ts));
+                        .Set<Models.ReverHammerCrusher>()
+                        .RemoveRange(Mapper.Map<IEnumerable<Models.ReverHammerCrusher>>(ts));
                     results = Commit();
                 }
                 catch (Exception ex)
@@ -206,17 +206,17 @@ namespace Yunt.Device.Repository.EF.Repositories
             return results;
         }
 
-        public override async Task DeleteEntityAsync(Expression<Func<Conveyor, bool>> where = null)
+        public override async Task DeleteEntityAsync(Expression<Func<ReverHammerCrusher, bool>> where = null)
         {
-            IQueryable<Models.Conveyor> ts;
+            IQueryable<Models.ReverHammerCrusher> ts;
             if (where != null)
             {
-                var wheres = Mapper.MapExpression<Expression<Func<Conveyor, bool>>, Expression<Func<Models.Conveyor, bool>>>(@where);
-                ts = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().Where(wheres);
+                var wheres = Mapper.MapExpression<Expression<Func<ReverHammerCrusher, bool>>, Expression<Func<Models.ReverHammerCrusher, bool>>>(@where);
+                ts = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Where(wheres);
             }
             else
             {
-                ts = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>();
+                ts = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>();
             }
             {
                 try
@@ -225,8 +225,8 @@ namespace Yunt.Device.Repository.EF.Repositories
                     RedisProvider.Srem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId)
-                        .Set<Models.Conveyor>()
-                        .RemoveRange(Mapper.Map<IEnumerable<Models.Conveyor>>(ts));
+                        .Set<Models.ReverHammerCrusher>()
+                        .RemoveRange(Mapper.Map<IEnumerable<Models.ReverHammerCrusher>>(ts));
                     await CommitAsync();
                 }
                 catch (Exception ex)
@@ -239,24 +239,24 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         #region update
 
-        public override int UpdateEntity(Conveyor t)
+        public override int UpdateEntity(ReverHammerCrusher t)
         {
-            Logger.Warn("[Conveyor]:forbiden update!");
+            Logger.Warn("[ReverHammerCrusher]:forbiden update!");
             return 0;
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().Update(Mapper.Map<Models.Conveyor>(t));
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Update(Mapper.Map<Models.ReverHammerCrusher>(t));
             return Commit();
         }
 
-        public override int UpdateEntity(IEnumerable<Conveyor> ts)
+        public override int UpdateEntity(IEnumerable<ReverHammerCrusher> ts)
         {
-            Logger.Warn("[Conveyor]:forbiden update!");
+            Logger.Warn("[ReverHammerCrusher]:forbiden update!");
             return 0;
             var results = 0;
             //using (var transaction = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Database.BeginTransaction())
             {
                 try
                 {
-                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().UpdateRange(Mapper.Map<IEnumerable<Models.Conveyor>>(ts));
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().UpdateRange(Mapper.Map<IEnumerable<Models.ReverHammerCrusher>>(ts));
                     results = Commit();
 
                     // Commit transaction if all commands succeed, transaction will auto-rollback
@@ -273,40 +273,40 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         }
 
-        public override void InsertOrUpdate(Conveyor t)
+        public override void InsertOrUpdate(ReverHammerCrusher t)
         {
-            Logger.Warn("[Conveyor]:forbiden update!");
+            Logger.Warn("[ReverHammerCrusher]:forbiden update!");
             return;
-            var existing = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().Find(t.Id);
+            var existing = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Find(t.Id);
             if (existing == null)
             {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Add(Mapper.Map<Models.Conveyor>(t));
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Add(Mapper.Map<Models.ReverHammerCrusher>(t));
             }
             else
             {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<Models.Conveyor>(t));
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<Models.ReverHammerCrusher>(t));
             }
 
             Commit();
         }
 
-        public override async Task UpdateEntityAsync(Conveyor t)
+        public override async Task UpdateEntityAsync(ReverHammerCrusher t)
         {
-            Logger.Warn("[Conveyor]:forbiden update!");
+            Logger.Warn("[ReverHammerCrusher]:forbiden update!");
             return;
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().Update(Mapper.Map<Models.Conveyor>(t));
+            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Update(Mapper.Map<Models.ReverHammerCrusher>(t));
             await CommitAsync();
         }
 
-        public override async Task UpdateEntityAsync(IEnumerable<Conveyor> ts)
+        public override async Task UpdateEntityAsync(IEnumerable<ReverHammerCrusher> ts)
         {
-            Logger.Warn("[Conveyor]:forbiden update!");
+            Logger.Warn("[ReverHammerCrusher]:forbiden update!");
             return;
             //using (var transaction =await  ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Database.BeginTransactionAsync())
             {
                 try
                 {
-                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().UpdateRange(Mapper.Map<IEnumerable<Models.Conveyor>>(ts));
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().UpdateRange(Mapper.Map<IEnumerable<Models.ReverHammerCrusher>>(ts));
                     await CommitAsync();
 
                     // Commit transaction if all commands succeed, transaction will auto-rollback
@@ -321,18 +321,18 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         }
 
-        public override async Task InsertOrUpdateAsync(Conveyor t)
+        public override async Task InsertOrUpdateAsync(ReverHammerCrusher t)
         {
-            Logger.Warn("[Conveyor]:forbiden update!");
+            Logger.Warn("[ReverHammerCrusher]:forbiden update!");
             return;
-            var existing = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Conveyor>().FindAsync(t.Id);
+            var existing = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ReverHammerCrusher>().FindAsync(t.Id);
             if (existing == null)
             {
-                await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).AddAsync(Mapper.Map<Models.Conveyor>(t));
+                await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).AddAsync(Mapper.Map<Models.ReverHammerCrusher>(t));
             }
             else
             {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<Models.Conveyor>(t));
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<Models.ReverHammerCrusher>(t));
             }
 
             await CommitAsync();
@@ -343,10 +343,10 @@ namespace Yunt.Device.Repository.EF.Repositories
         #region query
         //注意闭包效率，参数应设置成作用域变量，可重复利用sql查询计划
         [Obsolete]
-        public new IQueryable<Conveyor> GetEntities(Expression<Func<Conveyor, bool>> where = null, Expression<Func<Conveyor, object>> order = null)
+        public new IQueryable<ReverHammerCrusher> GetEntities(Expression<Func<ReverHammerCrusher, bool>> where = null, Expression<Func<ReverHammerCrusher, object>> order = null)
         {
-            Logger.Error("[Conveyor]:forbidden use!");
-            return new List<Conveyor>().AsQueryable();
+            Logger.Error("[ReverHammerCrusher]:forbidden use!");
+            return new List<ReverHammerCrusher>().AsQueryable();
         }
 
 
@@ -361,26 +361,26 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <param name="where"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        public virtual IQueryable<Conveyor> GetEntities(bool isExceed = false,Expression < Func<Conveyor, bool>> where = null, Expression<Func<Conveyor, object>> order = null)
+        public virtual IQueryable<ReverHammerCrusher> GetEntities(bool isExceed = false,Expression < Func<ReverHammerCrusher, bool>> where = null, Expression<Func<ReverHammerCrusher, object>> order = null)
         {
 
 
-            Expression<Func<Models.Conveyor, bool>> wheres;
-            Expression<Func<Models.Conveyor, object>> orderby;
-            IQueryable<Conveyor> sql = null;
+            Expression<Func<Models.ReverHammerCrusher, bool>> wheres;
+            Expression<Func<Models.ReverHammerCrusher, object>> orderby;
+            IQueryable<ReverHammerCrusher> sql = null;
             if (where != null && order != null)
             {
                 if (!isExceed)
                 {
                     RedisProvider.DB = 16;
-                    return RedisProvider.HashGetAllValues<Conveyor>("Conveyor", DataType.Protobuf).Where(where.Compile())
+                    return RedisProvider.HashGetAllValues<ReverHammerCrusher>("ReverHammerCrusher", DataType.Protobuf).Where(where.Compile())
                         .OrderBy(order.Compile()).AsQueryable();
                 }
 
-                wheres = Mapper.MapExpression<Expression<Func<Conveyor, bool>>, Expression<Func<Models.Conveyor, bool>>>(where);
-                orderby = Mapper.MapExpression<Expression<Func<Conveyor, object>>, Expression<Func<Models.Conveyor, object>>>(order);
+                wheres = Mapper.MapExpression<Expression<Func<ReverHammerCrusher, bool>>, Expression<Func<Models.ReverHammerCrusher, bool>>>(where);
+                orderby = Mapper.MapExpression<Expression<Func<ReverHammerCrusher, object>>, Expression<Func<Models.ReverHammerCrusher, object>>>(order);
                 
-                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().OrderBy(orderby).Where(wheres).ProjectTo<Conveyor>(Mapper);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().OrderBy(orderby).Where(wheres).ProjectTo<ReverHammerCrusher>(Mapper);
 #if DEBUG
                 Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
                 Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
@@ -393,10 +393,10 @@ namespace Yunt.Device.Repository.EF.Repositories
                 if (!isExceed)
                 {
                     RedisProvider.DB = 16;
-                    return RedisProvider.HashGetAllValues<Conveyor>("Conveyor", DataType.Protobuf).OrderBy(order.Compile()).AsQueryable();
+                    return RedisProvider.HashGetAllValues<ReverHammerCrusher>("ReverHammerCrusher", DataType.Protobuf).OrderBy(order.Compile()).AsQueryable();
                 }
-                orderby = Mapper.MapExpression<Expression<Func<Conveyor, object>>, Expression<Func<Models.Conveyor, object>>>(order);
-                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().OrderBy(orderby).ProjectTo<Conveyor>(Mapper);
+                orderby = Mapper.MapExpression<Expression<Func<ReverHammerCrusher, object>>, Expression<Func<Models.ReverHammerCrusher, object>>>(order);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().OrderBy(orderby).ProjectTo<ReverHammerCrusher>(Mapper);
 #if DEBUG
                 Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
                 Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
@@ -408,11 +408,11 @@ namespace Yunt.Device.Repository.EF.Repositories
                 if (!isExceed)
                 {
                     RedisProvider.DB = 16;
-                    return RedisProvider.HashGetAllValues<Conveyor>("Conveyor", DataType.Protobuf).Where(where.Compile()).AsQueryable();
+                    return RedisProvider.HashGetAllValues<ReverHammerCrusher>("ReverHammerCrusher", DataType.Protobuf).Where(where.Compile()).AsQueryable();
                 }
 
-                wheres = Mapper.MapExpression<Expression<Func<Conveyor, bool>>, Expression<Func<Models.Conveyor, bool>>>(where);
-                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().Where(wheres).ProjectTo<Conveyor>(Mapper);
+                wheres = Mapper.MapExpression<Expression<Func<ReverHammerCrusher, bool>>, Expression<Func<Models.ReverHammerCrusher, bool>>>(where);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Where(wheres).ProjectTo<ReverHammerCrusher>(Mapper);
 #if DEBUG
                 //Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
                 // Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
@@ -422,10 +422,10 @@ namespace Yunt.Device.Repository.EF.Repositories
             if (!isExceed)
             {
                 RedisProvider.DB = 16;
-                return RedisProvider.HashGetAllValues<Conveyor>("Conveyor", DataType.Protobuf).AsQueryable();
+                return RedisProvider.HashGetAllValues<ReverHammerCrusher>("ReverHammerCrusher", DataType.Protobuf).AsQueryable();
             }
 
-            sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Conveyor>().ProjectTo<Conveyor>(Mapper);
+            sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().ProjectTo<ReverHammerCrusher>(Mapper);
 #if DEBUG
             Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
             Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));

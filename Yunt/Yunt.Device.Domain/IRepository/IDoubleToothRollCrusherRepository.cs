@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading;
 using System.Threading.Tasks;
+using Yunt.Device.Domain.IRepository;
 using Yunt.Device.Domain.Model;
 
 namespace Yunt.Device.Domain.IRepository
 {
-    public interface IConeCrusherRepository : IDeviceRepositoryBase<ConeCrusher>
+    public interface IDoubleToothRollCrusherRepository : IDeviceRepositoryBase<DoubleToothRollCrusher>
     {
         #region query
         //注意闭包效率，参数应设置成作用域变量，可重复利用sql查询计划
         [Obsolete]
-        new IQueryable<ConeCrusher> GetEntities(Expression<Func<ConeCrusher, bool>> where = null,
-            Expression<Func<ConeCrusher, object>> order = null);
+        new IQueryable<DoubleToothRollCrusher> GetEntities(Expression<Func<DoubleToothRollCrusher, bool>> where = null,
+            Expression<Func<DoubleToothRollCrusher, object>> order = null);
 
 
         #endregion
@@ -27,8 +29,8 @@ namespace Yunt.Device.Domain.IRepository
         /// <param name="where"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        IQueryable<ConeCrusher> GetEntities(bool isExceed = false,
-            Expression<Func<ConeCrusher, bool>> where = null, Expression<Func<ConeCrusher, object>> order = null);
+        IQueryable<DoubleToothRollCrusher> GetEntities(bool isExceed = false,
+            Expression<Func<DoubleToothRollCrusher, bool>> where = null, Expression<Func<DoubleToothRollCrusher, object>> order = null);
 
         #endregion
 

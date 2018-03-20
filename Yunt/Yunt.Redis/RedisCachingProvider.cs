@@ -61,9 +61,9 @@ namespace Yunt.Redis
 
         }
         /// <summary>
-        ///     返回哈希表key中域的数量
+        ///     访问授权
         /// </summary>
-        /// <param name="key"></param>
+        /// <param name="pwd"></param>
         /// <returns>哈希表中域的数量 当key不存在时，返回0</returns>
         public bool Auth(string pwd)
         {
@@ -690,6 +690,28 @@ namespace Yunt.Redis
             }
             return result;
         }
+        public IEnumerable<T> HashGetAllValues2<T>(string key, DataType type)
+        {
+            var result = new List<T>();
+            using (var c = GetReader())
+            {
+                //DB=(int)Activator.CreateInstance<T>().RedisDbIndex;
+                using (var cmd = new Command())
+                {
+                    cmd.Add(ConstValues.REDIS_COMMAND_HVALS);
+                    cmd.Add(key);
+                    using (var r = TcpClient.Send(cmd, c.Client))
+                    {
+                        if (r.ResultDataBlock?.Count > 0)
+                        {
+                            result.AddRange(r.ResultDataBlock.Select(t => (T)FromRedis(t, type, typeof(T))));
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
         /// <summary>
         ///     返回哈希表key中的所有值（key-List<T>）
         /// </summary>
@@ -2159,9 +2181,9 @@ namespace Yunt.Redis
         /// </summary>
         public RedisCachingProvider()
         {         
-            //var result = Auth(_options.Password);
-            //if (result)
-            //    Console.WriteLine("验证失败！");
+            var result = Auth(_options.Password);
+            if (result)
+                Logger.Error("验证失败！");
         }
 
         public RedisCachingProvider(IOptions<RedisCacheOptions> options)

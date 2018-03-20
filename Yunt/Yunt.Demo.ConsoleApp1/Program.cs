@@ -306,7 +306,7 @@ namespace Yunt.Demo.ConsoleApp1
                 m.Insert(new Motor() { MotorTypeId = "CY", ProductionLineId = "WDD-P000001" });
                 //cy.Insert(new Conveyor() {Current = 8, MotorId = "1"});
                 //var x = cy.GetEntities();
-
+               // cy.GetEntities(e => e.IsDeleted, e => e.MotorId == "");
                 var x = m.GetEntities();
             }
             catch (Exception e)

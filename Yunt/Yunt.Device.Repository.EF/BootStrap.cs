@@ -37,9 +37,10 @@ namespace Yunt.Device.Repository.EF
                 // services.AddAutoMapper();
 
                 var redisConn = configuration.GetSection("AppSettings").GetSection("Device").GetValue<string>("RedisConn");
+                var redisPwd = configuration.GetSection("AppSettings").GetSection("Device").GetValue<string>("RedisPwd");
                 var mySqlConn = configuration.GetSection("AppSettings").GetSection("Device").GetValue<string>("MySqlConn");
 
-                if (redisConn.IsNullOrWhiteSpace() || mySqlConn.IsNullOrWhiteSpace())
+                if (redisConn.IsNullOrWhiteSpace() || mySqlConn.IsNullOrWhiteSpace()|| redisPwd.IsNullOrWhiteSpace())
                 {
                    //todo 可写入初始配置
                     Logger.Error($"[Device]:appsettings not entirely!");
@@ -88,7 +89,7 @@ namespace Yunt.Device.Repository.EF
                 {
                     option.RedisServer.Add(new HostItem() { Host = redisConn });
                     option.SingleMode = true;
-                    //option.Password = "";
+                    option.Password = redisPwd;
                 });
             }
             catch (Exception ex)

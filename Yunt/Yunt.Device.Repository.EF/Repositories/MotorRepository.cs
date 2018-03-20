@@ -342,7 +342,102 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         #endregion
 
+        #region query
+        //注意闭包效率，参数应设置成作用域变量，可重复利用sql查询计划
+        public override IQueryable< Motor> GetEntities(Expression<Func< Motor, bool>> where = null, Expression<Func<Motor, object>> order = null)
+        {
+          
 
+            Expression<Func<Models.Motor, bool>> wheres;
+            Expression<Func<Models.Motor, object>> orderby;
+            IQueryable<Motor> sql = null;
+            if (where != null && order != null)
+            {              
+                wheres = Mapper.MapExpression<Expression<Func<Motor, bool>>, Expression<Func<Models.Motor, bool>>>(where);
+                orderby = Mapper.MapExpression<Expression<Func<Motor, object>>, Expression<Func<Models.Motor, object>>>(order);
+                // RedisProvider.DB = 1;
+                //var list = RedisProvider.HashGetAllValues<Motor>("Motor", DataType.Protobuf).Where(wheres);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Motor>().OrderBy(orderby).Where(wheres).ProjectTo<Motor>(Mapper);
+#if DEBUG
+                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+                return sql;
+            }
+
+            if (order != null)
+            {
+                orderby = Mapper.MapExpression<Expression<Func<Motor, object>>, Expression<Func<Models.Motor, object>>>(order);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Motor>().OrderBy(orderby).ProjectTo<Motor>(Mapper);
+#if DEBUG
+                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+                return sql;
+            }
+            if (where != null)
+            {
+                wheres = Mapper.MapExpression<Expression<Func<Motor, bool>>, Expression<Func<Models.Motor, bool>>>(where);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Motor>().Where(wheres).ProjectTo<Motor>(Mapper);
+#if DEBUG
+                //Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                // Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+                return sql;
+            }
+            sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Motor>().ProjectTo<Motor>(Mapper);
+#if DEBUG
+            Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+            Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+            return sql;
+
+
+        }
+
+        public override IQueryable<IGrouping<object, Motor>> GetEntities(object paramter)
+        {
+            var sql = new RawSqlString($"select {paramter} from dbo.{typeof(Models.Motor).Name} group by {paramter}");
+            var query = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Motor>().FromSql(sql).ProjectTo<Motor>(Mapper);
+#if DEBUG
+            Logger.Info($"translate sql:{query.ToSql()} \n untranslate sql:");
+            Logger.Info(string.Join(Environment.NewLine, query.ToUnevaluated()));
+#endif
+            return null;
+        }
+        /// <summary>
+        /// 复杂查询
+        /// </summary>
+        /// <param name="sql"></param>
+        /// <param name="paramterss"></param>
+        /// <returns></returns>
+        public override IQueryable<Motor> GetEntities(RawSqlString sql, params object[] paramterss)
+        {
+            try
+            {
+                var query = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Motor>().FromSql(sql, paramterss).ProjectTo<Motor>(Mapper);
+#if DEBUG
+                Logger.Info($"translate sql:{query.ToSql()} \n untranslate sql:");
+                Logger.Info(string.Join(Environment.NewLine, query.ToUnevaluated()));
+#endif
+                return query;
+            }
+            catch (Exception e)
+            {
+                Logger.Exception(e);
+                //throw;
+                return null;
+            }
+
+        }
+        public override Motor GetEntityById(int id)
+        {
+            //return _context.Set<T>().SingleOrDefault(e => e.Id == id);
+            return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Find<Models.Motor>(id).MapTo<Motor>();
+        }
+
+
+        #endregion
 
     }
 }

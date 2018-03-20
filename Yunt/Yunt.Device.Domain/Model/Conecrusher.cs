@@ -4,7 +4,7 @@ using Yunt.Device.Domain.BaseModel;
 
 namespace Yunt.Device.Domain.Model
 {
-    public partial class Conecrusher:AggregateRoot
+    public partial class ConeCrusher : AggregateRoot
     {
         public bool IsDeleted { get; set; }
         public string MotorId { get; set; }
