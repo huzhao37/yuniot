@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Yunt.Device.Domain.BaseModel;
 
 namespace Yunt.Device.Domain.Model
 {
-    public partial class VerticalCrusherByDay
+    public partial class VerticalCrusherByDay:AggregateRoot
     {
         public double AverageOscillation { get; set; }
         public double AverageCurrent { get; set; }

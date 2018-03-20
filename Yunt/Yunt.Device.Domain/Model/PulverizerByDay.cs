@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Yunt.Device.Domain.BaseModel;
 
-namespace Yunt.Demo.ConsoleApp1.pulverizer2
+namespace Yunt.Device.Domain.Model
 {
-    public partial class PulverizerByDay
+    public partial class PulverizerByDay : AggregateRoot
     {
-        public int Id { get; set; }
         public double AverageCurrent { get; set; }
         public double AverageFanCurrent { get; set; }
         public double AverageGraderCurrent { get; set; }
@@ -14,6 +14,5 @@ namespace Yunt.Demo.ConsoleApp1.pulverizer2
         public double LoadStall { get; set; }
         public int MotorId { get; set; }
         public bool IsDeleted { get; set; }
-        public DateTime Time { get; set; }
     }
 }

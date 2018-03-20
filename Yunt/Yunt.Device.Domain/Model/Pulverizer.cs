@@ -20,7 +20,7 @@ namespace Yunt.Device.Domain.Model
         /// <summary>
         /// 设备ID
         /// </summary>
-        public int MotorId { get; set; }
+        public string MotorId { get; set; }
         public bool IsDeleted { get; set; }
         /// <summary>
         /// 主机电流

@@ -21,6 +21,8 @@ namespace DeviceManager
         private Motorparams exp;
         public Form1()
         {
+        //    Motorparams.FromExcel();
+
             InitializeComponent();
             this.Name = "DeviceManager";
 
@@ -139,16 +141,23 @@ namespace DeviceManager
                     if (!lv.SubItems[3].Text.IsNullOrWhiteSpace())
                     {
                         var motorT = Motortype.Find("MotorTypeId", lv.SubItems[3].Text);
-                        motorType.SelectedValue = motorT.MotorTypeId;    //根据索引修改选中项
-                        motorType.SelectedItem = motorT; //根据Key得到选中项
+                        if (motorT != null)
+                        {
+                            motorType.SelectedValue = motorT.MotorTypeId; //根据索引修改选中项
+                            motorType.SelectedItem = motorT; //根据Key得到选中项
 
-                        motorTypeCode = motorT.MotorTypeId;
+                            motorTypeCode = motorT.MotorTypeId;
+                        }
                     }
                     var phy = Physicfeature.Find("PhysicType", lv.SubItems[2].Text);
-                    physicType.SelectedValue = phy.Id;    //根据索引修改选中项
-                    physicType.SelectedItem = phy; //根据Key得到选中项
-                   // this.physicType.SelectedText = lv.SubItems[2].Text;
-                  
+                    if (phy != null)
+                    {
+
+                        physicType.SelectedValue = phy.Id;    //根据索引修改选中项
+                        physicType.SelectedItem = phy; //根据Key得到选中项
+                                                       // this.physicType.SelectedText = lv.SubItems[2].Text;
+                    }
+
                     this.txtParam.Text = lv.Text;
                     this.txtDesc.Text = lv.SubItems[1].Text;
 

@@ -4,9 +4,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
-
-using Microsoft.EntityFrameworkCore;
 using Yunt.Device.Domain.IRepository;
 using Yunt.Device.Domain.Model;
 

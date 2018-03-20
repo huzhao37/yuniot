@@ -1,7 +1,8 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
+ using System.IO;
+ using System.Text;
 using System.Xml.Serialization;
 using NewLife.Log;
 using NewLife.Web;
@@ -138,6 +139,49 @@ namespace DeviceManager.Model
         #endregion
 
         #region 扩展操作
+
+        public static void FromExcel()
+        {
+            //var dir = "E:\\NewProject\\MiningMachineryMonitorPlatform\\LocalDB\\DataForm.db";
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NewLife.Runtime.IsWeb ? "file" : "", "Dll\\params.txt");
+
+            if (File.Exists(path))
+            {
+                XTrace.WriteLine("从文件导入数据表单基本数据");
+                using (StreamReader sr = new StreamReader(path, Encoding.Default))
+                {
+                    //  sr.ReadLine(); //跳过第一行
+                    //sr.ReadLine(); //跳过第二行
+                    while (!sr.EndOfStream)
+                    {
+                        var line = sr.ReadLine();
+                        if (line.IsNullOrWhiteSpace()) continue;
+
+                        var arr = line.Split(new char[] { ' ', '\t', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                        if (arr.Length == 2)
+                        {
+
+                            AddEntity(arr[0], arr[1]);
+
+                        }
+
+
+                    }
+                }
+            }
+        }
+
+
+        private static void AddEntity(string param, string desc)
+        {
+            var entity = new Motorparams()
+            {
+               Param = param,
+               Description = desc,
+               Time = DateTime.Now,
+            };
+            entity.Insert();
+        }
         #endregion
 
         #region 业务
