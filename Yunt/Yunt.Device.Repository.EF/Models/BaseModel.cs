@@ -47,7 +47,7 @@ namespace Yunt.Device.Repository.EF.Models
     [ProtoInclude(42, typeof(VerticalCrusherByHour))]
     [ProtoInclude(43, typeof(VibrosieveByDay))]
     [ProtoInclude(44, typeof(VibrosieveByHour))]
-    [ProtoInclude(45, typeof(Motortype))]
+    [ProtoInclude(45, typeof(Domain.Model.MotorType))]
     [ProtoInclude(46, typeof(Motor))]
 
     public class BaseModel

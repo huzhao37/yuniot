@@ -4,7 +4,7 @@ using Yunt.Device.Domain.BaseModel;
 
 namespace Yunt.Device.Domain.Model
 {
-    public partial class Motortype:AggregateRoot
+    public partial class MotorType:AggregateRoot
     {
         public string MotorTypeId { get; set; }
         public string Name { get; set; }

@@ -7,7 +7,7 @@ using ProtoBuf;
 
 namespace Yunt.Device.Repository.EF.Models
 {
-    public partial class Motortype:BaseModel
+    public partial class MotorType : BaseModel
     {
         [DataMember]
         [ProtoMember(9)]

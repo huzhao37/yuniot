@@ -32,14 +32,24 @@ namespace Yunt.Device.Repository.EF.Repositories
         {
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().Add(Mapper.Map<Models.ConeCrusher>(t));
             Commit();
-            //redis缓存，暂定2h
+
+            //var expireTime =Math.Abs(DateTimeOffset.UtcNow.Subtract(t.Time).TotalMinutes);
+            //if (expireTime <= 10)
+            //{   
+            //    //redis缓存最新记录，并设置过期时间10min
+            //    RedisProvider.DB = 14;
+            //    RedisProvider.LPUSH(t.MotorId, t, DataType.Protobuf);
+            //    RedisProvider.Expire(t.MotorId, Convert.ToInt64(expireTime * 60));
+            //}
+          
+            //redis缓存瞬时数据，暂定2h
             RedisProvider.DB = 16;
-            return RedisProvider.Sadd(t.MotorId, t, DataType.Protobuf);
+            return RedisProvider.LPUSH(t.MotorId, t, DataType.Protobuf);
         }
         public override async Task InsertAsync(ConeCrusher t)
         {
             RedisProvider.DB = 16;
-            RedisProvider.Sadd(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.LPUSH(t.MotorId, t, DataType.Protobuf);
 
             await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().AddAsync(Mapper.Map<Models.ConeCrusher>(t));
             await CommitAsync();
@@ -54,7 +64,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 var result=Commit();
 
                  RedisProvider.DB = 16;
-                 RedisProvider.Sadd(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                 RedisProvider.LPUSH(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
            
                 return result;
             }
@@ -74,7 +84,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 await CommitAsync();
 
                 RedisProvider.DB = 16;
-                RedisProvider.Sadd(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                RedisProvider.LPUSH(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
 
             }
             catch (Exception ex)
@@ -93,7 +103,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var t = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().Find(id);
 
             RedisProvider.DB = 16;
-            RedisProvider.Srem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().Remove(t);
             return Commit();
@@ -103,7 +113,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var t = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().FindAsync(id);
 
             RedisProvider.DB = 16;
-            RedisProvider.Srem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().Remove(Mapper.Map<Models.ConeCrusher>(t));
             await CommitAsync();
@@ -111,7 +121,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public override int DeleteEntity(ConeCrusher t)
         {
             RedisProvider.DB = 16;
-            RedisProvider.Srem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().Remove(Mapper.Map<Models.ConeCrusher>(t));
             return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).SaveChanges();
@@ -120,7 +130,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public override async Task DeleteEntityAsync(ConeCrusher t)
         {
             RedisProvider.DB = 16;
-            RedisProvider.Srem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().Remove(Mapper.Map<Models.ConeCrusher>(t));
             await CommitAsync();
@@ -133,7 +143,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             try
             {                         
                 RedisProvider.DB = 16;
-                RedisProvider.Srem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
         
 
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().RemoveRange(Mapper.Map<IEnumerable<Models.ConeCrusher>>(ts));
@@ -158,7 +168,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 try
                 {
                     RedisProvider.DB = 16;
-                    RedisProvider.Srem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                    RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().RemoveRange(Mapper.Map<IEnumerable<Models.ConeCrusher>>(ts));
                     await CommitAsync();
@@ -190,7 +200,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 {
 
                     RedisProvider.DB = 16;
-                    RedisProvider.Srem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                    RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId)
                         .Set<Models.ConeCrusher>()
@@ -222,7 +232,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 try
                 {
                     RedisProvider.DB = 16;
-                    RedisProvider.Srem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                    RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId)
                         .Set<Models.ConeCrusher>()
@@ -357,11 +367,12 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="isExceed">是否超出2个月数据</param>
+        /// <param name="motorId"></param>
+        /// <param name="isExceed">是否超出1天数据</param>
         /// <param name="where"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        public virtual IQueryable<ConeCrusher> GetEntities(bool isExceed = false,Expression < Func<ConeCrusher, bool>> where = null, Expression<Func<ConeCrusher, object>> order = null)
+        public virtual IQueryable<ConeCrusher> GetEntities(string motorId,bool isExceed = false,Expression < Func<ConeCrusher, bool>> where = null, Expression<Func<ConeCrusher, object>> order = null)
         {
 
 
@@ -373,7 +384,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 if (!isExceed)
                 {
                     RedisProvider.DB = 16;
-                    return RedisProvider.HashGetAllValues<ConeCrusher>("ConeCrusher", DataType.Protobuf).Where(where.Compile())
+                    return RedisProvider.ListRange<ConeCrusher>(motorId, DataType.Protobuf).Where(where.Compile())
                         .OrderBy(order.Compile()).AsQueryable();
                 }
 
@@ -393,7 +404,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 if (!isExceed)
                 {
                     RedisProvider.DB = 16;
-                    return RedisProvider.HashGetAllValues<ConeCrusher>("ConeCrusher", DataType.Protobuf).OrderBy(order.Compile()).AsQueryable();
+                    return RedisProvider.ListRange<ConeCrusher>(motorId, DataType.Protobuf).OrderBy(order.Compile()).AsQueryable();
                 }
                 orderby = Mapper.MapExpression<Expression<Func<ConeCrusher, object>>, Expression<Func<Models.ConeCrusher, object>>>(order);
                 sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().OrderBy(orderby).ProjectTo<ConeCrusher>(Mapper);
@@ -408,7 +419,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 if (!isExceed)
                 {
                     RedisProvider.DB = 16;
-                    return RedisProvider.HashGetAllValues<ConeCrusher>("ConeCrusher", DataType.Protobuf).Where(where.Compile()).AsQueryable();
+                    return RedisProvider.ListRange<ConeCrusher>(motorId, DataType.Protobuf).Where(where.Compile()).AsQueryable();
                 }
 
                 wheres = Mapper.MapExpression<Expression<Func<ConeCrusher, bool>>, Expression<Func<Models.ConeCrusher, bool>>>(where);
@@ -422,7 +433,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             if (!isExceed)
             {
                 RedisProvider.DB = 16;
-                return RedisProvider.HashGetAllValues<ConeCrusher>("ConeCrusher", DataType.Protobuf).AsQueryable();
+                return RedisProvider.ListRange<ConeCrusher>(motorId, DataType.Protobuf).AsQueryable();
             }
 
             sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().ProjectTo<ConeCrusher>(Mapper);
@@ -435,6 +446,45 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         }
 
+        #endregion
+
+        #region extend method
+        /// <summary>
+        /// 获取10min内的最新数据，没有的话，认作设备失联，通讯状态中断
+        /// </summary>
+        /// <param name="motorId">设备电机编号</param>
+        /// <returns></returns>
+        public ConeCrusher GetLatestRecord(string motorId)
+        {
+            RedisProvider.DB = 16;
+            return RedisProvider.LPop<ConeCrusher>(motorId, DataType.Protobuf);
+        }
+
+        /// <summary>
+        /// 获取当日开机时间
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <returns></returns>
+        public int GetTodayRunningTime(string  motorId)
+        {
+            var time = DateTimeOffset.UtcNow.Date;
+            return GetEntities(motorId,false, c => c.Current > 0&&c.Time.CompareTo(time)>=0).Count();
+        }
+        /// <summary>
+        /// 获取设备实时状态
+        /// </summary>
+        /// <param name="motorId">电机Id</param>
+        /// <returns></returns>
+        public bool GetCurrentStatus(string motorId)
+        {
+            var status = false;
+            var lastData = GetLatestRecord(motorId);
+            if (lastData != null && DateTimeOffset.UtcNow.CompareTo(lastData.Time) <= 10)
+            {
+                status = lastData.Current > 0;
+            }
+            return status;
+        }
         #endregion
     }
 }

@@ -10,7 +10,7 @@ namespace Yunt.Device.Domain.Model
         public double Current2 { get; set; }
         public double RunningTime { get; set; }
         public double LoadStall { get; set; }
-        public int MotorId { get; set; }
+        public string MotorId { get; set; }
         public bool IsDeleted { get; set; }
     }
 }

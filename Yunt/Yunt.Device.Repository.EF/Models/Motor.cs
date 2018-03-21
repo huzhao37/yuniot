@@ -15,6 +15,9 @@ namespace Yunt.Device.Repository.EF.Models
         public bool IsDeleted { get; set; }
 
         [ProtoMember(21)]
+        public float StandValue { get; set; }
+
+        [ProtoMember(21)]
         public string ProductionLineId { get; set; }
         [ProtoMember(1)]
         public string Name { get; set; }

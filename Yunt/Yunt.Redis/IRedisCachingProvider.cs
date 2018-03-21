@@ -142,6 +142,26 @@ namespace Yunt.Redis
         IList<T> ListRange<T>(string key, DataType dtype);
 
         /// <summary>
+        ///   移除列表中与参数 value 相等的元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        int Lrem<T>(string key, T member, DataType type);
+
+        /// <summary>
+        ///   移除列表中与参数 value 相等的元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="members"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        int Lrem<T>(string key, IEnumerable<T> members, DataType type);
+
+        /// <summary>
         ///     返回列表key中，下标为index的元素。
         /// </summary>
         /// <typeparam name="T"></typeparam>

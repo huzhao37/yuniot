@@ -56,6 +56,6 @@ namespace Yunt.Device.Domain.Model
         //[ProtoMember(5)]
         //public DateTimeOffset Time { get; set; }
         //[ProtoMember(6)]
-        //public int MotorId { get; set; }
+        //public string MotorId { get; set; }
     }
 }

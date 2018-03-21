@@ -6,6 +6,7 @@ namespace Yunt.Device.Domain.Model
 {
     public partial class Motor : AggregateRoot
     {
+        public float StandValue { get; set; }
         public string ProductionLineId { get; set; }
         public string MotorId { get; set; }
         public string Name { get; set; }
@@ -13,9 +14,9 @@ namespace Yunt.Device.Domain.Model
         public DateTimeOffset BuildTime { get; set; }
         public DateTimeOffset LatestMaintainTime { get; set; }
         public string MotorTypeId { get; set; }
-        public float? Capicity { get; set; }
-        public float? FeedSize { get; set; }
-        public float? MotorPower { get; set; }
+        public float Capicity { get; set; }
+        public float FeedSize { get; set; }
+        public float MotorPower { get; set; }
         public string ImageUrl { get; set; }
         public sbyte? IsBeltWeight { get; set; }
         public sbyte? IsDisplay { get; set; }

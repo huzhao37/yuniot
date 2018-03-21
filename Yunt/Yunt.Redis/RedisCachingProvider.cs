@@ -287,7 +287,7 @@ namespace Yunt.Redis
                 }
             }
         }
-
+       
         /// <summary>
         ///     移除并返回列表key的尾元素
         /// </summary>
@@ -336,7 +336,61 @@ namespace Yunt.Redis
                 }
             }
         }
+        /// <summary>
+        ///     将一个或多个值value插入到列表key的表头
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="dtype"></param>
+        /// <returns>执行LPUSH命令后，列表的长度</returns>
+        public int Lpush<T>(string key, T value, DataType dtype)
+        {
+            using (var c = GetWriter())
+            {
 
+                using (var cmd = new Command())
+                {
+                    cmd.Add(ConstValues.REDIS_COMMAND_LPUSH);
+                    cmd.Add(key);
+                    ToRedis(value, dtype, cmd);
+                    using (var result = TcpClient.Send(cmd, c.Client))
+                    {
+                        return int.Parse(result.ResultData.ToString());
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///      将一个或多个值value插入到列表key的表头
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="members"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public int Lpush<T>(string key, List<T> members, DataType type)
+        {
+            using (var c = GetWriter())
+            {
+
+                using (var cmd = new Command())
+                {
+                    cmd.Add(ConstValues.REDIS_COMMAND_LPUSH);
+                    cmd.Add(key);
+                    foreach (var member in members)
+                        ToRedis(member, type, cmd);
+                    using (var result = TcpClient.Send(cmd, c.Client))
+                    {
+                        if (result.ResultData != null)
+                        {
+                            return int.Parse(result.ResultData.ToString());
+                        }
+                    }
+                }
+            }
+            return 0;
+        }
         /// <summary>
         ///     将列表key下标为index的元素的值设置为value。
         /// </summary>
@@ -1769,7 +1823,7 @@ namespace Yunt.Redis
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="key"></param>
-        /// <param name="member"></param>
+        /// <param name="members"></param>
         /// <param name="type"></param>
         /// <returns></returns>
         public int Srem<T>(string key, IEnumerable<T> members, DataType type)
@@ -1797,6 +1851,97 @@ namespace Yunt.Redis
             }
             return 0;
         }
+
+        /// <summary>
+        ///   移除列表中与参数 value 相等的元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public int Lrem<T>(string key, T member, DataType type)
+        {
+            return Lrem(key, 0, member, type);
+        }
+        /// <summary>
+        ///   移除列表中与参数 value 相等的元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="members"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public int Lrem<T>(string key, IEnumerable<T> members, DataType type)
+        {
+            return Lrem(key, 0, members, type);
+        }
+        /// <summary>
+        ///    根据参数 count 的值，移除列表中与参数 value 相等的元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        ///  <param name="count"></param>
+        /// <param name="member"></param>
+        /// <param name="type"></param>
+
+        /// <returns></returns>
+        public int Lrem<T>(string key,int count, T member, DataType type)
+        {
+            using (var c = GetWriter())
+            {
+
+                using (var cmd = new Command())
+                {
+                    cmd.Add(ConstValues.REDIS_COMMAND_LREM);
+                    cmd.Add(key);
+                    cmd.Add(count.ToString());
+                    ToRedis(member, type, cmd);
+                    using (var result = TcpClient.Send(cmd, c.Client))
+                    {
+                        if (result.ResultData != null)
+                        {
+                            return int.Parse(result.ResultData.ToString());
+                        }
+                    }
+                }
+            }
+            return 0;
+        }
+        /// <summary>
+        ///     根据参数 count 的值，移除列表中与参数 value 相等的元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        ///  <param name="count"></param>
+        /// <param name="members"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public int Lrem<T>(string key, int count, IEnumerable<T> members, DataType type)
+        {
+            using (var c = GetWriter())
+            {
+
+                using (var cmd = new Command())
+                {
+                    cmd.Add(ConstValues.REDIS_COMMAND_LREM);
+                    cmd.Add(key);
+                    cmd.Add(count.ToString());
+                    foreach (var member in members)
+                        ToRedis(member, type, cmd);
+                    using (var result = TcpClient.Send(cmd, c.Client))
+                    {
+                        if (result.ResultData != null)
+                        {
+                            return int.Parse(result.ResultData.ToString());
+                        }
+                    }
+
+                }
+            }
+            return 0;
+        }
+
         /// <summary>
         ///     返回或保存给定列表、集合、有序集合key中经过排序的元素。
         /// </summary>

@@ -25,12 +25,32 @@ namespace Yunt.Device.Domain.IRepository
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="isExceed">是否超出2个月数据</param>
+        /// <param name="motorId"></param>
+        /// <param name="isExceed">是否超出2 hours数据</param>
         /// <param name="where"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        IQueryable<Pulverizer> GetEntities(bool isExceed = false,
+        IQueryable<Pulverizer> GetEntities(string motorId, bool isExceed = false,
             Expression<Func<Pulverizer, bool>> where = null, Expression<Func<Pulverizer, object>> order = null);
+
+        #endregion
+
+
+        #region extend method
+
+        /// <summary>
+        /// 获取10min内的最新数据，没有的话，认作设备失联，通讯状态中断
+        /// </summary>
+        /// <param name="motorId">设备电机编号</param>
+        /// <returns></returns>
+        Pulverizer GetLatestRecord(string motorId);
+
+        /// <summary>
+        /// 获取设备实时状态
+        /// </summary>
+        /// <param name="motorId">电机Id</param>
+        /// <returns></returns>
+        bool GetCurrentStatus(string motorId);
 
         #endregion
     }

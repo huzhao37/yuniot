@@ -8,7 +8,7 @@ namespace Yunt.Device.Domain.Model
     {
         public bool IsDeleted { get; set; }
         public string MotorId { get; set; }
-        public float? Current2 { get; set; }
-        public float? Current { get; set; }
+        public float Current2 { get; set; }
+        public float Current { get; set; }
     }
 }

@@ -34,12 +34,12 @@ namespace Yunt.Device.Repository.EF.Repositories
             Commit();
             //redis缓存，暂定2h
             RedisProvider.DB = 16;
-            return RedisProvider.Sadd(t.MotorId, t, DataType.Protobuf);
+            return RedisProvider.LPUSH(t.MotorId, t, DataType.Protobuf);
         }
         public override async Task InsertAsync(MaterialFeeder t)
         {
             RedisProvider.DB = 16;
-            RedisProvider.Sadd(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.LPUSH(t.MotorId, t, DataType.Protobuf);
 
             await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.MaterialFeeder>().AddAsync(Mapper.Map<Models.MaterialFeeder>(t));
             await CommitAsync();
@@ -54,7 +54,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 var result=Commit();
 
                  RedisProvider.DB = 16;
-                 RedisProvider.Sadd(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                 RedisProvider.LPUSH(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
            
                 return result;
             }
@@ -74,7 +74,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 await CommitAsync();
 
                 RedisProvider.DB = 16;
-                RedisProvider.Sadd(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                RedisProvider.LPUSH(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
 
             }
             catch (Exception ex)
@@ -93,7 +93,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var t = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.MaterialFeeder>().Find(id);
 
             RedisProvider.DB = 16;
-            RedisProvider.Srem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.MaterialFeeder>().Remove(t);
             return Commit();
@@ -103,7 +103,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var t = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.MaterialFeeder>().FindAsync(id);
 
             RedisProvider.DB = 16;
-            RedisProvider.Srem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.MaterialFeeder>().Remove(Mapper.Map<Models.MaterialFeeder>(t));
             await CommitAsync();
@@ -111,7 +111,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public override int DeleteEntity(MaterialFeeder t)
         {
             RedisProvider.DB = 16;
-            RedisProvider.Srem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.MaterialFeeder>().Remove(Mapper.Map<Models.MaterialFeeder>(t));
             return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).SaveChanges();
@@ -120,7 +120,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public override async Task DeleteEntityAsync(MaterialFeeder t)
         {
             RedisProvider.DB = 16;
-            RedisProvider.Srem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.MaterialFeeder>().Remove(Mapper.Map<Models.MaterialFeeder>(t));
             await CommitAsync();
@@ -133,7 +133,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             try
             {                         
                 RedisProvider.DB = 16;
-                RedisProvider.Srem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
         
 
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.MaterialFeeder>().RemoveRange(Mapper.Map<IEnumerable<Models.MaterialFeeder>>(ts));
@@ -158,7 +158,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 try
                 {
                     RedisProvider.DB = 16;
-                    RedisProvider.Srem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                    RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.MaterialFeeder>().RemoveRange(Mapper.Map<IEnumerable<Models.MaterialFeeder>>(ts));
                     await CommitAsync();
@@ -190,7 +190,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 {
 
                     RedisProvider.DB = 16;
-                    RedisProvider.Srem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                    RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId)
                         .Set<Models.MaterialFeeder>()
@@ -222,7 +222,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 try
                 {
                     RedisProvider.DB = 16;
-                    RedisProvider.Srem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                    RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId)
                         .Set<Models.MaterialFeeder>()
@@ -357,11 +357,12 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="isExceed">是否超出2个月数据</param>
+        /// <param name="motorId"></param>
+        /// <param name="isExceed">是否超出2 hours数据</param>
         /// <param name="where"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        public virtual IQueryable<MaterialFeeder> GetEntities(bool isExceed = false,Expression < Func<MaterialFeeder, bool>> where = null, Expression<Func<MaterialFeeder, object>> order = null)
+        public virtual IQueryable<MaterialFeeder> GetEntities(string motorId, bool isExceed = false, Expression<Func<MaterialFeeder, bool>> where = null, Expression<Func<MaterialFeeder, object>> order = null)
         {
 
 
@@ -373,13 +374,13 @@ namespace Yunt.Device.Repository.EF.Repositories
                 if (!isExceed)
                 {
                     RedisProvider.DB = 16;
-                    return RedisProvider.HashGetAllValues<MaterialFeeder>("MaterialFeeder", DataType.Protobuf).Where(where.Compile())
+                    return RedisProvider.ListRange<MaterialFeeder>(motorId, DataType.Protobuf).Where(where.Compile())
                         .OrderBy(order.Compile()).AsQueryable();
                 }
 
                 wheres = Mapper.MapExpression<Expression<Func<MaterialFeeder, bool>>, Expression<Func<Models.MaterialFeeder, bool>>>(where);
                 orderby = Mapper.MapExpression<Expression<Func<MaterialFeeder, object>>, Expression<Func<Models.MaterialFeeder, object>>>(order);
-                
+
                 sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.MaterialFeeder>().OrderBy(orderby).Where(wheres).ProjectTo<MaterialFeeder>(Mapper);
 #if DEBUG
                 Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
@@ -393,7 +394,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 if (!isExceed)
                 {
                     RedisProvider.DB = 16;
-                    return RedisProvider.HashGetAllValues<MaterialFeeder>("MaterialFeeder", DataType.Protobuf).OrderBy(order.Compile()).AsQueryable();
+                    return RedisProvider.ListRange<MaterialFeeder>(motorId, DataType.Protobuf).OrderBy(order.Compile()).AsQueryable();
                 }
                 orderby = Mapper.MapExpression<Expression<Func<MaterialFeeder, object>>, Expression<Func<Models.MaterialFeeder, object>>>(order);
                 sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.MaterialFeeder>().OrderBy(orderby).ProjectTo<MaterialFeeder>(Mapper);
@@ -408,7 +409,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 if (!isExceed)
                 {
                     RedisProvider.DB = 16;
-                    return RedisProvider.HashGetAllValues<MaterialFeeder>("MaterialFeeder", DataType.Protobuf).Where(where.Compile()).AsQueryable();
+                    return RedisProvider.ListRange<MaterialFeeder>(motorId, DataType.Protobuf).Where(where.Compile()).AsQueryable();
                 }
 
                 wheres = Mapper.MapExpression<Expression<Func<MaterialFeeder, bool>>, Expression<Func<Models.MaterialFeeder, bool>>>(where);
@@ -422,7 +423,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             if (!isExceed)
             {
                 RedisProvider.DB = 16;
-                return RedisProvider.HashGetAllValues<MaterialFeeder>("MaterialFeeder", DataType.Protobuf).AsQueryable();
+                return RedisProvider.ListRange<MaterialFeeder>(motorId, DataType.Protobuf).AsQueryable();
             }
 
             sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.MaterialFeeder>().ProjectTo<MaterialFeeder>(Mapper);
@@ -435,6 +436,46 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         }
 
+        #endregion
+
+        #region extend method
+        /// <summary>
+        /// 获取10min内的最新数据，没有的话，认作设备失联，通讯状态中断
+        /// </summary>
+        /// <param name="motorId">设备电机编号</param>
+        /// <returns></returns>
+        public MaterialFeeder GetLatestRecord(string motorId)
+        {
+            RedisProvider.DB = 16;
+            return RedisProvider.LPop<MaterialFeeder>(motorId, DataType.Protobuf);
+        }
+
+        /// <summary>
+        /// 根据频率获取当日开机时间
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <returns></returns>
+        public int GetTodayRunningTimeByFrequence(string motorId)
+        {
+            var time = DateTimeOffset.UtcNow.Date;
+            return GetEntities(motorId, false, c => c.Frequency > 0 && c.Time.CompareTo(time) >= 0).Count();
+        }
+
+        /// <summary>
+        /// 获取设备实时状态
+        /// </summary>
+        /// <param name="motorId">电机Id</param>
+        /// <returns></returns>
+        public bool GetCurrentStatus(string motorId)
+        {
+            var status = false;
+            var lastData = GetLatestRecord(motorId);
+            if (lastData != null&&DateTimeOffset.UtcNow.CompareTo(lastData.Time)<=10)
+            {
+                status = lastData.Frequency > 0;
+            }
+            return status;
+        }
         #endregion
     }
 }
