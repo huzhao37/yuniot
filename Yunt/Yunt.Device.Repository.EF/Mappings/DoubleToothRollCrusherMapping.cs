@@ -17,6 +17,7 @@ namespace Yunt.Device.Repository.EF.Mappings
         {
             entity.ToTable("DoubleToothRollCrusher");
             entity.HasKey(c => c.Id);
+            entity.HasIndex(m => m.MotorId);
         }
     }
 }

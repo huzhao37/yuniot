@@ -10,17 +10,15 @@ using Yunt.Device.Repository.EF.Models;
 
 namespace Yunt.Device.Repository.EF.Mappings
 {
-    public class MotorTypeMapping : IEntityTypeConfiguration<Motortype>
+    public class MotorTypeMapping : IEntityTypeConfiguration<MotorType>
     {
-        public void Configure(EntityTypeBuilder<Motortype> entity)
+        public void Configure(EntityTypeBuilder<MotorType> entity)
         {
             entity.ToTable("MotorType");
             entity.HasKey(m => m.Id);
-            entity.Property(m => m.Name).HasMaxLength(120).IsRequired();
-            entity.Property(m => m.Code).HasMaxLength(120).IsRequired();
-
-           // HasMany(m => m.Motors).WithRequired(p=>p.MotorType).WillCascadeOnDelete(false);
-           // HasMany(m => m.StandParamValues).WithRequired(p => p.MotorType).WillCascadeOnDelete(false);
+            entity.HasIndex(m => m.MotorTypeId);
+            // HasMany(m => m.Motors).WithRequired(p=>p.MotorType).WillCascadeOnDelete(false);
+            // HasMany(m => m.StandParamValues).WithRequired(p => p.MotorType).WillCascadeOnDelete(false);
         }
     }
 }

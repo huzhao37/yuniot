@@ -31,13 +31,17 @@ namespace Yunt.Demo.ConsoleApp1
         {
             if (options.IsConfigured == false)
             {
-                options.UseMySql("server=10.1.5.25;port=3306;database=yunt_device;uid=root;pwd=unitoon2017;");
+                options.UseMySql("server=rm-wz9mrn9kj0lt0r0i18o.mysql.rds.aliyuncs.com;port=3306;database=yunt_device;uid=wdd;pwd=Unitoon2018;");
             }
 
         }
+        public virtual DbSet<HVib> HVib { get; set; }
+        public virtual DbSet<HVibByHour> HVibByHour { get; set; }
+        public virtual DbSet<HVibByDay> HVibByDay { get; set; }
+        public virtual DbSet<MotorParams> MotorParams { get; set; }
         public virtual DbSet<MotorIdFactories> MotorIdFactories { get; set; }
         public virtual DbSet<Motor> Motor { get; set; }
-        public virtual DbSet<Motortype> Motortype { get; set; }
+        public virtual DbSet<MotorType> MotorType { get; set; }
         public virtual DbSet<ConeCrusher> ConeCrusher { get; set; }
         public virtual DbSet<ConeCrusherByDay> ConeCrusherByDay { get; set; }
         public virtual DbSet<ConeCrusherByHour> ConeCrusherByHour { get; set; }
@@ -103,7 +107,7 @@ namespace Yunt.Demo.ConsoleApp1
         public DeviceContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<DeviceContext>();
-            optionsBuilder.UseMySql("server=10.1.5.25;port=3306;database=yunt_device;uid=root;pwd=unitoon2017;");
+            optionsBuilder.UseMySql("server=rm-wz9mrn9kj0lt0r0i18o.mysql.rds.aliyuncs.com;port=3306;database=yunt_device;uid=wdd;pwd=Unitoon2018;");
 
             return new DeviceContext(optionsBuilder.Options);
         }

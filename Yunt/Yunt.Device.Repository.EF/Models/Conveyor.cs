@@ -1,128 +1,121 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.ComponentModel;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 using ProtoBuf;
 
-
-namespace Yunt.Device.Repository.EF.Models
+namespace Yunt.Device.Repository.EF.Models 
 {
-    /// <summary>
-    /// 皮带机原始数据;
-    /// </summary>
-    [DataContract]
-    [Serializable][ProtoContract(SkipConstructor = true)]
-    public class Conveyor : BaseModel
-    {
-        /// <summary>
-        /// 设备ID
-        /// </summary>
-        [ProtoMember(13)]
-        public string MotorId { get; set; }
-        [ProtoMember(14)]
-        public bool IsDeleted { get; set; }
-        /// <summary>
-        /// 电流;
-        /// </summary>
-        [DisplayName("电流")]
-        //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(1)]
-        public double Current { get; set; }
-        /// <summary>
-        /// 电压;
-        /// </summary>
-        [DataMember]
-        [DisplayName("电压")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(2)]
-        public double Voltage { get; set; }
-        /// <summary>
-        /// 功率因子;
-        /// </summary>
-        [DataMember]
-        [DisplayName("功率因子")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(3)]
-        public double PowerFactor { get; set; }
-        /// <summary>
-        /// 无功功率;
-        /// </summary>
-        [DataMember]
-        [DisplayName("无功功率")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(4)]
-        public double ReactivePower { get; set; }
-        /// <summary>
-        /// 总功率;
-        /// </summary>
-        [DataMember]
-        [DisplayName("总功率")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(5)]
-        public double TotalPower { get; set; }
-        /// <summary>
-        /// 瞬时称重;
-        /// </summary>
-        [DataMember]
-        [DisplayName("瞬时称重")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(6)]
-        public double InstantWeight { get; set; }
-        /// <summary>
-        /// 累计称重;
-        /// </summary>
-        [DataMember]
-        [DisplayName("累计称重")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(7)]
-        public double AccumulativeWeight { get; set; }
-        /// <summary>
-        /// 速度;        
-        /// </summary>
-        [DataMember]
-        [DisplayName("速度")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(8)]
-        public double Velocity { get; set; }
-        /// <summary>
-        /// 频率;
-        /// </summary>
-        [DataMember]
-        [DisplayName("频率")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(9)]
-        public double Frequency { get; set; }
-        /// <summary>
-        /// 单位(千克KG/吨T);
-        /// </summary>
-        [DataMember]
-        [DisplayName("单位(千克KG/吨T)")]
-        [ProtoMember(10)]
-        public int Unit { get; set; }
+     /// <summary>
+   /// CY
+   /// </summary>
+   [DataContract]
+   [Serializable]
+   [ProtoContract(SkipConstructor = true)]
+ public class Conveyor:BaseModel
+   {
+      /// <summary>
+      /// 功率因素
+      /// </summary>
+      [DataMember]
+      [DisplayName("功率因素")]
+      [ProtoMember(1)]
+      public float PowerFactor{get;set;}
+      /// <summary>
+      /// 每秒脉冲数
+      /// </summary>
+      [DataMember]
+      [DisplayName("每秒脉冲数")]
+      [ProtoMember(2)]
+      public float PulsesSecond{get;set;}
+      /// <summary>
+      /// 输入毫安数4-20mA
+      /// </summary>
+      [DataMember]
+      [DisplayName("输入毫安数4-20mA")]
+      [ProtoMember(3)]
+      public float MS420mA{get;set;}
+      /// <summary>
+      /// 重力传感器毫伏数
+      /// </summary>
+      [DataMember]
+      [DisplayName("重力传感器毫伏数")]
+      [ProtoMember(4)]
+      public float GravitySensorMill{get;set;}
+      /// <summary>
+      /// 重量单位
+      /// </summary>
+      [DataMember]
+      [DisplayName("重量单位")]
+      [ProtoMember(5)]
+      public float WeightUnit{get;set;}
+      /// <summary>
+      /// 瞬时产量
+      /// </summary>
+      [DataMember]
+      [DisplayName("瞬时产量")]
+      [ProtoMember(6)]
+      public float InstantWeight{get;set;}
+      /// <summary>
+      /// 累计产量
+      /// </summary>
+      [DataMember]
+      [DisplayName("累计产量")]
+      [ProtoMember(7)]
+      public float AccumulativeWeight{get;set;}
+      /// <summary>
+      /// C相电流
+      /// </summary>
+      [DataMember]
+      [DisplayName("C相电流")]
+      [ProtoMember(8)]
+      public float Current_C{get;set;}
+      /// <summary>
+      /// B相电流
+      /// </summary>
+      [DataMember]
+      [DisplayName("B相电流")]
+      [ProtoMember(9)]
+      public float Current_B{get;set;}
+      /// <summary>
+      /// A相电流
+      /// </summary>
+      [DataMember]
+      [DisplayName("A相电流")]
+      [ProtoMember(10)]
+      public float Current_A{get;set;}
+      /// <summary>
+      /// C相电压
+      /// </summary>
+      [DataMember]
+      [DisplayName("C相电压")]
+      [ProtoMember(11)]
+      public float Voltage_C{get;set;}
+      /// <summary>
+      /// B相电压
+      /// </summary>
+      [DataMember]
+      [DisplayName("B相电压")]
+      [ProtoMember(12)]
+      public float Voltage_B{get;set;}
+      /// <summary>
+      /// A相电压
+      /// </summary>
+      [DataMember]
+      [DisplayName("A相电压")]
+      [ProtoMember(13)]
+      public float Voltage_A{get;set;}
+      /// <summary>
+      /// 有功电能
+      /// </summary>
+      [DataMember]
+      [DisplayName("有功电能")]
+      [ProtoMember(14)]
+      public float ActivePower{get;set;}
+     /// <summary>
+     /// 电机设备编号
+     /// </summary>
+     [ProtoMember(15)]
+      public string MotorId { get; set; }
 
-        /// <summary>
-        /// 开机标志位;
-        /// </summary>
-        [DataMember]
-        [DisplayName("开机标志位")]
-        [ProtoMember(11)]
-        public int BootFlagBit { get; set; }
-
-        /// <summary>
-        /// 校零;
-        /// </summary>
-        [DataMember]
-        [DisplayName("校零")]
-        [ProtoMember(12)]
-        public int ZeroCalibration { get; set; }
-        //[ProtoMember(13)]
-        //public DateTimeOffset Time { get; set; }
-        ///// <summary>
-        ///// 设备ID;
-        ///// </summary>
-        //[ProtoMember(14)]
-        //public string MotorId { get; set; }
-    }
+   }
 }

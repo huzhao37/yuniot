@@ -22,8 +22,6 @@ namespace Yunt.Device.Repository.EF.Models
         /// </summary>
         [ProtoMember(4)]
         public string MotorId { get; set; }
-        [ProtoMember(5)]
-        public bool IsDeleted { get; set; }
         /// <summary>
         /// 油箱温度;
         /// </summary>
@@ -51,10 +49,10 @@ namespace Yunt.Device.Repository.EF.Models
         /// <summary>
         /// 主机电流;
         /// </summary>
-        //[DisplayName("主机电流")]
-        ////[MotorConfig(IsAlarmProperty = true)]
-        //[ProtoMember(4)]
-        //public double Current { get; set; }
+        [DisplayName("主机电流")]
+      //  [MotorConfig(IsAlarmProperty = true)]
+        [ProtoMember(5)]
+        public double Current { get; set; }
         //[ProtoMember(5)]
         //public DateTimeOffset Time { get; set; }
         ///// <summary>

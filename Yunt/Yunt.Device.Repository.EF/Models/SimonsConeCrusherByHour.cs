@@ -14,26 +14,26 @@ namespace Yunt.Device.Repository.EF.Models
         /// </summary>
         [ProtoMember(7)]
         public string MotorId { get; set; }
-        [ProtoMember(8)]
-        public bool IsDeleted { get; set; }
+      
+  
         [ProtoMember(1)]
-        public double AverageTankTemperature { get; set; }
+        public float AvgTankTemperature { get; set; }
         [ProtoMember(2)]
-        public double AverageOilFeedTempreature { get; set; }
+        public float AvgOilFeedTempreature { get; set; }
         [ProtoMember(3)]
-        public double AverageOilReturnTempreature { get; set; }
+        public float AvgOilReturnTempreatur { get; set; }
         [ProtoMember(4)]
-        public double AverageCurrent { get; set; }
+        public float AvgCurrent_B { get; set; }
         /// <summary>
         /// 开机时间
         /// </summary>
         [ProtoMember(5)]
-        public double RunningTime { get; set; }
+        public float RunningTime { get; set; }
         /// <summary>
         /// 负荷
         /// </summary>
         [ProtoMember(6)]
-        public double LoadStall { get; set; }
+        public float LoadStall { get; set; }
         //[ProtoMember(7)]
         //public DateTimeOffset Time { get; set; }
         ///// <summary>

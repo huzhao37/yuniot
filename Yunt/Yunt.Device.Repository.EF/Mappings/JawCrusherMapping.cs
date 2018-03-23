@@ -17,6 +17,7 @@ namespace Yunt.Device.Repository.EF.Mappings
         {
             entity.ToTable("JawCrusher");
             entity.HasKey(j => j.Id);
+            entity.HasIndex(m => m.MotorId);
             //HasRequired(j => j.Motor).WithRequiredDependent().Map(c => c.MapKey("MotorId")).WillCascadeOnDelete(false);
         }
     }

@@ -1,104 +1,149 @@
-﻿using System;
-using System.Collections.Generic;
+using System;
 using System.ComponentModel;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
 using System.Runtime.Serialization;
 using ProtoBuf;
 
-
-
-namespace Yunt.Device.Repository.EF.Models
+namespace Yunt.Device.Repository.EF.Models 
 {
-    [DataContract]
-    [Serializable]
-    [ProtoContract(SkipConstructor = true)]
-    public  class ConeCrusher:BaseModel
-    {
-        /// <summary>
-        /// 设备ID
-        /// </summary>
-        [ProtoMember(1)]
-        public string MotorId { get; set; }
-        [ProtoMember(12)]
-        public bool IsDeleted { get; set; }
+     /// <summary>
+   /// CC
+   /// </summary>
+   [DataContract]
+   [Serializable]
+   [ProtoContract(SkipConstructor = true)]
+ public class ConeCrusher:BaseModel
+   {
+      /// <summary>
+      /// 磨损2
+      /// </summary>
+      [DataMember]
+      [DisplayName("磨损2")]
+      [ProtoMember(1)]
+      public float WearValue2{get;set;}
+      /// <summary>
+      /// 磨损1
+      /// </summary>
+      [DataMember]
+      [DisplayName("磨损1")]
+      [ProtoMember(2)]
+      public float WearValue1{get;set;}
+      /// <summary>
+      /// 绝对主轴行程
+      /// </summary>
+      [DataMember]
+      [DisplayName("绝对主轴行程")]
+      [ProtoMember(3)]
+      public float AbsSpindleTravel{get;set;}
+      /// <summary>
+      /// 实时主轴行程
+      /// </summary>
+      [DataMember]
+      [DisplayName("实时主轴行程")]
+      [ProtoMember(4)]
+      public float SpindleTravel{get;set;}
+      /// <summary>
+      /// 实时动锥压力
+      /// </summary>
+      [DataMember]
+      [DisplayName("实时动锥压力")]
+      [ProtoMember(5)]
+      public float MovaStress{get;set;}
+      /// <summary>
+      /// 实时回油温度
+      /// </summary>
+      [DataMember]
+      [DisplayName("实时回油温度")]
+      [ProtoMember(6)]
+      public float OilReturnTempreatur{get;set;}
+      /// <summary>
+      /// 实时供油温度
+      /// </summary>
+      [DataMember]
+      [DisplayName("实时供油温度")]
+      [ProtoMember(7)]
+      public float OilFeedTempreature{get;set;}
+      /// <summary>
+      /// 实时油箱温度
+      /// </summary>
+      [DataMember]
+      [DisplayName("实时油箱温度")]
+      [ProtoMember(8)]
+      public float TankTemperature{get;set;}
+      /// <summary>
+      /// 振动2
+      /// </summary>
+      [DataMember]
+      [DisplayName("振动2")]
+      [ProtoMember(9)]
+      public float Vibrate2{get;set;}
+      /// <summary>
+      /// 振动1
+      /// </summary>
+      [DataMember]
+      [DisplayName("振动1")]
+      [ProtoMember(10)]
+      public float Vibrate1{get;set;}
+      /// <summary>
+      /// 功率因素
+      /// </summary>
+      [DataMember]
+      [DisplayName("功率因素")]
+      [ProtoMember(11)]
+      public float PowerFactor{get;set;}
+      /// <summary>
+      /// C相电流
+      /// </summary>
+      [DataMember]
+      [DisplayName("C相电流")]
+      [ProtoMember(12)]
+      public float Current_C{get;set;}
+      /// <summary>
+      /// B相电流
+      /// </summary>
+      [DataMember]
+      [DisplayName("B相电流")]
+      [ProtoMember(13)]
+      public float Current_B{get;set;}
+      /// <summary>
+      /// A相电流
+      /// </summary>
+      [DataMember]
+      [DisplayName("A相电流")]
+      [ProtoMember(14)]
+      public float Current_A{get;set;}
+      /// <summary>
+      /// C相电压
+      /// </summary>
+      [DataMember]
+      [DisplayName("C相电压")]
+      [ProtoMember(15)]
+      public float Voltage_C{get;set;}
+      /// <summary>
+      /// B相电压
+      /// </summary>
+      [DataMember]
+      [DisplayName("B相电压")]
+      [ProtoMember(16)]
+      public float Voltage_B{get;set;}
+      /// <summary>
+      /// A相电压
+      /// </summary>
+      [DataMember]
+      [DisplayName("A相电压")]
+      [ProtoMember(17)]
+      public float Voltage_A{get;set;}
+      /// <summary>
+      /// 有功电能
+      /// </summary>
+      [DataMember]
+      [DisplayName("有功电能")]
+      [ProtoMember(18)]
+      public float ActivePower{get;set;}
+     /// <summary>
+     /// 电机设备编号
+     /// </summary>
+     [ProtoMember(19)]
+      public string MotorId { get; set; }
 
-        [DataMember]
-         [DisplayName("电压")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(2)]
-        public double Voltage { get; set; }
-        /// <summary>
-        /// 功率因子;
-        /// </summary>
-        [DataMember]
-        [DisplayName("功率因子")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(3)]
-        public double PowerFactor { get; set; }
-        /// <summary>
-        /// 无功功率;
-        /// </summary>
-        [DataMember]
-        [DisplayName("无功功率")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(4)]
-        public double ReactivePower { get; set; }
-        /// <summary>
-        /// 总功率;
-        /// </summary>
-        [DataMember]
-        [DisplayName("总功率")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(5)]
-        public double TotalPower { get; set; }
-        /// <summary>
-        /// 主轴行程;
-        /// </summary>
-        [DataMember]
-        [DisplayName("主轴行程")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(6)]
-        public double SpindleTravel { get; set; }
-        /// <summary>
-        /// 圆锥压力;
-        /// </summary>
-        [DataMember]
-        [DisplayName("圆锥压力")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(7)]
-        public double MovaStress { get; set; }
-        /// <summary>
-        /// 油箱温度;
-        /// </summary>
-        [DataMember]
-        [DisplayName("油箱温度")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(8)]
-        public double TankTemperature { get; set; }
-        /// <summary>
-        /// 供油温度;
-        /// </summary>
-        [DataMember]
-        [DisplayName("供油温度")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(9)]
-        public double OilFeedTempreature { get; set; }
-        /// <summary>
-        /// 回油温度;
-        /// </summary>
-        [DataMember]
-        [DisplayName("回油温度")]
-       // //[MotorConfig(IsAlarmProperty = true)]
-        [ProtoMember(10)]
-        public double OilReturnTempreature { get; set; }
-        /// <summary>
-        /// 电流;
-        /// </summary>
-        [DisplayName("电流")]
-        [ProtoMember(11)]
-        //[MotorConfig(IsAlarmProperty = true)]
-        public double Current { get; set; }
-      
-    }
+   }
 }

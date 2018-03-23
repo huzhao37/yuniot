@@ -40,7 +40,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <param name="isExceed">是否超过一天的数据范围</param>
         /// <param name="dt">查询时间,精确到小时</param>
         /// <returns></returns>
-        public ConveyorByHour GetByMotorIdAndHour(string motorId, bool isExceed, DateTimeOffset dt)
+        public ConveyorByHour GetByMotorId(string motorId, bool isExceed, DateTimeOffset dt)
         {
             var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();         
             var capicity = motor?.Capicity??0;
@@ -57,8 +57,8 @@ namespace Yunt.Device.Repository.EF.Repositories
                                                                        e.Time.CompareTo(end) < 0 &&
                                                                        e.AccumulativeWeight > -1, e => e.Time).ToList();         
             var length = originalDatas?.Count() ?? 0;
-            double lastWeight = 0;
-            double weightSum = 0;
+            float lastWeight = 0;
+            float weightSum = 0;
 
             if (!(originalDatas?.Any()??false)) return new ConveyorByHour();
 
@@ -95,27 +95,22 @@ namespace Yunt.Device.Repository.EF.Repositories
             var bootOnArrays = (originalDatas.Any(c => c.InstantWeight > 0))
                 ? originalDatas.Count(c => c.InstantWeight > 0) : 0;
 
-            var averageInstantWeight = bootOnArrays == 0 ? 0 : originalDatas.
+            var AvgInstantWeight = bootOnArrays == 0 ? 0 : originalDatas.
                 Where(c => c.InstantWeight >= 0).Average(e => e.InstantWeight);
             var entity = new ConveyorByHour
             {
                 Time = start,
                 MotorId = motorId,
-                AverageInstantWeight = Math.Round(averageInstantWeight / 60, 2),
-                AverageCurrent = Math.Round(originalDatas.Average(o => o.Current), 2),
-                AverageVoltage = Math.Round(originalDatas.Average(o => o.Voltage), 2),
-                AverageVelocity = Math.Round(originalDatas.Average(o => o.Velocity), 2),
-                AverageFrequency = Math.Round(originalDatas.Average(o => o.Frequency), 2),
-                AveragePowerFactor = Math.Round(originalDatas.Average(o => o.PowerFactor), 2),
-                AverageReactivePower = Math.Round(originalDatas.Average(o => o.ReactivePower), 2),
-                AverageTotalPower = Math.Round(originalDatas.Average(o => o.TotalPower), 2),
-
-                AccumulativeWeight = Math.Round(weightSum, 2), //TODO：累计称重计算;
+                AvgInstantWeight = (float)Math.Round(AvgInstantWeight / 60, 2),
+                AvgCurrent_B = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2),
+                AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.Voltage_B), 2),           
+                AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.PowerFactor), 2),             
+                AccumulativeWeight = (float)Math.Round(weightSum, 2), //TODO：累计称重计算;
 
                 RunningTime = bootOnArrays,
 
                 //负荷 = 该小时内累计重量/额定产量 (单位: 吨/小时);
-                LoadStall = bootOnArrays == 0 ? 0 : Math.Round(((weightSum * 60) / bootOnArrays) / capicity, 2),
+                LoadStall = bootOnArrays == 0 ? 0 : (float)Math.Round(((weightSum * 60) / bootOnArrays) / capicity, 2),
             };
             return entity;
 
@@ -124,19 +119,19 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// 统计该小时内所有皮带机的数据;
         /// </summary>
         /// <param name="dt">时间</param>
-        /// <param name="motorTypeId">设备类型</param>
-        public async Task InsertHourStatistics(DateTime dt, string motorTypeId)
+        /// <param name="MotorTypeId">设备类型</param>
+        public async Task InsertHourStatistics(DateTimeOffset dt, string MotorTypeId)
         {
             var ts = new List<ConveyorByHour>();
             var hour = new DateTimeOffset(new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0));
-            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(MotorTypeId));
             foreach (var motor in query)
             {
                 var exsit = false;
                 exsit = GetEntities(o => o.Time.CompareTo(hour) == 0 && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
-                var t = GetByMotorIdAndHour(motor.MotorId, false, dt);
+                var t = GetByMotorId(motor.MotorId, false, dt);
                 if (t != null)
                     ts.Add(t);
             }

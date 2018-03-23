@@ -6,13 +6,13 @@ namespace Yunt.Device.Domain.Model
 {
     public partial class SimonsConeCrusherByHour : AggregateRoot
     {
-        public double AverageTankTemperature { get; set; }
-        public double AverageOilFeedTempreature { get; set; }
-        public double AverageOilReturnTempreature { get; set; }
-        public double AverageCurrent { get; set; }
-        public double RunningTime { get; set; }
-        public double LoadStall { get; set; }
+        public float AverageTankTemperature { get; set; }
+        public float AverageOilFeedTempreature { get; set; }
+        public float AverageOilReturnTempreature { get; set; }
+        public float AverageCurrent { get; set; }
+        public float RunningTime { get; set; }
+        public float LoadStall { get; set; }
         public string MotorId { get; set; }
-        public bool IsDeleted { get; set; }
+  
     }
 }

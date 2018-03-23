@@ -31,8 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.motorType = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.lb2 = new System.Windows.Forms.Label();
-            this.physicType = new System.Windows.Forms.ComboBox();
             this.txtParam = new System.Windows.Forms.TextBox();
             this.txtDesc = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -41,26 +39,25 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.Param = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Desc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.Physic = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MotorTypeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.menuOperate = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.button1 = new System.Windows.Forms.Button();
             this.txtKey = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnTranslate = new System.Windows.Forms.Button();
-            this.menuOperate = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
             this.menuOperate.SuspendLayout();
             this.SuspendLayout();
             // 
-            // motorType
+            // MotorType
             // 
             this.motorType.DisplayMember = "MotorTypeName";
             this.motorType.FormattingEnabled = true;
             this.motorType.Location = new System.Drawing.Point(169, 75);
-            this.motorType.Name = "motorType";
+            this.motorType.Name = "MotorType";
             this.motorType.Size = new System.Drawing.Size(121, 20);
             this.motorType.TabIndex = 0;
             this.motorType.ValueMember = "MotorType";
@@ -73,26 +70,6 @@
             this.label1.Size = new System.Drawing.Size(89, 12);
             this.label1.TabIndex = 1;
             this.label1.Text = "电机设备类型：";
-            // 
-            // lb2
-            // 
-            this.lb2.AutoSize = true;
-            this.lb2.Location = new System.Drawing.Point(374, 78);
-            this.lb2.Name = "lb2";
-            this.lb2.Size = new System.Drawing.Size(65, 12);
-            this.lb2.TabIndex = 3;
-            this.lb2.Text = "物理特性：";
-            // 
-            // physicType
-            // 
-            this.physicType.DisplayMember = "PhysicType";
-            this.physicType.FormattingEnabled = true;
-            this.physicType.Location = new System.Drawing.Point(445, 75);
-            this.physicType.Name = "physicType";
-            this.physicType.Size = new System.Drawing.Size(121, 20);
-            this.physicType.TabIndex = 2;
-            this.physicType.ValueMember = "Id";
-            this.physicType.SelectedIndexChanged += new System.EventHandler(this.physicType_SelectedIndexChanged);
             // 
             // txtParam
             // 
@@ -143,7 +120,6 @@
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Param,
             this.Desc,
-            this.Physic,
             this.MotorTypeId,
             this.Time});
             this.listView1.ContextMenuStrip = this.menuOperate;
@@ -171,11 +147,6 @@
             this.Desc.Text = "描述";
             this.Desc.Width = 122;
             // 
-            // Physic
-            // 
-            this.Physic.Text = "物理特性";
-            this.Physic.Width = 100;
-            // 
             // MotorTypeId
             // 
             this.MotorTypeId.Text = "电机设备类型";
@@ -186,9 +157,31 @@
             this.Time.Text = "时间";
             this.Time.Width = 144;
             // 
+            // menuOperate
+            // 
+            this.menuOperate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripMenuItem1,
+            this.toolStripMenuItem2});
+            this.menuOperate.Name = "menuOperate";
+            this.menuOperate.Size = new System.Drawing.Size(105, 48);
+            // 
+            // toolStripMenuItem1
+            // 
+            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(104, 22);
+            this.toolStripMenuItem1.Text = "编 辑";
+            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
+            // 
+            // toolStripMenuItem2
+            // 
+            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(104, 22);
+            this.toolStripMenuItem2.Text = "删 除";
+            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
+            // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(611, 75);
+            this.button1.Location = new System.Drawing.Point(611, 67);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 10;
@@ -235,28 +228,6 @@
             this.btnTranslate.UseVisualStyleBackColor = true;
             this.btnTranslate.Click += new System.EventHandler(this.btnTranslate_Click);
             // 
-            // menuOperate
-            // 
-            this.menuOperate.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem1,
-            this.toolStripMenuItem2});
-            this.menuOperate.Name = "menuOperate";
-            this.menuOperate.Size = new System.Drawing.Size(153, 70);
-            // 
-            // toolStripMenuItem1
-            // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem1.Text = "编 辑";
-            this.toolStripMenuItem1.Click += new System.EventHandler(this.toolStripMenuItem1_Click);
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(152, 22);
-            this.toolStripMenuItem2.Text = "删 除";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -273,8 +244,6 @@
             this.Controls.Add(this.label2);
             this.Controls.Add(this.txtDesc);
             this.Controls.Add(this.txtParam);
-            this.Controls.Add(this.lb2);
-            this.Controls.Add(this.physicType);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.motorType);
             this.Name = "Form1";
@@ -290,8 +259,6 @@
 
         private System.Windows.Forms.ComboBox motorType;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lb2;
-        private System.Windows.Forms.ComboBox physicType;
         private System.Windows.Forms.TextBox txtParam;
         private System.Windows.Forms.TextBox txtDesc;
         private System.Windows.Forms.Label label2;
@@ -300,7 +267,6 @@
         private System.Windows.Forms.ListView listView1;
         private System.Windows.Forms.ColumnHeader Param;
         private System.Windows.Forms.ColumnHeader Desc;
-        private System.Windows.Forms.ColumnHeader Physic;
         private System.Windows.Forms.ColumnHeader MotorTypeId;
         private System.Windows.Forms.ColumnHeader Time;
         private System.Windows.Forms.Button button1;

@@ -77,17 +77,7 @@ namespace DeviceManager.Model
             set { if (OnPropertyChanging(__.Time, value)) { _Time = value; OnPropertyChanged(__.Time); } }
         }
 
-        private String _PhysicFeature;
-        /// <summary></summary>
-        [DisplayName("PhysicFeature")]
-        [Description("")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("PhysicFeature", "", "VARCHAR(255)")]
-        public virtual String PhysicFeature
-        {
-            get { return _PhysicFeature; }
-            set { if (OnPropertyChanging(__.PhysicFeature, value)) { _PhysicFeature = value; OnPropertyChanged(__.PhysicFeature); } }
-        }
+  
         #endregion
 
         #region 获取/设置 字段值
@@ -109,7 +99,6 @@ namespace DeviceManager.Model
                     case __.Description : return _Description;
                     case __.MotorTypeId : return _MotorTypeId;
                     case __.Time : return _Time;
-                    case __.PhysicFeature : return _PhysicFeature;
                     default: return base[name];
                 }
             }
@@ -122,7 +111,6 @@ namespace DeviceManager.Model
                     case __.Description : _Description = Convert.ToString(value); break;
                     case __.MotorTypeId : _MotorTypeId = Convert.ToString(value); break;
                     case __.Time : _Time = Convert.ToDateTime(value); break;
-                    case __.PhysicFeature : _PhysicFeature = Convert.ToString(value); break;
                     default: base[name] = value; break;
                 }
             }
@@ -147,9 +135,7 @@ namespace DeviceManager.Model
 
             ///<summary></summary>
             public static readonly Field Time = FindByName(__.Time);
-
-            ///<summary></summary>
-            public static readonly Field PhysicFeature = FindByName(__.PhysicFeature);
+            
 
             static Field FindByName(String name) { return Meta.Table.FindByName(name); }
         }
@@ -171,9 +157,7 @@ namespace DeviceManager.Model
 
             ///<summary></summary>
             public const String Time = "Time";
-
-            ///<summary></summary>
-            public const String PhysicFeature = "PhysicFeature";
+            
 
         }
         #endregion
@@ -198,9 +182,7 @@ namespace DeviceManager.Model
 
         /// <summary></summary>
         DateTime Time { get; set; }
-
-        /// <summary></summary>
-        String PhysicFeature { get; set; }
+        
         #endregion
 
         #region 获取/设置 字段值

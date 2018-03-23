@@ -20,9 +20,13 @@ namespace Yunt.Device.Repository.EF.Repositories
             //当前时间本地调试情况下，仅同时4个线程对10000条相同记录进行修改所需的时间，若出现命令执行超时的异常
             //，应该考虑从业务本身优化入手
         }
+        public virtual DbSet<HVib> HVib { get; set; }
+        public virtual DbSet<HVibByHour> HVibByHour { get; set; }
+        public virtual DbSet<HVibByDay> HVibByDay { get; set; }
+        public virtual DbSet<MotorParams> MotorParams { get; set; }
         public virtual DbSet<MotorIdFactories> MotorIdFactories { get; set; }
         public virtual DbSet<Motor> Motor { get; set; }
-        public virtual DbSet<Motortype> Motortype { get; set; }
+        public virtual DbSet<MotorType> MotorType { get; set; }
         public virtual DbSet<ConeCrusher> ConeCrusher { get; set; }
         public virtual DbSet<ConeCrusherByDay> ConeCrusherByDay { get; set; }
         public virtual DbSet<ConeCrusherByHour> ConeCrusherByHour { get; set; }

@@ -17,6 +17,7 @@ namespace Yunt.Device.Repository.EF.Mappings
         {
             entity.ToTable("VibrosieveByDay");
             entity.HasKey(m => m.Id);
+            entity.HasIndex(m => m.MotorId);
         }
     }
 }

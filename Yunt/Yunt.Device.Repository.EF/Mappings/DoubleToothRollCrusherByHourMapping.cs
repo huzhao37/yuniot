@@ -18,6 +18,7 @@ namespace Yunt.Device.Repository.EF.Mappings
         {
             entity.ToTable("DoubleToothRollCrusherByHour");
             entity.HasKey(c => c.Id);
+            entity.HasIndex(m => m.MotorId);
         }
     }
 }

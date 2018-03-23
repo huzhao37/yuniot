@@ -21,35 +21,35 @@ namespace Yunt.Device.Repository.EF.Models
         /// </summary>
         [ProtoMember(5)]
         public string MotorId { get; set; }
-        [ProtoMember(6)]
-        public bool IsDeleted { get; set; }
+      
+  
         /// <summary>
         /// 电流
         /// </summary>
         [DisplayName("电流")]
         [ProtoMember(1)]
-        public double Current { get; set; }
+        public float Current { get; set; }
         /// <summary>
         /// 轴承1温度
         /// </summary>
         [DataMember]
         [DisplayName("轴承1温度")]
         [ProtoMember(2)]
-        public double SpindleTemperature1 { get; set; }
+        public float SpindleTemperature1 { get; set; }
         /// <summary>
         /// 轴承2温度
         /// </summary>
         [DataMember]
         [DisplayName("轴承2温度")]
         [ProtoMember(3)]
-        public double SpindleTemperature2 { get; set; }
+        public float SpindleTemperature2 { get; set; }
         /// <summary>
         /// 轴承速度  rPM
         /// </summary>
         [DataMember]
         [DisplayName("轴承速度")]
         [ProtoMember(4)]
-        public double BearingSpeed { get; set; }
+        public float BearingSpeed { get; set; }
         /// <summary>
         /// 时间
         /// </summary>

@@ -6,11 +6,11 @@ namespace Yunt.Device.Domain.Model
 {
     public partial class DoubleToothRollCrusherByDay:AggregateRoot
     {
-        public double Current { get; set; }
-        public double Current2 { get; set; }
-        public double RunningTime { get; set; }
-        public double LoadStall { get; set; }
+        public float Current { get; set; }
+        public float Current2 { get; set; }
+        public float RunningTime { get; set; }
+        public float LoadStall { get; set; }
         public string MotorId { get; set; }
-        public bool IsDeleted { get; set; }
+  
     }
 }

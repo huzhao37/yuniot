@@ -40,67 +40,61 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <param name="isExceed">是否超过一天的数据范围</param>
         /// <param name="dt">查询时间,精确到小时</param>
         /// <returns></returns>
-        public ImpactCrusherByHour GetByMotorIdAndHour(string motorId, bool isExceed, DateTimeOffset dt)
+        public ImpactCrusherByHour GetByMotorId(string motorId, bool isExceed, DateTimeOffset dt)
         {
             var standValue = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault()?.StandValue ?? 0;
 
             var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
 
-            var originalDatas = _icRep.GetEntities(motorId, isExceed, e => e.Current > -1 && e.Time.CompareTo(start) >= 0 &&
+            var originalDatas = _icRep.GetEntities(motorId, isExceed, e => e.Motor1Current_B > -1 && e.Time.CompareTo(start) >= 0 &&
                                     e.Time.CompareTo(end) < 0, e => e.Time);
 
             if (!originalDatas.Any()) return new ImpactCrusherByHour();
 
-            var offCounts = 0;
-    
+            //var offCounts = 0;
 
+            //var totalDatas = _icRep.GetEntities(motorId, isExceed, e => e.Time.CompareTo(start) >= 0 &&
+            //                        e.Time.CompareTo(end) < 0, e => e.Time);
 
-            var totalDatas = _icRep.GetEntities(motorId, isExceed, e => e.Time.CompareTo(start) >= 0 &&
-                                    e.Time.CompareTo(end) < 0, e => e.Time);
-
-            if (totalDatas.Any())
-            {
-                var currents = totalDatas.Select(c => c.Current).ToList();
-                offCounts = GetOnoffSets(currents);
-            }
-            var average = Math.Round(originalDatas.Average(o => o.Current), 2);
+            //if (totalDatas.Any())
+            //{
+            //    var currents = totalDatas.Select(c => c.Motor1Current_B).ToList();
+            //    offCounts = GetOnoffSets(currents);
+            //}
+            var average = (float)Math.Round(originalDatas.Average(o => o.Motor1Current_B), 2);
             var entity = new ImpactCrusherByHour
             {
                 Time = start,
                 MotorId = motorId,
-                AverageCurrent = average,
-                AverageCurrent2 = Math.Round(originalDatas.Average(o => o.Current2), 2),
-                AverageSpindleTemperature1 = Math.Round(originalDatas.Average(o => o.SpindleTemperature1), 2),
-                AverageSpindleTemperature2 = Math.Round(originalDatas.Average(o => o.SpindleTemperature2), 2),
-                OnOffCounts = offCounts,
-
-                RunningTime = originalDatas.Count(c => c.Current > 0),
-                LoadStall = (standValue == 0) ? 0 : Math.Round(average / standValue, 2)
+                AvgMotor1Current_B = average,
+                AvgMotor2Current_B = (float)Math.Round(originalDatas.Average(o => o.Motor2Current_B), 2),
+                AvgSpindleTemperature1 = (float)Math.Round(originalDatas.Average(o => o.SpindleTemperature1), 2),
+                AvgSpindleTemperature2 = (float)Math.Round(originalDatas.Average(o => o.SpindleTemperature2), 2),
+                //OnOffCounts = offCounts,
+                RunningTime = originalDatas.Count(c => c.Motor1Current_B > 0),
+                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
             };
             return entity;
-
-
-
 
         }
         /// <summary>
         /// 统计该小时内所有反击破的数据;
         /// </summary>
         /// <param name="dt">时间</param>
-        /// <param name="motorTypeId">设备类型</param>
-        public async Task InsertHourStatistics(DateTime dt, string motorTypeId)
+        /// <param name="MotorTypeId">设备类型</param>
+        public async Task InsertHourStatistics(DateTimeOffset dt, string MotorTypeId)
         {
             var ts = new List<ImpactCrusherByHour>();
             var hour = new DateTimeOffset(new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0));
-            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(MotorTypeId));
             foreach (var motor in query)
             {
                 var exsit = false;
                 exsit = GetEntities(o => o.Time.CompareTo(hour) == 0 && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
-                var t = GetByMotorIdAndHour(motor.MotorId, false, dt);
+                var t = GetByMotorId(motor.MotorId, false, dt);
                 if (t != null)
                     ts.Add(t);
             }
@@ -123,7 +117,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         {
             var isOn = false;
             int onOffs = 0, tempCount = 0;
-            double temp = 0;
+            float temp = 0;
             foreach (var data in datas)
             {
                 if (data > 0)

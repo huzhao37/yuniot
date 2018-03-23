@@ -18,21 +18,21 @@ namespace Yunt.Device.Repository.EF.Models
         /// </summary>
         [ProtoMember(3)]
         public string MotorId { get; set; }
-        [ProtoMember(4)]
-        public bool IsDeleted { get; set; }
+
+  
         /// <summary>
         /// 主机1电流
         /// </summary>
         [DisplayName("主机电流1")]
         [ProtoMember(1)]
-        public double Current { get; set; }
+        public float Current { get; set; }
         /// <summary>
         /// 主机2电流
         /// </summary>
         [DataMember]
         [DisplayName("主机电流2")]
         [ProtoMember(2)]
-        public double Current2 { get; set; }
+        public float Current2 { get; set; }
         ///// <summary>
         ///// 时间
         ///// </summary>

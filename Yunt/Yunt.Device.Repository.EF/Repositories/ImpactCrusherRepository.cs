@@ -458,7 +458,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public int GetTodayRunningTimeByCurrent(string motorId)
         {
             var time = DateTimeOffset.UtcNow.Date;
-            return GetEntities(motorId, false, c => c.Current > 0 && c.Time.CompareTo(time) >= 0).Count();
+            return GetEntities(motorId, false, c => c.Motor1Current_B > 0 && c.Time.CompareTo(time) >= 0).Count();
         }
 
         /// <summary>
@@ -472,7 +472,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var lastData = GetLatestRecord(motorId);
             if (lastData != null && DateTimeOffset.UtcNow.CompareTo(lastData.Time) <= 10)
             {
-                status = lastData.Current > 0;
+                status = lastData.Motor1Current_B > 0;
             }
             return status;
         }

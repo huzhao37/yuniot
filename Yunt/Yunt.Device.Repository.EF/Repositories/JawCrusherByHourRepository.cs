@@ -39,7 +39,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <param name="isExceed">是否超过一天的数据范围</param>
         /// <param name="dt">查询时间,精确到小时</param>
         /// <returns></returns>
-        public JawCrusherByHour GetByMotorIdAndHour(string motorId, bool isExceed, DateTimeOffset dt)
+        public JawCrusherByHour GetByMotorId(string motorId, bool isExceed, DateTimeOffset dt)
         {
 
             var standValue = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault()?.StandValue ?? 0;
@@ -47,29 +47,27 @@ namespace Yunt.Device.Repository.EF.Repositories
             var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
 
-            var originalDatas = _jcRep.GetEntities(motorId, isExceed, e => e.Current > -1 && e.Time.CompareTo(start) >= 0 &&
+            var originalDatas = _jcRep.GetEntities(motorId, isExceed, e => e.Current_B > -1 && e.Time.CompareTo(start) >= 0 &&
                                     e.Time.CompareTo(end) < 0, e => e.Time);
 
-            if (!originalDatas.Any(c => c.Current > 0)) return new JawCrusherByHour();
+            if (!(originalDatas?.Any() ?? false)) return new JawCrusherByHour();
 
-            var average = Math.Round(originalDatas.Average(o => o.Current), 2);
+            var average = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2);
             var entity = new JawCrusherByHour
             {
                 Time = start,
                 MotorId = motorId,
-                AverageCurrent = average,
-                AverageVoltage = Math.Round(originalDatas.Average(o => o.Voltage), 2),
-                AveragePowerFactor = Math.Round(originalDatas.Average(o => o.PowerFactor), 2),
-                AverageReactivePower = Math.Round(originalDatas.Average(o => o.ReactivePower), 2),
-                AverageTotalPower = Math.Round(originalDatas.Average(o => o.TotalPower), 2),
+                AvgCurrent_B = average,
+                AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.Voltage_B), 2),
+                AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.PowerFactor), 2),
 
-                AverageRackSpindleTemperature1 = Math.Round(originalDatas.Average(o => o.RackSpindleTemperature1), 2),
-                AverageMotiveSpindleTemperature1 = Math.Round(originalDatas.Average(o => o.MotiveSpindleTemperature1), 2),
-                AverageMotiveSpindleTemperature2 = Math.Round(originalDatas.Average(o => o.MotiveSpindleTemperature2), 2),
-                AverageRackSpindleTemperature2 = Math.Round(originalDatas.Average(o => o.RackSpindleTemperature2), 2),
+                AvgRackSpindleTemperature1 = (float)Math.Round(originalDatas.Average(o => o.RackSpindleTemperature1), 2),
+                AvgMotiveSpindleTemperature1 = (float)Math.Round(originalDatas.Average(o => o.MotiveSpindleTemperature1), 2),
+                AvgMotiveSpindleTemperature2 = (float)Math.Round(originalDatas.Average(o => o.MotiveSpindleTemperature2), 2),
+                AvgRackSpindleTemperature2 = (float)Math.Round(originalDatas.Average(o => o.RackSpindleTemperature2), 2),
 
-                RunningTime = originalDatas.Count(c => c.Current > 0),
-                LoadStall = (standValue == 0) ? 0 : Math.Round(average / standValue, 2)
+                RunningTime = originalDatas.Count(c => c.Current_B > 0),
+                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
             };
             return entity;
 
@@ -78,19 +76,19 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// 统计该小时内所有鄂破的数据;
         /// </summary>
         /// <param name="dt">时间</param>
-        /// <param name="motorTypeId">设备类型</param>
-        public async Task InsertHourStatistics(DateTime dt, string motorTypeId)
+        /// <param name="MotorTypeId">设备类型</param>
+        public async Task InsertHourStatistics(DateTimeOffset dt, string MotorTypeId)
         {
             var ts = new List<JawCrusherByHour>();
             var hour = new DateTimeOffset(new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0));
-            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(MotorTypeId));
             foreach (var motor in query)
             {
                 var exsit = false;
                 exsit = GetEntities(o => o.Time.CompareTo(hour) == 0 && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
-                var t = GetByMotorIdAndHour(motor.MotorId, false, dt);
+                var t = GetByMotorId(motor.MotorId, false, dt);
                 if (t != null)
                     ts.Add(t);
             }

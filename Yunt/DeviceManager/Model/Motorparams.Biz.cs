@@ -112,45 +112,45 @@ namespace DeviceManager.Model
         }
 
      
-        public static IList<Motorparams> FindByParam(string motorTypeId, string physicType,string param)
+        public static IList<Motorparams> FindByParam(string MotorTypeId,  string param)
         {
             if (Meta.Count >= 1000)
-                return FindAll(new string[] { __.MotorTypeId, __.PhysicFeature,_.Param},
-                    new object[] { motorTypeId, physicType, param });
+                return FindAll(new string[] { __.MotorTypeId, _.Param},
+                    new object[] { MotorTypeId,  param });
             else // 实体缓存
                 return
                    Meta.Cache.Entities.FindAll(
-                       e => e.MotorTypeId.EqualIgnoreCase(motorTypeId) && e.PhysicFeature.EqualIgnoreCase(physicType) && e.Param.EqualIgnoreCase(param));
+                       e => e.MotorTypeId.EqualIgnoreCase(MotorTypeId) && e.Param.EqualIgnoreCase(param));
         }
 
  
 
 
-        public static IList<Motorparams> FindByDesc(string motorTypeId, string physicType, string desc)
+        public static IList<Motorparams> FindByDesc(string MotorTypeId,  string desc)
         {
             if (Meta.Count >= 1000)
-                return FindAll(new string[] { __.MotorTypeId, __.PhysicFeature, _.Description },
-                    new object[] { motorTypeId, physicType, desc });
+                return FindAll(new string[] { __.MotorTypeId,  _.Description },
+                    new object[] { MotorTypeId, desc });
             else // 实体缓存
                 return
                    Meta.Cache.Entities.FindAll(
-                       e => e.MotorTypeId.EqualIgnoreCase(motorTypeId) && e.PhysicFeature.EqualIgnoreCase(physicType) && e.Description.EqualIgnoreCase(desc));
+                       e => e.MotorTypeId.EqualIgnoreCase(MotorTypeId)  && e.Description.EqualIgnoreCase(desc));
         }
         #endregion
 
         #region 扩展操作
 
-        public static void FromExcel()
+        public static void FromExcel(string fileName)
         {
             //var dir = "E:\\NewProject\\MiningMachineryMonitorPlatform\\LocalDB\\DataForm.db";
-            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NewLife.Runtime.IsWeb ? "file" : "", "Dll\\params.txt");
+            string path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, NewLife.Runtime.IsWeb ? "file" : "", $"Dll\\{fileName}.txt");
 
             if (File.Exists(path))
             {
                 XTrace.WriteLine("从文件导入数据表单基本数据");
                 using (StreamReader sr = new StreamReader(path, Encoding.Default))
                 {
-                    //  sr.ReadLine(); //跳过第一行
+                      sr.ReadLine(); //跳过第一行
                     //sr.ReadLine(); //跳过第二行
                     while (!sr.EndOfStream)
                     {
@@ -158,10 +158,29 @@ namespace DeviceManager.Model
                         if (line.IsNullOrWhiteSpace()) continue;
 
                         var arr = line.Split(new char[] { ' ', '\t', ';' }, StringSplitOptions.RemoveEmptyEntries);
-                        if (arr.Length == 2)
+                        if (arr.Length == 5)
                         {
-
-                            AddEntity(arr[0], arr[1]);
+                            if(!arr[3].EqualIgnoreCase("REAL"))
+                                continue;                         
+                            if (arr[2].EqualIgnoreCase("圆锥破"))
+                                arr[2] = "CC";
+                            if (arr[2].EqualIgnoreCase("立轴破"))
+                                arr[2] = "VC";
+                            if (arr[2].EqualIgnoreCase("高频筛"))
+                                arr[2] = "HVB";
+                            if (arr[2].EqualIgnoreCase("超细磨"))
+                                arr[2] = "PUL";
+                            if (arr[2].EqualIgnoreCase("皮带机"))
+                                arr[2] = "CY";
+                            if (arr[2].EqualIgnoreCase("振动筛"))
+                                arr[2] = "VB";
+                            if (arr[2].EqualIgnoreCase("给料机"))
+                                arr[2] = "MF";
+                            if (arr[2].EqualIgnoreCase("反击破"))
+                                arr[2] = "IC";
+                            if (arr[2].EqualIgnoreCase("颚破"))
+                                arr[2] = "JC";
+                            AddEntity(arr[1], arr[2],arr[4]);
 
                         }
 
@@ -172,12 +191,13 @@ namespace DeviceManager.Model
         }
 
 
-        private static void AddEntity(string param, string desc)
+        private static void AddEntity(string desc,string MotorTypeId,string param )
         {
             var entity = new Motorparams()
             {
                Param = param,
                Description = desc,
+               MotorTypeId = MotorTypeId,
                Time = DateTime.Now,
             };
             entity.Insert();

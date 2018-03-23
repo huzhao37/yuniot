@@ -1,58 +1,96 @@
-﻿using ProtoBuf;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+using System.ComponentModel;
+using System.Runtime.Serialization;
+using ProtoBuf;
 
-namespace Yunt.Device.Repository.EF.Models
+namespace Yunt.Device.Repository.EF.Models 
 {
-    /// <summary>
-    /// 给料机按天统计数据;
-    /// </summary>
-     [Serializable][ProtoContract(SkipConstructor = true)]
-    public class MaterialFeederByDay : BaseModel
-    {
-        /// <summary>
-        /// 设备ID
-        /// </summary>
-        [ProtoMember(7)]
-        public string MotorId { get; set; }
-        [ProtoMember(8)]
-        public bool IsDeleted { get; set; }
-        /// <summary>
-        /// 平均频率;        
-        /// </summary>
-        [ProtoMember(1)]
-        public double AverageFrequency { get; set; }
-        /// <summary>
-        /// 平均电流;        
-        /// </summary>
-        [ProtoMember(2)]
-        public double AverageCurrent { get; set; }
-        /// <summary>
-        /// 平均电压;
-        /// </summary>
-        [ProtoMember(3)]
-        public double AverageVoltage { get; set; }
-        /// <summary>
-        /// 平均速度;        
-        /// </summary>
-        [ProtoMember(4)]
-        public double AverageVelocity { get; set; }
+     /// <summary>
+   /// MF
+   /// </summary>
+   [DataContract]
+   [Serializable]
+   [ProtoContract(SkipConstructor = true)]
+ public class MaterialFeederByDay:BaseModel
+   {
+      /// <summary>
+      /// 功率因素
+      /// </summary>
+      [DataMember]
+      [DisplayName("功率因素")]
+      [ProtoMember(1)]
+      public float AvgPowerFactor{get;set;}
+      /// <summary>
+      /// C相电流
+      /// </summary>
+      [DataMember]
+      [DisplayName("C相电流")]
+      [ProtoMember(2)]
+      public float AvgCurrent_C{get;set;}
+      /// <summary>
+      /// B相电流
+      /// </summary>
+      [DataMember]
+      [DisplayName("B相电流")]
+      [ProtoMember(3)]
+      public float AvgCurrent_B{get;set;}
+      /// <summary>
+      /// A相电流
+      /// </summary>
+      [DataMember]
+      [DisplayName("A相电流")]
+      [ProtoMember(4)]
+      public float AvgCurrent_A{get;set;}
+      /// <summary>
+      /// C相电压
+      /// </summary>
+      [DataMember]
+      [DisplayName("C相电压")]
+      [ProtoMember(5)]
+      public float AvgVoltage_C{get;set;}
+      /// <summary>
+      /// B相电压
+      /// </summary>
+      [DataMember]
+      [DisplayName("B相电压")]
+      [ProtoMember(6)]
+      public float AvgVoltage_B{get;set;}
+      /// <summary>
+      /// A相电压
+      /// </summary>
+      [DataMember]
+      [DisplayName("A相电压")]
+      [ProtoMember(7)]
+      public float AvgVoltage_A{get;set;}
+      /// <summary>
+      /// 有功电能
+      /// </summary>
+      [DataMember]
+      [DisplayName("有功电能")]
+      [ProtoMember(8)]
+      public float ActivePower{get;set;}
+      /// <summary>
+      /// 频率
+      /// </summary>
+      [DataMember]
+      [DisplayName("频率")]
+      [ProtoMember(9)]
+      public float AvgFrequency{get;set;}
+     /// <summary>
+     /// 电机设备编号
+     /// </summary>
+     [ProtoMember(10)]
+      public string MotorId { get; set; }
+     /// <summary>
+     /// 开机时间
+     /// </summary>
+     [ProtoMember(12)]
+      public float RunningTime { get; set; }
+     /// <summary>
+     /// 负荷
+     /// </summary>
+     [ProtoMember(13)]
+      public float LoadStall { get; set; }
 
-        /// <summary>
-        /// 开机时间
-        /// </summary>
-        [ProtoMember(5)]
-        public double RunningTime { get; set; }
-        /// <summary>
-        /// 负荷
-        /// </summary>
-        [ProtoMember(6)]
-        public double LoadStall { get; set; }
-        //[ProtoMember(7)]
-        //public DateTimeOffset Time { get; set; }
-        //[ProtoMember(8)]
-        //public string MotorId { get; set; }
-    }
+   }
 }

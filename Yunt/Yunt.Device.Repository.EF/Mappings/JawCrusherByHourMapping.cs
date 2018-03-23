@@ -17,6 +17,7 @@ namespace Yunt.Device.Repository.EF.Mappings
         {
             entity.ToTable("JawCrusherByHour");
             entity.HasKey(j => j.Id);
+            entity.HasIndex(m => m.MotorId);
         }
     }
 }

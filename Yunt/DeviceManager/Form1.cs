@@ -21,7 +21,7 @@ namespace DeviceManager
         private Motorparams exp;
         public Form1()
         {
-        //    Motorparams.FromExcel();
+            //Init();
 
             InitializeComponent();
             this.Name = "DeviceManager";
@@ -31,6 +31,18 @@ namespace DeviceManager
             AllInit();
         }
 
+        private void Init()
+        {
+            Motorparams.FromExcel("cc");
+            Motorparams.FromExcel("cy");
+            Motorparams.FromExcel("hvb");
+            Motorparams.FromExcel("ic");
+            Motorparams.FromExcel("jc");
+            Motorparams.FromExcel("mf");
+            Motorparams.FromExcel("vb");
+            Motorparams.FromExcel("vc");
+            Motorparams.FromExcel("pul");
+        }
         private void physicType_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -38,13 +50,19 @@ namespace DeviceManager
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            var motorTypeId = (this.motorType.SelectedItem as Motortype).MotorTypeId;
-            var physicType = (this.physicType.SelectedItem as Physicfeature).PhysicType;
+            var MotorTypeId = (this.motorType.SelectedItem as MotorType).MotorTypeId;
+            //var physicType = (this.physicType.SelectedItem as Physicfeature).PhysicType;
             var param = this.txtParam.Text;
             var desc = this.txtDesc.Text;
 
             if(this.btnAdd.Text.EqualIgnoreCase("添 加"))
             {
+                var result = MessageBox.Show(this, "确定需要删除此记录？请与软件部门联系后再点击确定！否则后果自负！", "MessageBox", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    return;
+                }
+                return;
                 if (param.IsNullOrWhiteSpace())
                 {
                     MessageBox.Show($@"{param}不能为空！");
@@ -55,8 +73,8 @@ namespace DeviceManager
                     MessageBox.Show($@"{desc}不能为空！");
                     return;
                 }
-                var exsit1 = Motorparams.FindByParam(motorTypeId, physicType, param);
-                var exsit2 = Motorparams.FindByDesc(motorTypeId, physicType, desc);
+                var exsit1 = Motorparams.FindByParam(MotorTypeId, param);
+                var exsit2 = Motorparams.FindByDesc(MotorTypeId, desc);
 
                 if (exsit1.Any())
                 {
@@ -72,8 +90,7 @@ namespace DeviceManager
                 {
                     Param = param,
                     Description = desc,
-                    MotorTypeId = motorTypeId,
-                    PhysicFeature = physicType,
+                    MotorTypeId = MotorTypeId,
                     Time = DateTime.Now
                 };
                 filedParam.Insert();
@@ -93,8 +110,8 @@ namespace DeviceManager
                     return;
                 }
     
-                var exsit1 = Motorparams.FindByParam(motorTypeId, physicType, param);
-                var exsit2 = Motorparams.FindByDesc(motorTypeId, physicType, desc);
+                var exsit1 = Motorparams.FindByParam(MotorTypeId, param);
+                var exsit2 = Motorparams.FindByDesc(MotorTypeId, desc);
 
                 if (exsit1.Any()&&exsit1.Count==2)
                 {
@@ -108,8 +125,8 @@ namespace DeviceManager
                 }
                 exp.Param = param;
                 exp.Description = desc;
-                exp.MotorTypeId = motorTypeId;
-                exp.PhysicFeature = physicType;
+                exp.MotorTypeId = MotorTypeId;
+               // exp.PhysicFeature = physicType;
                 exp.Time = DateTime.Now;
 
                 exp.Update();
@@ -125,7 +142,7 @@ namespace DeviceManager
         private void AllInit()
         {
             MotorTypeInit();
-            PhysicTypeInit();
+            //PhysicTypeInit();
             ListInit();
         }
     
@@ -137,31 +154,31 @@ namespace DeviceManager
             {
                 if (lv.Selected)
                 {
-                    var motorTypeCode = "";
-                    if (!lv.SubItems[3].Text.IsNullOrWhiteSpace())
+                    var MotorTypeCode = "";
+                    if (!lv.SubItems[2].Text.IsNullOrWhiteSpace())
                     {
-                        var motorT = Motortype.Find("MotorTypeId", lv.SubItems[3].Text);
+                        var motorT = MotorType.Find("MotorTypeId", lv.SubItems[2].Text);
                         if (motorT != null)
                         {
                             motorType.SelectedValue = motorT.MotorTypeId; //根据索引修改选中项
                             motorType.SelectedItem = motorT; //根据Key得到选中项
 
-                            motorTypeCode = motorT.MotorTypeId;
+                            MotorTypeCode = motorT.MotorTypeId;
                         }
                     }
-                    var phy = Physicfeature.Find("PhysicType", lv.SubItems[2].Text);
-                    if (phy != null)
-                    {
+                    //var phy = Physicfeature.Find("PhysicType", lv.SubItems[2].Text);
+                    //if (phy != null)
+                    //{
 
-                        physicType.SelectedValue = phy.Id;    //根据索引修改选中项
-                        physicType.SelectedItem = phy; //根据Key得到选中项
-                                                       // this.physicType.SelectedText = lv.SubItems[2].Text;
-                    }
+                    //    physicType.SelectedValue = phy.Id;    //根据索引修改选中项
+                    //    physicType.SelectedItem = phy; //根据Key得到选中项
+                    //                                   // this.physicType.SelectedText = lv.SubItems[2].Text;
+                    //}
 
                     this.txtParam.Text = lv.Text;
                     this.txtDesc.Text = lv.SubItems[1].Text;
 
-                    exp = Motorparams.FindByParam(motorTypeCode, phy.PhysicType, lv.Text).SingleOrDefault();
+                    exp = Motorparams.FindByParam(MotorTypeCode, lv.Text).SingleOrDefault();
                 }
             
 
@@ -180,7 +197,7 @@ namespace DeviceManager
             {
                 var strings = new string[]
                {
-                    param.Param,param.Description,param.PhysicFeature,param.MotorTypeId,param.Time.ToString()
+                    param.Param,param.Description,param.MotorTypeId,param.Time.ToString()
                };
                 var listViewItem = new ListViewItem(strings) { Tag = param };
                 this.listView1.Items.Add(listViewItem);
@@ -191,7 +208,7 @@ namespace DeviceManager
 
         private void MotorTypeInit()
         {
-            var types = Motortype.FindAll();
+            var types = MotorType.FindAll();
 
             this.motorType.DataSource = types;
             this.motorType.ValueMember = "MotorTypeId";
@@ -200,11 +217,11 @@ namespace DeviceManager
 
         private void PhysicTypeInit()
         {
-            var types = Physicfeature.FindAll();
+            //var types = Physicfeature.FindAll();
 
-            this.physicType.DataSource = types;
-            this.physicType.ValueMember = "Id";
-            this.physicType.DisplayMember = "PhysicType";
+            //this.physicType.DataSource = types;
+            //this.physicType.ValueMember = "Id";
+            //this.physicType.DisplayMember = "PhysicType";
         }
         /// <summary>
         /// 参考文档
@@ -240,18 +257,18 @@ namespace DeviceManager
         private void Seacher()
         {
             var txt = this.txtKey.Text;
-            var motorTypeId = (this.motorType.SelectedItem as Motortype).MotorTypeId;
-            var physicType = (this.physicType.SelectedItem as Physicfeature).PhysicType;
+            var MotorTypeId = (this.motorType.SelectedItem as MotorType).MotorTypeId;
+            //var physicType = (this.physicType.SelectedItem as Physicfeature).PhysicType;
 
             IList<Motorparams> list = null;
             if (txt.IsEnlish())
             {
-                list = Motorparams.FindByParam(motorTypeId, physicType, txt);
+                list = Motorparams.FindByParam(MotorTypeId, txt);
             }
 
             if (txt.IsChina())
             {
-                list = Motorparams.FindByDesc(motorTypeId, physicType, txt);
+                list = Motorparams.FindByDesc(MotorTypeId, txt);
             }
             if (txt.IsNullOrWhiteSpace())
             {
@@ -268,7 +285,7 @@ namespace DeviceManager
                 {
                     var strings = new string[]
                     {
-                        param.Param, param.Description, param.PhysicFeature, param.MotorTypeId, param.Time.ToString()
+                        param.Param, param.Description,  param.MotorTypeId, param.Time.ToString()
                     };
                     var listViewItem = new ListViewItem(strings) {Tag = param};
                     this.listView1.Items.Add(listViewItem);
@@ -346,9 +363,12 @@ namespace DeviceManager
             var result=MessageBox.Show(this, "确定需要删除此记录？请与软件部门联系后再点击确定！否则后果自负！", "MessageBox", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
             if (result == DialogResult.Yes)
             {
-                exp.Delete();
-                ListInit();
+                //    exp.Delete();
+                //    ListInit();
+                //}
+                return;
             }
+            return;
         }
     }
 

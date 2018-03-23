@@ -460,7 +460,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var lastData = GetLatestRecord(motorId);
             if (lastData != null && DateTimeOffset.UtcNow.CompareTo(lastData.Time) <= 10)
             {
-                status = lastData.Current > 0;
+                status = lastData.Current_B > 0;
             }
             return status;
         }

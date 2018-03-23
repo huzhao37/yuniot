@@ -17,6 +17,7 @@ namespace Yunt.Device.Repository.EF.Mappings
         {
             entity.ToTable("ImpactCrusherByHour");
             entity.HasKey(c => c.Id);
+            entity.HasIndex(m => m.MotorId);
         }
     }
 }

@@ -6,7 +6,7 @@ namespace Yunt.Device.Domain.Model
 {
     public partial class SimonsConeCrusher : AggregateRoot
     {
-        public bool IsDeleted { get; set; }
+  
         public string MotorId { get; set; }
         public float TankTemperature { get; set; }
         public float OilFeedTempreature { get; set; }

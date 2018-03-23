@@ -17,7 +17,7 @@ namespace Yunt.Device.Repository.EF.Mappings
             entity.ToTable("Motor");
             entity.HasKey(m => m.Id);
             entity.Property(m => m.Name).HasMaxLength(120).IsRequired();
-            
+            entity.HasIndex(m => m.MotorId);
 
             //this.HasMany(a => a.EmbeddedDevices).WithMany(a => a.Motors).Map(m =>
             //{

@@ -26,7 +26,6 @@ namespace Yunt.Device.Repository.EF.Repositories
             
         }
 
-
         #region Insert
         public override int Insert(Conveyor t)
         {
@@ -459,7 +458,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public int GetTodayRunningTimeByCurrent(string motorId)
         {
             var time = DateTimeOffset.UtcNow.Date;
-            return GetEntities(motorId, false, c => c.Current > 0 && c.Time.CompareTo(time) >= 0).Count();
+            return GetEntities(motorId, false, c => c.Current_B > 0 && c.Time.CompareTo(time) >= 0).Count();
         }
         /// <summary>
         /// 根据瞬时称重获取当日开机时间
@@ -482,7 +481,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var lastData = GetLatestRecord(motorId);
             if (lastData != null && DateTimeOffset.UtcNow.CompareTo(lastData.Time) <= 10)
             {
-                status = lastData.Current > 0;
+                status = lastData.Current_B > 0;
             }
             return status;
         }

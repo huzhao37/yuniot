@@ -13,11 +13,11 @@ namespace Yunt.Common
         /// 生成新编码
         /// </summary>
         /// <returns></returns>
-        public static  string NewMotor<T>(this T t,string lineId,string motorType,int motorIndex)
+        public static  string NewMotor<T>(this T t,string lineId,string MotorType,int motorIndex)
         {
             try
             {         
-                return lineId + "-" + motorType + motorIndex.ToString().PadLeft(6, '0'); ;//保证6位数，不足补0
+                return lineId + "-" + MotorType + motorIndex.ToString().PadLeft(6, '0'); ;//保证6位数，不足补0
             }
             catch (Exception ex)
             { 

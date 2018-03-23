@@ -6,13 +6,13 @@ namespace Yunt.Device.Domain.Model
 {
     public partial class ReverHammerCrusherByDay:AggregateRoot
     {
-        public double Current { get; set; }
-        public double SpindleTemperature1 { get; set; }
-        public double SpindleTemperature2 { get; set; }
-        public double BearingSpeed { get; set; }
-        public double RunningTime { get; set; }
-        public double LoadStall { get; set; }
+        public float Current { get; set; }
+        public float SpindleTemperature1 { get; set; }
+        public float SpindleTemperature2 { get; set; }
+        public float BearingSpeed { get; set; }
+        public float RunningTime { get; set; }
+        public float LoadStall { get; set; }
         public string MotorId { get; set; }
-        public bool IsDeleted { get; set; }
+  
     }
 }

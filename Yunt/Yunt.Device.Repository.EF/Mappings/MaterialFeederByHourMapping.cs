@@ -14,6 +14,7 @@ namespace Yunt.Device.Repository.EF.Mappings
         {
             entity.ToTable("MaterialFeederByHour");
             entity.HasKey(m => m.Id);
+            entity.HasIndex(m => m.MotorId);
         }
     }
 }

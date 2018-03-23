@@ -18,6 +18,7 @@ namespace Yunt.Device.Repository.EF.Mappings
             entity.ToTable("Conveyor");
             entity.HasKey(c => c.Id);
             //HasRequired(c => c.Motor).WithRequiredDependent().Map(c => c.MapKey("MotorId")); 
+            entity.HasIndex(m => m.MotorId);
         }
     }
 }

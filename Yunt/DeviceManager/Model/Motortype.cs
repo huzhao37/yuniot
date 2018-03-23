@@ -8,13 +8,13 @@ using XCode.DataAccessLayer;
 
 namespace DeviceManager.Model
 {
-    /// <summary>Motortype</summary>
+    /// <summary>MotorType</summary>
     /// <remarks></remarks>
     [Serializable]
     [DataObject]
     [Description("")]
-    [BindTable("motortype", Description = "", ConnName = "devicemanager", DbType = DatabaseType.MySql)]
-    public partial class Motortype : IMotortype
+    [BindTable("MotorType", Description = "", ConnName = "devicemanager", DbType = DatabaseType.MySql)]
+    public partial class MotorType : IMotorType
     {
         #region 属性
         private Int32 _Id;
@@ -102,7 +102,7 @@ namespace DeviceManager.Model
         #endregion
 
         #region 字段名
-        /// <summary>取得Motortype字段信息的快捷方式</summary>
+        /// <summary>取得MotorType字段信息的快捷方式</summary>
         public partial class _
         {
             ///<summary></summary>
@@ -120,7 +120,7 @@ namespace DeviceManager.Model
             static Field FindByName(String name) { return Meta.Table.FindByName(name); }
         }
 
-        /// <summary>取得Motortype字段名称的快捷方式</summary>
+        /// <summary>取得MotorType字段名称的快捷方式</summary>
         partial class __
         {
             ///<summary></summary>
@@ -139,9 +139,9 @@ namespace DeviceManager.Model
         #endregion
     }
 
-    /// <summary>Motortype接口</summary>
+    /// <summary>MotorType接口</summary>
     /// <remarks></remarks>
-    public partial interface IMotortype
+    public partial interface IMotorType
     {
         #region 属性
         /// <summary></summary>

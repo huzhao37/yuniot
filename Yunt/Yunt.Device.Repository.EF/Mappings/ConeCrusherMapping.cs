@@ -17,7 +17,7 @@ namespace Yunt.Device.Repository.EF.Mappings
         {
             entity.ToTable("ConeCrusher");
             entity.HasKey(c => c.Id);
-         
+            entity.HasIndex(m => m.MotorId);
             // etc.
         }
     }

@@ -25,31 +25,45 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("Current");
+                    b.Property<float>("AbsSpindleTravel");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("ActivePower");
+
+                    b.Property<float>("Current_A");
+
+                    b.Property<float>("Current_B");
+
+                    b.Property<float>("Current_C");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("MovaStress");
+                    b.Property<float>("MovaStress");
 
-                    b.Property<double>("OilFeedTempreature");
+                    b.Property<float>("OilFeedTempreature");
 
-                    b.Property<double>("OilReturnTempreature");
+                    b.Property<float>("OilReturnTempreatur");
 
-                    b.Property<double>("PowerFactor");
+                    b.Property<float>("PowerFactor");
 
-                    b.Property<double>("ReactivePower");
+                    b.Property<float>("SpindleTravel");
 
-                    b.Property<double>("SpindleTravel");
-
-                    b.Property<double>("TankTemperature");
+                    b.Property<float>("TankTemperature");
 
                     b.Property<DateTimeOffset>("Time");
 
-                    b.Property<double>("TotalPower");
+                    b.Property<float>("Vibrate1");
 
-                    b.Property<double>("Voltage");
+                    b.Property<float>("Vibrate2");
+
+                    b.Property<float>("Voltage_A");
+
+                    b.Property<float>("Voltage_B");
+
+                    b.Property<float>("Voltage_C");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -61,27 +75,49 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AverageMovaStress");
+                    b.Property<float>("AvgAbsSpindleTravel");
 
-                    b.Property<double>("AverageOilFeedTempreature");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageOilReturnTempreature");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AverageSpindleTravel");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<double>("AverageTankTemperature");
+                    b.Property<float>("AvgMovaStress");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgOilFeedTempreature");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgOilReturnTempreatur");
+
+                    b.Property<float>("AvgPowerFactor");
+
+                    b.Property<float>("AvgSpindleTravel");
+
+                    b.Property<float>("AvgTankTemperature");
+
+                    b.Property<float>("AvgVibrate1");
+
+                    b.Property<float>("AvgVibrate2");
+
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -93,27 +129,49 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AverageMovaStress");
+                    b.Property<float>("AvgAbsSpindleTravel");
 
-                    b.Property<double>("AverageOilFeedTempreature");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageOilReturnTempreature");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AverageSpindleTravel");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<double>("AverageTankTemperature");
+                    b.Property<float>("AvgMovaStress");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgOilFeedTempreature");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgOilReturnTempreatur");
+
+                    b.Property<float>("AvgPowerFactor");
+
+                    b.Property<float>("AvgSpindleTravel");
+
+                    b.Property<float>("AvgTankTemperature");
+
+                    b.Property<float>("AvgVibrate1");
+
+                    b.Property<float>("AvgVibrate2");
+
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -125,35 +183,37 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AccumulativeWeight");
+                    b.Property<float>("AccumulativeWeight");
 
-                    b.Property<int>("BootFlagBit");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("Current");
+                    b.Property<float>("Current_A");
 
-                    b.Property<double>("Frequency");
+                    b.Property<float>("Current_B");
 
-                    b.Property<double>("InstantWeight");
+                    b.Property<float>("Current_C");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("GravitySensorMill");
+
+                    b.Property<float>("InstantWeight");
+
+                    b.Property<float>("MS420mA");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("PowerFactor");
+                    b.Property<float>("PowerFactor");
 
-                    b.Property<double>("ReactivePower");
+                    b.Property<float>("PulsesSecond");
 
                     b.Property<DateTimeOffset>("Time");
 
-                    b.Property<double>("TotalPower");
+                    b.Property<float>("Voltage_A");
 
-                    b.Property<int>("Unit");
+                    b.Property<float>("Voltage_B");
 
-                    b.Property<double>("Velocity");
+                    b.Property<float>("Voltage_C");
 
-                    b.Property<double>("Voltage");
-
-                    b.Property<int>("ZeroCalibration");
+                    b.Property<float>("WeightUnit");
 
                     b.HasKey("Id");
 
@@ -165,31 +225,39 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AccumulativeWeight");
+                    b.Property<float>("AccumulativeWeight");
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AverageFrequency");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageInstantWeight");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AveragePowerFactor");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<double>("AverageReactivePower");
+                    b.Property<float>("AvgGravitySensorMill");
 
-                    b.Property<double>("AverageTotalPower");
+                    b.Property<float>("AvgInstantWeight");
 
-                    b.Property<double>("AverageVelocity");
+                    b.Property<float>("AvgMS420mA");
 
-                    b.Property<double>("AverageVoltage");
+                    b.Property<float>("AvgPowerFactor");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgPulsesSecond");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("AvgWeightUnit");
+
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
 
@@ -203,31 +271,39 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AccumulativeWeight");
+                    b.Property<float>("AccumulativeWeight");
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AverageFrequency");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageInstantWeight");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AveragePowerFactor");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<double>("AverageReactivePower");
+                    b.Property<float>("AvgGravitySensorMill");
 
-                    b.Property<double>("AverageTotalPower");
+                    b.Property<float>("AvgInstantWeight");
 
-                    b.Property<double>("AverageVelocity");
+                    b.Property<float>("AvgMS420mA");
 
-                    b.Property<double>("AverageVoltage");
+                    b.Property<float>("AvgPowerFactor");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgPulsesSecond");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("AvgWeightUnit");
+
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
 
@@ -241,11 +317,9 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("Current");
+                    b.Property<float>("Current");
 
-                    b.Property<double>("Current2");
-
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("Current2");
 
                     b.Property<string>("MotorId");
 
@@ -261,17 +335,15 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("Current");
+                    b.Property<float>("Current");
 
-                    b.Property<double>("Current2");
+                    b.Property<float>("Current2");
 
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
 
@@ -285,23 +357,155 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("Current");
+                    b.Property<float>("Current");
 
-                    b.Property<double>("Current2");
+                    b.Property<float>("Current2");
 
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
 
                     b.HasKey("Id");
 
                     b.ToTable("DoubleToothRollCrusherByHour");
+                });
+
+            modelBuilder.Entity("Yunt.Device.Repository.EF.Models.HVib", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<float>("ActivePower");
+
+                    b.Property<float>("Current_A");
+
+                    b.Property<float>("Current_B");
+
+                    b.Property<float>("Current_C");
+
+                    b.Property<string>("MotorId");
+
+                    b.Property<float>("OilFeedStress");
+
+                    b.Property<float>("OilReturnStress");
+
+                    b.Property<float>("PowerFactor");
+
+                    b.Property<float>("SpindleTemperature1");
+
+                    b.Property<float>("SpindleTemperature2");
+
+                    b.Property<float>("SpindleTemperature3");
+
+                    b.Property<float>("SpindleTemperature4");
+
+                    b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("Voltage_A");
+
+                    b.Property<float>("Voltage_B");
+
+                    b.Property<float>("Voltage_C");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HVib");
+                });
+
+            modelBuilder.Entity("Yunt.Device.Repository.EF.Models.HVibByDay", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<float>("ActivePower");
+
+                    b.Property<float>("AvgCurrent_A");
+
+                    b.Property<float>("AvgCurrent_B");
+
+                    b.Property<float>("AvgCurrent_C");
+
+                    b.Property<float>("AvgOilFeedStress");
+
+                    b.Property<float>("AvgOilReturnStress");
+
+                    b.Property<float>("AvgPowerFactor");
+
+                    b.Property<float>("AvgSpindleTemperature1");
+
+                    b.Property<float>("AvgSpindleTemperature2");
+
+                    b.Property<float>("AvgSpindleTemperature3");
+
+                    b.Property<float>("AvgSpindleTemperature4");
+
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("LoadStall");
+
+                    b.Property<string>("MotorId");
+
+                    b.Property<float>("RunningTime");
+
+                    b.Property<DateTimeOffset>("Time");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HVibByDay");
+                });
+
+            modelBuilder.Entity("Yunt.Device.Repository.EF.Models.HVibByHour", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<float>("ActivePower");
+
+                    b.Property<float>("AvgCurrent_A");
+
+                    b.Property<float>("AvgCurrent_B");
+
+                    b.Property<float>("AvgCurrent_C");
+
+                    b.Property<float>("AvgOilFeedStress");
+
+                    b.Property<float>("AvgOilReturnStress");
+
+                    b.Property<float>("AvgPowerFactor");
+
+                    b.Property<float>("AvgSpindleTemperature1");
+
+                    b.Property<float>("AvgSpindleTemperature2");
+
+                    b.Property<float>("AvgSpindleTemperature3");
+
+                    b.Property<float>("AvgSpindleTemperature4");
+
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("LoadStall");
+
+                    b.Property<string>("MotorId");
+
+                    b.Property<float>("RunningTime");
+
+                    b.Property<DateTimeOffset>("Time");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("HVibByHour");
                 });
 
             modelBuilder.Entity("Yunt.Device.Repository.EF.Models.IdModel.MotorIdFactories", b =>
@@ -327,19 +531,53 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("Current");
+                    b.Property<float>("Motor1ActivePower");
 
-                    b.Property<double>("Current2");
+                    b.Property<float>("Motor1Current_A");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("Motor1Current_B");
+
+                    b.Property<float>("Motor1Current_C");
+
+                    b.Property<float>("Motor1PowerFactor");
+
+                    b.Property<float>("Motor1Voltage_A");
+
+                    b.Property<float>("Motor1Voltage_B");
+
+                    b.Property<float>("Motor1Voltage_C");
+
+                    b.Property<float>("Motor2ActivePower");
+
+                    b.Property<float>("Motor2Current_A");
+
+                    b.Property<float>("Motor2Current_B");
+
+                    b.Property<float>("Motor2Current_C");
+
+                    b.Property<float>("Motor2PowerFactor");
+
+                    b.Property<float>("Motor2Voltage_A");
+
+                    b.Property<float>("Motor2Voltage_B");
+
+                    b.Property<float>("Motor2Voltage_C");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("SpindleTemperature1");
+                    b.Property<float>("SpindleTemperature1");
 
-                    b.Property<double>("SpindleTemperature2");
+                    b.Property<float>("SpindleTemperature2");
 
                     b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("Vibrate1");
+
+                    b.Property<float>("Vibrate2");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -351,25 +589,57 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("AvgMotor1Current_A");
 
-                    b.Property<double>("AverageCurrent2");
+                    b.Property<float>("AvgMotor1Current_B");
 
-                    b.Property<double>("AverageSpindleTemperature1");
+                    b.Property<float>("AvgMotor1Current_C");
 
-                    b.Property<double>("AverageSpindleTemperature2");
+                    b.Property<float>("AvgMotor1PowerFactor");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgMotor1Voltage_A");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgMotor1Voltage_B");
+
+                    b.Property<float>("AvgMotor1Voltage_C");
+
+                    b.Property<float>("AvgMotor2Current_A");
+
+                    b.Property<float>("AvgMotor2Current_B");
+
+                    b.Property<float>("AvgMotor2Current_C");
+
+                    b.Property<float>("AvgMotor2PowerFactor");
+
+                    b.Property<float>("AvgMotor2Voltage_A");
+
+                    b.Property<float>("AvgMotor2Voltage_B");
+
+                    b.Property<float>("AvgMotor2Voltage_C");
+
+                    b.Property<float>("AvgSpindleTemperature1");
+
+                    b.Property<float>("AvgSpindleTemperature2");
+
+                    b.Property<float>("AvgVibrate1");
+
+                    b.Property<float>("AvgVibrate2");
+
+                    b.Property<float>("LoadStall");
+
+                    b.Property<float>("Motor1ActivePower");
+
+                    b.Property<float>("Motor2ActivePower");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<int>("OnOffCounts");
-
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -381,25 +651,57 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("AvgMotor1Current_A");
 
-                    b.Property<double>("AverageCurrent2");
+                    b.Property<float>("AvgMotor1Current_B");
 
-                    b.Property<double>("AverageSpindleTemperature1");
+                    b.Property<float>("AvgMotor1Current_C");
 
-                    b.Property<double>("AverageSpindleTemperature2");
+                    b.Property<float>("AvgMotor1PowerFactor");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgMotor1Voltage_A");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgMotor1Voltage_B");
+
+                    b.Property<float>("AvgMotor1Voltage_C");
+
+                    b.Property<float>("AvgMotor2Current_A");
+
+                    b.Property<float>("AvgMotor2Current_B");
+
+                    b.Property<float>("AvgMotor2Current_C");
+
+                    b.Property<float>("AvgMotor2PowerFactor");
+
+                    b.Property<float>("AvgMotor2Voltage_A");
+
+                    b.Property<float>("AvgMotor2Voltage_B");
+
+                    b.Property<float>("AvgMotor2Voltage_C");
+
+                    b.Property<float>("AvgSpindleTemperature1");
+
+                    b.Property<float>("AvgSpindleTemperature2");
+
+                    b.Property<float>("AvgVibrate1");
+
+                    b.Property<float>("AvgVibrate2");
+
+                    b.Property<float>("LoadStall");
+
+                    b.Property<float>("Motor1ActivePower");
+
+                    b.Property<float>("Motor2ActivePower");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<int>("OnOffCounts");
-
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -411,29 +713,41 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("Current");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("Current_A");
 
-                    b.Property<double>("MotiveSpindleTemperature1");
+                    b.Property<float>("Current_B");
 
-                    b.Property<double>("MotiveSpindleTemperature2");
+                    b.Property<float>("Current_C");
+
+                    b.Property<float>("MotiveSpindleTemperature1");
+
+                    b.Property<float>("MotiveSpindleTemperature2");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("PowerFactor");
+                    b.Property<float>("PowerFactor");
 
-                    b.Property<double>("RackSpindleTemperature1");
+                    b.Property<float>("RackSpindleTemperature1");
 
-                    b.Property<double>("RackSpindleTemperature2");
-
-                    b.Property<double>("ReactivePower");
+                    b.Property<float>("RackSpindleTemperature2");
 
                     b.Property<DateTimeOffset>("Time");
 
-                    b.Property<double>("TotalPower");
+                    b.Property<float>("Vibrate1");
 
-                    b.Property<double>("Voltage");
+                    b.Property<float>("Vibrate2");
+
+                    b.Property<float>("Voltage_A");
+
+                    b.Property<float>("Voltage_B");
+
+                    b.Property<float>("Voltage_C");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -445,33 +759,45 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AverageMotiveSpindleTemperature1");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageMotiveSpindleTemperature2");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AveragePowerFactor");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<double>("AverageRackSpindleTemperature1");
+                    b.Property<float>("AvgMotiveSpindleTemperature1");
 
-                    b.Property<double>("AverageRackSpindleTemperature2");
+                    b.Property<float>("AvgMotiveSpindleTemperature2");
 
-                    b.Property<double>("AverageReactivePower");
+                    b.Property<float>("AvgPowerFactor");
 
-                    b.Property<double>("AverageTotalPower");
+                    b.Property<float>("AvgRackSpindleTemperature1");
 
-                    b.Property<double>("AverageVoltage");
+                    b.Property<float>("AvgRackSpindleTemperature2");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgVibrate1");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgVibrate2");
+
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -483,33 +809,45 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AverageMotiveSpindleTemperature1");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageMotiveSpindleTemperature2");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AveragePowerFactor");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<double>("AverageRackSpindleTemperature1");
+                    b.Property<float>("AvgMotiveSpindleTemperature1");
 
-                    b.Property<double>("AverageRackSpindleTemperature2");
+                    b.Property<float>("AvgMotiveSpindleTemperature2");
 
-                    b.Property<double>("AverageReactivePower");
+                    b.Property<float>("AvgPowerFactor");
 
-                    b.Property<double>("AverageTotalPower");
+                    b.Property<float>("AvgRackSpindleTemperature1");
 
-                    b.Property<double>("AverageVoltage");
+                    b.Property<float>("AvgRackSpindleTemperature2");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgVibrate1");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgVibrate2");
+
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -521,27 +859,27 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("Current");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("Frequency");
+                    b.Property<float>("Current_A");
 
-                    b.Property<double>("InFrequency");
+                    b.Property<float>("Current_B");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("Current_C");
+
+                    b.Property<float>("Frequency");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("PowerFactor");
-
-                    b.Property<double>("ReactivePower");
+                    b.Property<float>("PowerFactor");
 
                     b.Property<DateTimeOffset>("Time");
 
-                    b.Property<double>("TotalPower");
+                    b.Property<float>("Voltage_A");
 
-                    b.Property<double>("Velocity");
+                    b.Property<float>("Voltage_B");
 
-                    b.Property<double>("Voltage");
+                    b.Property<float>("Voltage_C");
 
                     b.HasKey("Id");
 
@@ -553,21 +891,29 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AverageFrequency");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageVelocity");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AverageVoltage");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgFrequency");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgPowerFactor");
+
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
 
@@ -581,21 +927,29 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AverageFrequency");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageVelocity");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AverageVoltage");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgFrequency");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgPowerFactor");
+
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
 
@@ -609,35 +963,17 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTimeOffset>("BuildTime");
-
-                    b.Property<double>("Capicity");
+                    b.Property<float>("Capicity");
 
                     b.Property<int>("EmbeddedDeviceId");
 
-                    b.Property<double>("FeedSize");
+                    b.Property<float>("FeedSize");
 
                     b.Property<string>("FinalSize");
 
-                    b.Property<string>("Image");
-
-                    b.Property<bool>("IsBeltWeight");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<bool>("IsDisplay");
-
-                    b.Property<bool>("IsMainBeltWeight");
-
-                    b.Property<bool>("IsOutConveyor");
-
-                    b.Property<DateTimeOffset>("LatestDataTime");
-
-                    b.Property<DateTimeOffset>("LatestMaintainTime");
-
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("MotorPower");
+                    b.Property<float>("MotorPower");
 
                     b.Property<string>("MotorTypeId");
 
@@ -647,7 +983,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("SerialNumber");
 
-                    b.Property<int>("Status");
+                    b.Property<float>("StandValue");
 
                     b.Property<DateTimeOffset>("Time");
 
@@ -656,24 +992,28 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.ToTable("Motor");
                 });
 
-            modelBuilder.Entity("Yunt.Device.Repository.EF.Models.Motortype", b =>
+            modelBuilder.Entity("Yunt.Device.Repository.EF.Models.MotorParams", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("Capacity");
-
-                    b.Property<string>("Code");
-
                     b.Property<string>("Description");
 
-                    b.Property<double>("FeedSize");
+                    b.Property<string>("MotorTypeId");
 
-                    b.Property<string>("ImageUrl");
+                    b.Property<string>("Param");
 
-                    b.Property<string>("MaintenancePeriod");
+                    b.Property<DateTimeOffset>("Time");
 
-                    b.Property<double>("MotorPower");
+                    b.HasKey("Id");
+
+                    b.ToTable("MotorParams");
+                });
+
+            modelBuilder.Entity("Yunt.Device.Repository.EF.Models.MotorType", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
 
                     b.Property<string>("MotorTypeId");
 
@@ -683,7 +1023,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Motortype");
+                    b.ToTable("MotorType");
                 });
 
             modelBuilder.Entity("Yunt.Device.Repository.EF.Models.Pulverizer", b =>
@@ -691,19 +1031,33 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("Current");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("FanCurrent");
+                    b.Property<float>("Current_A");
 
-                    b.Property<double>("GraderCurrent");
+                    b.Property<float>("Current_B");
 
-                    b.Property<double>("GraderRotateSpeed");
-
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("Current_C");
 
                     b.Property<string>("MotorId");
 
+                    b.Property<float>("PowerFactor");
+
                     b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("Vibrate1");
+
+                    b.Property<float>("Vibrate2");
+
+                    b.Property<float>("Voltage_A");
+
+                    b.Property<float>("Voltage_B");
+
+                    b.Property<float>("Voltage_C");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -715,23 +1069,37 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AverageFanCurrent");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageGraderCurrent");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AverageGraderRotateSpeed");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgPowerFactor");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgVibrate1");
+
+                    b.Property<float>("AvgVibrate2");
+
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -743,23 +1111,37 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AverageFanCurrent");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageGraderCurrent");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AverageGraderRotateSpeed");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgPowerFactor");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgVibrate1");
+
+                    b.Property<float>("AvgVibrate2");
+
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -771,17 +1153,15 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("BearingSpeed");
+                    b.Property<float>("BearingSpeed");
 
-                    b.Property<double>("Current");
-
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("Current");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("SpindleTemperature1");
+                    b.Property<float>("SpindleTemperature1");
 
-                    b.Property<double>("SpindleTemperature2");
+                    b.Property<float>("SpindleTemperature2");
 
                     b.Property<DateTimeOffset>("Time");
 
@@ -795,21 +1175,19 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("BearingSpeed");
+                    b.Property<float>("BearingSpeed");
 
-                    b.Property<double>("Current");
+                    b.Property<float>("Current");
 
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
-                    b.Property<double>("SpindleTemperature1");
+                    b.Property<float>("SpindleTemperature1");
 
-                    b.Property<double>("SpindleTemperature2");
+                    b.Property<float>("SpindleTemperature2");
 
                     b.Property<DateTimeOffset>("Time");
 
@@ -823,21 +1201,19 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("BearingSpeed");
+                    b.Property<float>("BearingSpeed");
 
-                    b.Property<double>("Current");
+                    b.Property<float>("Current");
 
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
-                    b.Property<double>("SpindleTemperature1");
+                    b.Property<float>("SpindleTemperature1");
 
-                    b.Property<double>("SpindleTemperature2");
+                    b.Property<float>("SpindleTemperature2");
 
                     b.Property<DateTimeOffset>("Time");
 
@@ -851,7 +1227,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<double>("Current");
 
                     b.Property<string>("MotorId");
 
@@ -873,21 +1249,19 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AverageOilFeedTempreature");
+                    b.Property<float>("AvgOilFeedTempreature");
 
-                    b.Property<double>("AverageOilReturnTempreature");
+                    b.Property<float>("AvgOilReturnTempreatur");
 
-                    b.Property<double>("AverageTankTemperature");
+                    b.Property<float>("AvgTankTemperature");
 
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
 
@@ -901,21 +1275,19 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AverageOilFeedTempreature");
+                    b.Property<float>("AvgOilFeedTempreature");
 
-                    b.Property<double>("AverageOilReturnTempreature");
+                    b.Property<float>("AvgOilReturnTempreatur");
 
-                    b.Property<double>("AverageTankTemperature");
+                    b.Property<float>("AvgTankTemperature");
 
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
 
@@ -929,33 +1301,33 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("BearingTempreature");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("Current");
+                    b.Property<float>("Current_A");
 
-                    b.Property<double>("Current2");
+                    b.Property<float>("Current_B");
 
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<double>("LubricatingOilPressure");
+                    b.Property<float>("Current_C");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("OilReturnTempreature");
-
-                    b.Property<double>("Oscillation");
-
-                    b.Property<double>("PowerFactor");
-
-                    b.Property<double>("ReactivePower");
-
-                    b.Property<double>("TankTemperature");
+                    b.Property<float>("PowerFactor");
 
                     b.Property<DateTimeOffset>("Time");
 
-                    b.Property<double>("TotalPower");
+                    b.Property<float>("Vibrate1");
 
-                    b.Property<double>("Voltage");
+                    b.Property<float>("Vibrate2");
+
+                    b.Property<float>("Voltage_A");
+
+                    b.Property<float>("Voltage_B");
+
+                    b.Property<float>("Voltage_C");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -967,35 +1339,37 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageBearingTempreature");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageCurrent2");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AverageOilReturnTempreature");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<double>("AverageOscillation");
+                    b.Property<float>("AvgPowerFactor");
 
-                    b.Property<double>("AveragePowerFactor");
+                    b.Property<float>("AvgVibrate1");
 
-                    b.Property<double>("AverageReactivePower");
+                    b.Property<float>("AvgVibrate2");
 
-                    b.Property<double>("AverageTankTemperature");
+                    b.Property<float>("AvgVoltage_A");
 
-                    b.Property<double>("AverageTotalPower");
+                    b.Property<float>("AvgVoltage_B");
 
-                    b.Property<double>("AverageVoltage");
+                    b.Property<float>("AvgVoltage_C");
 
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -1007,35 +1381,37 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageBearingTempreature");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageCurrent2");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AverageOilReturnTempreature");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<double>("AverageOscillation");
+                    b.Property<float>("AvgPowerFactor");
 
-                    b.Property<double>("AveragePowerFactor");
+                    b.Property<float>("AvgVibrate1");
 
-                    b.Property<double>("AverageReactivePower");
+                    b.Property<float>("AvgVibrate2");
 
-                    b.Property<double>("AverageTankTemperature");
+                    b.Property<float>("AvgVoltage_A");
 
-                    b.Property<double>("AverageTotalPower");
+                    b.Property<float>("AvgVoltage_B");
 
-                    b.Property<double>("AverageVoltage");
+                    b.Property<float>("AvgVoltage_C");
 
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
+
+                    b.Property<float>("WearValue1");
+
+                    b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
 
@@ -1047,21 +1423,33 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("Current");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("Current_A");
+
+                    b.Property<float>("Current_B");
+
+                    b.Property<float>("Current_C");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("PowerFactor");
+                    b.Property<float>("PowerFactor");
 
-                    b.Property<double>("ReactivePower");
+                    b.Property<float>("SpindleTemperature1");
+
+                    b.Property<float>("SpindleTemperature2");
+
+                    b.Property<float>("SpindleTemperature3");
+
+                    b.Property<float>("SpindleTemperature4");
 
                     b.Property<DateTimeOffset>("Time");
 
-                    b.Property<double>("TotalPower");
+                    b.Property<float>("Voltage_A");
 
-                    b.Property<double>("Voltage");
+                    b.Property<float>("Voltage_B");
+
+                    b.Property<float>("Voltage_C");
 
                     b.HasKey("Id");
 
@@ -1073,23 +1461,35 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AveragePowerFactor");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageReactivePower");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AverageTotalPower");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<double>("AverageVoltage");
+                    b.Property<float>("AvgPowerFactor");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgSpindleTemperature1");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgSpindleTemperature2");
+
+                    b.Property<float>("AvgSpindleTemperature3");
+
+                    b.Property<float>("AvgSpindleTemperature4");
+
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
 
@@ -1103,23 +1503,35 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<double>("AverageCurrent");
+                    b.Property<float>("ActivePower");
 
-                    b.Property<double>("AveragePowerFactor");
+                    b.Property<float>("AvgCurrent_A");
 
-                    b.Property<double>("AverageReactivePower");
+                    b.Property<float>("AvgCurrent_B");
 
-                    b.Property<double>("AverageTotalPower");
+                    b.Property<float>("AvgCurrent_C");
 
-                    b.Property<double>("AverageVoltage");
+                    b.Property<float>("AvgPowerFactor");
 
-                    b.Property<bool>("IsDeleted");
+                    b.Property<float>("AvgSpindleTemperature1");
 
-                    b.Property<double>("LoadStall");
+                    b.Property<float>("AvgSpindleTemperature2");
+
+                    b.Property<float>("AvgSpindleTemperature3");
+
+                    b.Property<float>("AvgSpindleTemperature4");
+
+                    b.Property<float>("AvgVoltage_A");
+
+                    b.Property<float>("AvgVoltage_B");
+
+                    b.Property<float>("AvgVoltage_C");
+
+                    b.Property<float>("LoadStall");
 
                     b.Property<string>("MotorId");
 
-                    b.Property<double>("RunningTime");
+                    b.Property<float>("RunningTime");
 
                     b.Property<DateTimeOffset>("Time");
 
