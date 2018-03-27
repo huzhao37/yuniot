@@ -21,7 +21,7 @@ namespace Yunt.Redis
 {
     public class BufferPool
     {
-        public static int DEFAULT_BUFFERLENGTH=1024*2;//15//接收缓存区默认大小为1024*1024*2（目前项目已经超过默认大小）
+        public static int DEFAULT_BUFFERLENGTH=1024*200;//15//接收缓存区默认大小为1024*1024*2（目前项目已经超过默认大小）
 
         public static BufferPool mSingle;
 

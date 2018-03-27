@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Yunt.Inventory.Domain": {
+      "commandName": "Project"
+    }
+  }
+}

@@ -6,7 +6,6 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using Castle.Core;
 using DeviceManager.Core;
 using DeviceManager.Model;
 

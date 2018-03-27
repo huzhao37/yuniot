@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +30,7 @@ namespace Yunt.Demo.ConsoleApp1
         static void Main(string[] args)
         {
 
-            XTrace.UseConsole(true, false);
+            XTrace.UseConsole(true, true);
 
             #region test
 
@@ -291,30 +292,134 @@ namespace Yunt.Demo.ConsoleApp1
             //services.AddOptions();
             //  services.Configure<AppSetting>(Configuration.GetSection("AppSettings"));
 
-            var providers =ServiceEx.StartServices(services, configuration);
+            var providers = ServiceEx.StartServices(services, configuration);
 
             //var authProvider=Register(services);
-           // var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(providers["Device"]);
+            // var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(providers["Device"]);
             //tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });
 
-           // var x2 = tbService.GetEntities();
-           var cy= ServiceProviderServiceExtensions.GetService<IConveyorRepository>(providers["Device"]);
-            var m = ServiceProviderServiceExtensions.GetService<IMotorRepository>(providers["Device"]);
-            
+            // var x2 = tbService.GetEntities();
+            var cy = ServiceProviderServiceExtensions.GetService<IConveyorRepository>(providers["Device"]);
+
+            #region 时序数据缓存        
+
+            var list = new List<Conveyor>();
+            var time = DateTime.Now.Date;
+            var t = time;
+            for (var i = 0; i < 60; i++)
+            {
+                for (var j = 0; j < 30; j++)
+                {
+                    t = time.AddDays(j);
+                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = i.ToString(), Time = t.TimeSpan() });
+                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = i.ToString(), Time = t.TimeSpan() });
+                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = i.ToString(), Time = t.TimeSpan() });
+                }
+
+            }
+
+            var x = cy.GetLatestRecord("7");
+            Console.WriteLine("ok");
+            Console.ReadKey();
+            var thread1 = new Thread(() =>
+              {
+                  for (var i = 0; i < 10000; i++)
+                  {
+                      cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "1", Time = DateTime.Now.TimeSpan() });
+                      System.Threading.Thread.Sleep(1);
+                  }
+              });
+            thread1.Start();
+            var thread2 = new Thread(() =>
+            {
+                for (var i = 0; i < 10000; i++)
+                {
+                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "2", Time = DateTime.Now.TimeSpan() });
+                    System.Threading.Thread.Sleep(1);
+                }
+            });
+            thread2.Start();
+            var thread3 = new Thread(() =>
+            {
+                for (var i = 0; i < 10000; i++)
+                {
+                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "3", Time = DateTime.Now.TimeSpan() });
+                    System.Threading.Thread.Sleep(1);
+                }
+            });
+            thread3.Start();
+            var thread4 = new Thread(() =>
+            {
+                for (var i = 0; i < 10000; i++)
+                {
+                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "4", Time = DateTime.Now.TimeSpan() });
+                    System.Threading.Thread.Sleep(1);
+                }
+            });
+            thread4.Start();
+            var thread5 = new Thread(() =>
+            {
+                for (var i = 0; i < 10000; i++)
+                {
+                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "5", Time = DateTime.Now.TimeSpan() });
+                    System.Threading.Thread.Sleep(1);
+                }
+            });
+            thread5.Start();
+            var thread6 = new Thread(() =>
+            {
+                for (var i = 0; i < 10000; i++)
+                {
+                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "6", Time = DateTime.Now.TimeSpan() });
+                    System.Threading.Thread.Sleep(1);
+                }
+            });
+            thread6.Start();
+            var thread7 = new Thread(() =>
+            {
+                for (var i = 0; i < 10000; i++)
+                {
+                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "7", Time = DateTime.Now.TimeSpan() });
+                    System.Threading.Thread.Sleep(1);
+                }
+            });
+            thread7.Start();
+            var thread8 = new Thread(() =>
+            {
+                for (var i = 0; i < 10000; i++)
+                {
+                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "8", Time = DateTime.Now.TimeSpan() });
+                    System.Threading.Thread.Sleep(1);
+                }
+            });
+            thread8.Start();
+            var thread9 = new Thread(() =>
+            {
+                for (var i = 0; i < 10000; i++)
+                {
+                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "9", Time = DateTime.Now.TimeSpan() });
+                    System.Threading.Thread.Sleep(1);
+                }
+            });
+            thread9.Start();
+
+            #endregion
+            //var m = ServiceProviderServiceExtensions.GetService<IMotorRepository>(providers["Device"]);
+
             try
             {
-                m.Insert(new Motor() { MotorTypeId = "CY", ProductionLineId = "WDD-P000001" });
+                //m.Insert(new Motor() { MotorTypeId = "CY", ProductionLineId = "WDD-P000001" });
                 //cy.Insert(new Conveyor() {Current = 8, MotorId = "1"});
                 //var x = cy.GetEntities();
-               // cy.GetEntities(e => e.IsDeleted, e => e.MotorId == "");
-                var x = m.GetEntities();
+                // cy.GetEntities(e => e.IsDeleted, e => e.MotorId == "");
+                //var x = m.GetEntities();
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 throw;
             }
-           
+
             #endregion
 
             Console.WriteLine("Hello World!");

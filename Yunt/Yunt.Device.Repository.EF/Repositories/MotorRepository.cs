@@ -38,7 +38,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
             else
             {
-                idfac=new MotorIdFactories(){MotorIndex = newIndex,MotorTypeId = t.MotorTypeId,ProductionLineId = t.ProductionLineId,Time = DateTimeOffset.UtcNow};
+                idfac=new MotorIdFactories(){MotorIndex = newIndex,MotorTypeId = t.MotorTypeId,ProductionLineId = t.ProductionLineId,Time = DateTime.Now.TimeSpan()};
 
             }
             _idRep.InsertOrUpdate(idfac);
@@ -57,7 +57,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
             else
             {
-                idfac = new MotorIdFactories() { MotorIndex = newIndex, MotorTypeId = t.MotorTypeId, ProductionLineId = t.ProductionLineId, Time = DateTimeOffset.UtcNow };
+                idfac = new MotorIdFactories() { MotorIndex = newIndex, MotorTypeId = t.MotorTypeId, ProductionLineId = t.ProductionLineId, Time = DateTime.Now.TimeSpan() };
             }
             _idRep.InsertOrUpdate(idfac);
             t.MotorId = newIndex.NewMotor(t.ProductionLineId, t.MotorTypeId, newIndex);
@@ -79,7 +79,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                     }
                     else
                     {
-                        idfac = new MotorIdFactories() { MotorIndex = newIndex, MotorTypeId = t.MotorTypeId, ProductionLineId = t.ProductionLineId, Time = DateTimeOffset.UtcNow };
+                        idfac = new MotorIdFactories() { MotorIndex = newIndex, MotorTypeId = t.MotorTypeId, ProductionLineId = t.ProductionLineId, Time = DateTime.Now.TimeSpan() };
                     }
                     _idRep.InsertOrUpdate(idfac);
                     t.MotorId = newIndex.NewMotor(t.ProductionLineId, t.MotorTypeId, newIndex);
@@ -109,7 +109,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                     }
                     else
                     {
-                        idfac = new MotorIdFactories() { MotorIndex = newIndex, MotorTypeId = t.MotorTypeId, ProductionLineId = t.ProductionLineId, Time = DateTimeOffset.UtcNow };
+                        idfac = new MotorIdFactories() { MotorIndex = newIndex, MotorTypeId = t.MotorTypeId, ProductionLineId = t.ProductionLineId, Time = DateTime.Now.TimeSpan() };
                     }
                     _idRep.InsertOrUpdate(idfac);
                     t.MotorId = newIndex.NewMotor(t.ProductionLineId, t.MotorTypeId, newIndex);
@@ -295,7 +295,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<Models.Motor>(t));
             }
 
-            Commit();
+           var result = Commit();
         }
 
         public override async Task UpdateEntityAsync(Motor t)
@@ -357,7 +357,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 orderby = Mapper.MapExpression<Expression<Func<Motor, object>>, Expression<Func<Models.Motor, object>>>(order);
                 // RedisProvider.DB = 1;
                 //var list = RedisProvider.ListRange<Motor>("Motor", DataType.Protobuf).Where(wheres);
-                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Motor>().OrderBy(orderby).Where(wheres).ProjectTo<Motor>(Mapper);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Motor>().Where(wheres).OrderBy(orderby).ProjectTo<Motor>(Mapper);
 #if DEBUG
                 Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
                 Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));

@@ -9,7 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IBootStrap.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="protobuf-net" Version="2.3.7" />
   </ItemGroup>
 
   <ItemGroup>

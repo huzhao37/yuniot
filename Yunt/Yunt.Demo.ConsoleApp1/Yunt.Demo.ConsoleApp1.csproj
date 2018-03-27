@@ -19,6 +19,7 @@
     <Compile Remove="jawcrusher\**" />
     <Compile Remove="materialfeeder2\**" />
     <Compile Remove="materialfeeder\**" />
+    <Compile Remove="Migrations\**" />
     <Compile Remove="models\**" />
     <Compile Remove="pulverizer2\**" />
     <Compile Remove="reverhammercrusher2\**" />
@@ -43,6 +44,7 @@
     <EmbeddedResource Remove="jawcrusher\**" />
     <EmbeddedResource Remove="materialfeeder2\**" />
     <EmbeddedResource Remove="materialfeeder\**" />
+    <EmbeddedResource Remove="Migrations\**" />
     <EmbeddedResource Remove="models\**" />
     <EmbeddedResource Remove="pulverizer2\**" />
     <EmbeddedResource Remove="reverhammercrusher2\**" />
@@ -67,6 +69,7 @@
     <None Remove="jawcrusher\**" />
     <None Remove="materialfeeder2\**" />
     <None Remove="materialfeeder\**" />
+    <None Remove="Migrations\**" />
     <None Remove="models\**" />
     <None Remove="pulverizer2\**" />
     <None Remove="reverhammercrusher2\**" />
@@ -81,12 +84,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20180318022443_1.cs" />
-    <Compile Remove="Migrations\20180318022443_1.Designer.cs" />
-    <Compile Remove="Migrations\20180318034403_2.cs" />
-    <Compile Remove="Migrations\20180318034403_2.Designer.cs" />
-    <Compile Remove="Migrations\20180318064127_3.cs" />
-    <Compile Remove="Migrations\20180318064127_3.Designer.cs" />
+    <Compile Remove="AuthContext.cs" />
+    <Compile Remove="DeviceContext.cs" />
+    <Compile Remove="InventoryContext.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -115,7 +115,6 @@
     <ProjectReference Include="..\Yunt.Auth.Domain\Yunt.Auth.Domain.csproj" />
     <ProjectReference Include="..\Yunt.Demo.Core\Yunt.Demo.Core.csproj" />
     <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
-    <ProjectReference Include="..\Yunt.Device.Repository.EF\Yunt.Device.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.Redis\Yunt.Redis.csproj" />
     <ProjectReference Include="..\Yunt.TaskManager.Core\Yunt.TaskManager.Core.csproj" />
   </ItemGroup>

@@ -31,6 +31,7 @@ namespace Yunt.Common
     public enum ServiceType
     {
         Auth=0,
-        Device
+        Device,
+        Inventory
     }
 }

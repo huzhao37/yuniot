@@ -35,7 +35,9 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("Current_C");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("MovaStress");
 
@@ -49,7 +51,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("TankTemperature");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("Vibrate1");
 
@@ -66,6 +68,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("ConeCrusher");
                 });
@@ -109,17 +113,21 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("WearValue1");
 
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("ConeCrusherByDay");
                 });
@@ -163,17 +171,21 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("WearValue1");
 
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("ConeCrusherByHour");
                 });
@@ -199,13 +211,15 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("MS420mA");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("PowerFactor");
 
                     b.Property<float>("PulsesSecond");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("Voltage_A");
 
@@ -216,6 +230,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<float>("WeightUnit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("Conveyor");
                 });
@@ -255,13 +271,17 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("ConveyorByDay");
                 });
@@ -301,13 +321,17 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("ConveyorByHour");
                 });
@@ -323,7 +347,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
 
@@ -345,7 +369,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
 
@@ -367,7 +391,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
 
@@ -387,7 +411,9 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("Current_C");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("OilFeedStress");
 
@@ -403,7 +429,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("SpindleTemperature4");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("Voltage_A");
 
@@ -412,6 +438,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<float>("Voltage_C");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("HVib");
                 });
@@ -451,13 +479,17 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("HVibByDay");
                 });
@@ -497,13 +529,17 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("HVibByHour");
                 });
@@ -513,15 +549,22 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("MotorIndex");
+                    b.Property<int>("MotorIndex")
+                        .HasMaxLength(11);
 
-                    b.Property<string>("MotorTypeId");
+                    b.Property<string>("MotorTypeId")
+                        .IsRequired()
+                        .HasMaxLength(4);
 
-                    b.Property<string>("ProductionLineId");
+                    b.Property<string>("ProductionLineId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MotorIndex", "MotorTypeId", "ProductionLineId");
 
                     b.ToTable("MotorIdFactories");
                 });
@@ -563,13 +606,15 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("Motor2Voltage_C");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("SpindleTemperature1");
 
                     b.Property<float>("SpindleTemperature2");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("Vibrate1");
 
@@ -580,6 +625,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("ImpactCrusher");
                 });
@@ -631,17 +678,21 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("Motor2ActivePower");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("WearValue1");
 
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("ImpactCrusherByDay");
                 });
@@ -693,17 +744,21 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("Motor2ActivePower");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("WearValue1");
 
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("ImpactCrusherByHour");
                 });
@@ -725,7 +780,9 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("MotiveSpindleTemperature2");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("PowerFactor");
 
@@ -733,7 +790,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("RackSpindleTemperature2");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("Vibrate1");
 
@@ -750,6 +807,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("JawCrusher");
                 });
@@ -789,17 +848,21 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("WearValue1");
 
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("JawCrusherByDay");
                 });
@@ -839,17 +902,21 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("WearValue1");
 
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("JawCrusherByHour");
                 });
@@ -869,11 +936,13 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("Frequency");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("PowerFactor");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("Voltage_A");
 
@@ -882,6 +951,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<float>("Voltage_C");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("MaterialFeeder");
                 });
@@ -911,13 +982,17 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("MaterialFeederByDay");
                 });
@@ -947,13 +1022,17 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("MaterialFeederByHour");
                 });
@@ -963,21 +1042,26 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<float>("Capicity");
-
-                    b.Property<int>("EmbeddedDeviceId");
+                    b.Property<int>("EmbeddedDeviceId")
+                        .HasMaxLength(10);
 
                     b.Property<float>("FeedSize");
 
                     b.Property<string>("FinalSize");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("MotorPower");
 
-                    b.Property<string>("MotorTypeId");
+                    b.Property<string>("MotorTypeId")
+                        .IsRequired()
+                        .HasMaxLength(4);
 
                     b.Property<string>("Name");
+
+                    b.Property<string>("ProductSpecification");
 
                     b.Property<string>("ProductionLineId");
 
@@ -985,9 +1069,11 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("StandValue");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MotorId", "MotorTypeId", "EmbeddedDeviceId");
 
                     b.ToTable("Motor");
                 });
@@ -997,15 +1083,23 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
-                    b.Property<string>("MotorTypeId");
+                    b.Property<string>("MotorTypeId")
+                        .IsRequired()
+                        .HasMaxLength(4);
 
-                    b.Property<string>("Param");
+                    b.Property<string>("Param")
+                        .IsRequired()
+                        .HasMaxLength(20);
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MotorTypeId", "Param", "Description");
 
                     b.ToTable("MotorParams");
                 });
@@ -1015,13 +1109,17 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("MotorTypeId");
+                    b.Property<string>("MotorTypeId")
+                        .IsRequired()
+                        .HasMaxLength(4);
 
                     b.Property<string>("Name");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MotorTypeId");
 
                     b.ToTable("MotorType");
                 });
@@ -1039,11 +1137,13 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("Current_C");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("PowerFactor");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("Vibrate1");
 
@@ -1060,6 +1160,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("Pulverizer");
                 });
@@ -1091,17 +1193,21 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("WearValue1");
 
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("PulverizerByDay");
                 });
@@ -1133,17 +1239,21 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("WearValue1");
 
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("PulverizerByHour");
                 });
@@ -1163,7 +1273,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("SpindleTemperature2");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
 
@@ -1189,7 +1299,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("SpindleTemperature2");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
 
@@ -1215,7 +1325,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("SpindleTemperature2");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
 
@@ -1237,7 +1347,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<double>("TankTemperature");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
 
@@ -1263,7 +1373,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
 
@@ -1289,7 +1399,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
 
@@ -1309,11 +1419,13 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("Current_C");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("PowerFactor");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("Vibrate1");
 
@@ -1330,6 +1442,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("VerticalCrusher");
                 });
@@ -1361,17 +1475,21 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("WearValue1");
 
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("VerticalCrusherByDay");
                 });
@@ -1403,17 +1521,21 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("WearValue1");
 
                     b.Property<float>("WearValue2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("VerticalCrusherByHour");
                 });
@@ -1431,7 +1553,9 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("Current_C");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("PowerFactor");
 
@@ -1443,7 +1567,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("SpindleTemperature4");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.Property<float>("Voltage_A");
 
@@ -1452,6 +1576,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<float>("Voltage_C");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("Vibrosieve");
                 });
@@ -1487,13 +1613,17 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("VibrosieveByDay");
                 });
@@ -1529,13 +1659,17 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("LoadStall");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .IsRequired()
+                        .HasMaxLength(15);
 
                     b.Property<float>("RunningTime");
 
-                    b.Property<DateTimeOffset>("Time");
+                    b.Property<long>("Time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Time", "MotorId");
 
                     b.ToTable("VibrosieveByHour");
                 });

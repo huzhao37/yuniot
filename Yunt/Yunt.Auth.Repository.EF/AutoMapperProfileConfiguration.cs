@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mime;
+using System.Reflection;
 using System.Text;
 using AutoMapper;
+using NewLife.Reflection;
 using Yunt.Auth.Domain.BaseModel;
 using Yunt.Auth.Repository.EF.Models;
-using TbCategory = Yunt.Auth.Domain.Model.TbCategory;
 
 namespace Yunt.Auth.Repository.EF
 {
@@ -27,20 +28,27 @@ namespace Yunt.Auth.Repository.EF
             CreateMap<List<BaseModel>, List<AggregateRoot>>();
             CreateMap<List<AggregateRoot>, List<BaseModel>>();
 
+            //以反射形式建立映射关系
+            //todo
 
-            CreateMap<TbCategory, Models.TbCategory>();
-            CreateMap<Models.TbCategory, TbCategory>();
+            var sTypes = Assembly.Load("Yunt.Auth.Repository.EF").GetSubclasses(typeof(BaseModel));
 
-            CreateMap<IEnumerable<TbCategory>, IEnumerable<Models.TbCategory>>();
-            CreateMap<IEnumerable<Models.TbCategory>,IEnumerable<TbCategory>>();
+            var dTypes = Assembly.Load("Yunt.Auth.Domain").GetSubclasses(typeof(AggregateRoot));
+            dTypes.ToList().ForEach(d =>
+            {
+                sTypes.ToList().ForEach(s =>
+                {
+                    if (d.Name.Equals(s.Name))
+                    {
 
-            CreateMap<IQueryable<TbCategory>, IQueryable<Models.TbCategory>>();
-            CreateMap<IQueryable<Models.TbCategory>, IQueryable<TbCategory>>();
 
-            CreateMap<List<TbCategory>, List<Models.TbCategory>>();
-            CreateMap<List<Models.TbCategory>, List<TbCategory>>();
+                        CreateMap(s, d);
+                        CreateMap(d, s);
+                    }
+                });
+            });
 
-           
+
             //todo
         }
     }

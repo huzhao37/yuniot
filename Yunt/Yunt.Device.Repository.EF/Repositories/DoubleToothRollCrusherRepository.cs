@@ -31,31 +31,51 @@ namespace Yunt.Device.Repository.EF.Repositories
         public override int Insert(DoubleToothRollCrusher t)
         {
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().Add(Mapper.Map<Models.DoubleToothRollCrusher>(t));
-            Commit();
-            //redis缓存，暂定2h
-            RedisProvider.DB = 16;
-            return RedisProvider.LPUSH(t.MotorId, t, DataType.Protobuf);
+            var result = Commit();
+            //redis缓存
+            RedisProvider.DB = 15;
+            RedisProvider.LPUSH(t.Time + "_" + t.MotorId, t, DataType.Protobuf);
+            if (RedisProvider.Exists(t.Time + "_" + t.MotorId) <= 0)
+            {
+                RedisProvider.Expire(t.Time + "_" + t.MotorId, t.Time.Expire());
+            }
+
+            return result;
         }
         public override async Task InsertAsync(DoubleToothRollCrusher t)
         {
-            RedisProvider.DB = 16;
-            RedisProvider.LPUSH(t.MotorId, t, DataType.Protobuf);
-
             await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().AddAsync(Mapper.Map<Models.DoubleToothRollCrusher>(t));
             await CommitAsync();
+
+            RedisProvider.DB = 15;
+            //RedisProvider.HashSetFieldValue(t.Time.ToString(), t.MotorId, t, DataType.Protobuf);
+            await RedisProvider.LpushAsync(t.Time + "_" + t.MotorId, t, DataType.Protobuf);
+            if (RedisProvider.Exists(t.Time + "_" + t.MotorId) <= 0)
+            {
+                RedisProvider.Expire(t.Time + "_" + t.MotorId, t.Time.Expire());
+            }
         }
+        /// <summary>
+        /// 新增motorId相同的数据
+        /// </summary>
+        /// <param name="ts"></param>
+        /// <returns></returns>
         public override int Insert(IEnumerable<DoubleToothRollCrusher> ts)
         {
             try
             {
-                       
+
 
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().AddRange(Mapper.Map<IEnumerable<Models.DoubleToothRollCrusher>>(ts));
-                var result=Commit();
+                var result = Commit();
+                var single = ts.ElementAt(0);
+                RedisProvider.DB = 15;
+                RedisProvider.LPUSH(single.Time + "_" + single.MotorId, ts, DataType.Protobuf);
+                if (RedisProvider.Exists(single.Time + "_" + single.MotorId) <= 0)
+                {
+                    RedisProvider.Expire(single.Time + "_" + single.MotorId, single.Time.Expire());
+                }
 
-                 RedisProvider.DB = 16;
-                 RedisProvider.LPUSH(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
-           
                 return result;
             }
             catch (Exception ex)
@@ -64,17 +84,26 @@ namespace Yunt.Device.Repository.EF.Repositories
                 return 0;
             }
         }
+        /// <summary>
+        /// 新增motorId相同的数据
+        /// </summary>
+        /// <param name="ts"></param>
+        /// <returns></returns>
         public override async Task InsertAsync(IEnumerable<DoubleToothRollCrusher> ts)
         {
 
             try
-            {             
+            {
 
                 await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().AddRangeAsync(Mapper.Map<IEnumerable<Models.DoubleToothRollCrusher>>(ts));
-                await CommitAsync();
+                await CommitAsync(); var single = ts.ElementAt(0);
 
-                RedisProvider.DB = 16;
-                RedisProvider.LPUSH(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                RedisProvider.DB = 15;
+                await RedisProvider.LpushAsync(single.Time + "_" + single.MotorId, ts, DataType.Protobuf);
+                if (RedisProvider.Exists(single.Time + "_" + single.MotorId) <= 0)
+                {
+                    RedisProvider.Expire(single.Time + "_" + single.MotorId, single.Time.Expire());
+                }
 
             }
             catch (Exception ex)
@@ -89,11 +118,11 @@ namespace Yunt.Device.Repository.EF.Repositories
         #region delete
         public override int DeleteEntity(int id)
         {
-          
+
             var t = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().Find(id);
 
-            RedisProvider.DB = 16;
-            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.DB = 15;
+            RedisProvider.Lrem(t.Time + "_" + t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().Remove(t);
             return Commit();
@@ -102,16 +131,16 @@ namespace Yunt.Device.Repository.EF.Repositories
         {
             var t = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().FindAsync(id);
 
-            RedisProvider.DB = 16;
-            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.DB = 15;
+            await RedisProvider.LremAsync(t.Time + "_" + t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().Remove(Mapper.Map<Models.DoubleToothRollCrusher>(t));
             await CommitAsync();
         }
         public override int DeleteEntity(DoubleToothRollCrusher t)
         {
-            RedisProvider.DB = 16;
-            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.DB = 15;
+            RedisProvider.Lrem(t.Time + "_" + t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().Remove(Mapper.Map<Models.DoubleToothRollCrusher>(t));
             return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).SaveChanges();
@@ -119,8 +148,8 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         public override async Task DeleteEntityAsync(DoubleToothRollCrusher t)
         {
-            RedisProvider.DB = 16;
-            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.DB = 15;
+            await RedisProvider.LremAsync(t.Time + "_" + t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().Remove(Mapper.Map<Models.DoubleToothRollCrusher>(t));
             await CommitAsync();
@@ -131,10 +160,10 @@ namespace Yunt.Device.Repository.EF.Repositories
             int results;
 
             try
-            {                         
-                RedisProvider.DB = 16;
-                RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
-        
+            {
+                RedisProvider.DB = 15; var single = ts.ElementAt(0);
+                RedisProvider.Lrem(single.Time + "_" + single.MotorId, ts, DataType.Protobuf);
+
 
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().RemoveRange(Mapper.Map<IEnumerable<Models.DoubleToothRollCrusher>>(ts));
                 results = Commit();
@@ -157,8 +186,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 try
                 {
-                    RedisProvider.DB = 16;
-                    RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                    RedisProvider.DB = 15; var single = ts.ElementAt(0);
+                    await RedisProvider.LremAsync(single.Time + "_" + single.MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().RemoveRange(Mapper.Map<IEnumerable<Models.DoubleToothRollCrusher>>(ts));
                     await CommitAsync();
@@ -189,8 +218,8 @@ namespace Yunt.Device.Repository.EF.Repositories
                 try
                 {
 
-                    RedisProvider.DB = 16;
-                    RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                    RedisProvider.DB = 15; var single = ts.ElementAt(0);
+                    RedisProvider.Lrem(single.Time + "_" + single.MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId)
                         .Set<Models.DoubleToothRollCrusher>()
@@ -221,8 +250,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 try
                 {
-                    RedisProvider.DB = 16;
-                    RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                    RedisProvider.DB = 15; var single = ts.ElementAt(0);
+                    await RedisProvider.LremAsync(single.Time + "_" + single.MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId)
                         .Set<Models.DoubleToothRollCrusher>()
@@ -244,7 +273,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             Logger.Warn("[DoubleToothRollCrusher]:forbiden update!");
             return 0;
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().Update(Mapper.Map<Models.DoubleToothRollCrusher>(t));
-            return Commit();
+            Commit();
         }
 
         public override int UpdateEntity(IEnumerable<DoubleToothRollCrusher> ts)
@@ -287,7 +316,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<Models.DoubleToothRollCrusher>(t));
             }
 
-            Commit();
+            var result = Commit();
         }
 
         public override async Task UpdateEntityAsync(DoubleToothRollCrusher t)
@@ -355,17 +384,18 @@ namespace Yunt.Device.Repository.EF.Repositories
         #region queryNew
         //注意闭包效率，参数应设置成作用域变量，可重复利用sql查询计划
         /// <summary>
-        /// 
+        /// 仅可在某一天内查找数据，需要精确具体时间点的，在where中添加过滤，跨越一天的数据，请自行累加
         /// </summary>
         /// <param name="motorId"></param>
-        /// <param name="isExceed">是否超出2 hours数据</param>
+        ///  <param name="time"></param>
+        /// <param name="isExceed">是否超出3 months数据</param>
         /// <param name="where"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        public virtual IQueryable<DoubleToothRollCrusher> GetEntities(string motorId, bool isExceed = false, Expression<Func<DoubleToothRollCrusher, bool>> where = null, Expression<Func<DoubleToothRollCrusher, object>> order = null)
+        public virtual IQueryable<DoubleToothRollCrusher> GetEntities(string motorId, DateTime time, bool isExceed = false, Expression<Func<DoubleToothRollCrusher, bool>> where = null, Expression<Func<DoubleToothRollCrusher, object>> order = null)
         {
 
-
+            var span = time.Date.TimeSpan();
             Expression<Func<Models.DoubleToothRollCrusher, bool>> wheres;
             Expression<Func<Models.DoubleToothRollCrusher, object>> orderby;
             IQueryable<DoubleToothRollCrusher> sql = null;
@@ -373,15 +403,15 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 if (!isExceed)
                 {
-                    RedisProvider.DB = 16;
-                    return RedisProvider.ListRange<DoubleToothRollCrusher>(motorId, DataType.Protobuf).Where(where.Compile())
+                    RedisProvider.DB = 15;
+                    return RedisProvider.ListRange<DoubleToothRollCrusher>(span + "_" + motorId, DataType.Protobuf).Where(where.Compile())
                         .OrderBy(order.Compile()).AsQueryable();
                 }
 
                 wheres = Mapper.MapExpression<Expression<Func<DoubleToothRollCrusher, bool>>, Expression<Func<Models.DoubleToothRollCrusher, bool>>>(where);
                 orderby = Mapper.MapExpression<Expression<Func<DoubleToothRollCrusher, object>>, Expression<Func<Models.DoubleToothRollCrusher, object>>>(order);
 
-                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().OrderBy(orderby).Where(wheres).ProjectTo<DoubleToothRollCrusher>(Mapper);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().Where(wheres).OrderBy(orderby).ProjectTo<DoubleToothRollCrusher>(Mapper);
 #if DEBUG
                 Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
                 Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
@@ -393,8 +423,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 if (!isExceed)
                 {
-                    RedisProvider.DB = 16;
-                    return RedisProvider.ListRange<DoubleToothRollCrusher>(motorId, DataType.Protobuf).OrderBy(order.Compile()).AsQueryable();
+                    RedisProvider.DB = 15;
+                    return RedisProvider.ListRange<DoubleToothRollCrusher>(span + "_" + motorId, DataType.Protobuf).OrderBy(order.Compile()).AsQueryable();
                 }
                 orderby = Mapper.MapExpression<Expression<Func<DoubleToothRollCrusher, object>>, Expression<Func<Models.DoubleToothRollCrusher, object>>>(order);
                 sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().OrderBy(orderby).ProjectTo<DoubleToothRollCrusher>(Mapper);
@@ -408,8 +438,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 if (!isExceed)
                 {
-                    RedisProvider.DB = 16;
-                    return RedisProvider.ListRange<DoubleToothRollCrusher>(motorId, DataType.Protobuf).Where(where.Compile()).AsQueryable();
+                    RedisProvider.DB = 15;
+                    return RedisProvider.ListRange<DoubleToothRollCrusher>(span + "_" + motorId, DataType.Protobuf).Where(where.Compile()).AsQueryable();
                 }
 
                 wheres = Mapper.MapExpression<Expression<Func<DoubleToothRollCrusher, bool>>, Expression<Func<Models.DoubleToothRollCrusher, bool>>>(where);
@@ -422,8 +452,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
             if (!isExceed)
             {
-                RedisProvider.DB = 16;
-                return RedisProvider.ListRange<DoubleToothRollCrusher>(motorId, DataType.Protobuf).AsQueryable();
+                RedisProvider.DB = 15;
+                return RedisProvider.ListRange<DoubleToothRollCrusher>(span + "_" + motorId, DataType.Protobuf).AsQueryable();
             }
 
             sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.DoubleToothRollCrusher>().ProjectTo<DoubleToothRollCrusher>(Mapper);
@@ -446,8 +476,9 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <returns></returns>
         public DoubleToothRollCrusher GetLatestRecord(string motorId)
         {
-            RedisProvider.DB = 16;
-            return RedisProvider.LPop<DoubleToothRollCrusher>(motorId, DataType.Protobuf);
+            var now = DateTime.Now.Date.TimeSpan();
+            RedisProvider.DB = 15;
+            return RedisProvider.LPop<DoubleToothRollCrusher>(now+"_"+motorId, DataType.Protobuf);
         }
         /// <summary>
         /// 获取设备实时状态
@@ -456,9 +487,10 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <returns></returns>
         public bool GetCurrentStatus(string motorId)
         {
+            var now = DateTime.Now.TimeSpan();
             var status = false;
             var lastData = GetLatestRecord(motorId);
-            if (lastData != null && DateTimeOffset.UtcNow.CompareTo(lastData.Time) <= 10)
+            if (lastData != null && now.CompareTo(lastData.Time) <=10*60)
             {
                 status = lastData.Current > 0;
             }

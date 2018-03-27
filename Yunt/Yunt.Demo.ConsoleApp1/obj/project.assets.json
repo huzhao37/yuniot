@@ -2388,13 +2388,39 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "Yunt.Common": "1.0.0"
+          "Yunt.Common": "1.0.0",
+          "protobuf-net": "2.3.7"
         },
         "compile": {
           "bin/placeholder/Yunt.Auth.Domain.dll": {}
         },
         "runtime": {
           "bin/placeholder/Yunt.Auth.Domain.dll": {}
+        }
+      },
+      "Yunt.Auth.Repository.EF/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "AutoMapper": "6.2.2",
+          "AutoMapper.Extensions": "1.0.0",
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": "3.2.0",
+          "Microsoft.EntityFrameworkCore": "2.0.1",
+          "Microsoft.EntityFrameworkCore.Design": "2.0.1",
+          "Microsoft.EntityFrameworkCore.Tools": "2.0.1",
+          "Microsoft.Extensions.Configuration": "2.0.1",
+          "Pomelo.EntityFrameworkCore.Extensions.ToSql": "2.0.0-rtm-10002",
+          "Pomelo.EntityFrameworkCore.MySql": "2.0.1",
+          "Pomelo.EntityFrameworkCore.MySql.Design": "1.1.2",
+          "Yunt.Auth.Domain": "1.0.0",
+          "Yunt.Common": "1.0.0",
+          "Yunt.Redis": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/Yunt.Auth.Repository.EF.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Yunt.Auth.Repository.EF.dll": {}
         }
       },
       "Yunt.Common/1.0.0": {
@@ -2461,6 +2487,44 @@
         },
         "runtime": {
           "bin/placeholder/Yunt.Device.Repository.EF.dll": {}
+        }
+      },
+      "Yunt.Inventory.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "Yunt.Common": "1.0.0",
+          "protobuf-net": "2.3.7"
+        },
+        "compile": {
+          "bin/placeholder/Yunt.Inventory.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Yunt.Inventory.Domain.dll": {}
+        }
+      },
+      "Yunt.Inventory.Repository.EF/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "AutoMapper": "6.2.2",
+          "AutoMapper.Extensions": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "2.0.1",
+          "Microsoft.EntityFrameworkCore.Tools": "2.0.1",
+          "Microsoft.Extensions.Configuration": "2.0.1",
+          "Pomelo.EntityFrameworkCore.Extensions.ToSql": "2.0.0-rtm-10002",
+          "Pomelo.EntityFrameworkCore.MySql": "2.0.1",
+          "Pomelo.EntityFrameworkCore.MySql.Design": "1.1.2",
+          "Yunt.Common": "1.0.0",
+          "Yunt.Inventory.Domain": "1.0.0",
+          "Yunt.Redis": "1.0.0",
+          "protobuf-net": "2.3.7"
+        },
+        "compile": {
+          "bin/placeholder/Yunt.Inventory.Repository.EF.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Yunt.Inventory.Repository.EF.dll": {}
         }
       },
       "Yunt.Redis/1.0.0": {
@@ -7770,6 +7834,11 @@
       "path": "../Yunt.Auth.Domain/Yunt.Auth.Domain.csproj",
       "msbuildProject": "../Yunt.Auth.Domain/Yunt.Auth.Domain.csproj"
     },
+    "Yunt.Auth.Repository.EF/1.0.0": {
+      "type": "project",
+      "path": "../Yunt.Auth.Repository.EF/Yunt.Auth.Repository.EF.csproj",
+      "msbuildProject": "../Yunt.Auth.Repository.EF/Yunt.Auth.Repository.EF.csproj"
+    },
     "Yunt.Common/1.0.0": {
       "type": "project",
       "path": "../Yunt.Common/Yunt.Common.csproj",
@@ -7789,6 +7858,16 @@
       "type": "project",
       "path": "../Yunt.Device.Repository.EF/Yunt.Device.Repository.EF.csproj",
       "msbuildProject": "../Yunt.Device.Repository.EF/Yunt.Device.Repository.EF.csproj"
+    },
+    "Yunt.Inventory.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Yunt.Inventory.Domain/Yunt.Inventory.Domain.csproj",
+      "msbuildProject": "../Yunt.Inventory.Domain/Yunt.Inventory.Domain.csproj"
+    },
+    "Yunt.Inventory.Repository.EF/1.0.0": {
+      "type": "project",
+      "path": "../Yunt.Inventory.Repository.EF/Yunt.Inventory.Repository.EF.csproj",
+      "msbuildProject": "../Yunt.Inventory.Repository.EF/Yunt.Inventory.Repository.EF.csproj"
     },
     "Yunt.Redis/1.0.0": {
       "type": "project",
@@ -7814,9 +7893,11 @@
       "Pomelo.EntityFrameworkCore.MySql.Design >= 1.1.2",
       "Quartz >= 3.0.3",
       "Yunt.Auth.Domain >= 1.0.0",
+      "Yunt.Auth.Repository.EF >= 1.0.0",
       "Yunt.Demo.Core >= 1.0.0",
       "Yunt.Device.Domain >= 1.0.0",
       "Yunt.Device.Repository.EF >= 1.0.0",
+      "Yunt.Inventory.Repository.EF >= 1.0.0",
       "Yunt.Redis >= 1.0.0",
       "Yunt.TaskManager.Core >= 1.0.0"
     ]
@@ -7871,6 +7952,12 @@
             },
             "G:\\2018\\Yunt\\Yunt\\Yunt.TaskManager.Core\\Yunt.TaskManager.Core.csproj": {
               "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.TaskManager.Core\\Yunt.TaskManager.Core.csproj"
+            },
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Inventory.Repository.EF\\Yunt.Inventory.Repository.EF.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Inventory.Repository.EF\\Yunt.Inventory.Repository.EF.csproj"
+            },
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Auth.Repository.EF\\Yunt.Auth.Repository.EF.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Auth.Repository.EF\\Yunt.Auth.Repository.EF.csproj"
             },
             "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj": {
               "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj"

@@ -54,7 +54,7 @@ namespace Yunt.Device.Repository.EF.Models
         [ProtoMember(5)]
         public double Current { get; set; }
         //[ProtoMember(5)]
-        //public DateTimeOffset Time { get; set; }
+        //public DateTime Time { get; set; }
         ///// <summary>
         ///// 设备ID
         ///// </summary>

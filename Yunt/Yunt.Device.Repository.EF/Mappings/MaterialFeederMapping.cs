@@ -12,7 +12,7 @@ namespace Yunt.Device.Repository.EF.Mappings
         {
             entity.ToTable("MaterialFeeder");
             entity.HasKey(m => m.Id);
-            entity.HasIndex(m => m.MotorId);
+            
             //HasRequired(m => m.Motor).WithRequiredDependent().Map(c => c.MapKey("MotorId")).WillCascadeOnDelete(false); 
         }
     }

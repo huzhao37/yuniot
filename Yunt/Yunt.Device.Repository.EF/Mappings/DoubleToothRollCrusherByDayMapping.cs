@@ -18,7 +18,7 @@ namespace Yunt.Device.Repository.EF.Mappings
         {
             entity.ToTable("DoubleToothRollCrusherByDay");
             entity.HasKey(c => c.Id);
-            entity.HasIndex(m => m.MotorId);//聚集索引
+            //聚集索引
         }
     }
 }

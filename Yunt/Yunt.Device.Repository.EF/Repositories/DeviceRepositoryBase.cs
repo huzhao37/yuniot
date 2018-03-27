@@ -26,9 +26,9 @@ namespace Yunt.Device.Repository.EF.Repositories
     {
         protected readonly IRedisCachingProvider RedisProvider;
         protected IMapper Mapper { get; set; }
-        // private readonly TaskManagerContext _context;
+       // private readonly DeviceContext _context;
         //  public IDeviceRepositoryBase<DT> Rep { get; }
-        public DeviceRepositoryBase(IMapper mapper, IRedisCachingProvider redisProvider)//TaskManagerContext context, 
+        public DeviceRepositoryBase(IMapper mapper, IRedisCachingProvider redisProvider)//DeviceContext context, 
         {
             // _context = context;
             Mapper = mapper;
@@ -41,7 +41,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             //_provider.DB = 0;
             //_provider.Set("t1", "t",DataType.Protobuf);
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Add(Mapper.Map<ST>(t));
-            return Commit();
+            return  Commit();
         }
         public virtual async Task InsertAsync(DT t)
         {
@@ -55,7 +55,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             try
             {
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().AddRange(Mapper.Map<IEnumerable<ST>>(ts));
-                return Commit();
+                return  Commit();
 
                 // Commit transaction if all commands succeed, transaction will auto-rollback
                 // when disposed if either commands fails
@@ -232,7 +232,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
                 orderby = Mapper.MapExpression<Expression<Func<DT, object>>, Expression<Func<ST, object>>>(order);
-                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().OrderBy(orderby).Where(wheres).ProjectTo<DT>(Mapper);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).OrderBy(orderby).ProjectTo<DT>(Mapper);
 #if DEBUG
                 Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
                 Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
@@ -359,7 +359,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<ST>(t));
             }
 
-            Commit();
+           var result = Commit();
         }
 
         public virtual async Task UpdateEntityAsync(DT t)

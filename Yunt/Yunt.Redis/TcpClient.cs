@@ -237,7 +237,7 @@ namespace Yunt.Redis
             {
                 result.Dispose();
                 client.LastError = e_;
-                 Logger.Error($"receive {client._host} error!", e_);
+                Logger.Error($"receive {client._host} error!", e_);
             }
             return result;
         }

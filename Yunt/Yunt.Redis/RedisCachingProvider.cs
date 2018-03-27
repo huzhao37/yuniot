@@ -336,6 +336,95 @@ namespace Yunt.Redis
                 }
             }
         }
+
+        /// <summary>
+        ///     将一个或多个值value插入到列表key的表头
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="dtype"></param>
+        /// <returns>执行LPUSH命令后，列表的长度</returns>
+        public async Task LpushAsync(string key, object value, DataType dtype)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                using (var c = GetWriter())
+                {
+
+                    using (var cmd = new Command())
+                    {
+                        cmd.Add(ConstValues.REDIS_COMMAND_LPUSH);
+                        cmd.Add(key);
+                        ToRedis(value, dtype, cmd);
+                        using (var result = TcpClient.Send(cmd, c.Client))
+                        {
+                           // return int.Parse(result.ResultData.ToString());
+                        }
+                    }
+                }
+            });
+        }
+
+        /// <summary>
+        ///     将一个或多个值value插入到列表key的表头
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="dtype"></param>
+        /// <returns>执行LPUSH命令后，列表的长度</returns>
+        public async Task LpushAsync<T>(string key, T value, DataType dtype)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                using (var c = GetWriter())
+                {
+
+                    using (var cmd = new Command())
+                    {
+                        cmd.Add(ConstValues.REDIS_COMMAND_LPUSH);
+                        cmd.Add(key);
+                        ToRedis(value, dtype, cmd);
+                        using (var result = TcpClient.Send(cmd, c.Client))
+                        {
+                            // return int.Parse(result.ResultData.ToString());
+                        }
+                    }
+                }
+            });
+        }
+
+        /// <summary>
+        ///      将一个或多个值value插入到列表key的表头
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="members"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public async Task LpushAsync<T>(string key, List<T> members, DataType type)
+        {
+            await Task.Factory.StartNew(() =>
+            {
+                using (var c = GetWriter())
+                {
+
+                    using (var cmd = new Command())
+                    {
+                        cmd.Add(ConstValues.REDIS_COMMAND_LPUSH);
+                        cmd.Add(key);
+                        foreach (var member in members)
+                            ToRedis(member, type, cmd);
+                        using (var result = TcpClient.Send(cmd, c.Client))
+                        {
+                            if (result.ResultData != null)
+                            {
+                                //return int.Parse(result.ResultData.ToString());
+                            }
+                        }
+                    }
+                }
+            });
+        }
         /// <summary>
         ///     将一个或多个值value插入到列表key的表头
         /// </summary>
@@ -1876,6 +1965,31 @@ namespace Yunt.Redis
         {
             return Lrem(key, 0, members, type);
         }
+
+        /// <summary>
+        ///   移除列表中与参数 value 相等的元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public async Task LremAsync<T>(string key, T member, DataType type)
+        {
+            await Task.Factory.StartNew(() => { Lrem(key, 0, member, type); });
+        }
+        /// <summary>
+        ///   移除列表中与参数 value 相等的元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="members"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public async Task LremAsync<T>(string key, IEnumerable<T> members, DataType type)
+        {
+            await Task.Factory.StartNew(() => { Lrem(key, 0, members, type); });
+        }
         /// <summary>
         ///    根据参数 count 的值，移除列表中与参数 value 相等的元素
         /// </summary>
@@ -2326,15 +2440,16 @@ namespace Yunt.Redis
         /// </summary>
         public RedisCachingProvider()
         {         
-            var result = Auth(_options.Password);
-            if (result)
-                Logger.Error("验证失败！");
+         
         }
 
         public RedisCachingProvider(IOptions<RedisCacheOptions> options)
         {
             _options = options.Value;
             Init();
+            //var result = Auth(_options.Password);
+            //if (result)
+            //    Logger.Error("验证失败！");
         }
 
         /// <summary>

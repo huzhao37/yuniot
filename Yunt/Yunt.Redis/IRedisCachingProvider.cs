@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace Yunt.Redis
 {
@@ -614,6 +615,55 @@ namespace Yunt.Redis
         IList<object> Sort(string key, int? offset, int? count, string bYpattern, string geTpattern, bool alpha,
             string storeDestination,
             SortOrderType orderby, Type type, DataType dtype);
+
+
+        /// <summary>
+        ///     将一个或多个值value插入到列表key的表头
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="dtype"></param>
+        /// <returns>执行LPUSH命令后，列表的长度</returns>
+        Task LpushAsync(string key, object value, DataType dtype);
+
+        /// <summary>
+        ///     将一个或多个值value插入到列表key的表头
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="value"></param>
+        /// <param name="dtype"></param>
+        /// <returns>执行LPUSH命令后，列表的长度</returns>
+        Task LpushAsync<T>(string key, T value, DataType dtype);
+
+        /// <summary>
+        ///      将一个或多个值value插入到列表key的表头
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="members"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+       Task LpushAsync<T>(string key, List<T> members, DataType type);
+
+        /// <summary>
+        ///   移除列表中与参数 value 相等的元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="member"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        Task LremAsync<T>(string key, T member, DataType type);
+
+        /// <summary>
+        ///   移除列表中与参数 value 相等的元素
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="members"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        Task LremAsync<T>(string key, IEnumerable<T> members, DataType type);
 
         #region 订阅与发布
 

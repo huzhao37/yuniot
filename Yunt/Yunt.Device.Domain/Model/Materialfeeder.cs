@@ -12,7 +12,7 @@ namespace Yunt.Device.Domain.Model
    [DataContract]
    [Serializable]
    [ProtoContract(SkipConstructor = true)]
- public class MaterialFeeder:AggregateRoot
+ public class MaterialFeeder : AggregateRoot
    {
       /// <summary>
       /// 功率因素

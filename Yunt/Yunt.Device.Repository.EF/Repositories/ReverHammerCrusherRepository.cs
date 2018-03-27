@@ -31,31 +31,51 @@ namespace Yunt.Device.Repository.EF.Repositories
         public override int Insert(ReverHammerCrusher t)
         {
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Add(Mapper.Map<Models.ReverHammerCrusher>(t));
-            Commit();
-            //redis缓存，暂定2h
-            RedisProvider.DB = 16;
-            return RedisProvider.LPUSH(t.MotorId, t, DataType.Protobuf);
+            var result = Commit();
+            //redis缓存
+            RedisProvider.DB = 15;
+            RedisProvider.LPUSH(t.Time + "_" + t.MotorId, t, DataType.Protobuf);
+            if (RedisProvider.Exists(t.Time + "_" + t.MotorId) <= 0)
+            {
+                RedisProvider.Expire(t.Time + "_" + t.MotorId, t.Time.Expire());
+            }
+
+            return result;
         }
         public override async Task InsertAsync(ReverHammerCrusher t)
         {
-            RedisProvider.DB = 16;
-            RedisProvider.LPUSH(t.MotorId, t, DataType.Protobuf);
-
             await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().AddAsync(Mapper.Map<Models.ReverHammerCrusher>(t));
             await CommitAsync();
+
+            RedisProvider.DB = 15;
+            //RedisProvider.HashSetFieldValue(t.Time.ToString(), t.MotorId, t, DataType.Protobuf);
+            await RedisProvider.LpushAsync(t.Time + "_" + t.MotorId, t, DataType.Protobuf);
+            if (RedisProvider.Exists(t.Time + "_" + t.MotorId) <= 0)
+            {
+                RedisProvider.Expire(t.Time + "_" + t.MotorId, t.Time.Expire());
+            }
         }
+        /// <summary>
+        /// 新增motorId相同的数据
+        /// </summary>
+        /// <param name="ts"></param>
+        /// <returns></returns>
         public override int Insert(IEnumerable<ReverHammerCrusher> ts)
         {
             try
             {
-                       
+
 
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().AddRange(Mapper.Map<IEnumerable<Models.ReverHammerCrusher>>(ts));
-                var result=Commit();
+                var result = Commit();
+                var single = ts.ElementAt(0);
+                RedisProvider.DB = 15;
+                RedisProvider.LPUSH(single.Time + "_" + single.MotorId, ts, DataType.Protobuf);
+                if (RedisProvider.Exists(single.Time + "_" + single.MotorId) <= 0)
+                {
+                    RedisProvider.Expire(single.Time + "_" + single.MotorId, single.Time.Expire());
+                }
 
-                 RedisProvider.DB = 16;
-                 RedisProvider.LPUSH(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
-           
                 return result;
             }
             catch (Exception ex)
@@ -64,17 +84,26 @@ namespace Yunt.Device.Repository.EF.Repositories
                 return 0;
             }
         }
+        /// <summary>
+        /// 新增motorId相同的数据
+        /// </summary>
+        /// <param name="ts"></param>
+        /// <returns></returns>
         public override async Task InsertAsync(IEnumerable<ReverHammerCrusher> ts)
         {
 
             try
-            {             
+            {
 
                 await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().AddRangeAsync(Mapper.Map<IEnumerable<Models.ReverHammerCrusher>>(ts));
-                await CommitAsync();
+                await CommitAsync(); var single = ts.ElementAt(0);
 
-                RedisProvider.DB = 16;
-                RedisProvider.LPUSH(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                RedisProvider.DB = 15;
+                await RedisProvider.LpushAsync(single.Time + "_" + single.MotorId, ts, DataType.Protobuf);
+                if (RedisProvider.Exists(single.Time + "_" + single.MotorId) <= 0)
+                {
+                    RedisProvider.Expire(single.Time + "_" + single.MotorId, single.Time.Expire());
+                }
 
             }
             catch (Exception ex)
@@ -89,11 +118,11 @@ namespace Yunt.Device.Repository.EF.Repositories
         #region delete
         public override int DeleteEntity(int id)
         {
-          
+
             var t = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Find(id);
 
-            RedisProvider.DB = 16;
-            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.DB = 15;
+            RedisProvider.Lrem(t.Time + "_" + t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Remove(t);
             return Commit();
@@ -102,16 +131,16 @@ namespace Yunt.Device.Repository.EF.Repositories
         {
             var t = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().FindAsync(id);
 
-            RedisProvider.DB = 16;
-            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.DB = 15;
+            await RedisProvider.LremAsync(t.Time + "_" + t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Remove(Mapper.Map<Models.ReverHammerCrusher>(t));
             await CommitAsync();
         }
         public override int DeleteEntity(ReverHammerCrusher t)
         {
-            RedisProvider.DB = 16;
-            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.DB = 15;
+            RedisProvider.Lrem(t.Time + "_" + t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Remove(Mapper.Map<Models.ReverHammerCrusher>(t));
             return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).SaveChanges();
@@ -119,8 +148,8 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         public override async Task DeleteEntityAsync(ReverHammerCrusher t)
         {
-            RedisProvider.DB = 16;
-            RedisProvider.Lrem(t.MotorId, t, DataType.Protobuf);
+            RedisProvider.DB = 15;
+            await RedisProvider.LremAsync(t.Time + "_" + t.MotorId, t, DataType.Protobuf);
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Remove(Mapper.Map<Models.ReverHammerCrusher>(t));
             await CommitAsync();
@@ -131,10 +160,10 @@ namespace Yunt.Device.Repository.EF.Repositories
             int results;
 
             try
-            {                         
-                RedisProvider.DB = 16;
-                RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
-        
+            {
+                RedisProvider.DB = 15; var single = ts.ElementAt(0);
+                RedisProvider.Lrem(single.Time + "_" + single.MotorId, ts, DataType.Protobuf);
+
 
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().RemoveRange(Mapper.Map<IEnumerable<Models.ReverHammerCrusher>>(ts));
                 results = Commit();
@@ -157,8 +186,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 try
                 {
-                    RedisProvider.DB = 16;
-                    RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                    RedisProvider.DB = 15; var single = ts.ElementAt(0);
+                    await RedisProvider.LremAsync(single.Time + "_" + single.MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().RemoveRange(Mapper.Map<IEnumerable<Models.ReverHammerCrusher>>(ts));
                     await CommitAsync();
@@ -189,8 +218,8 @@ namespace Yunt.Device.Repository.EF.Repositories
                 try
                 {
 
-                    RedisProvider.DB = 16;
-                    RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                    RedisProvider.DB = 15; var single = ts.ElementAt(0);
+                    RedisProvider.Lrem(single.Time + "_" + single.MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId)
                         .Set<Models.ReverHammerCrusher>()
@@ -221,8 +250,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 try
                 {
-                    RedisProvider.DB = 16;
-                    RedisProvider.Lrem(ts.ElementAt(0).MotorId, ts, DataType.Protobuf);
+                    RedisProvider.DB = 15; var single = ts.ElementAt(0);
+                    await RedisProvider.LremAsync(single.Time + "_" + single.MotorId, ts, DataType.Protobuf);
 
                     ContextFactory.Get(Thread.CurrentThread.ManagedThreadId)
                         .Set<Models.ReverHammerCrusher>()
@@ -244,7 +273,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             Logger.Warn("[ReverHammerCrusher]:forbiden update!");
             return 0;
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Update(Mapper.Map<Models.ReverHammerCrusher>(t));
-            return Commit();
+            Commit();
         }
 
         public override int UpdateEntity(IEnumerable<ReverHammerCrusher> ts)
@@ -287,7 +316,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<Models.ReverHammerCrusher>(t));
             }
 
-            Commit();
+            var result = Commit();
         }
 
         public override async Task UpdateEntityAsync(ReverHammerCrusher t)
@@ -355,17 +384,18 @@ namespace Yunt.Device.Repository.EF.Repositories
         #region queryNew
         //注意闭包效率，参数应设置成作用域变量，可重复利用sql查询计划
         /// <summary>
-        /// 
+        /// 仅可在某一天内查找数据，需要精确具体时间点的，在where中添加过滤，跨越一天的数据，请自行累加
         /// </summary>
         /// <param name="motorId"></param>
-        /// <param name="isExceed">是否超出2 hours数据</param>
+        ///  <param name="time"></param>
+        /// <param name="isExceed">是否超出3 months数据</param>
         /// <param name="where"></param>
         /// <param name="order"></param>
         /// <returns></returns>
-        public virtual IQueryable<ReverHammerCrusher> GetEntities(string motorId, bool isExceed = false, Expression<Func<ReverHammerCrusher, bool>> where = null, Expression<Func<ReverHammerCrusher, object>> order = null)
+        public virtual IQueryable<ReverHammerCrusher> GetEntities(string motorId, DateTime time, bool isExceed = false, Expression<Func<ReverHammerCrusher, bool>> where = null, Expression<Func<ReverHammerCrusher, object>> order = null)
         {
 
-
+            var span = time.Date.TimeSpan();
             Expression<Func<Models.ReverHammerCrusher, bool>> wheres;
             Expression<Func<Models.ReverHammerCrusher, object>> orderby;
             IQueryable<ReverHammerCrusher> sql = null;
@@ -373,15 +403,15 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 if (!isExceed)
                 {
-                    RedisProvider.DB = 16;
-                    return RedisProvider.ListRange<ReverHammerCrusher>(motorId, DataType.Protobuf).Where(where.Compile())
+                    RedisProvider.DB = 15;
+                    return RedisProvider.ListRange<ReverHammerCrusher>(span + "_" + motorId, DataType.Protobuf).Where(where.Compile())
                         .OrderBy(order.Compile()).AsQueryable();
                 }
 
                 wheres = Mapper.MapExpression<Expression<Func<ReverHammerCrusher, bool>>, Expression<Func<Models.ReverHammerCrusher, bool>>>(where);
                 orderby = Mapper.MapExpression<Expression<Func<ReverHammerCrusher, object>>, Expression<Func<Models.ReverHammerCrusher, object>>>(order);
 
-                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().OrderBy(orderby).Where(wheres).ProjectTo<ReverHammerCrusher>(Mapper);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().Where(wheres).OrderBy(orderby).ProjectTo<ReverHammerCrusher>(Mapper);
 #if DEBUG
                 Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
                 Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
@@ -393,8 +423,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 if (!isExceed)
                 {
-                    RedisProvider.DB = 16;
-                    return RedisProvider.ListRange<ReverHammerCrusher>(motorId, DataType.Protobuf).OrderBy(order.Compile()).AsQueryable();
+                    RedisProvider.DB = 15;
+                    return RedisProvider.ListRange<ReverHammerCrusher>(span + "_" + motorId, DataType.Protobuf).OrderBy(order.Compile()).AsQueryable();
                 }
                 orderby = Mapper.MapExpression<Expression<Func<ReverHammerCrusher, object>>, Expression<Func<Models.ReverHammerCrusher, object>>>(order);
                 sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().OrderBy(orderby).ProjectTo<ReverHammerCrusher>(Mapper);
@@ -408,8 +438,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 if (!isExceed)
                 {
-                    RedisProvider.DB = 16;
-                    return RedisProvider.ListRange<ReverHammerCrusher>(motorId, DataType.Protobuf).Where(where.Compile()).AsQueryable();
+                    RedisProvider.DB = 15;
+                    return RedisProvider.ListRange<ReverHammerCrusher>(span + "_" + motorId, DataType.Protobuf).Where(where.Compile()).AsQueryable();
                 }
 
                 wheres = Mapper.MapExpression<Expression<Func<ReverHammerCrusher, bool>>, Expression<Func<Models.ReverHammerCrusher, bool>>>(where);
@@ -422,8 +452,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
             if (!isExceed)
             {
-                RedisProvider.DB = 16;
-                return RedisProvider.ListRange<ReverHammerCrusher>(motorId, DataType.Protobuf).AsQueryable();
+                RedisProvider.DB = 15;
+                return RedisProvider.ListRange<ReverHammerCrusher>(span + "_" + motorId, DataType.Protobuf).AsQueryable();
             }
 
             sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ReverHammerCrusher>().ProjectTo<ReverHammerCrusher>(Mapper);
@@ -446,8 +476,9 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <returns></returns>
         public ReverHammerCrusher GetLatestRecord(string motorId)
         {
-            RedisProvider.DB = 16;
-            return RedisProvider.LPop<ReverHammerCrusher>(motorId, DataType.Protobuf);
+            var now = DateTime.Now.Date.TimeSpan();
+            RedisProvider.DB = 15;
+            return RedisProvider.LPop<ReverHammerCrusher>(now + "_" + motorId, DataType.Protobuf);
         }
 
         /// <summary>
@@ -457,9 +488,10 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <returns></returns>
         public bool GetCurrentStatus(string motorId)
         {
+            var now = DateTime.Now.TimeSpan();
             var status = false;
             var lastData = GetLatestRecord(motorId);
-            if (lastData != null && DateTimeOffset.UtcNow.CompareTo(lastData.Time) <= 10)
+            if (lastData != null && now.CompareTo(lastData.Time) <=10*60)
             {
                 status = lastData.Current > 0;
             }

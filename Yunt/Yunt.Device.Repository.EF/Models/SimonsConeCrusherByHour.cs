@@ -35,7 +35,7 @@ namespace Yunt.Device.Repository.EF.Models
         [ProtoMember(6)]
         public float LoadStall { get; set; }
         //[ProtoMember(7)]
-        //public DateTimeOffset Time { get; set; }
+        //public DateTime Time { get; set; }
         ///// <summary>
         ///// 设备ID
         ///// </summary>

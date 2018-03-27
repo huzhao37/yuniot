@@ -17,7 +17,7 @@ namespace Yunt.Device.Repository.EF.Mappings
         {
             entity.ToTable("Pulverizer");
             entity.HasKey(c => c.Id);
-            entity.HasIndex(m => m.MotorId);
+            
         }
     }
 }

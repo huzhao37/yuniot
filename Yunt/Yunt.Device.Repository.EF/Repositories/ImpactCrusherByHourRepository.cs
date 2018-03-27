@@ -37,20 +37,20 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// 统计该小时的反击破数据;
         /// </summary>
         /// <param name="motorId">设备id</param>
-        /// <param name="isExceed">是否超过一天的数据范围</param>
+        /// <param name="isExceed">是否超过3个月的数据范围</param>
         /// <param name="dt">查询时间,精确到小时</param>
         /// <returns></returns>
-        public ImpactCrusherByHour GetByMotorId(string motorId, bool isExceed, DateTimeOffset dt)
+        public ImpactCrusherByHour GetByMotorId(string motorId, bool isExceed, DateTime dt)
         {
             var standValue = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault()?.StandValue ?? 0;
 
             var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
 
-            var originalDatas = _icRep.GetEntities(motorId, isExceed, e => e.Motor1Current_B > -1 && e.Time.CompareTo(start) >= 0 &&
+            var originalDatas = _icRep.GetEntities(motorId, dt, isExceed, e => e.Motor1Current_B > -1 && e.Time.CompareTo(start) >= 0 &&
                                     e.Time.CompareTo(end) < 0, e => e.Time);
 
-            if (!originalDatas.Any()) return new ImpactCrusherByHour();
+            if (!originalDatas.Any()) return null;
 
             //var offCounts = 0;
 
@@ -65,7 +65,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var average = (float)Math.Round(originalDatas.Average(o => o.Motor1Current_B), 2);
             var entity = new ImpactCrusherByHour
             {
-                Time = start,
+                Time = start.TimeSpan(),
                 MotorId = motorId,
                 AvgMotor1Current_B = average,
                 AvgMotor2Current_B = (float)Math.Round(originalDatas.Average(o => o.Motor2Current_B), 2),
@@ -83,10 +83,10 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// </summary>
         /// <param name="dt">时间</param>
         /// <param name="MotorTypeId">设备类型</param>
-        public async Task InsertHourStatistics(DateTimeOffset dt, string MotorTypeId)
+        public async Task InsertHourStatistics(DateTime dt, string MotorTypeId)
         {
             var ts = new List<ImpactCrusherByHour>();
-            var hour = new DateTimeOffset(new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0));
+            var hour = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0);
             var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(MotorTypeId));
             foreach (var motor in query)
             {

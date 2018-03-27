@@ -38,7 +38,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <param name="motorId">设备id</param>
         /// <param name="dt">查询时间,精确到当日</param>
         /// <returns></returns>
-        public ConeCrusherByDay GetByMotorId(string motorId, DateTimeOffset dt)
+        public ConeCrusherByDay GetByMotorId(string motorId, DateTime dt)
         {
 
             var standValue = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault()?.StandValue ?? 0;
@@ -49,12 +49,12 @@ namespace Yunt.Device.Repository.EF.Repositories
             var originalDatas = _ccRep.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
                                     e.Time.CompareTo(end) < 0, e => e.Time);
 
-            if (!(originalDatas?.Any() ?? false)) return new ConeCrusherByDay();
+            if (!(originalDatas?.Any() ?? false)) return null;
 
             var average = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_B), 2);
             var entity = new ConeCrusherByDay
             {
-                Time = start,
+                Time = start.TimeSpan(),
                 MotorId = motorId,
                 AvgCurrent_B = average,
                 AvgMovaStress =(float)Math.Round(originalDatas.Average(o => o.AvgMovaStress),2),
@@ -79,20 +79,17 @@ namespace Yunt.Device.Repository.EF.Repositories
             };
             return entity;
 
-
-
-
         }
         /// <summary>
         /// 统计该当日内所有圆锥破的数据;
         /// </summary>
         /// <param name="dt">时间</param>
-        /// <param name="MotorTypeId">设备类型</param>
-        public async Task InsertHourStatistics(DateTimeOffset dt, string MotorTypeId)
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task InsertDayStatistics(DateTime dt, string motorTypeId)
         {
             var ts = new List<ConeCrusherByDay>();
             var day = dt.Date;
-            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(MotorTypeId));
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
             foreach (var motor in query)
             {
                 var exsit = false;

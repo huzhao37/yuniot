@@ -17,16 +17,16 @@ namespace Yunt.Auth.Repository.EF.Repositories
         public static  ConcurrentDictionary<int, object> ContextDic;
         public static  IServiceProvider ServiceProvider;
 
-        public static TaskManagerContext Get(int threadId)
+        public static AuthContext Get(int threadId)
         {
             lock (Objlock)
             {
-                if (ContextDic.ContainsKey(threadId)) return (TaskManagerContext) ContextDic[threadId];
-                ContextDic[threadId] = (TaskManagerContext)ServiceProvider.GetService(typeof(TaskManagerContext));
+                if (ContextDic.ContainsKey(threadId)) return (AuthContext) ContextDic[threadId];
+                ContextDic[threadId] = (AuthContext)ServiceProvider.GetService(typeof(AuthContext));
 #if DEBUG
                 Console.WriteLine($"current threadid is :{threadId}");
 #endif
-                return (TaskManagerContext)ContextDic[threadId];
+                return (AuthContext)ContextDic[threadId];
             }
 
         }

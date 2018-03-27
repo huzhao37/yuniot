@@ -169,3 +169,15 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
+/Yunt/packages/Microsoft.Net.Compilers.2.7.0/tools/VBCSCompiler.exe.config
+/Yunt/packages/Microsoft.Net.Compilers.2.7.0/tools/VBCSCompiler.exe
+/Yunt/packages/Microsoft.Net.Compilers.2.7.0/tools/vbc.exe.config
+/Yunt/packages/Microsoft.Net.Compilers.2.7.0/tools/vbc.exe
+/Yunt/packages/Microsoft.Net.Compilers.2.7.0/tools/Microsoft.VisualBasic.Core.targets
+/Yunt/packages/Microsoft.Net.Compilers.2.7.0/tools/Microsoft.CSharp.Core.targets
+/Yunt/packages/Microsoft.Net.Compilers.2.7.0/tools/csi.exe.config
+/Yunt/packages/Microsoft.Net.Compilers.2.7.0/tools/csi.exe
+/Yunt/packages/Microsoft.Net.Compilers.2.7.0/tools/csc.exe.config
+/Yunt/packages/Microsoft.Net.Compilers.2.7.0/tools/csc.exe
+/Yunt/packages/Microsoft.Net.Compilers.2.7.0/ThirdPartyNotices.rtf
+/Yunt/packages/Microsoft.Net.Compilers.2.7.0/Microsoft.Net.Compilers.2.7.0.nupkg

@@ -14,7 +14,7 @@ namespace Yunt.Device.Repository.EF.Mappings
         {
             entity.ToTable("VerticalCrusherByDay");
             entity.HasKey(m => m.Id);
-            entity.HasIndex(m => m.MotorId);
+            
         }
     }
 }

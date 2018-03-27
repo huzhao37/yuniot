@@ -18,7 +18,7 @@ namespace Yunt.Device.Domain.Model
         public string MotorId { get; set; }
 
         [ProtoMember(2)]
-        public float StandValue { get; set; }
+        public string ProductSpecification { get; set; }
         [ProtoMember(3)]
         public string ProductionLineId { get; set; }
         [ProtoMember(4)]
@@ -28,7 +28,7 @@ namespace Yunt.Device.Domain.Model
         [ProtoMember(6)]
         public string MotorTypeId { get; set; }
         [ProtoMember(7)]
-        public float Capicity { get; set; }
+        public float StandValue { get; set; }
         [ProtoMember(8)]
         public float FeedSize { get; set; }
         [ProtoMember(9)]

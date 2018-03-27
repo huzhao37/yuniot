@@ -47,7 +47,7 @@ namespace Yunt.Device.Repository.EF.Models
     [ProtoInclude(42, typeof(VerticalCrusherByHour))]
     [ProtoInclude(43, typeof(VibrosieveByDay))]
     [ProtoInclude(44, typeof(VibrosieveByHour))]
-    [ProtoInclude(45, typeof(Domain.Model.MotorType))]
+    [ProtoInclude(45, typeof(MotorType))]
     [ProtoInclude(46, typeof(Motor))]
 
     public class BaseModel
@@ -57,6 +57,6 @@ namespace Yunt.Device.Repository.EF.Models
         public long Id { get; set; }
         [DataMember]
         [ProtoMember(48)]
-        public DateTimeOffset Time { get; set; }
+        public long Time { get; set; }
     }
 }
