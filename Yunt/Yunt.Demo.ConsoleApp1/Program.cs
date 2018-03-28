@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -293,7 +294,7 @@ namespace Yunt.Demo.ConsoleApp1
             //  services.Configure<AppSetting>(Configuration.GetSection("AppSettings"));
 
             var providers = ServiceEx.StartServices(services, configuration);
-
+            services.AddAutoMapper();
             //var authProvider=Register(services);
             // var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(providers["Device"]);
             //tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });

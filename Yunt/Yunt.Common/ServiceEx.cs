@@ -20,7 +20,7 @@ namespace Yunt.Common
             try
             {
                 var path = AppDomain.CurrentDomain.BaseDirectory;
-                FileEx.CopyFolderTo(path + "commondll", path);
+                FileEx.CopyFolderTo( "./../commondll", path);
 
                 //FileEx.TryLoadAssembly();
                 var files = new DirectoryInfo(path).GetFiles();

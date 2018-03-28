@@ -112,5 +112,13 @@ namespace Yunt.Inventory.Repository.EF.Models
         [DisplayName("电机设备编号")]
         [ProtoMember(13)]
         public string MotorId { get; set; } = "Invalid";
+
+        /// <summary>
+        /// 是否删除
+        /// </summary>
+        [DataMember]
+        [DisplayName("是否删除")]
+        [ProtoMember(14)]
+        public bool IsDelete { get; set; } 
     }
 }

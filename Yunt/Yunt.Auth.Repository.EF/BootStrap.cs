@@ -32,7 +32,7 @@ namespace Yunt.Auth.Repository.EF
                 });
                 services.AddSingleton(config);
                 services.AddScoped<IMapper, Mapper>();
-                // services.AddAutoMapper();
+                //services.AddAutoMapper();
 
                 var redisConn = configuration.GetSection("AppSettings").GetSection("Auth").GetValue<string>("RedisConn");
                 var redisPwd = configuration.GetSection("AppSettings").GetSection("Auth").GetValue<string>("RedisPwd");

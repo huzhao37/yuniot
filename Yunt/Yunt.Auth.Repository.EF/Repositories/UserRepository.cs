@@ -378,7 +378,7 @@ namespace Yunt.Auth.Repository.EF.Repositories
             if (where != null)
             {
                 wheres = Mapper.MapExpression<Expression<Func< User, bool>>, Expression<Func<Models. User, bool>>>(where);
-                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models. User>().Where(wheres).ProjectTo< User>(Mapper);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.User>().Where(wheres).ProjectTo< User>(Mapper);
 #if DEBUG
                 //Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
                 // Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));

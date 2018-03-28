@@ -251,10 +251,10 @@
           "lib/netstandard2.0/Microsoft.Extensions.Configuration.Json.dll": {}
         }
       },
-      "Microsoft.Extensions.DependencyInjection/2.1.0-preview1-final": {
+      "Microsoft.Extensions.DependencyInjection/2.0.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.1.0-preview1-final"
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll": {}
@@ -263,7 +263,7 @@
           "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll": {}
         }
       },
-      "Microsoft.Extensions.DependencyInjection.Abstractions/2.1.0-preview1-final": {
+      "Microsoft.Extensions.DependencyInjection.Abstractions/2.0.0": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
@@ -2398,31 +2398,6 @@
           "bin/placeholder/Yunt.Auth.Domain.dll": {}
         }
       },
-      "Yunt.Auth.Repository.EF/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v2.0",
-        "dependencies": {
-          "AutoMapper": "6.2.2",
-          "AutoMapper.Extensions": "1.0.0",
-          "AutoMapper.Extensions.Microsoft.DependencyInjection": "3.2.0",
-          "Microsoft.EntityFrameworkCore": "2.0.1",
-          "Microsoft.EntityFrameworkCore.Design": "2.0.1",
-          "Microsoft.EntityFrameworkCore.Tools": "2.0.1",
-          "Microsoft.Extensions.Configuration": "2.0.1",
-          "Pomelo.EntityFrameworkCore.Extensions.ToSql": "2.0.0-rtm-10002",
-          "Pomelo.EntityFrameworkCore.MySql": "2.0.1",
-          "Pomelo.EntityFrameworkCore.MySql.Design": "1.1.2",
-          "Yunt.Auth.Domain": "1.0.0",
-          "Yunt.Common": "1.0.0",
-          "Yunt.Redis": "1.0.0"
-        },
-        "compile": {
-          "bin/placeholder/Yunt.Auth.Repository.EF.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Yunt.Auth.Repository.EF.dll": {}
-        }
-      },
       "Yunt.Common/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
@@ -2461,32 +2436,6 @@
         },
         "runtime": {
           "bin/placeholder/Yunt.Device.Domain.dll": {}
-        }
-      },
-      "Yunt.Device.Repository.EF/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v2.0",
-        "dependencies": {
-          "AutoMapper": "6.2.2",
-          "AutoMapper.Extensions": "1.0.0",
-          "AutoMapper.Extensions.Microsoft.DependencyInjection": "3.2.0",
-          "Microsoft.EntityFrameworkCore": "2.0.1",
-          "Microsoft.EntityFrameworkCore.Design": "2.0.1",
-          "Microsoft.EntityFrameworkCore.Tools": "2.0.1",
-          "Microsoft.Extensions.Configuration": "2.0.1",
-          "Pomelo.EntityFrameworkCore.Extensions.ToSql": "2.0.0-rtm-10002",
-          "Pomelo.EntityFrameworkCore.MySql": "2.0.1",
-          "Pomelo.EntityFrameworkCore.MySql.Design": "1.1.2",
-          "Yunt.Common": "1.0.0",
-          "Yunt.Device.Domain": "1.0.0",
-          "Yunt.Redis": "1.0.0",
-          "protobuf-net": "2.3.7"
-        },
-        "compile": {
-          "bin/placeholder/Yunt.Device.Repository.EF.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Yunt.Device.Repository.EF.dll": {}
         }
       },
       "Yunt.Inventory.Domain/1.0.0": {
@@ -2533,7 +2482,7 @@
         "dependencies": {
           "Microsoft.Extensions.Configuration.Binder": "2.0.1",
           "Microsoft.Extensions.Configuration.Json": "2.0.1",
-          "Microsoft.Extensions.DependencyInjection": "2.1.0-preview1-final",
+          "Microsoft.Extensions.DependencyInjection": "2.0.0",
           "Microsoft.Extensions.Options": "2.0.1",
           "Newtonsoft.Json": "11.0.1",
           "Yunt.Common": "1.0.0",
@@ -2835,25 +2784,25 @@
         "microsoft.extensions.configuration.json.nuspec"
       ]
     },
-    "Microsoft.Extensions.DependencyInjection/2.1.0-preview1-final": {
-      "sha512": "UuyuXJ92DAsrSuDgwQuLq933QIRcl7YsVt1g+gP7aLrh5VXul+oyuG48jcJWJHVTYc9ndKNJV4mRBeEH9hElLA==",
+    "Microsoft.Extensions.DependencyInjection/2.0.0": {
+      "sha512": "wakg18gHYiUL1pcjjyZuYk6OvDpbSw1E7IWxm78TMepsr+gQ8W0tWzuRm0q/9RFblngwPwo15rrgZSUV51W5Iw==",
       "type": "package",
-      "path": "microsoft.extensions.dependencyinjection/2.1.0-preview1-final",
+      "path": "microsoft.extensions.dependencyinjection/2.0.0",
       "files": [
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.xml",
-        "microsoft.extensions.dependencyinjection.2.1.0-preview1-final.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.2.0.0.nupkg.sha512",
         "microsoft.extensions.dependencyinjection.nuspec"
       ]
     },
-    "Microsoft.Extensions.DependencyInjection.Abstractions/2.1.0-preview1-final": {
-      "sha512": "STPLX09ZK9GWBJqfwz8f2mqcGQFZl4IWR4NhklZxI6EKhXRHBNBFH/ytjWv7SBSTgK/xPuwGBR2oPTSwodZaJg==",
+    "Microsoft.Extensions.DependencyInjection.Abstractions/2.0.0": {
+      "sha512": "eUdJ0Q/GfVyUJc0Jal5L1QZLceL78pvEM9wEKcHeI24KorqMDoVX+gWsMGLulQMfOwsUaPtkpQM2pFERTzSfSg==",
       "type": "package",
-      "path": "microsoft.extensions.dependencyinjection.abstractions/2.1.0-preview1-final",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/2.0.0",
       "files": [
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.xml",
-        "microsoft.extensions.dependencyinjection.abstractions.2.1.0-preview1-final.nupkg.sha512",
+        "microsoft.extensions.dependencyinjection.abstractions.2.0.0.nupkg.sha512",
         "microsoft.extensions.dependencyinjection.abstractions.nuspec"
       ]
     },
@@ -7834,11 +7783,6 @@
       "path": "../Yunt.Auth.Domain/Yunt.Auth.Domain.csproj",
       "msbuildProject": "../Yunt.Auth.Domain/Yunt.Auth.Domain.csproj"
     },
-    "Yunt.Auth.Repository.EF/1.0.0": {
-      "type": "project",
-      "path": "../Yunt.Auth.Repository.EF/Yunt.Auth.Repository.EF.csproj",
-      "msbuildProject": "../Yunt.Auth.Repository.EF/Yunt.Auth.Repository.EF.csproj"
-    },
     "Yunt.Common/1.0.0": {
       "type": "project",
       "path": "../Yunt.Common/Yunt.Common.csproj",
@@ -7853,11 +7797,6 @@
       "type": "project",
       "path": "../Yunt.Device.Domain/Yunt.Device.Domain.csproj",
       "msbuildProject": "../Yunt.Device.Domain/Yunt.Device.Domain.csproj"
-    },
-    "Yunt.Device.Repository.EF/1.0.0": {
-      "type": "project",
-      "path": "../Yunt.Device.Repository.EF/Yunt.Device.Repository.EF.csproj",
-      "msbuildProject": "../Yunt.Device.Repository.EF/Yunt.Device.Repository.EF.csproj"
     },
     "Yunt.Inventory.Domain/1.0.0": {
       "type": "project",
@@ -7882,6 +7821,7 @@
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
+      "AutoMapper.Extensions.Microsoft.DependencyInjection >= 3.2.0",
       "Microsoft.EntityFrameworkCore >= 2.0.1",
       "Microsoft.EntityFrameworkCore.Design >= 2.0.1",
       "Microsoft.EntityFrameworkCore.SqlServer >= 2.0.1",
@@ -7893,10 +7833,8 @@
       "Pomelo.EntityFrameworkCore.MySql.Design >= 1.1.2",
       "Quartz >= 3.0.3",
       "Yunt.Auth.Domain >= 1.0.0",
-      "Yunt.Auth.Repository.EF >= 1.0.0",
       "Yunt.Demo.Core >= 1.0.0",
       "Yunt.Device.Domain >= 1.0.0",
-      "Yunt.Device.Repository.EF >= 1.0.0",
       "Yunt.Inventory.Repository.EF >= 1.0.0",
       "Yunt.Redis >= 1.0.0",
       "Yunt.TaskManager.Core >= 1.0.0"
@@ -7955,12 +7893,6 @@
             },
             "G:\\2018\\Yunt\\Yunt\\Yunt.Inventory.Repository.EF\\Yunt.Inventory.Repository.EF.csproj": {
               "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Inventory.Repository.EF\\Yunt.Inventory.Repository.EF.csproj"
-            },
-            "G:\\2018\\Yunt\\Yunt\\Yunt.Auth.Repository.EF\\Yunt.Auth.Repository.EF.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Auth.Repository.EF\\Yunt.Auth.Repository.EF.csproj"
-            },
-            "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj"
             }
           }
         }
@@ -7974,6 +7906,10 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+            "target": "Package",
+            "version": "[3.2.0, )"
+          },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
             "version": "[2.0.1, )"
