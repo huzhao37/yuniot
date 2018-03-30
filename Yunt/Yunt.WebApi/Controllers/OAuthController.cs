@@ -8,8 +8,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using Yunt.Auth.Domain.IRepository;
-using Yunt.Auth.Domain.Model;
-using Yunt.WebApi.Models;
+
+using Yunt.WebApi.Models.Logins;
 
 namespace Yunt.WebApi.Controllers
 {

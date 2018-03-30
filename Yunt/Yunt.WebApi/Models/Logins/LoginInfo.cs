@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
 
-namespace Yunt.WebApi.Models
+namespace Yunt.WebApi.Models.Logins
 {
     public class LoginInfo
     {

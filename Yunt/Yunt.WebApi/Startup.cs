@@ -14,8 +14,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using NewLife.Log;
+using Swashbuckle.AspNetCore.Swagger;
 using Yunt.Auth.Repository.EF;
 using Yunt.Common;
 using Yunt.WebApi.Data;
@@ -62,8 +64,7 @@ namespace Yunt.WebApi
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(o =>
+            }).AddJwtBearer(o =>
             {
                 o.Authority = "https://oidc.faasx.com/";
                 o.Audience = "api";
@@ -87,6 +88,20 @@ namespace Yunt.WebApi
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Consts.Secret))
                 };
             });
+
+            //swagger
+            //services.AddSwaggerGen(c =>
+            //{
+            //    c.SwaggerDoc("v1", new Info
+            //    {
+            //        Version = "v1",
+            //        Title = "Yunt Api"
+            //    });
+            //    var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+            //    var xmlPath = Path.Combine(basePath, "Yunt.WebApi.xml");
+            //    c.IncludeXmlComments(xmlPath);
+            //     }
+            //);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -116,12 +131,18 @@ namespace Yunt.WebApi
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=SampleData}/{action=WeatherForecasts}/{id?}");
 
                 routes.MapSpaFallbackRoute(
                     name: "spa-fallback",
-                    defaults: new { controller = "Home", action = "Index" });
+                    defaults: new { controller = "SampleData", action = "WeatherForecasts" });
             });
+
+            //swagger
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c => {
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "YuntApi");
+            //});
         }
     }
 }
