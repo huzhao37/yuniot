@@ -2429,6 +2429,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
+          "Yunt.Common": "1.0.0",
           "protobuf-net": "2.3.7"
         },
         "compile": {

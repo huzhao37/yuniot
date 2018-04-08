@@ -18,7 +18,6 @@ using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Tokens;
 using NewLife.Log;
 using Swashbuckle.AspNetCore.Swagger;
-using Yunt.Auth.Repository.EF;
 using Yunt.Common;
 using Yunt.WebApi.Data;
 
@@ -27,7 +26,7 @@ namespace Yunt.WebApi
    
     public class Startup
     {
-        internal Dictionary<string, IServiceProvider> Providers;
+        internal static Dictionary<string, IServiceProvider> Providers;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

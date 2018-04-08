@@ -5,7 +5,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Yunt.WebApi
@@ -14,7 +13,6 @@ namespace Yunt.WebApi
     {
         public static void Main(string[] args)
         {
-
             BuildWebHost(args).Run();
 
         }

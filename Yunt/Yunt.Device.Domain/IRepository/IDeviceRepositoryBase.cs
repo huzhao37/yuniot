@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Yunt.Common;
 using Yunt.Device.Domain.BaseModel;
 
 namespace Yunt.Device.Domain.IRepository
@@ -15,7 +16,7 @@ namespace Yunt.Device.Domain.IRepository
         IQueryable<IGrouping<object, T>> GetEntities(object paramter);
 
         T GetEntityById(int id);
-
+        Task<PaginatedList<T>> GetPage(int pageIndex, int pageSize);
         int Insert(T t);
         Task InsertAsync(T t);
         int Insert(IEnumerable<T> ts);

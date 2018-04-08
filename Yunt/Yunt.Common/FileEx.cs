@@ -66,14 +66,12 @@ namespace Yunt.Common
             //移动所有文件  
             foreach (FileInfo file in files)
             {
-                //直接覆盖
+                //直接覆盖??
                 if (File.Exists(Path.Combine(directoryTarget, file.Name)))
-                {
-                    if (File.Exists(Path.Combine(directoryTarget, file.Name)))
-                    {
-                        File.Delete(Path.Combine(directoryTarget, file.Name));
-                    }
-                    File.Copy(Path.Combine(directorySource, file.Name), Path.Combine(directoryTarget, file.Name));
+                {                 
+                    // File.Delete(Path.Combine(directoryTarget, file.Name));
+                    
+                    //File.Copy(Path.Combine(directorySource, file.Name), Path.Combine(directoryTarget, file.Name));
 
                 }
                 else
@@ -120,6 +118,29 @@ namespace Yunt.Common
             }
         }
 
-
+        public static void DelectDir(string srcPath)
+        {
+            try
+            {
+                DirectoryInfo dir = new DirectoryInfo(srcPath);
+                FileSystemInfo[] fileinfo = dir.GetFileSystemInfos();  //返回目录中所有文件和子目录
+                foreach (FileSystemInfo i in fileinfo)
+                {
+                    if (i is DirectoryInfo)            //判断是否文件夹
+                    {
+                        DirectoryInfo subdir = new DirectoryInfo(i.FullName);
+                        subdir.Delete(true);          //删除子目录和文件
+                    }
+                    else
+                    {
+                        File.Delete(i.FullName);      //删除指定文件
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+        }
     }
 }

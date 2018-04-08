@@ -311,7 +311,18 @@ namespace Yunt.Auth.Repository.EF.Repositories
             return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Find<ST>(id).MapTo<DT>();
         }
 
+        public virtual  PaginatedList<DT> GetPage( int pageIndex, int pageSize)
+        {
+            var source = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().ProjectTo<DT>(Mapper);
+            var count = source.Count();
+            List<DT> dailys = null;
+            if (count > 0)
+            {
+                dailys =  source.OrderBy(x => x.Time).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
 
+            return new PaginatedList<DT>(pageIndex, pageSize, count, dailys ?? new List<DT>());
+        }
         #endregion
 
         #region update

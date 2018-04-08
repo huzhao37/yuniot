@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using Yunt.Auth.Domain.BaseModel;
+using Yunt.Common;
 
 namespace Yunt.Auth.Domain.IRepository
 {
@@ -15,7 +16,7 @@ namespace Yunt.Auth.Domain.IRepository
         IQueryable<IGrouping<object, T>> GetEntities(object paramter);
 
         T GetEntityById(int id);
-
+        PaginatedList<T> GetPage(int pageIndex, int pageSize);
         int Insert(T t);
         Task InsertAsync(T t);
         int Insert(IEnumerable<T> ts);

@@ -28,9 +28,13 @@ namespace Yunt.Auth.Repository.EF.Repositories
         }
 
         #region Insert
-        public override int Insert( User t)
-        {
-            var idfac=_idRep.GetEntities().FirstOrDefault();
+        public override int Insert(User t)
+        {  //using (var transaction = _context.Database.BeginTransaction())
+           //{
+           //transaction.Commit();
+           //}
+
+            var idfac =_idRep.GetEntities().FirstOrDefault();
             var newIndex = idfac?. UserIndex + 1 ?? 1;
             if (idfac != null)
             {
