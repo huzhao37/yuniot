@@ -52,7 +52,7 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             if (!(originalDatas?.Any() ?? false))return null;
             
-            var Average = (float)Math.Round(originalDatas.Average(o => o.Frequency), 2);
+            var average = (float)Math.Round(originalDatas.Average(o => o.Frequency), 2);
             var entity = new MaterialFeederByHour
             {
                 Time = start.TimeSpan(),
@@ -63,7 +63,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.Voltage_B), 2),
 
                 RunningTime = originalDatas.Count(c => c.Frequency > 0),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(Average / standValue, 2)
+                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
             };
             return entity;
 
@@ -93,6 +93,41 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
 
             await InsertAsync(ts);
+        }
+
+        /// <summary>
+        /// 获取当日实时数据
+        /// </summary>
+        /// <param name="motorId"></param>
+        public MaterialFeederByDay GetRealData(string motorId)
+        {
+            var minuteEnd = DateTime.Now;
+            var hourStart = minuteEnd.Date;
+            var hourEnd = minuteEnd.Date.AddHours(minuteEnd.Hour);
+            var minuteStart = hourEnd;
+
+            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
+            var standValue = motor?.StandValue ?? 0;
+
+            var hourData =
+                GetEntities(
+                    e => e.MotorId.Equals(motorId) && e.Time.CompareTo(hourStart) >= 0 && e.Time.CompareTo(hourEnd) <= 0)?.ToList();
+
+            var minuteData = GetByMotorId(motorId, false, minuteStart);
+
+            if (minuteData != null)
+                hourData?.Add(minuteData);
+            var average = (float)Math.Round(hourData.Average(o => o.AvgCurrent_B), 2);
+            var data = new MaterialFeederByDay
+            {
+                MotorId = motorId,
+                AvgCurrent_B = average,
+                RunningTime = (float)Math.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
+                AvgFrequency = (float)Math.Round(hourData?.Average(e => e.AvgFrequency) ?? 0, 2),
+                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+            };
+
+            return data;
         }
         #endregion
 

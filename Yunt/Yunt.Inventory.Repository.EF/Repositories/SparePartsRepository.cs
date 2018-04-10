@@ -436,7 +436,18 @@ namespace Yunt.Inventory.Repository.EF.Repositories
             return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Find<Models. SpareParts>(id).MapTo< SpareParts>();
         }
 
+        public virtual PaginatedList<SpareParts> GetPage(int pageIndex, int pageSize, SparePartsStatus status)
+        {
+            var source = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.SpareParts>().Where(e=>e.SparePartsStatus.Equals(status)).ProjectTo<SpareParts>(Mapper);
+            var count = source.Count();
+            List<SpareParts> dailys = null;
+            if (count > 0)
+            {
+                dailys = source.OrderBy(x => x.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
 
+            return new PaginatedList<SpareParts>(pageIndex, pageSize, count, dailys ?? new List<SpareParts>());
+        }
         #endregion
 
     }

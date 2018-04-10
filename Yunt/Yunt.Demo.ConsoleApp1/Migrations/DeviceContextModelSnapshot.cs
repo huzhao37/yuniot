@@ -1124,6 +1124,22 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.ToTable("MotorType");
                 });
 
+            modelBuilder.Entity("Yunt.Device.Repository.EF.Models.ProductionLine", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Name");
+
+                    b.Property<string>("ProductionLineId");
+
+                    b.Property<long>("Time");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ProductionLine");
+                });
+
             modelBuilder.Entity("Yunt.Device.Repository.EF.Models.Pulverizer", b =>
                 {
                     b.Property<long>("Id")

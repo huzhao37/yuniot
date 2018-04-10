@@ -14,14 +14,11 @@ using Yunt.Common;
 using Yunt.Redis;
 using AutoMapper.XpressionMapper.Extensions;
 using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace Yunt.Device.Repository.EF.Repositories
 {
     public class ConveyorRepository : DeviceRepositoryBase<Conveyor, Models.Conveyor>, IConveyorRepository
     {
-
         public ConveyorRepository( IMapper mapper, IRedisCachingProvider provider) : base(mapper, provider)
         {
             
@@ -526,17 +523,18 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// </summary>
         /// <param name="motorId">电机Id</param>
         /// <returns></returns>
-        public bool GetCurrentStatus(string motorId)
+        public MotorStatus GetCurrentStatus(string motorId)
         {
             var now = DateTime.Now.TimeSpan();
-            var status = false;
+            var status = MotorStatus.Lose;
             var lastData = GetLatestRecord(motorId);
-            if (lastData != null && now.CompareTo(lastData.Time) <=10*60)
-            {
-                status = lastData.Current_B > 0;
-            }
+            if (lastData == null || now.CompareTo(lastData.Time) > 10 * 60) return status;
+            if (lastData.Current_B == -1)
+                return status;
+            status = lastData.Current_B>0?MotorStatus.Run : MotorStatus.Stop;
             return status;
         }
+       
         #endregion
     }
 }

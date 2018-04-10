@@ -10,7 +10,7 @@ namespace Yunt.Inventory.Domain.IRepository
 {
     public interface ISparePartsRepository : IInventoryRepositoryBase<SpareParts>
     {
-     
 
+        PaginatedList<SpareParts> GetPage(int pageIndex, int pageSize, SparePartsStatus status);
     }
 }

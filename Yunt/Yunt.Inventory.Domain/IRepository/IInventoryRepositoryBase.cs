@@ -16,7 +16,7 @@ namespace Yunt.Inventory.Domain.IRepository
         IQueryable<IGrouping<object, T>> GetEntities(object paramter);
 
         T GetEntityById(int id);
-        Task<PaginatedList<T>> GetPage(int pageIndex, int pageSize);
+        PaginatedList<T> GetPage(int pageIndex, int pageSize);
         int Insert(T t);
         Task InsertAsync(T t);
         int Insert(IEnumerable<T> ts);

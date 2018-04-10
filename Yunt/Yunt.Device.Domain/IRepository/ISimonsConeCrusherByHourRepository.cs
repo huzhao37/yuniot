@@ -29,6 +29,11 @@ namespace Yunt.Device.Domain.IRepository
         /// <param name="MotorTypeId">设备类型</param>
         Task InsertHourStatistics(DateTime dt, string MotorTypeId);
 
+        /// <summary>
+        /// 获取当日实时数据
+        /// </summary>
+        /// <param name="motorId"></param>
+        SimonsConeCrusherByDay GetRealData(string motorId);
         #endregion
     }
 }

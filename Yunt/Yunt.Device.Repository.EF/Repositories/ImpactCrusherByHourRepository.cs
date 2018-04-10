@@ -101,7 +101,40 @@ namespace Yunt.Device.Repository.EF.Repositories
             await InsertAsync(ts);
         }
 
+        /// <summary>
+        /// 获取当日实时数据
+        /// </summary>
+        /// <param name="motorId"></param>
+        public ImpactCrusherByDay GetRealData(string motorId)
+        {
+            var minuteEnd = DateTime.Now;
+            var hourStart = minuteEnd.Date;
+            var hourEnd = minuteEnd.Date.AddHours(minuteEnd.Hour);
+            var minuteStart = hourEnd;
 
+            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
+            var standValue = motor?.StandValue ?? 0;
+
+            var hourData =
+                GetEntities(
+                    e => e.MotorId.Equals(motorId) && e.Time.CompareTo(hourStart) >= 0 && e.Time.CompareTo(hourEnd) <= 0)?.ToList();
+
+            var minuteData = GetByMotorId(motorId, false, minuteStart);
+
+            if (minuteData != null)
+                hourData?.Add(minuteData);
+            var average = (float)Math.Round(hourData.Average(o => o.AvgMotor1Current_B), 2);
+            var data = new ImpactCrusherByDay
+            {
+                MotorId = motorId,
+                AvgMotor1Current_B = average,
+                RunningTime = (float)Math.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
+
+                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+            };
+
+            return data;
+        }
         #endregion
 
 

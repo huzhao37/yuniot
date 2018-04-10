@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Yunt.Common;
 using Yunt.Device.Domain.Model;
 
 namespace Yunt.Device.Domain.IRepository
@@ -50,7 +51,7 @@ namespace Yunt.Device.Domain.IRepository
         /// </summary>
         /// <param name="motorId">电机Id</param>
         /// <returns></returns>
-        bool GetCurrentStatus(string motorId);
+        MotorStatus GetCurrentStatus(string motorId);
 
 
         #endregion

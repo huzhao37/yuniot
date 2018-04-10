@@ -135,9 +135,44 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             await InsertAsync(ts);
         }
+        /// <summary>
+        /// 获取当日实时数据
+        /// </summary>
+        /// <param name="motorId"></param>
+        public ConveyorByDay GetRealData(string motorId)
+        {
+            var minuteEnd = DateTime.Now;
+            var hourStart = minuteEnd.Date;
+            var hourEnd = minuteEnd.Date.AddHours(minuteEnd.Hour);
+            var minuteStart = hourEnd;
 
+            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
+            var standValue = motor?.StandValue ?? 0;
 
+            var hourData =
+                GetEntities(
+                    e => e.MotorId.Equals(motorId) && e.Time.CompareTo(hourStart) >= 0 && e.Time.CompareTo(hourEnd) <= 0)?.ToList();
 
+            var minuteData = GetByMotorId(motorId, false, minuteStart);
+
+            if (minuteData != null)
+                hourData?.Add(minuteData);
+            var weightSum = (float)Math.Round(hourData?.Sum(e => e.AccumulativeWeight) ?? 0, 2);
+            var hours = hourData?.Count ?? 0;
+            var data = new ConveyorByDay
+            {
+                MotorId = motorId,
+                AccumulativeWeight = weightSum,
+                AvgInstantWeight = (float)Math.Round(_cyRep.GetLatestRecord(motorId)?.InstantWeight ?? 0, 2),//实时的瞬时称重
+                RunningTime = (float)Math.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
+                //负荷 = 累计重量/额定产量 (单位: 吨/小时);
+                LoadStall = hours * standValue == 0 ? 0 : (float)Math.Round(weightSum / hours / standValue, 2)
+             };
+                    
+            //data.LoadStall = data.RunningTime * standValue == 0
+            //    ? 0 : (float)Math.Round(data.AccumulativeWeight / standValue, 2);
+            return data;
+        }
         #endregion
 
     }

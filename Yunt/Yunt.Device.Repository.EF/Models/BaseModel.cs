@@ -49,14 +49,14 @@ namespace Yunt.Device.Repository.EF.Models
     [ProtoInclude(44, typeof(VibrosieveByHour))]
     [ProtoInclude(45, typeof(MotorType))]
     [ProtoInclude(46, typeof(Motor))]
-
+    [ProtoInclude(47, typeof(ProductionLine))]
     public class BaseModel
     {
         [DataMember]
-        [ProtoMember(47)]
+        [ProtoMember(48)]
         public long Id { get; set; }
         [DataMember]
-        [ProtoMember(48)]
+        [ProtoMember(49)]
         public long Time { get; set; }
     }
 }

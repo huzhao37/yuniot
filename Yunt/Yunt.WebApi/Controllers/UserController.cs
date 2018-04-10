@@ -32,7 +32,7 @@ namespace Yunt.WebApi.Controllers
         }
 
         // GET: api/User/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
@@ -47,14 +47,16 @@ namespace Yunt.WebApi.Controllers
         
         // PUT: api/User/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public bool Put([FromBody]User value)
         {
+            return _userRepository.UpdateEntity(value) > 0;
         }
         
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public bool Delete(string id)
         {
+            return _userRepository.DeleteEntity(e => e.UserId.Equals(id)) > 0;
         }
     }
 }

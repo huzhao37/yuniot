@@ -491,20 +491,21 @@ namespace Yunt.Device.Repository.EF.Repositories
             var time = DateTime.Now.Date;
             return GetEntities(motorId, time, false, c => c.Current_B > 0).Count();
         }
+
         /// <summary>
         /// 获取设备实时状态
         /// </summary>
         /// <param name="motorId">电机Id</param>
         /// <returns></returns>
-        public bool GetCurrentStatus(string motorId)
+        public MotorStatus GetCurrentStatus(string motorId)
         {
             var now = DateTime.Now.TimeSpan();
-            var status = false;
+            var status = MotorStatus.Lose;
             var lastData = GetLatestRecord(motorId);
-            if (lastData != null &&now.CompareTo(lastData.Time) <=10*60)
-            {
-                status = lastData.Current_B > 0;
-            }
+            if (lastData == null || now.CompareTo(lastData.Time) > 10 * 60) return status;
+            if (lastData.Current_B == -1)
+                return status;
+            status = lastData.Current_B > 0 ? MotorStatus.Run : MotorStatus.Stop;
             return status;
         }
         #endregion

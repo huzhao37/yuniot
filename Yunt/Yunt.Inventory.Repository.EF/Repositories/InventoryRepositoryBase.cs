@@ -311,18 +311,20 @@ namespace Yunt.Inventory.Repository.EF.Repositories
             return ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Find<ST>(id).MapTo<DT>();
         }
 
-        public virtual async Task<PaginatedList<DT>> GetPage(int pageIndex, int pageSize)
+        public virtual  PaginatedList<DT> GetPage(int pageIndex, int pageSize)
         {
             var source = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().ProjectTo<DT>(Mapper);
-            var count = await source.CountAsync();
+            var count =  source.Count();
             List<DT> dailys = null;
             if (count > 0)
             {
-                dailys = await source.OrderBy(x => x.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToListAsync();
+                dailys =  source.OrderBy(x => x.Id).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return new PaginatedList<DT>(pageIndex, pageSize, count, dailys ?? new List<DT>());
         }
+
+      
         #endregion
 
         #region update

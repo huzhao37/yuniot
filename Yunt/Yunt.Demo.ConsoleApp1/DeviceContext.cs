@@ -35,6 +35,8 @@ namespace Yunt.Demo.ConsoleApp1
             }
 
         }
+
+        public virtual DbSet<ProductionLine> ProductionLine { get; set; }
         public virtual DbSet<HVib> HVib { get; set; }
         public virtual DbSet<HVibByHour> HVibByHour { get; set; }
         public virtual DbSet<HVibByDay> HVibByDay { get; set; }

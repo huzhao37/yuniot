@@ -51,12 +51,12 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             if (!(originalDatas?.Any()??false)) return new ConeCrusherByHour();
 
-            var Average = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2);
+            var average = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2);
             var entity = new ConeCrusherByHour
             {
                 Time = start.TimeSpan(),
                 MotorId = motorId,
-                AvgCurrent_B = Average,
+                AvgCurrent_B = average,
                 AvgMovaStress = (float)Math.Round(originalDatas.Average(o => o.MovaStress), 2),
                 AvgOilFeedTempreature = (float)Math.Round(originalDatas.Average(o => o.OilFeedTempreature), 2),
                 AvgSpindleTravel = (float)Math.Round(originalDatas.Average(o => o.SpindleTravel), 2),
@@ -74,7 +74,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 //WearValue2 = ,
                 AvgAbsSpindleTravel = (float)Math.Round(originalDatas.Average(o => o.AbsSpindleTravel), 2),
                 RunningTime = originalDatas.Count(c => c.Current_B > 0),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(Average / standValue, 2)
+                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
             };
             return entity;
 
@@ -104,6 +104,41 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
 
             await InsertAsync(ts);
+        }
+
+        /// <summary>
+        /// 获取当日实时数据
+        /// </summary>
+        /// <param name="motorId"></param>
+        public ConeCrusherByDay GetRealData(string motorId)
+        {
+            var minuteEnd = DateTime.Now;
+            var hourStart = minuteEnd.Date;
+            var hourEnd = minuteEnd.Date.AddHours(minuteEnd.Hour);
+            var minuteStart = hourEnd;
+
+            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
+            var standValue = motor?.StandValue ?? 0;
+
+            var hourData =
+                GetEntities(
+                    e => e.MotorId.Equals(motorId) && e.Time.CompareTo(hourStart) >= 0 && e.Time.CompareTo(hourEnd) <= 0)?.ToList();
+
+            var minuteData = GetByMotorId(motorId, false, minuteStart);
+
+            if (minuteData != null)
+                hourData?.Add(minuteData);
+            var average = (float)Math.Round(hourData.Average(o => o.AvgCurrent_B), 2);
+            var data = new ConeCrusherByDay
+            {
+                MotorId = motorId,
+                AvgCurrent_B = average,
+                RunningTime = (float)Math.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
+          
+                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+            };
+            
+            return data;
         }
         #endregion
     }

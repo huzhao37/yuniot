@@ -116,6 +116,7 @@
     <ProjectReference Include="..\Yunt.Auth.Domain\Yunt.Auth.Domain.csproj" />
     <ProjectReference Include="..\Yunt.Demo.Core\Yunt.Demo.Core.csproj" />
     <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.Device.Repository.EF\Yunt.Device.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.Inventory.Repository.EF\Yunt.Inventory.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.Redis\Yunt.Redis.csproj" />
     <ProjectReference Include="..\Yunt.TaskManager.Core\Yunt.TaskManager.Core.csproj" />

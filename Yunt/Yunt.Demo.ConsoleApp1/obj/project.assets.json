@@ -2439,6 +2439,32 @@
           "bin/placeholder/Yunt.Device.Domain.dll": {}
         }
       },
+      "Yunt.Device.Repository.EF/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "AutoMapper": "6.2.2",
+          "AutoMapper.Extensions": "1.0.0",
+          "AutoMapper.Extensions.Microsoft.DependencyInjection": "3.2.0",
+          "Microsoft.EntityFrameworkCore": "2.0.1",
+          "Microsoft.EntityFrameworkCore.Design": "2.0.1",
+          "Microsoft.EntityFrameworkCore.Tools": "2.0.1",
+          "Microsoft.Extensions.Configuration": "2.0.1",
+          "Pomelo.EntityFrameworkCore.Extensions.ToSql": "2.0.0-rtm-10002",
+          "Pomelo.EntityFrameworkCore.MySql": "2.0.1",
+          "Pomelo.EntityFrameworkCore.MySql.Design": "1.1.2",
+          "Yunt.Common": "1.0.0",
+          "Yunt.Device.Domain": "1.0.0",
+          "Yunt.Redis": "1.0.0",
+          "protobuf-net": "2.3.7"
+        },
+        "compile": {
+          "bin/placeholder/Yunt.Device.Repository.EF.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Yunt.Device.Repository.EF.dll": {}
+        }
+      },
       "Yunt.Inventory.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
@@ -7799,6 +7825,11 @@
       "path": "../Yunt.Device.Domain/Yunt.Device.Domain.csproj",
       "msbuildProject": "../Yunt.Device.Domain/Yunt.Device.Domain.csproj"
     },
+    "Yunt.Device.Repository.EF/1.0.0": {
+      "type": "project",
+      "path": "../Yunt.Device.Repository.EF/Yunt.Device.Repository.EF.csproj",
+      "msbuildProject": "../Yunt.Device.Repository.EF/Yunt.Device.Repository.EF.csproj"
+    },
     "Yunt.Inventory.Domain/1.0.0": {
       "type": "project",
       "path": "../Yunt.Inventory.Domain/Yunt.Inventory.Domain.csproj",
@@ -7836,6 +7867,7 @@
       "Yunt.Auth.Domain >= 1.0.0",
       "Yunt.Demo.Core >= 1.0.0",
       "Yunt.Device.Domain >= 1.0.0",
+      "Yunt.Device.Repository.EF >= 1.0.0",
       "Yunt.Inventory.Repository.EF >= 1.0.0",
       "Yunt.Redis >= 1.0.0",
       "Yunt.TaskManager.Core >= 1.0.0"
@@ -7894,6 +7926,9 @@
             },
             "G:\\2018\\Yunt\\Yunt\\Yunt.Inventory.Repository.EF\\Yunt.Inventory.Repository.EF.csproj": {
               "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Inventory.Repository.EF\\Yunt.Inventory.Repository.EF.csproj"
+            },
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj"
             }
           }
         }

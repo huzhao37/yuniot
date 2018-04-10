@@ -21,13 +21,11 @@ namespace Yunt.Device.Repository.EF.Repositories
 {
     public class JawCrusherByDayRepository : DeviceRepositoryBase<JawCrusherByDay, Models.JawCrusherByDay>, IJawCrusherByDayRepository
     {
-
-        private readonly IJawCrusherByDayRepository _ccRep;
+        
         private readonly IMotorRepository _motorRep;
 
         public JawCrusherByDayRepository(IMapper mapper, IRedisCachingProvider provider) : base(mapper, provider)
         {
-            _ccRep = ServiceProviderServiceExtensions.GetService<IJawCrusherByDayRepository>(BootStrap.ServiceProvider);
             _motorRep = ServiceProviderServiceExtensions.GetService<IMotorRepository>(BootStrap.ServiceProvider);
         }
 
@@ -46,7 +44,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var start = dt.Date;
             var end = start.AddDays(1);
 
-            var originalDatas = _ccRep.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
+            var originalDatas = GetEntities(e => e.Time.CompareTo(start) >= 0 &&
                                     e.Time.CompareTo(end) < 0, e => e.Time);
 
             if (!(originalDatas?.Any() ?? false)) return null;

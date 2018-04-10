@@ -39,6 +39,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Yunt.Auth.Domain\Yunt.Auth.Domain.csproj" />
     <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
+    <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
     <ProjectReference Include="..\Yunt.Inventory.Domain\Yunt.Inventory.Domain.csproj" />
   </ItemGroup>
 
