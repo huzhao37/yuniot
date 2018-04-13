@@ -2,39 +2,33 @@
   "version": 3,
   "targets": {
     ".NETCoreApp,Version=v2.0": {
-      "AutoMapper/6.2.2": {
+      "AutoMapper/6.1.1": {
         "type": "package",
         "dependencies": {
           "Microsoft.CSharp": "4.3.0",
-          "NETStandard.Library": "1.6.1",
+          "System.Collections": "4.3.0",
           "System.Collections.Concurrent": "4.3.0",
           "System.Collections.Specialized": "4.3.0",
           "System.ComponentModel.TypeConverter": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
           "System.Dynamic.Runtime": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.Linq": "4.3.0",
+          "System.Linq.Expressions": "4.3.0",
           "System.Linq.Queryable": "4.3.0",
-          "System.Reflection.Emit": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Reflection.Extensions": "4.3.0",
           "System.Resources.ResourceManager": "4.3.0",
-          "System.Runtime.Serialization.Primitives": "4.3.0",
-          "System.Text.RegularExpressions": "4.3.0"
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Text.RegularExpressions": "4.3.0",
+          "System.Threading": "4.3.0"
         },
         "compile": {
           "lib/netstandard1.3/AutoMapper.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/AutoMapper.dll": {}
-        }
-      },
-      "AutoMapper.Extensions/1.0.0": {
-        "type": "package",
-        "dependencies": {
-          "AutoMapper": "6.2.0",
-          "NETStandard.Library": "1.6.1"
-        },
-        "compile": {
-          "lib/netstandard1.3/AutoMapper.Extensions.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard1.3/AutoMapper.Extensions.dll": {}
         }
       },
       "AutoMapper.Extensions.Microsoft.DependencyInjection/3.2.0": {
@@ -655,7 +649,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "NewLife.Core/6.6.6631.1417": {
+      "NewLife.Core/6.6.6644.19801": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/NewLife.Core.dll": {}
@@ -664,25 +658,53 @@
           "lib/netstandard2.0/NewLife.Core.dll": {}
         }
       },
-      "Newtonsoft.Json/11.0.1": {
-        "type": "package",
-        "compile": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
-        }
-      },
-      "Pomelo.EntityFrameworkCore.Extensions.ToSql/2.0.0-rtm-10002": {
+      "NewLife.XCode/9.6.6644.19804": {
         "type": "package",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Relational": "2.0.0"
+          "NewLife.Core": "6.6.6644.19801"
         },
         "compile": {
-          "lib/netstandard2.0/Pomelo.EntityFrameworkCore.Extensions.ToSql.dll": {}
+          "lib/netstandard2.0/XCode.dll": {}
         },
         "runtime": {
-          "lib/netstandard2.0/Pomelo.EntityFrameworkCore.Extensions.ToSql.dll": {}
+          "lib/netstandard2.0/XCode.dll": {}
+        }
+      },
+      "Newtonsoft.Json/10.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.CSharp": "4.3.0",
+          "System.Collections": "4.3.0",
+          "System.ComponentModel.TypeConverter": "4.3.0",
+          "System.Diagnostics.Debug": "4.3.0",
+          "System.Dynamic.Runtime": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Linq": "4.3.0",
+          "System.Linq.Expressions": "4.3.0",
+          "System.ObjectModel": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Reflection.Extensions": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Runtime.Numerics": "4.3.0",
+          "System.Runtime.Serialization.Formatters": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0",
+          "System.Text.Encoding": "4.3.0",
+          "System.Text.Encoding.Extensions": "4.3.0",
+          "System.Text.RegularExpressions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Threading.Tasks": "4.3.0",
+          "System.Xml.ReaderWriter": "4.3.0",
+          "System.Xml.XDocument": "4.3.0",
+          "System.Xml.XmlDocument": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
       "Pomelo.EntityFrameworkCore.MySql/2.0.1": {
@@ -731,24 +753,7 @@
           "lib/netstandard1.3/Pomelo.JsonObject.dll": {}
         }
       },
-      "protobuf-net/2.3.7": {
-        "type": "package",
-        "dependencies": {
-          "System.Reflection.Emit": "4.3.0",
-          "System.Reflection.Emit.ILGeneration": "4.3.0",
-          "System.Reflection.Emit.Lightweight": "4.3.0",
-          "System.Reflection.TypeExtensions": "4.3.0",
-          "System.Runtime.Serialization.Primitives": "4.3.0",
-          "System.Xml.XmlSerializer": "4.3.0"
-        },
-        "compile": {
-          "lib/netstandard2.0/protobuf-net.dll": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/protobuf-net.dll": {}
-        }
-      },
-      "Quartz/3.0.3": {
+      "Quartz/3.0.4": {
         "type": "package",
         "dependencies": {
           "Microsoft.CSharp": "4.4.0",
@@ -997,6 +1002,15 @@
             "assetType": "native",
             "rid": "win-x86"
           }
+        }
+      },
+      "SharpCompress/0.20.0": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/SharpCompress.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/SharpCompress.dll": {}
         }
       },
       "System.AppContext/4.1.0": {
@@ -1658,7 +1672,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.1/System.Reflection.Emit.dll": {}
+          "ref/netstandard1.1/_._": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.dll": {}
@@ -1672,7 +1686,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {}
+          "ref/netstandard1.0/_._": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.ILGeneration.dll": {}
@@ -1687,7 +1701,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {}
+          "ref/netstandard1.0/_._": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.Lightweight.dll": {}
@@ -1827,10 +1841,26 @@
           "System.Runtime.Extensions": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.1/_._": {}
+          "ref/netstandard1.1/System.Runtime.Numerics.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Runtime.Numerics.dll": {}
+        }
+      },
+      "System.Runtime.Serialization.Formatters/4.3.0": {
+        "type": "package",
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Reflection": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0"
+        },
+        "compile": {
+          "ref/netstandard1.3/System.Runtime.Serialization.Formatters.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard1.4/System.Runtime.Serialization.Formatters.dll": {}
         }
       },
       "System.Runtime.Serialization.Primitives/4.3.0": {
@@ -2208,7 +2238,7 @@
           "System.Text.Encoding": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.3/_._": {}
+          "ref/netstandard1.3/System.Text.Encoding.Extensions.dll": {}
         }
       },
       "System.Text.RegularExpressions/4.3.0": {
@@ -2329,7 +2359,7 @@
           "System.Xml.ReaderWriter": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.3/_._": {}
+          "ref/netstandard1.3/System.Xml.XDocument.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XDocument.dll": {}
@@ -2350,7 +2380,7 @@
           "System.Xml.ReaderWriter": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.3/_._": {}
+          "ref/netstandard1.3/System.Xml.XmlDocument.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Xml.XmlDocument.dll": {}
@@ -2384,26 +2414,13 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "Yunt.Auth.Domain/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v2.0",
-        "dependencies": {
-          "Yunt.Common": "1.0.0",
-          "protobuf-net": "2.3.7"
-        },
-        "compile": {
-          "bin/placeholder/Yunt.Auth.Domain.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Yunt.Auth.Domain.dll": {}
-        }
-      },
       "Yunt.Common/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "2.0.1",
-          "NewLife.Core": "6.6.6631.1417"
+          "NewLife.Core": "6.6.6631.1417",
+          "SharpCompress": "0.20.0"
         },
         "compile": {
           "bin/placeholder/Yunt.Common.dll": {}
@@ -2412,157 +2429,50 @@
           "bin/placeholder/Yunt.Common.dll": {}
         }
       },
-      "Yunt.Demo.Core/1.0.0": {
+      "Yunt.Dtsc.Core/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "Quartz": "3.0.3"
-        },
-        "compile": {
-          "bin/placeholder/Yunt.Demo.Core.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Yunt.Demo.Core.dll": {}
-        }
-      },
-      "Yunt.Device.Domain/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v2.0",
-        "dependencies": {
+          "Quartz": "3.0.4",
           "Yunt.Common": "1.0.0",
-          "protobuf-net": "2.3.7"
+          "Yunt.Dtsc.Domain": "1.0.0"
         },
         "compile": {
-          "bin/placeholder/Yunt.Device.Domain.dll": {}
+          "bin/placeholder/Yunt.Dtsc.Core.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Yunt.Device.Domain.dll": {}
+          "bin/placeholder/Yunt.Dtsc.Core.dll": {}
         }
       },
-      "Yunt.Device.Repository.EF/1.0.0": {
+      "Yunt.Dtsc.Domain/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "AutoMapper": "6.2.2",
-          "AutoMapper.Extensions": "1.0.0",
-          "AutoMapper.Extensions.Microsoft.DependencyInjection": "3.2.0",
-          "Microsoft.EntityFrameworkCore": "2.0.1",
-          "Microsoft.EntityFrameworkCore.Design": "2.0.1",
-          "Microsoft.EntityFrameworkCore.Tools": "2.0.1",
-          "Microsoft.Extensions.Configuration": "2.0.1",
-          "Pomelo.EntityFrameworkCore.Extensions.ToSql": "2.0.0-rtm-10002",
-          "Pomelo.EntityFrameworkCore.MySql": "2.0.1",
-          "Pomelo.EntityFrameworkCore.MySql.Design": "1.1.2",
-          "Yunt.Common": "1.0.0",
-          "Yunt.Device.Domain": "1.0.0",
-          "Yunt.Redis": "1.0.0",
-          "protobuf-net": "2.3.7"
+          "NewLife.XCode": "9.6.6644.19804"
         },
         "compile": {
-          "bin/placeholder/Yunt.Device.Repository.EF.dll": {}
+          "bin/placeholder/Yunt.Dtsc.Domain.dll": {}
         },
         "runtime": {
-          "bin/placeholder/Yunt.Device.Repository.EF.dll": {}
-        }
-      },
-      "Yunt.Inventory.Domain/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v2.0",
-        "dependencies": {
-          "Yunt.Common": "1.0.0",
-          "protobuf-net": "2.3.7"
-        },
-        "compile": {
-          "bin/placeholder/Yunt.Inventory.Domain.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Yunt.Inventory.Domain.dll": {}
-        }
-      },
-      "Yunt.Inventory.Repository.EF/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v2.0",
-        "dependencies": {
-          "AutoMapper": "6.2.2",
-          "AutoMapper.Extensions": "1.0.0",
-          "Microsoft.EntityFrameworkCore": "2.0.1",
-          "Microsoft.EntityFrameworkCore.Tools": "2.0.1",
-          "Microsoft.Extensions.Configuration": "2.0.1",
-          "Pomelo.EntityFrameworkCore.Extensions.ToSql": "2.0.0-rtm-10002",
-          "Pomelo.EntityFrameworkCore.MySql": "2.0.1",
-          "Pomelo.EntityFrameworkCore.MySql.Design": "1.1.2",
-          "Yunt.Common": "1.0.0",
-          "Yunt.Inventory.Domain": "1.0.0",
-          "Yunt.Redis": "1.0.0",
-          "protobuf-net": "2.3.7"
-        },
-        "compile": {
-          "bin/placeholder/Yunt.Inventory.Repository.EF.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Yunt.Inventory.Repository.EF.dll": {}
-        }
-      },
-      "Yunt.Redis/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v2.0",
-        "dependencies": {
-          "Microsoft.Extensions.Configuration.Binder": "2.0.1",
-          "Microsoft.Extensions.Configuration.Json": "2.0.1",
-          "Microsoft.Extensions.DependencyInjection": "2.0.0",
-          "Microsoft.Extensions.Options": "2.0.1",
-          "Newtonsoft.Json": "11.0.1",
-          "Yunt.Common": "1.0.0",
-          "protobuf-net": "2.3.7"
-        },
-        "compile": {
-          "bin/placeholder/Yunt.Redis.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Yunt.Redis.dll": {}
-        }
-      },
-      "Yunt.TaskManager.Core/1.0.0": {
-        "type": "project",
-        "framework": ".NETCoreApp,Version=v2.0",
-        "dependencies": {
-          "NewLife.Core": "6.6.6631.1417"
-        },
-        "compile": {
-          "bin/placeholder/Yunt.TaskManager.Core.dll": {}
-        },
-        "runtime": {
-          "bin/placeholder/Yunt.TaskManager.Core.dll": {}
+          "bin/placeholder/Yunt.Dtsc.Domain.dll": {}
         }
       }
     }
   },
   "libraries": {
-    "AutoMapper/6.2.2": {
-      "sha512": "eGKcnJdoF5rYMWPUaSPtlWdvua9xw4hnQN5kM/X4AXLGKghrtPIaMv+RYoA3sj0kyZ3X6wZ1Qj67F+u0pCCPaw==",
+    "AutoMapper/6.1.1": {
+      "sha512": "A+6PAblvzmkXPS20nFBQJvlNSW5oEdyfN5+cxT/Du35fTNyuP5pNDXT64KT/jBgxt7CPduOM0Y7oLnNe0E5IXg==",
       "type": "package",
-      "path": "automapper/6.2.2",
+      "path": "automapper/6.1.1",
       "files": [
-        "automapper.6.2.2.nupkg.sha512",
+        "automapper.6.1.1.nupkg.sha512",
         "automapper.nuspec",
-        "lib/net40/AutoMapper.dll",
-        "lib/net40/AutoMapper.xml",
         "lib/net45/AutoMapper.dll",
         "lib/net45/AutoMapper.xml",
         "lib/netstandard1.1/AutoMapper.dll",
         "lib/netstandard1.1/AutoMapper.xml",
         "lib/netstandard1.3/AutoMapper.dll",
         "lib/netstandard1.3/AutoMapper.xml"
-      ]
-    },
-    "AutoMapper.Extensions/1.0.0": {
-      "sha512": "DrN+U/+PJNhud+KYKXTdGufp9LgKjFwwxOUc/qSZeFEuK8Bt8Y4kGPmp76SmES89fXr3hw0suL/iFROmPoCw8Q==",
-      "type": "package",
-      "path": "automapper.extensions/1.0.0",
-      "files": [
-        "automapper.extensions.1.0.0.nupkg.sha512",
-        "automapper.extensions.nuspec",
-        "lib/netstandard1.3/AutoMapper.Extensions.dll"
       ]
     },
     "AutoMapper.Extensions.Microsoft.DependencyInjection/3.2.0": {
@@ -3503,10 +3413,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "NewLife.Core/6.6.6631.1417": {
-      "sha512": "TELLuAGkNY9tJlYXhZS1tEnudMV9nCnahomHjV+ybJ14Qtbw8fDKZHlq/rW4DC74+8cApX0m8WQK2JDHDEvXZg==",
+    "NewLife.Core/6.6.6644.19801": {
+      "sha512": "SdV73vzqLPz+i7+A8/FYA0Fl6xkK3m3uiAAEi2Mkcj2vV5PnELL1opAM0pysR6TcgT2lCYpNVaf43celqTjvAg==",
       "type": "package",
-      "path": "newlife.core/6.6.6631.1417",
+      "path": "newlife.core/6.6.6644.19801",
       "files": [
         "lib/net40/NewLife.Core.XML",
         "lib/net40/NewLife.Core.dll",
@@ -3517,16 +3427,34 @@
         "lib/netstandard2.0/NewLife.Core.dll",
         "lib/netstandard2.0/NewLife.Core.pdb",
         "lib/netstandard2.0/NewLife.Core.xml",
-        "newlife.core.6.6.6631.1417.nupkg.sha512",
+        "newlife.core.6.6.6644.19801.nupkg.sha512",
         "newlife.core.nuspec"
       ]
     },
-    "Newtonsoft.Json/11.0.1": {
-      "sha512": "pNN4l+J6LlpIvHOeNdXlwxv39NPJ2B5klz+Rd2UQZIx30Squ5oND1Yy3wEAUoKn0GPUj6Yxt9lxlYWQqfZcvKg==",
+    "NewLife.XCode/9.6.6644.19804": {
+      "sha512": "BW4FMPvagFi5a8HPhXDyLC8K5ibpKCxvU6gYG/3sjaeh9n+ys/QjRYS/PBWWdYmfIhFKWLqDrU9KoV1h/9iSkA==",
       "type": "package",
-      "path": "newtonsoft.json/11.0.1",
+      "path": "newlife.xcode/9.6.6644.19804",
       "files": [
-        "LICENSE.md",
+        "content/生成实体类.tt",
+        "lib/net40/XCode.dll",
+        "lib/net40/XCode.pdb",
+        "lib/net40/XCode.xml",
+        "lib/net45/XCode.XML",
+        "lib/net45/XCode.dll",
+        "lib/net45/XCode.pdb",
+        "lib/netstandard2.0/XCode.dll",
+        "lib/netstandard2.0/XCode.pdb",
+        "lib/netstandard2.0/XCode.xml",
+        "newlife.xcode.9.6.6644.19804.nupkg.sha512",
+        "newlife.xcode.nuspec"
+      ]
+    },
+    "Newtonsoft.Json/10.0.1": {
+      "sha512": "ebWzW9j2nwxQeBo59As2TYn7nYr9BHicqqCwHOD1Vdo+50HBtLPuqdiCYJcLdTRknpYis/DSEOQz5KmZxwrIAg==",
+      "type": "package",
+      "path": "newtonsoft.json/10.0.1",
+      "files": [
         "lib/net20/Newtonsoft.Json.dll",
         "lib/net20/Newtonsoft.Json.xml",
         "lib/net35/Newtonsoft.Json.dll",
@@ -3539,24 +3467,11 @@
         "lib/netstandard1.0/Newtonsoft.Json.xml",
         "lib/netstandard1.3/Newtonsoft.Json.dll",
         "lib/netstandard1.3/Newtonsoft.Json.xml",
-        "lib/netstandard2.0/Newtonsoft.Json.dll",
-        "lib/netstandard2.0/Newtonsoft.Json.xml",
-        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.dll",
-        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
-        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
-        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
-        "newtonsoft.json.11.0.1.nupkg.sha512",
-        "newtonsoft.json.nuspec"
-      ]
-    },
-    "Pomelo.EntityFrameworkCore.Extensions.ToSql/2.0.0-rtm-10002": {
-      "sha512": "rUJqIDNgOpv3JBW5NSUe7VNYh2ZAcTyInu6uv6x2GOXe0xfeLzLWRgYH/S4vwWX2H4nDeW7BDaqZA5I8a4hbHQ==",
-      "type": "package",
-      "path": "pomelo.entityframeworkcore.extensions.tosql/2.0.0-rtm-10002",
-      "files": [
-        "lib/netstandard2.0/Pomelo.EntityFrameworkCore.Extensions.ToSql.dll",
-        "pomelo.entityframeworkcore.extensions.tosql.2.0.0-rtm-10002.nupkg.sha512",
-        "pomelo.entityframeworkcore.extensions.tosql.nuspec"
+        "lib/portable-net45+win8+wpa81+wp8/Newtonsoft.Json.dll",
+        "lib/portable-net45+win8+wpa81+wp8/Newtonsoft.Json.xml",
+        "newtonsoft.json.10.0.1.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "tools/install.ps1"
       ]
     },
     "Pomelo.EntityFrameworkCore.MySql/2.0.1": {
@@ -3591,31 +3506,10 @@
         "pomelo.jsonobject.nuspec"
       ]
     },
-    "protobuf-net/2.3.7": {
-      "sha512": "JG5ZUd42w4osBaDrFpJoEOelyRsuxV+EzY4c8J5o/Qhm+lqhm2iYWUl/T3zf7vhONBD968K190d7co1I2lucOQ==",
+    "Quartz/3.0.4": {
+      "sha512": "xQym4xgCVvloUay2Zd0gR3EZnbxSl/R829vnj2KievzjSqwrRTXSOwfgrEbsqvNsOpDG2J0PdQS2jx2oAMfNAA==",
       "type": "package",
-      "path": "protobuf-net/2.3.7",
-      "files": [
-        "lib/net20/protobuf-net.dll",
-        "lib/net20/protobuf-net.xml",
-        "lib/net35/protobuf-net.dll",
-        "lib/net35/protobuf-net.xml",
-        "lib/net40/protobuf-net.dll",
-        "lib/net40/protobuf-net.xml",
-        "lib/netstandard1.0/protobuf-net.dll",
-        "lib/netstandard1.0/protobuf-net.xml",
-        "lib/netstandard1.3/protobuf-net.dll",
-        "lib/netstandard1.3/protobuf-net.xml",
-        "lib/netstandard2.0/protobuf-net.dll",
-        "lib/netstandard2.0/protobuf-net.xml",
-        "protobuf-net.2.3.7.nupkg.sha512",
-        "protobuf-net.nuspec"
-      ]
-    },
-    "Quartz/3.0.3": {
-      "sha512": "MTD1SSGG3t1Xrj2ZbXVoKF8qcAWJFMlSt22NzmxEOPtR+StuHZBoMQUSQlNly9uTfvOKgMWailhCHDLLbPeUMA==",
-      "type": "package",
-      "path": "quartz/3.0.3",
+      "path": "quartz/3.0.4",
       "files": [
         "lib/net452/Quartz.dll",
         "lib/net452/Quartz.pdb",
@@ -3623,7 +3517,7 @@
         "lib/netstandard2.0/Quartz.dll",
         "lib/netstandard2.0/Quartz.pdb",
         "lib/netstandard2.0/Quartz.xml",
-        "quartz.3.0.3.nupkg.sha512",
+        "quartz.3.0.4.nupkg.sha512",
         "quartz.nuspec"
       ]
     },
@@ -3891,6 +3785,20 @@
         "runtimes/win-x86/native/sni.dll",
         "useSharedDesignerContext.txt",
         "version.txt"
+      ]
+    },
+    "SharpCompress/0.20.0": {
+      "sha512": "54YhqiEQUeorjtfwbhRpnMEU2sIgSxpk30a74eHK1qF86BJXys49IHGH0nd5xXpeARQ84G8Cf9jpMgKB5iDDuQ==",
+      "type": "package",
+      "path": "sharpcompress/0.20.0",
+      "files": [
+        "lib/net35/SharpCompress.dll",
+        "lib/net45/SharpCompress.dll",
+        "lib/netstandard1.0/SharpCompress.dll",
+        "lib/netstandard1.3/SharpCompress.dll",
+        "lib/netstandard2.0/SharpCompress.dll",
+        "sharpcompress.0.20.0.nupkg.sha512",
+        "sharpcompress.nuspec"
       ]
     },
     "System.AppContext/4.1.0": {
@@ -6496,6 +6404,33 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
+    "System.Runtime.Serialization.Formatters/4.3.0": {
+      "sha512": "KT591AkTNFOTbhZlaeMVvfax3RqhH1EJlcwF50Wm7sfnBLuHiOeZRRKrr1ns3NESkM20KPZ5Ol/ueMq5vg4QoQ==",
+      "type": "package",
+      "path": "system.runtime.serialization.formatters/4.3.0",
+      "files": [
+        "ThirdPartyNotices.txt",
+        "dotnet_library_license.txt",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net46/System.Runtime.Serialization.Formatters.dll",
+        "lib/netstandard1.4/System.Runtime.Serialization.Formatters.dll",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net46/System.Runtime.Serialization.Formatters.dll",
+        "ref/netstandard1.3/System.Runtime.Serialization.Formatters.dll",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.runtime.serialization.formatters.4.3.0.nupkg.sha512",
+        "system.runtime.serialization.formatters.nuspec"
+      ]
+    },
     "System.Runtime.Serialization.Primitives/4.3.0": {
       "sha512": "Wz+0KOukJGAlXjtKr+5Xpuxf8+c8739RI1C+A2BoQZT+wMCCoMDDdO8/4IRHfaVINqL78GO8dW8G2lW/e45Mcw==",
       "type": "package",
@@ -7805,50 +7740,20 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
-    "Yunt.Auth.Domain/1.0.0": {
-      "type": "project",
-      "path": "../Yunt.Auth.Domain/Yunt.Auth.Domain.csproj",
-      "msbuildProject": "../Yunt.Auth.Domain/Yunt.Auth.Domain.csproj"
-    },
     "Yunt.Common/1.0.0": {
       "type": "project",
       "path": "../Yunt.Common/Yunt.Common.csproj",
       "msbuildProject": "../Yunt.Common/Yunt.Common.csproj"
     },
-    "Yunt.Demo.Core/1.0.0": {
+    "Yunt.Dtsc.Core/1.0.0": {
       "type": "project",
-      "path": "../Yunt.Demo.Core/Yunt.Demo.Core.csproj",
-      "msbuildProject": "../Yunt.Demo.Core/Yunt.Demo.Core.csproj"
+      "path": "../Yunt.Dtsc.Core/Yunt.Dtsc.Core.csproj",
+      "msbuildProject": "../Yunt.Dtsc.Core/Yunt.Dtsc.Core.csproj"
     },
-    "Yunt.Device.Domain/1.0.0": {
+    "Yunt.Dtsc.Domain/1.0.0": {
       "type": "project",
-      "path": "../Yunt.Device.Domain/Yunt.Device.Domain.csproj",
-      "msbuildProject": "../Yunt.Device.Domain/Yunt.Device.Domain.csproj"
-    },
-    "Yunt.Device.Repository.EF/1.0.0": {
-      "type": "project",
-      "path": "../Yunt.Device.Repository.EF/Yunt.Device.Repository.EF.csproj",
-      "msbuildProject": "../Yunt.Device.Repository.EF/Yunt.Device.Repository.EF.csproj"
-    },
-    "Yunt.Inventory.Domain/1.0.0": {
-      "type": "project",
-      "path": "../Yunt.Inventory.Domain/Yunt.Inventory.Domain.csproj",
-      "msbuildProject": "../Yunt.Inventory.Domain/Yunt.Inventory.Domain.csproj"
-    },
-    "Yunt.Inventory.Repository.EF/1.0.0": {
-      "type": "project",
-      "path": "../Yunt.Inventory.Repository.EF/Yunt.Inventory.Repository.EF.csproj",
-      "msbuildProject": "../Yunt.Inventory.Repository.EF/Yunt.Inventory.Repository.EF.csproj"
-    },
-    "Yunt.Redis/1.0.0": {
-      "type": "project",
-      "path": "../Yunt.Redis/Yunt.Redis.csproj",
-      "msbuildProject": "../Yunt.Redis/Yunt.Redis.csproj"
-    },
-    "Yunt.TaskManager.Core/1.0.0": {
-      "type": "project",
-      "path": "../Yunt.TaskManager.Core/Yunt.TaskManager.Core.csproj",
-      "msbuildProject": "../Yunt.TaskManager.Core/Yunt.TaskManager.Core.csproj"
+      "path": "../Yunt.Dtsc.Domain/Yunt.Dtsc.Domain.csproj",
+      "msbuildProject": "../Yunt.Dtsc.Domain/Yunt.Dtsc.Domain.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -7863,14 +7768,10 @@
       "Microsoft.NETCore.App >= 2.0.0",
       "Pomelo.EntityFrameworkCore.MySql >= 2.0.1",
       "Pomelo.EntityFrameworkCore.MySql.Design >= 1.1.2",
-      "Quartz >= 3.0.3",
-      "Yunt.Auth.Domain >= 1.0.0",
-      "Yunt.Demo.Core >= 1.0.0",
-      "Yunt.Device.Domain >= 1.0.0",
-      "Yunt.Device.Repository.EF >= 1.0.0",
-      "Yunt.Inventory.Repository.EF >= 1.0.0",
-      "Yunt.Redis >= 1.0.0",
-      "Yunt.TaskManager.Core >= 1.0.0"
+      "Quartz >= 3.0.4",
+      "Yunt.Common >= 1.0.0",
+      "Yunt.Dtsc.Core >= 1.0.0",
+      "Yunt.Dtsc.Domain >= 1.0.0"
     ]
   },
   "packageFolders": {
@@ -7909,26 +7810,14 @@
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Domain\\Yunt.Device.Domain.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Domain\\Yunt.Device.Domain.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Common\\Yunt.Common.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Common\\Yunt.Common.csproj"
             },
-            "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.Core\\Yunt.Demo.Core.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.Core\\Yunt.Demo.Core.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Core\\Yunt.Dtsc.Core.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Core\\Yunt.Dtsc.Core.csproj"
             },
-            "G:\\2018\\Yunt\\Yunt\\Yunt.Auth.Domain\\Yunt.Auth.Domain.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Auth.Domain\\Yunt.Auth.Domain.csproj"
-            },
-            "G:\\2018\\Yunt\\Yunt\\Yunt.Redis\\Yunt.Redis.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Redis\\Yunt.Redis.csproj"
-            },
-            "G:\\2018\\Yunt\\Yunt\\Yunt.TaskManager.Core\\Yunt.TaskManager.Core.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.TaskManager.Core\\Yunt.TaskManager.Core.csproj"
-            },
-            "G:\\2018\\Yunt\\Yunt\\Yunt.Inventory.Repository.EF\\Yunt.Inventory.Repository.EF.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Inventory.Repository.EF\\Yunt.Inventory.Repository.EF.csproj"
-            },
-            "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Domain\\Yunt.Dtsc.Domain.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Domain\\Yunt.Dtsc.Domain.csproj"
             }
           }
         }
@@ -7985,7 +7874,7 @@
           },
           "Quartz": {
             "target": "Package",
-            "version": "[3.0.3, )"
+            "version": "[3.0.4, )"
           }
         },
         "imports": [

@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 using Quartz;
 using Quartz.Impl;
 using Yunt.Common;
+using Yunt.Dtsc.Core;
+using Yunt.Dtsc.Domain.Model;
 
-namespace Yunt.Demo.Core
+namespace Yunt.Dtsc.Core
 {
     [DisallowConcurrentExecution()]
-    public abstract class JobBase : MarshalByRefObject, ISchedulingJob
+    public abstract class JobBase : ISchedulingJob
     {
         #region Properties
 
@@ -38,6 +40,11 @@ namespace Yunt.Demo.Core
         /// Job执行的超时时间(毫秒)，默认5分钟
         /// </summary>
         public virtual int JobTimeout => 5 * 60 * 1000;
+
+        /// <summary>
+        /// 发布的版本号
+        /// </summary>
+        public virtual int Version => 0;
 
         #endregion Properties
 
@@ -79,7 +86,13 @@ namespace Yunt.Demo.Core
             }
             catch (Exception ex)
             {
-                Logger.Error(this.GetType().Name + "error:" + ex.Message);
+                TbError.Insert(new TbError()
+                {
+                    Createtime = DateTime.Now.TimeSpan(),
+                    JobID = TbJob.Find("Name",JobName)?.ID??0,
+                    Msg = (JobName + "error:" + ex.Message)
+                });
+                
             }
             finally
             {

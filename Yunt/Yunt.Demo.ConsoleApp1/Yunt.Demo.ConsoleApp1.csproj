@@ -109,17 +109,13 @@
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
-    <PackageReference Include="Quartz" Version="3.0.3" />
+    <PackageReference Include="Quartz" Version="3.0.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Yunt.Auth.Domain\Yunt.Auth.Domain.csproj" />
-    <ProjectReference Include="..\Yunt.Demo.Core\Yunt.Demo.Core.csproj" />
-    <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
-    <ProjectReference Include="..\Yunt.Device.Repository.EF\Yunt.Device.Repository.EF.csproj" />
-    <ProjectReference Include="..\Yunt.Inventory.Repository.EF\Yunt.Inventory.Repository.EF.csproj" />
-    <ProjectReference Include="..\Yunt.Redis\Yunt.Redis.csproj" />
-    <ProjectReference Include="..\Yunt.TaskManager.Core\Yunt.TaskManager.Core.csproj" />
+    <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
+    <ProjectReference Include="..\Yunt.Dtsc.Core\Yunt.Dtsc.Core.csproj" />
+    <ProjectReference Include="..\Yunt.Dtsc.Domain\Yunt.Dtsc.Domain.csproj" />
   </ItemGroup>
 
 </Project>

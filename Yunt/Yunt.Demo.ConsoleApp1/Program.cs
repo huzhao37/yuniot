@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Runtime.Loader;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,16 +14,20 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using NewLife;
 using NewLife.Log;
+using NewLife.Reflection;
 using Quartz;
 using Quartz.Impl;
-using Yunt.Auth.Domain.IRepository;
+//using Yunt.Auth.Domain.IRepository;
 using Yunt.Common;
-using Yunt.Demo.Core;
-using Yunt.Device.Domain.IRepository;
-using Yunt.Device.Domain.Model;
-using Yunt.Redis;
-using Yunt.Redis.Config;
+using Yunt.Dtsc.Core;
+using Yunt.Dtsc.Domain.Model;
+
+//using Yunt.Device.Domain.IRepository;
+//using Yunt.Device.Domain.Model;
+//using Yunt.Redis;
+//using Yunt.Redis.Config;
 namespace Yunt.Demo.ConsoleApp1
 {
     class Program
@@ -33,7 +38,57 @@ namespace Yunt.Demo.ConsoleApp1
 
             XTrace.UseConsole(true, true);
 
+
+            #region dtsc data init
+
+            //if (!TbUser.FindAll().Any())
+            //{
+            //    TbNode.Insert(new TbNode()
+            //    {
+            //        Name = "demo_node",
+            //        Createtime = DateTime.Now.TimeSpan()
+            //    });
+
+            //    TbUser.Insert(new TbUser()
+            //    {
+            //        Name = "admin",
+            //        Pwd = "admin",
+            //        Email = "zhaohu@unitoon.cn",
+            //        Createtime = DateTime.Now.TimeSpan()
+            //    });
+            //    TbCategory.Insert(new TbCategory()
+            //    {
+            //        Name = "demo_category",
+            //        Createtime = DateTime.Now.TimeSpan()
+            //    });
+
+            //    //TbJob.Insert(new TbJob()
+            //    //{
+            //    //    CategoryID = TbCategory.FindAll().SingleOrDefault()?.ID??1,
+            //    //    Createtime = DateTime.Now.TimeSpan(),
+            //    //    Name = "SendEmailJob",
+            //    //    NodeID = TbNode.FindAll().SingleOrDefault()?.ID??1,
+            //    //    Single = 0,
+            //    //    Cron= "0/2 * * * * ?",
+            //    //    Version = 1
+            //    //});
+            //}
+
+
+            #endregion
+
+
+
             #region test
+            var services = new ServiceCollection();
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", true, reloadOnChange: true);
+
+            var configuration = builder.Build();
+            services.AddSingleton<IConfiguration>(configuration);
+
+            #region obselete
 
             //Action<Type> JoinToQuartz = (type) =>
             //{
@@ -56,31 +111,92 @@ namespace Yunt.Demo.ConsoleApp1
             //};
 
 
-            //var watcher = new FileSystemWatcher();
-            //watcher.Path = AppDomain.CurrentDomain.BaseDirectory;
-            //watcher.NotifyFilter = NotifyFilters.Attributes |
-            //                       NotifyFilters.CreationTime |
-            //                       NotifyFilters.DirectoryName |
-            //                       NotifyFilters.FileName |
-            //                       NotifyFilters.LastAccess |
-            //                       NotifyFilters.LastWrite |
-            //                       NotifyFilters.Security |
-            //                       NotifyFilters.Size;
-            //watcher.Filter = "*.dll";
-            //// quartz运行时，可以添加新job，但不能覆盖，删除等
-            //watcher.Changed += new FileSystemEventHandler((o, e) =>
-            //{
-            //    foreach (var module in Assembly.LoadFile(e.FullPath).GetModules())
-            //    {
-            //        foreach (var type in module.GetTypes().Where(i => i.BaseType == typeof(JobBase)))
-            //        {
-            //            JoinToQuartz(type);
-            //        }
-            //    }
-            //});
+            #endregion
 
-            ////Start monitoring.
-            //watcher.EnableRaisingEvents = true;  
+            var watcher = new FileSystemWatcher
+            {
+                Path = Path.GetFullPath(".\\..\\Yunt.Jobs"),
+                NotifyFilter = NotifyFilters.Attributes |
+                               NotifyFilters.CreationTime |
+                               NotifyFilters.DirectoryName |
+                               NotifyFilters.FileName |
+                               NotifyFilters.LastAccess |
+                               NotifyFilters.LastWrite |
+                               NotifyFilters.Security |
+                               NotifyFilters.Size,
+                Filter = "*.dll"
+            };
+
+            var dic = new Dictionary<string, object>();
+            //dic.Add("x1",false);
+            // quartz运行时，可以添加新job，但不能覆盖，删除等
+            watcher.Created += new FileSystemEventHandler((o, e) =>
+            {
+
+                //var upTime=File.GetLastWriteTime(e.FullPath);
+                // var asm = Assembly.LoadFile(e.FullPath);
+                //创建dll文件（覆盖模式）
+                try
+                {
+                    using (var fs = new FileStream(e.FullPath, FileMode.OpenOrCreate, FileAccess.Read))
+                    {
+                        var asm = Assembly.Load(fs.ReadBytes());
+
+                        foreach (var type in asm.GetTypes().Where(i => i.BaseType == typeof(JobBase)))
+                        {
+                            JobHelper.JoinToQuartz(type, DateTimeOffset.Now, dic);
+                        }
+                    }
+                }
+                catch (Exception ex)//可预见异常
+                {
+                    using (var fs = new FileStream(e.FullPath, FileMode.OpenOrCreate, FileAccess.Read))
+                    {
+                        var asm = Assembly.Load(fs.ReadBytes());
+
+                        foreach (var type in asm.GetTypes().Where(i => i.BaseType == typeof(JobBase)))
+                        {
+                            JobHelper.JoinToQuartz(type, DateTimeOffset.Now, dic);
+                        }
+                    }
+                }
+
+            });
+            watcher.Renamed += new RenamedEventHandler((o, e) =>
+            {
+                try
+                {
+                    using (var fs = new FileStream(e.FullPath, FileMode.OpenOrCreate, FileAccess.Read))
+                    {
+                        var asm = Assembly.Load(fs.ReadBytes());
+
+                        foreach (var type in asm.GetTypes().Where(i => i.BaseType == typeof(JobBase)))
+                        {
+                            JobHelper.DelteToQuartz(type);
+                        }
+                    }
+                }
+                catch (Exception ex)//可预见异常
+                {
+                    using (var fs = new FileStream(e.FullPath, FileMode.OpenOrCreate, FileAccess.Read))
+                    {
+                        var asm = Assembly.Load(fs.ReadBytes());
+
+                        foreach (var type in asm.GetTypes().Where(i => i.BaseType == typeof(JobBase)))
+                        {
+                            JobHelper.DelteToQuartz(type);
+                        }
+                    }
+                }
+           
+                 File.Delete(e.FullPath);
+
+            });
+
+
+
+            //Start monitoring.
+            watcher.EnableRaisingEvents = true;
 
             #endregion
 
@@ -216,7 +332,7 @@ namespace Yunt.Demo.ConsoleApp1
             #endregion
 
             #region domain
-            var services = new ServiceCollection();
+            //var services = new ServiceCollection();
             //注入
             //AutoMapper.IConfigurationProvider config = new MapperConfiguration(cfg =>
             //{
@@ -259,7 +375,6 @@ namespace Yunt.Demo.ConsoleApp1
 
             #endregion
 
-
             #region easycahing inspect
 
             //services.AddDefaultRedisCache(option =>
@@ -283,149 +398,154 @@ namespace Yunt.Demo.ConsoleApp1
             #endregion
 
             #region register
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, reloadOnChange: true);
+            //var builder = new ConfigurationBuilder()
+            //    .SetBasePath(Directory.GetCurrentDirectory())
+            //    .AddJsonFile("appsettings.json", true, reloadOnChange: true);
 
-            var configuration = builder.Build();
-            services.AddSingleton<IConfiguration>(configuration);
+            //var configuration = builder.Build();
+            //services.AddSingleton<IConfiguration>(configuration);
 
-            //services.AddOptions();
-            //  services.Configure<AppSetting>(Configuration.GetSection("AppSettings"));
+            ////services.AddOptions();
+            ////  services.Configure<AppSetting>(Configuration.GetSection("AppSettings"));
 
-            var providers = ServiceEx.StartServices(services, configuration);
-            services.AddAutoMapper();
-            //var authProvider=Register(services);
-            // var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(providers["Device"]);
-            //tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });
+            //var providers = ServiceEx.StartServices(services, configuration);
+            //services.AddAutoMapper();
+            ////var authProvider=Register(services);
+            //// var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(providers["Device"]);
+            ////tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });
 
-            // var x2 = tbService.GetEntities();
-            var cy = ServiceProviderServiceExtensions.GetService<IConveyorRepository>(providers["Device"]);
+            //// var x2 = tbService.GetEntities();
+            //var cy = ServiceProviderServiceExtensions.GetService<IConveyorRepository>(providers["Device"]);
 
             #region 时序数据缓存        
 
-            var list = new List<Conveyor>();
-            var time = DateTime.Now.Date;
-            var t = time;
-            for (var i = 0; i < 60; i++)
-            {
-                for (var j = 0; j < 30; j++)
-                {
-                    t = time.AddDays(j);
-                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = i.ToString(), Time = t.TimeSpan() });
-                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = i.ToString(), Time = t.TimeSpan() });
-                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = i.ToString(), Time = t.TimeSpan() });
-                }
+            //var list = new List<Conveyor>();
+            //var time = DateTime.Now.Date;
+            //var t = time;
+            //for (var i = 0; i < 60; i++)
+            //{
+            //    for (var j = 0; j < 30; j++)
+            //    {
+            //        t = time.AddDays(j);
+            //        cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = i.ToString(), Time = t.TimeSpan() });
+            //        cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = i.ToString(), Time = t.TimeSpan() });
+            //        cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = i.ToString(), Time = t.TimeSpan() });
+            //    }
 
-            }
+            //}
 
-            var x = cy.GetLatestRecord("7");
-            Console.WriteLine("ok");
-            Console.ReadKey();
-            var thread1 = new Thread(() =>
-              {
-                  for (var i = 0; i < 10000; i++)
-                  {
-                      cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "1", Time = DateTime.Now.TimeSpan() });
-                      System.Threading.Thread.Sleep(1);
-                  }
-              });
-            thread1.Start();
-            var thread2 = new Thread(() =>
-            {
-                for (var i = 0; i < 10000; i++)
-                {
-                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "2", Time = DateTime.Now.TimeSpan() });
-                    System.Threading.Thread.Sleep(1);
-                }
-            });
-            thread2.Start();
-            var thread3 = new Thread(() =>
-            {
-                for (var i = 0; i < 10000; i++)
-                {
-                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "3", Time = DateTime.Now.TimeSpan() });
-                    System.Threading.Thread.Sleep(1);
-                }
-            });
-            thread3.Start();
-            var thread4 = new Thread(() =>
-            {
-                for (var i = 0; i < 10000; i++)
-                {
-                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "4", Time = DateTime.Now.TimeSpan() });
-                    System.Threading.Thread.Sleep(1);
-                }
-            });
-            thread4.Start();
-            var thread5 = new Thread(() =>
-            {
-                for (var i = 0; i < 10000; i++)
-                {
-                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "5", Time = DateTime.Now.TimeSpan() });
-                    System.Threading.Thread.Sleep(1);
-                }
-            });
-            thread5.Start();
-            var thread6 = new Thread(() =>
-            {
-                for (var i = 0; i < 10000; i++)
-                {
-                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "6", Time = DateTime.Now.TimeSpan() });
-                    System.Threading.Thread.Sleep(1);
-                }
-            });
-            thread6.Start();
-            var thread7 = new Thread(() =>
-            {
-                for (var i = 0; i < 10000; i++)
-                {
-                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "7", Time = DateTime.Now.TimeSpan() });
-                    System.Threading.Thread.Sleep(1);
-                }
-            });
-            thread7.Start();
-            var thread8 = new Thread(() =>
-            {
-                for (var i = 0; i < 10000; i++)
-                {
-                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "8", Time = DateTime.Now.TimeSpan() });
-                    System.Threading.Thread.Sleep(1);
-                }
-            });
-            thread8.Start();
-            var thread9 = new Thread(() =>
-            {
-                for (var i = 0; i < 10000; i++)
-                {
-                    cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "9", Time = DateTime.Now.TimeSpan() });
-                    System.Threading.Thread.Sleep(1);
-                }
-            });
-            thread9.Start();
+            //var x = cy.GetLatestRecord("7");
+            //Console.WriteLine("ok");
+            //Console.ReadKey();
+            //var thread1 = new Thread(() =>
+            //  {
+            //      for (var i = 0; i < 10000; i++)
+            //      {
+            //          cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "1", Time = DateTime.Now.TimeSpan() });
+            //          System.Threading.Thread.Sleep(1);
+            //      }
+            //  });
+            //thread1.Start();
+            //var thread2 = new Thread(() =>
+            //{
+            //    for (var i = 0; i < 10000; i++)
+            //    {
+            //        cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "2", Time = DateTime.Now.TimeSpan() });
+            //        System.Threading.Thread.Sleep(1);
+            //    }
+            //});
+            //thread2.Start();
+            //var thread3 = new Thread(() =>
+            //{
+            //    for (var i = 0; i < 10000; i++)
+            //    {
+            //        cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "3", Time = DateTime.Now.TimeSpan() });
+            //        System.Threading.Thread.Sleep(1);
+            //    }
+            //});
+            //thread3.Start();
+            //var thread4 = new Thread(() =>
+            //{
+            //    for (var i = 0; i < 10000; i++)
+            //    {
+            //        cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "4", Time = DateTime.Now.TimeSpan() });
+            //        System.Threading.Thread.Sleep(1);
+            //    }
+            //});
+            //thread4.Start();
+            //var thread5 = new Thread(() =>
+            //{
+            //    for (var i = 0; i < 10000; i++)
+            //    {
+            //        cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "5", Time = DateTime.Now.TimeSpan() });
+            //        System.Threading.Thread.Sleep(1);
+            //    }
+            //});
+            //thread5.Start();
+            //var thread6 = new Thread(() =>
+            //{
+            //    for (var i = 0; i < 10000; i++)
+            //    {
+            //        cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "6", Time = DateTime.Now.TimeSpan() });
+            //        System.Threading.Thread.Sleep(1);
+            //    }
+            //});
+            //thread6.Start();
+            //var thread7 = new Thread(() =>
+            //{
+            //    for (var i = 0; i < 10000; i++)
+            //    {
+            //        cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "7", Time = DateTime.Now.TimeSpan() });
+            //        System.Threading.Thread.Sleep(1);
+            //    }
+            //});
+            //thread7.Start();
+            //var thread8 = new Thread(() =>
+            //{
+            //    for (var i = 0; i < 10000; i++)
+            //    {
+            //        cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "8", Time = DateTime.Now.TimeSpan() });
+            //        System.Threading.Thread.Sleep(1);
+            //    }
+            //});
+            //thread8.Start();
+            //var thread9 = new Thread(() =>
+            //{
+            //    for (var i = 0; i < 10000; i++)
+            //    {
+            //        cy.InsertAsync(new Conveyor() { Current_B = i, MotorId = "9", Time = DateTime.Now.TimeSpan() });
+            //        System.Threading.Thread.Sleep(1);
+            //    }
+            //});
+            //thread9.Start();
 
             #endregion
-            //var m = ServiceProviderServiceExtensions.GetService<IMotorRepository>(providers["Device"]);
+            ////var m = ServiceProviderServiceExtensions.GetService<IMotorRepository>(providers["Device"]);
 
-            try
-            {
-                //m.Insert(new Motor() { MotorTypeId = "CY", ProductionLineId = "WDD-P000001" });
-                //cy.Insert(new Conveyor() {Current = 8, MotorId = "1"});
-                //var x = cy.GetEntities();
-                // cy.GetEntities(e => e.IsDeleted, e => e.MotorId == "");
-                //var x = m.GetEntities();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-                throw;
-            }
+            //try
+            //{
+            //    //m.Insert(new Motor() { MotorTypeId = "CY", ProductionLineId = "WDD-P000001" });
+            //    //cy.Insert(new Conveyor() {Current = 8, MotorId = "1"});
+            //    //var x = cy.GetEntities();
+            //    // cy.GetEntities(e => e.IsDeleted, e => e.MotorId == "");
+            //    //var x = m.GetEntities();
+            //}
+            //catch (Exception e)
+            //{
+            //    Console.WriteLine(e);
+            //    throw;
+            //}
 
             #endregion
 
             Console.WriteLine("Hello World!");
             Console.ReadKey();
         }
+
+
+
+
+        #region obselete
 
         /// <summary>
         /// 启动所有的服务插件
@@ -482,6 +602,10 @@ namespace Yunt.Demo.ConsoleApp1
 
 
         }
+
+
+        #endregion
+
 
     }
 }

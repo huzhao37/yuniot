@@ -5,15 +5,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="JobBase_2.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Quartz" Version="3.0.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
+    <ProjectReference Include="..\Yunt.Dtsc.Domain\Yunt.Dtsc.Domain.csproj" />
   </ItemGroup>
 
 </Project>
