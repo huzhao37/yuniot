@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<types>
+  <type id="4">
+    <description>LOGID</description>
+    <bit>32</bit>
+    <inByte>4</inByte>
+    <outIntArray>1</outIntArray>
+  </type>
+  <type id="5">
+    <description>时间</description>
+    <bit>32</bit>
+    <inByte>4</inByte>
+    <outIntArray>1</outIntArray>
+  </type>
+  <type id="6">
+    <description>浮点模拟量</description>
+    <bit>64</bit>
+    <inByte>8</inByte>
+    <outIntArray>1</outIntArray>
+  </type>
+  <type id="7">
+    <description>浮点模拟量</description>
+    <bit>32</bit>
+    <inByte>4</inByte>
+    <outIntArray>1</outIntArray>
+  </type>
+  <type id="8">
+    <description>整型模拟量</description>
+    <bit>64</bit>
+    <inByte>8</inByte>
+    <outIntArray>1</outIntArray>
+  </type>
+  <type id="9">
+    <description>整型模拟量</description>
+    <bit>32</bit>
+    <inByte>4</inByte>
+    <outIntArray>1</outIntArray>
+  </type>
+  <type id="10">
+    <description>整型模拟量</description>
+    <bit>24</bit>
+    <inByte>6</inByte>
+    <outIntArray>2</outIntArray>
+  </type>
+  <type id="11">
+    <description>整型模拟量</description>
+    <bit>16</bit>
+    <inByte>2</inByte>
+    <outIntArray>1</outIntArray>
+  </type>
+  <type id="12">
+    <description>整型模拟量</description>
+    <bit>12</bit>
+    <inByte>3</inByte>
+    <outIntArray>2</outIntArray>
+  </type>
+  <type id="13">
+    <description>整型模拟量</description>
+    <bit>8</bit>
+    <inByte>1</inByte>
+    <outIntArray>1</outIntArray>
+  </type>
+  <type id="14">
+    <description>数字量</description>
+    <bit>1</bit>
+    <inByte>1</inByte>
+    <outIntArray>8</outIntArray>
+  </type>
+</types>

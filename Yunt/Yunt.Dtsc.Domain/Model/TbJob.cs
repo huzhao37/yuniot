@@ -41,13 +41,13 @@ namespace Yunt.Dtsc.Domain.Model
             set { if (OnPropertyChanging(__.Name, value)) { _Name = value; OnPropertyChanged(__.Name); } }
         }
 
-        private Byte _Single;
+        private Int64 _Single;
         /// <summary></summary>
         [DisplayName("Single")]
         [Description("")]
         [DataObjectField(false, false, false, 0)]
-        [BindColumn("single", "", "tinyint(4)")]
-        public virtual Byte Single
+        [BindColumn("single", "", "bit(1)")]
+        public virtual Int64 Single
         {
             get { return _Single; }
             set { if (OnPropertyChanging(__.Single, value)) { _Single = value; OnPropertyChanged(__.Single); } }
@@ -101,13 +101,13 @@ namespace Yunt.Dtsc.Domain.Model
             set { if (OnPropertyChanging(__.UserID, value)) { _UserID = value; OnPropertyChanged(__.UserID); } }
         }
 
-        private Byte _State;
+        private Int64 _State;
         /// <summary></summary>
         [DisplayName("State")]
         [Description("")]
         [DataObjectField(false, false, false, 0)]
-        [BindColumn("state", "", "tinyint(4)")]
-        public virtual Byte State
+        [BindColumn("state", "", "bit(1)")]
+        public virtual Int64 State
         {
             get { return _State; }
             set { if (OnPropertyChanging(__.State, value)) { _State = value; OnPropertyChanged(__.State); } }
@@ -249,12 +249,12 @@ namespace Yunt.Dtsc.Domain.Model
                 {
                     case __.ID : _ID = Convert.ToInt32(value); break;
                     case __.Name : _Name = Convert.ToString(value); break;
-                    case __.Single : _Single = Convert.ToByte(value); break;
+                    case __.Single : _Single = Convert.ToInt64(value); break;
                     case __.Datamap : _Datamap = Convert.ToString(value); break;
                     case __.NodeID : _NodeID = Convert.ToInt32(value); break;
                     case __.CategoryID : _CategoryID = Convert.ToInt32(value); break;
                     case __.UserID : _UserID = Convert.ToInt32(value); break;
-                    case __.State : _State = Convert.ToByte(value); break;
+                    case __.State : _State = Convert.ToInt64(value); break;
                     case __.Version : _Version = Convert.ToInt32(value); break;
                     case __.Runcount : _Runcount = Convert.ToInt32(value); break;
                     case __.Createtime : _Createtime = Convert.ToInt64(value); break;
@@ -391,7 +391,7 @@ namespace Yunt.Dtsc.Domain.Model
         String Name { get; set; }
 
         /// <summary></summary>
-        Byte Single { get; set; }
+        Int64 Single { get; set; }
 
         /// <summary></summary>
         String Datamap { get; set; }
@@ -406,7 +406,7 @@ namespace Yunt.Dtsc.Domain.Model
         Int32 UserID { get; set; }
 
         /// <summary></summary>
-        Byte State { get; set; }
+        Int64 State { get; set; }
 
         /// <summary></summary>
         Int32 Version { get; set; }

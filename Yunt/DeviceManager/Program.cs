@@ -36,13 +36,13 @@ namespace DeviceManager
             //Motorparams.FromExcel("vc");
             //Motorparams.FromExcel("pul");
 
-            //InitClassFile("BaseModel", "Yunt.Device.Repository.EF.Models", TableType.Instant);
-            //InitClassFile("BaseModel", "Yunt.Device.Repository.EF.Models", TableType.Hour);
-            //InitClassFile("BaseModel", "Yunt.Device.Repository.EF.Models", TableType.Day);
+            InitClassFile("BaseModel", "Yunt.Device.Repository.EF.Models", TableType.Instant);
+            InitClassFile("BaseModel", "Yunt.Device.Repository.EF.Models", TableType.Hour);
+            InitClassFile("BaseModel", "Yunt.Device.Repository.EF.Models", TableType.Day);
 
-            InitClassFile("AggregateRoot", "Yunt.Device.Domain.Model", TableType.Instant);
-            InitClassFile("AggregateRoot", "Yunt.Device.Domain.Model", TableType.Hour);
-            InitClassFile("AggregateRoot", "Yunt.Device.Domain.Model", TableType.Day);
+            //InitClassFile("AggregateRoot", "Yunt.Device.Domain.Model", TableType.Instant);
+            //InitClassFile("AggregateRoot", "Yunt.Device.Domain.Model", TableType.Hour);
+            //InitClassFile("AggregateRoot", "Yunt.Device.Domain.Model", TableType.Day);
             Console.ReadKey();
 
             #endregion
@@ -145,7 +145,8 @@ namespace DeviceManager
             var types = Motorparams.FindAll().Select(e => e.MotorTypeId);
             foreach (var t in types)
             {
-                ClassFactory(t, baseClassName, spaceName, table);
+                if(t.EqualIgnoreCase("IC"))
+                    ClassFactory(t, baseClassName, spaceName, table);
             }
 
         }

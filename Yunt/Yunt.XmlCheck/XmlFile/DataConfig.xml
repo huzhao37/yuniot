@@ -1,0 +1,389 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+
+<configs>
+  <config id="3">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="12">
+      <count>4</count>
+    </data>
+    <data type="14">
+      <count>34</count>
+    </data>
+  </config>
+  <config id="4">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="12">
+      <count>4</count>
+    </data>
+    <data type="14">
+      <count>39</count>
+    </data>
+  </config>
+  <config id="5">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="12">
+      <count>6</count>
+    </data>
+    <data type="14">
+      <count>39</count>
+    </data>
+  </config>
+  <config id="6">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="12">
+      <count>6</count>
+    </data>
+    <data type="14">
+      <count>54</count>
+    </data>
+  </config>
+  <config id="7">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="7">
+      <count>1</count>
+    </data>
+    <data type="11">
+      <count>1</count>
+    </data>
+    <data type="12">
+      <count>4</count>
+    </data>
+    <data type="13">
+      <count>1</count>
+    </data>
+    <data type="14">
+      <count>31</count>
+    </data>
+  </config>
+  <config id="8">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="7">
+      <count>1</count>
+    </data>
+    <data type="11">
+      <count>3</count>
+    </data>
+    <data type="12">
+      <count>33</count>
+    </data>
+    <data type="13">
+      <count>1</count>
+    </data>
+    <data type="14">
+      <count>55</count>
+    </data>
+  </config>
+  <config id="9">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="7">
+      <count>1</count>
+    </data>
+    <data type="11">
+      <count>1</count>
+    </data>
+    <data type="12">
+      <count>8</count>
+    </data>
+    <data type="13">
+      <count>1</count>
+    </data>
+    <data type="14">
+      <count>18</count>
+    </data>
+  </config>
+  <config id="10">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="9">
+      <count>1</count>
+    </data>
+    <data type="11">
+      <count>3</count>
+    </data>
+    <data type="12">
+      <count>7</count>
+    </data>
+    <data type="13">
+      <count>1</count>
+    </data>
+    <data type="14">
+      <count>2</count>
+    </data>
+  </config>
+  <config id="14">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="9">
+      <count>6</count>
+    </data>
+    <data type="11">
+      <count>6</count>
+    </data>
+    <data type="12">
+      <count>56</count>
+    </data>
+    <data type="13">
+      <count>6</count>
+    </data>
+    <data type="14">
+      <count>453</count>
+    </data>
+  </config>
+  <config id="16">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="12">
+      <count>12</count>
+    </data>
+    <data type="14">
+      <count>170</count>
+    </data>
+  </config>
+  <config id="17">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="9">
+      <count>2</count>
+    </data>
+    <data type="11">
+      <count>6</count>
+    </data>
+    <data type="12">
+      <count>30</count>
+    </data>
+    <data type="13">
+      <count>8</count>
+    </data>
+    <data type="14">
+      <count>648</count>
+    </data>
+  </config>
+  <config id="18">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="9">
+      <count>5</count>
+    </data>
+    <data type="11">
+      <count>5</count>
+    </data>
+    <data type="13">
+      <count>5</count>
+    </data>
+    <data type="14">
+      <count>10</count>
+    </data>
+  </config>
+  <config id="19">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="9">
+      <count>1</count>
+    </data>
+    <data type="11">
+      <count>1</count>
+    </data>
+    <data type="12">
+      <count>4</count>
+    </data>
+    <data type="13">
+      <count>1</count>
+    </data>
+    <data type="14">
+      <count>76</count>
+    </data>
+  </config>
+  <config id="21">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="9">
+      <count>5</count>
+    </data>
+    <data type="11">
+      <count>11</count>
+    </data>
+    <data type="12">
+      <count>9</count>
+    </data>
+    <data type="13">
+      <count>2</count>
+    </data>
+    <data type="14">
+      <count>4</count>
+    </data>
+  </config>
+
+  <config id="22">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="9">
+      <count>5</count>
+    </data>
+    <data type="11">
+      <count>13</count>
+    </data>
+    <data type="12">
+      <count>11</count>
+    </data>
+    <data type="13">
+      <count>2</count>
+    </data>
+    <data type="14">
+      <count>4</count>
+    </data>
+  </config>
+
+  <config id="24">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="9">
+      <count>5</count>
+    </data>
+    <data type="11">
+      <count>30</count>
+    </data>
+    <data type="12">
+      <count>30</count>
+    </data>
+  </config>
+
+  <config id="25">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="12">
+      <count>6</count>
+    </data>
+    <data type="14">
+      <count>133</count>
+    </data>
+  </config>
+
+  <!--湖南长坂坡-->
+  <config id="26">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="12">
+      <count>6</count>
+    </data>
+    <data type="14">
+      <count>191</count>
+    </data>
+  </config>
+
+  <!--云南花岗岩-->
+  <config id="27">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="9">
+      <count>5</count>
+    </data>
+    <data type="11">
+      <count>4</count>
+    </data>
+    <data type="12">
+      <count>10</count>
+    </data>
+    <data type="13">
+      <count>8</count>
+    </data>
+    <data type="14">
+      <count>250</count>
+    </data>
+  </config>
+
+  <!--云南西双版纳-->
+  <config id="28">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="12">
+      <count>4</count>
+    </data>
+    <data type="14">
+      <count>146</count>
+    </data>
+  </config>
+
+
+  <!--新九江1-->
+  <config id="29">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="9">
+      <count>6</count>
+    </data>
+    <data type="12">
+      <count>85</count>
+    </data>
+    <data type="14">
+      <count>305</count>
+    </data>
+  </config>
+
+  <!--新九江2-->
+  <config id="30">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="9">
+      <count>11</count>
+    </data>
+    <data type="11">
+      <count>36</count>
+    </data>
+    <data type="12">
+      <count>44</count>
+    </data>
+    <data type="13">
+      <count>6</count>
+    </data>
+    <data type="14">
+      <count>491</count>
+    </data>
+  </config>
+  
+
+  <!--唐山水泥产线-->
+  <config id="31">
+    <data type="5">
+      <count>1</count>
+    </data>
+    <data type="12">
+      <count>5</count>
+    </data>
+    <data type="13">
+      <count>4</count>
+    </data>
+    <data type="14">
+      <count>51</count>
+    </data>
+  </config>
+
+</configs>

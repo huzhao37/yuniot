@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Runtime.Loader;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -23,7 +24,6 @@ using Quartz.Impl;
 using Yunt.Common;
 using Yunt.Dtsc.Core;
 using Yunt.Dtsc.Domain.Model;
-
 //using Yunt.Device.Domain.IRepository;
 //using Yunt.Device.Domain.Model;
 //using Yunt.Redis;
@@ -37,56 +37,33 @@ namespace Yunt.Demo.ConsoleApp1
         {
 
             XTrace.UseConsole(true, true);
+            
+            //var services = new ServiceCollection();
+            //var builder = new ConfigurationBuilder()
+            //    .SetBasePath(Directory.GetCurrentDirectory())
+            //    .AddJsonFile("appsettings.json", true, reloadOnChange: true);
 
+            //var configuration = builder.Build();
+            //services.AddSingleton<IConfiguration>(configuration);
+
+       
 
             #region dtsc data init
-
-            //if (!TbUser.FindAll().Any())
-            //{
-            //    TbNode.Insert(new TbNode()
-            //    {
-            //        Name = "demo_node",
-            //        Createtime = DateTime.Now.TimeSpan()
-            //    });
-
-            //    TbUser.Insert(new TbUser()
-            //    {
-            //        Name = "admin",
-            //        Pwd = "admin",
-            //        Email = "zhaohu@unitoon.cn",
-            //        Createtime = DateTime.Now.TimeSpan()
-            //    });
-            //    TbCategory.Insert(new TbCategory()
-            //    {
-            //        Name = "demo_category",
-            //        Createtime = DateTime.Now.TimeSpan()
-            //    });
-
-            //    //TbJob.Insert(new TbJob()
-            //    //{
-            //    //    CategoryID = TbCategory.FindAll().SingleOrDefault()?.ID??1,
-            //    //    Createtime = DateTime.Now.TimeSpan(),
-            //    //    Name = "SendEmailJob",
-            //    //    NodeID = TbNode.FindAll().SingleOrDefault()?.ID??1,
-            //    //    Single = 0,
-            //    //    Cron= "0/2 * * * * ?",
-            //    //    Version = 1
-            //    //});
-            //}
+          
 
 
             #endregion
 
-
+          
 
             #region test
-            var services = new ServiceCollection();
-            var builder = new ConfigurationBuilder()
-                .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", true, reloadOnChange: true);
+            //var services = new ServiceCollection();
+            //var builder = new ConfigurationBuilder()
+            //    .SetBasePath(Directory.GetCurrentDirectory())
+            //    .AddJsonFile("appsettings.json", true, reloadOnChange: true);
 
-            var configuration = builder.Build();
-            services.AddSingleton<IConfiguration>(configuration);
+            //var configuration = builder.Build();
+            //services.AddSingleton<IConfiguration>(configuration);
 
             #region obselete
 
@@ -188,8 +165,8 @@ namespace Yunt.Demo.ConsoleApp1
                         }
                     }
                 }
-           
-                 File.Delete(e.FullPath);
+
+                File.Delete(e.FullPath);
 
             });
 
@@ -520,6 +497,7 @@ namespace Yunt.Demo.ConsoleApp1
             //thread9.Start();
 
             #endregion
+
             ////var m = ServiceProviderServiceExtensions.GetService<IMotorRepository>(providers["Device"]);
 
             //try

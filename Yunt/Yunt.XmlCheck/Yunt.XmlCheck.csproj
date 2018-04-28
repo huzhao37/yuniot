@@ -1,0 +1,72 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Helper\**" />
+    <Compile Remove="MapModel\**" />
+    <Compile Remove="Models\**" />
+    <Compile Remove="XmlModel\**" />
+    <EmbeddedResource Remove="Helper\**" />
+    <EmbeddedResource Remove="MapModel\**" />
+    <EmbeddedResource Remove="Models\**" />
+    <EmbeddedResource Remove="XmlModel\**" />
+    <None Remove="Helper\**" />
+    <None Remove="MapModel\**" />
+    <None Remove="Models\**" />
+    <None Remove="XmlModel\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="XmlFile\DataConfig.xml" />
+    <None Remove="XmlFile\DataType.xml" />
+    <None Remove="XmlFile\mini_cfg.xml" />
+    <None Remove="XmlFile\wdd.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="XmlFile\wdd.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="XmlFile\DataConfig.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XmlFile\DataType.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XmlFile\mini_cfg.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.2.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="2.0.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
+    <PackageReference Include="NewLife.XCode" Version="9.6.6678.32715" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
+    <PackageReference Include="System.Management" Version="4.5.0-preview2-26406-04" />
+    <PackageReference Include="System.Security.Permissions" Version="4.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
+    <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.XmlProtocol.Domain\Yunt.XmlProtocol.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AutoMapper.Extensions.Microsoft.DependencyInjection">
+      <HintPath>C:\Users\zhaoh\.nuget\packages\automapper.extensions.microsoft.dependencyinjection\3.2.0\lib\netstandard2.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

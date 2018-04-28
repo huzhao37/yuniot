@@ -56,6 +56,30 @@
           "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.dll": {}
         }
       },
+      "Microsoft.Extensions.Configuration/2.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Configuration.Abstractions": "2.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Configuration.Abstractions/2.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "2.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll": {}
+        }
+      },
       "Microsoft.Extensions.DependencyInjection/2.0.0": {
         "type": "package",
         "dependencies": {
@@ -353,7 +377,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "NewLife.Core/6.6.6644.19801": {
+      "NewLife.Core/6.6.6678.32714": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/NewLife.Core.dll": {}
@@ -362,16 +386,45 @@
           "lib/netstandard2.0/NewLife.Core.dll": {}
         }
       },
-      "NewLife.XCode/9.6.6644.19804": {
+      "NewLife.Net/3.2.6456.33157": {
         "type": "package",
         "dependencies": {
-          "NewLife.Core": "6.6.6644.19801"
+          "NewLife.Core": "6.4.6456.33156"
+        },
+        "compile": {
+          "lib/net45/NewLife.Net.dll": {}
+        },
+        "runtime": {
+          "lib/net45/NewLife.Net.dll": {}
+        }
+      },
+      "NewLife.XCode/9.6.6678.32715": {
+        "type": "package",
+        "dependencies": {
+          "NewLife.Core": "6.6.6678.32714"
         },
         "compile": {
           "lib/netstandard2.0/XCode.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/XCode.dll": {}
+        }
+      },
+      "NewLife.XCoder/6.9.6678.32718": {
+        "type": "package",
+        "dependencies": {
+          "NewLife.Core": "6.6.6678.32714",
+          "NewLife.Net": "3.2.6456.33157",
+          "NewLife.XCode": "9.6.6678.32715",
+          "UDE.CSharp": "1.1.0"
+        },
+        "compile": {
+          "lib/net46/XCoder.exe": {},
+          "lib/net46/XTemplate.dll": {}
+        },
+        "runtime": {
+          "lib/net46/XCoder.exe": {},
+          "lib/net46/XTemplate.dll": {}
         }
       },
       "Quartz/3.0.4": {
@@ -1407,12 +1460,22 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "UDE.CSharp/1.1.0": {
+        "type": "package",
+        "compile": {
+          "lib/Ude.dll": {}
+        },
+        "runtime": {
+          "lib/Ude.dll": {}
+        }
+      },
       "Yunt.Common/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "2.0.1",
-          "NewLife.Core": "6.6.6631.1417",
+          "Microsoft.Extensions.Configuration": "2.0.1",
+          "NewLife.Core": "6.6.6678.32714",
           "SharpCompress": "0.20.0"
         },
         "compile": {
@@ -1426,6 +1489,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
+          "NewLife.XCoder": "6.9.6678.32718",
           "Quartz": "3.0.4",
           "Yunt.Common": "1.0.0",
           "Yunt.Dtsc.Domain": "1.0.0"
@@ -1441,7 +1505,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "NewLife.XCode": "9.6.6644.19804"
+          "NewLife.XCoder": "6.9.6678.32718"
         },
         "compile": {
           "bin/placeholder/Yunt.Dtsc.Domain.dll": {}
@@ -1548,6 +1612,28 @@
         "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.xml",
         "microsoft.extensions.caching.memory.2.0.0.nupkg.sha512",
         "microsoft.extensions.caching.memory.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Configuration/2.0.1": {
+      "sha512": "d9fFoEYRaBccu/Z2B2BZCil/lEnmoVQ8YiY1dGViERh0qWjixgR9y/M7EGaoTrAunnmvAmfwxuij/gCq6WvL1w==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration/2.0.1",
+      "files": [
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.xml",
+        "microsoft.extensions.configuration.2.0.1.nupkg.sha512",
+        "microsoft.extensions.configuration.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Configuration.Abstractions/2.0.1": {
+      "sha512": "stGq1c136UUYOsgQuJ5fjiygqZhgt6Kj0pm4iL0qq1MICNgEKTJ4tnbXLkZfrDHDz+olsT2VY9cVv2yshg+m+A==",
+      "type": "package",
+      "path": "microsoft.extensions.configuration.abstractions/2.0.1",
+      "files": [
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.xml",
+        "microsoft.extensions.configuration.abstractions.2.0.1.nupkg.sha512",
+        "microsoft.extensions.configuration.abstractions.nuspec"
       ]
     },
     "Microsoft.Extensions.DependencyInjection/2.0.0": {
@@ -2124,10 +2210,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "NewLife.Core/6.6.6644.19801": {
-      "sha512": "SdV73vzqLPz+i7+A8/FYA0Fl6xkK3m3uiAAEi2Mkcj2vV5PnELL1opAM0pysR6TcgT2lCYpNVaf43celqTjvAg==",
+    "NewLife.Core/6.6.6678.32714": {
+      "sha512": "0NqEiXuLCGeos3UXy6WetVFE+hnP3dccff19HDuo5zpZzSEHYLzsu1RPE2Bs7Cvtn4xPxwNvBi0zy8eXNFDmwQ==",
       "type": "package",
-      "path": "newlife.core/6.6.6644.19801",
+      "path": "newlife.core/6.6.6678.32714",
       "files": [
         "lib/net40/NewLife.Core.XML",
         "lib/net40/NewLife.Core.dll",
@@ -2138,14 +2224,29 @@
         "lib/netstandard2.0/NewLife.Core.dll",
         "lib/netstandard2.0/NewLife.Core.pdb",
         "lib/netstandard2.0/NewLife.Core.xml",
-        "newlife.core.6.6.6644.19801.nupkg.sha512",
+        "newlife.core.6.6.6678.32714.nupkg.sha512",
         "newlife.core.nuspec"
       ]
     },
-    "NewLife.XCode/9.6.6644.19804": {
-      "sha512": "BW4FMPvagFi5a8HPhXDyLC8K5ibpKCxvU6gYG/3sjaeh9n+ys/QjRYS/PBWWdYmfIhFKWLqDrU9KoV1h/9iSkA==",
+    "NewLife.Net/3.2.6456.33157": {
+      "sha512": "J6w9SUfPAixu5/YupkpzQMhEnoQE8wM3yeCy0dN4XIx8i9j7oy3aJTlGT9EECU8GJ5WoHxFB9fR/eUuVBj74+Q==",
       "type": "package",
-      "path": "newlife.xcode/9.6.6644.19804",
+      "path": "newlife.net/3.2.6456.33157",
+      "files": [
+        "lib/net40/NewLife.Net.XML",
+        "lib/net40/NewLife.Net.dll",
+        "lib/net40/NewLife.Net.pdb",
+        "lib/net45/NewLife.Net.XML",
+        "lib/net45/NewLife.Net.dll",
+        "lib/net45/NewLife.Net.pdb",
+        "newlife.net.3.2.6456.33157.nupkg.sha512",
+        "newlife.net.nuspec"
+      ]
+    },
+    "NewLife.XCode/9.6.6678.32715": {
+      "sha512": "U69ZBoqesBF94BZHi5wX5LzvpXPk/F4/eHskI3FlrR8zPtFjE/VYhjgZ4iTLivv/rGCfPpeQ3XEr7QleHZoWig==",
+      "type": "package",
+      "path": "newlife.xcode/9.6.6678.32715",
       "files": [
         "content/生成实体类.tt",
         "lib/net40/XCode.dll",
@@ -2157,8 +2258,20 @@
         "lib/netstandard2.0/XCode.dll",
         "lib/netstandard2.0/XCode.pdb",
         "lib/netstandard2.0/XCode.xml",
-        "newlife.xcode.9.6.6644.19804.nupkg.sha512",
+        "newlife.xcode.9.6.6678.32715.nupkg.sha512",
         "newlife.xcode.nuspec"
+      ]
+    },
+    "NewLife.XCoder/6.9.6678.32718": {
+      "sha512": "rktPHTzC63TZxRXU5kT2Jyype6tkGW/XR2CZgPi3abms6em2e6Dhrw2lAlf0wVpcOaunYvvPDbusBBKUlbdNQA==",
+      "type": "package",
+      "path": "newlife.xcoder/6.9.6678.32718",
+      "files": [
+        "lib/net46/XCoder.exe",
+        "lib/net46/XTemplate.XML",
+        "lib/net46/XTemplate.dll",
+        "newlife.xcoder.6.9.6678.32718.nupkg.sha512",
+        "newlife.xcoder.nuspec"
       ]
     },
     "Quartz/3.0.4": {
@@ -5474,6 +5587,17 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
+    "UDE.CSharp/1.1.0": {
+      "sha512": "mCdLwQGz/9C6FptnFCoBTJI/C0K74fZOwfQWq2sl/p3H2H4RNS40Rnf2WF6G6+ZK1lCaOhtOdLlpXQTtbP13fQ==",
+      "type": "package",
+      "path": "ude.csharp/1.1.0",
+      "files": [
+        "content/_._",
+        "lib/Ude.dll",
+        "ude.csharp.1.1.0.nupkg.sha512",
+        "ude.csharp.nuspec"
+      ]
+    },
     "Yunt.Common/1.0.0": {
       "type": "project",
       "path": "../Yunt.Common/Yunt.Common.csproj",
@@ -5566,5 +5690,37 @@
         "warn": true
       }
     }
-  }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "已使用“.NETFramework,Version=v4.6.1”而不是项目目标框架“.NETCoreApp,Version=v2.0”还原包“NewLife.Net 3.2.6456.33157”。此包可能与项目不完全兼容。",
+      "libraryId": "NewLife.Net",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "已使用“.NETFramework,Version=v4.6.1”而不是项目目标框架“.NETCoreApp,Version=v2.0”还原包“NewLife.XCoder 6.9.6678.32718”。此包可能与项目不完全兼容。",
+      "libraryId": "NewLife.XCoder",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "已使用“.NETFramework,Version=v4.6.1”而不是项目目标框架“.NETCoreApp,Version=v2.0”还原包“UDE.CSharp 1.1.0”。此包可能与项目不完全兼容。",
+      "libraryId": "UDE.CSharp",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v2.0"
+      ]
+    }
+  ]
 }

@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--?xml-stylesheet type='text/xsl' href='systemtable.xsl'?-->
+<output dev_id="0102030405FF">
+  <table name="server">
+    <server id="0x30ffffff">
+      <url>10.1.5.72</url>
+      <outqueue config="manual" name="OUT0102030405FF">
+        <bind exchange="amq.topic" route_key="COMMAND"/>
+      </outqueue>
+      <channel>
+        <indata id="25" log_id="4451" route_key="MINIPDLINE" timer="2000" type="bulk">
+          <index id="0x10ff0001">0</index>
+          <index id="0x20ff0001">1</index>
+          <index id="0xd0090001">2</index>
+          <index id="0xd0090002">3</index>
+          <index id="0xe00d0001">4</index>
+          <index id="0xe00d0002">5</index>
+          <index id="0xe00d0003">6</index>
+          <index id="0xe00d0004">7</index>
+          <index id="0xe00d0005">8</index>
+          <index id="0xe00d0006">9</index>
+          <index id="0xe00d0007">10</index>
+          <index id="0xe00d0008">11</index>
+          <index id="0xe00d0009">12</index>
+          <index id="0xe00d000a">13</index>
+          <index id="0xe00d000b">14</index>
+          <index id="0xe00d000c">15</index>
+          <index id="0xe00d000d">16</index>
+          <index id="0xe00d000e">17</index>
+          <index id="0xe00d000f">18</index>
+          <index id="0xe00d0010">19</index>
+          <index id="0xe00d0011">20</index>
+          <index id="0xe00d0012">21</index>
+        </indata>
+        <outdata id="0xC004" reply_to="0x8002" route_key="COMMAND" type="rpc"/>
+        <indata id="0x8002" route_key="STATUS"/>
+      </channel>
+    </server>
+  </table>
+  <table name="device">
+    <device id="0x33101801">
+      <name>opcua1</name>
+      <protocol>opcua</protocol>
+      <url>10.1.5.43:4845</url>
+      <path name="system1">ns=7;s=S7-1200 station_2.101541</path>
+      <path name="system2">ns=7;s=S7-1200 station_1.101542</path>
+      <timer>200</timer>
+    </device>
+  </table>
+  <table name="machine">
+    <machine id="0x30101a01">
+      <name>C1</name>
+      <type>皮带机</type>
+    </machine>
+    <machine id="0x30101a02">
+      <name>C2</name>
+      <type>皮带机</type>
+    </machine>
+    <machine id="0x30101a03">
+      <name>C3</name>
+      <type>皮带机</type>
+    </machine>
+    <machine id="0x30101a04">
+      <name>C4</name>
+      <type>皮带机</type>
+    </machine>
+    <machine id="0x30101a05">
+      <name>C5</name>
+      <type>皮带机</type>
+    </machine>
+    <machine id="0x30101a06">
+      <name>C6</name>
+      <type>皮带机</type>
+    </machine>
+    <machine id="0x30101a07">
+      <name>C7</name>
+      <type>皮带机</type>
+    </machine>
+    <machine id="0x30101a08">
+      <name>C8</name>
+      <type>皮带机</type>
+    </machine>
+    <machine id="0x30101a09">
+      <name>C9</name>
+      <type>皮带机</type>
+    </machine>
+    <machine id="0x30101a0a">
+      <name>C10</name>
+      <type>皮带机</type>
+    </machine>
+
+    <machine id="0x30101f01">
+      <name>大料仓</name>
+      <type>料仓</type>
+    </machine>
+    <machine id="0x30101f02">
+      <name>中间料仓</name>
+      <type>料仓</type>
+    </machine>
+    <machine id="0x30100c01">
+      <name>鄂式破碎机1</name>
+      <type>鄂式破碎机</type>
+    </machine>
+    <machine id="0x30100401">
+      <name>单缸圆锥破1</name>
+      <type>单缸圆锥破</type>
+    </machine>
+    <machine id="0x30100402">
+      <name>多缸圆锥破1</name>
+      <type>多缸圆锥破</type>
+    </machine>
+    <machine id="0x30100501">
+      <name>制砂机1</name>
+      <type>制砂机</type>
+    </machine>
+    <machine id="0x30100E01">
+      <name>水平筛1</name>
+      <type>震动筛</type>
+    </machine>
+    <machine id="0x30100E02">
+      <name>水平筛2</name>
+      <type>震动筛</type>
+    </machine>
+  </table>
+  <table name="data">
+    <data id="0x10ff0001">
+      <format>LOGID</format>
+      <phy>其他</phy>
+      <precision>1</precision>
+      <desc>记录ID</desc>
+    </data>
+    <data id="0x20ff0001">
+      <format>时间</format>
+      <phy>其他</phy>
+      <precision>1</precision>
+      <desc>记录时间</desc>
+    </data>
+    <data id="0xe00d0001">
+      <mahcine_id>0x30101a01</mahcine_id>
+      <value>%system1%.M6_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>15</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d0002">
+      <mahcine_id>0x30101a02</mahcine_id>
+      <value>%system1%.M8_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d0003">
+      <mahcine_id>0x30101a03</mahcine_id>
+      <value>%system1%.M9_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d0004">
+      <mahcine_id>0x30101a04</mahcine_id>
+      <value>%system1%.M10_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d0005">
+      <mahcine_id>0x30101a05</mahcine_id>
+      <value>%system1%.M11_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d0006">
+      <mahcine_id>0x30101a06</mahcine_id>
+      <value>%system1%.M12_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d0007">
+      <mahcine_id>0x30101a07</mahcine_id>
+      <value>%system1%.M13_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d0008">
+      <mahcine_id>0x30101a08</mahcine_id>
+      <value>%system1%.M14_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d0009">
+      <mahcine_id>0x30101a09</mahcine_id>
+      <value>%system1%.M15_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d000a">
+      <mahcine_id>0x30101a0a</mahcine_id>
+      <value>%system1%.M16_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d000b">
+      <mahcine_id>0x30101f01</mahcine_id>
+      <value>%system1%.M5_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>开关</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d000c">
+      <mahcine_id>0x30100c01</mahcine_id>
+      <value>%system2%.M10_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d000d">
+      <mahcine_id>0x30100401</mahcine_id>
+      <value>%system2%.M11_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d000e">
+      <mahcine_id>0x30100402</mahcine_id>
+      <value>%system2%.M12_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d000f">
+      <mahcine_id>0x30100501</mahcine_id>
+      <value>%system2%.M14_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d0010">
+      <mahcine_id>0x30100E01</mahcine_id>
+      <value>%system2%.M13_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d0011">
+      <mahcine_id>0x30100E02</mahcine_id>
+      <value>%system2%.M15_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xe00d0012">
+      <mahcine_id>0x30101f02</mahcine_id>
+      <value>%system1%.M7_1</value>
+      <format>1bit数字量</format>
+      <remark/>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>0</dat_bit_end>
+      <phy>输出</phy>
+      <precision>1</precision>
+      <desc>电机</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+
+    <data id="0xd0090001">
+      <write>enable</write>
+      <value>%system1%.MW20</value>
+      <format>8bit整型模拟量</format>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>7</dat_bit_end>
+      <phy>配置</phy>
+      <precision>1.0</precision>
+      <desc>mini产线状态配置</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+    <data id="0xd0090002">
+      <write>enable</write>
+      <value>%system2%.MW20</value>
+      <format>8bit整型模拟量</format>
+      <dat_bit_start>0</dat_bit_start>
+      <dat_bit_end>7</dat_bit_end>
+      <phy>配置</phy>
+      <precision>1.0</precision>
+      <desc>mini产线状态配置</desc>
+      <device_id>0x33101801</device_id>
+    </data>
+  </table>
+</output>

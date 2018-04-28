@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <ApplicationIcon />
+    <StartupObject />
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NewLife.XCoder" Version="6.9.6678.32718" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
+  </ItemGroup>
+
+</Project>
