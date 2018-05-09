@@ -11,8 +11,6 @@ using AutoMapper.QueryableExtensions;
 using AutoMapper.XpressionMapper.Extensions;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.EntityFrameworkCore.Query.Sql.Internal;
 using Yunt.Inventory.Domain.BaseModel;
 using Yunt.Inventory.Domain.IRepository;
 using Yunt.Inventory.Repository.EF.Models;

@@ -35,12 +35,12 @@ namespace Yunt.XmlProtocol.Domain.Service
 
             var bufferIndex = 0;
             var dataGram = new DataGramModel();
-            dataGram.DeviceId = Extention.ByteArrayToHexString(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 6));
-            dataGram.CollectdeviceIndex = Extention.ByteArrayToHexString(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 2));
+            dataGram.CollectdeviceIndex = Extention.ByteArrayToHexString(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 6));
+            dataGram.DeviceId = Extention.byteToInt(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 2));
             dataGram.Count = Extention.byteToInt(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 1));
 
-            Logger.Info(dataGram.DeviceId);
-            Logger.Info(dataGram.CollectdeviceIndex.ToString());
+            Logger.Info(dataGram.DeviceId.ToString());
+            Logger.Info(dataGram.CollectdeviceIndex);
 
             var configModels = _configs.Where(m => m.CollectdeviceIndex == dataGram.CollectdeviceIndex).OrderBy(e => e.DatatypeID)
                 .ToList();

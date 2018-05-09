@@ -54,6 +54,7 @@ namespace Yunt.Device.Domain.BaseModel
     [ProtoInclude(45, typeof(MotorType))]
     [ProtoInclude(46, typeof(Motor))]
     [ProtoInclude(47, typeof(ProductionLine))]
+    [ProtoInclude(48, typeof(OriginalBytes))]
     public abstract class AggregateRoot : IAggregateRoot
     {
         [DataMember]

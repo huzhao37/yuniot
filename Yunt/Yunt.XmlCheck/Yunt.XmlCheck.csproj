@@ -47,11 +47,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="6.2.2" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="2.0.1" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
-    <PackageReference Include="NewLife.XCode" Version="9.6.6678.32715" />
+    <PackageReference Include="NewLife.XCode" Version="9.7.6701.38516" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
     <PackageReference Include="System.Management" Version="4.5.0-preview2-26406-04" />
     <PackageReference Include="System.Security.Permissions" Version="4.4.1" />
@@ -61,12 +62,6 @@
     <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
     <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
     <ProjectReference Include="..\Yunt.XmlProtocol.Domain\Yunt.XmlProtocol.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="AutoMapper.Extensions.Microsoft.DependencyInjection">
-      <HintPath>C:\Users\zhaoh\.nuget\packages\automapper.extensions.microsoft.dependencyinjection\3.2.0\lib\netstandard2.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

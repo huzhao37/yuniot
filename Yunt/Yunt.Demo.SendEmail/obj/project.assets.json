@@ -11,12 +11,12 @@
           "lib/netcoreapp2.0/_._": {}
         }
       },
-      "Microsoft.EntityFrameworkCore/2.0.1": {
+      "Microsoft.EntityFrameworkCore/2.0.3": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Caching.Memory": "2.0.0",
+          "Microsoft.Extensions.Caching.Memory": "2.0.2",
           "Microsoft.Extensions.DependencyInjection": "2.0.0",
-          "Microsoft.Extensions.Logging": "2.0.0",
+          "Microsoft.Extensions.Logging": "2.0.2",
           "Remotion.Linq": "2.1.1",
           "System.Collections.Immutable": "1.4.0",
           "System.ComponentModel.Annotations": "4.4.0",
@@ -30,7 +30,7 @@
           "lib/netstandard2.0/Microsoft.EntityFrameworkCore.dll": {}
         }
       },
-      "Microsoft.Extensions.Caching.Abstractions/2.0.0": {
+      "Microsoft.Extensions.Caching.Abstractions/2.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Primitives": "2.0.0"
@@ -42,12 +42,12 @@
           "lib/netstandard2.0/Microsoft.Extensions.Caching.Abstractions.dll": {}
         }
       },
-      "Microsoft.Extensions.Caching.Memory/2.0.0": {
+      "Microsoft.Extensions.Caching.Memory/2.0.2": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Caching.Abstractions": "2.0.0",
+          "Microsoft.Extensions.Caching.Abstractions": "2.0.2",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0",
-          "Microsoft.Extensions.Options": "2.0.0"
+          "Microsoft.Extensions.Options": "2.0.2"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.dll": {}
@@ -56,10 +56,10 @@
           "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.dll": {}
         }
       },
-      "Microsoft.Extensions.Configuration/2.0.1": {
+      "Microsoft.Extensions.Configuration/2.0.2": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Configuration.Abstractions": "2.0.1"
+          "Microsoft.Extensions.Configuration.Abstractions": "2.0.2"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll": {}
@@ -68,7 +68,7 @@
           "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll": {}
         }
       },
-      "Microsoft.Extensions.Configuration.Abstractions/2.0.1": {
+      "Microsoft.Extensions.Configuration.Abstractions/2.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.Primitives": "2.0.0"
@@ -101,12 +101,12 @@
           "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
         }
       },
-      "Microsoft.Extensions.Logging/2.0.0": {
+      "Microsoft.Extensions.Logging/2.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0",
-          "Microsoft.Extensions.Logging.Abstractions": "2.0.0",
-          "Microsoft.Extensions.Options": "2.0.0"
+          "Microsoft.Extensions.Logging.Abstractions": "2.0.2",
+          "Microsoft.Extensions.Options": "2.0.2"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Logging.dll": {}
@@ -115,7 +115,7 @@
           "lib/netstandard2.0/Microsoft.Extensions.Logging.dll": {}
         }
       },
-      "Microsoft.Extensions.Logging.Abstractions/2.0.0": {
+      "Microsoft.Extensions.Logging.Abstractions/2.0.2": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {}
@@ -124,7 +124,7 @@
           "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {}
         }
       },
-      "Microsoft.Extensions.Options/2.0.0": {
+      "Microsoft.Extensions.Options/2.0.2": {
         "type": "package",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0",
@@ -377,7 +377,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "NewLife.Core/6.6.6678.32714": {
+      "NewLife.Core/7.0.6701.38514": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/NewLife.Core.dll": {}
@@ -386,45 +386,13 @@
           "lib/netstandard2.0/NewLife.Core.dll": {}
         }
       },
-      "NewLife.Net/3.2.6456.33157": {
+      "NewLife.XCode/9.7.6701.38516": {
         "type": "package",
-        "dependencies": {
-          "NewLife.Core": "6.4.6456.33156"
-        },
-        "compile": {
-          "lib/net45/NewLife.Net.dll": {}
-        },
-        "runtime": {
-          "lib/net45/NewLife.Net.dll": {}
-        }
-      },
-      "NewLife.XCode/9.6.6678.32715": {
-        "type": "package",
-        "dependencies": {
-          "NewLife.Core": "6.6.6678.32714"
-        },
         "compile": {
           "lib/netstandard2.0/XCode.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/XCode.dll": {}
-        }
-      },
-      "NewLife.XCoder/6.9.6678.32718": {
-        "type": "package",
-        "dependencies": {
-          "NewLife.Core": "6.6.6678.32714",
-          "NewLife.Net": "3.2.6456.33157",
-          "NewLife.XCode": "9.6.6678.32715",
-          "UDE.CSharp": "1.1.0"
-        },
-        "compile": {
-          "lib/net46/XCoder.exe": {},
-          "lib/net46/XTemplate.dll": {}
-        },
-        "runtime": {
-          "lib/net46/XCoder.exe": {},
-          "lib/net46/XTemplate.dll": {}
         }
       },
       "Quartz/3.0.4": {
@@ -1460,22 +1428,13 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
-      "UDE.CSharp/1.1.0": {
-        "type": "package",
-        "compile": {
-          "lib/Ude.dll": {}
-        },
-        "runtime": {
-          "lib/Ude.dll": {}
-        }
-      },
       "Yunt.Common/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "2.0.1",
-          "Microsoft.Extensions.Configuration": "2.0.1",
-          "NewLife.Core": "6.6.6678.32714",
+          "Microsoft.EntityFrameworkCore": "2.0.3",
+          "Microsoft.Extensions.Configuration": "2.0.2",
+          "NewLife.Core": "7.0.6701.38514",
           "SharpCompress": "0.20.0"
         },
         "compile": {
@@ -1489,7 +1448,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "NewLife.XCoder": "6.9.6678.32718",
+          "NewLife.XCode": "9.7.6701.38516",
           "Quartz": "3.0.4",
           "Yunt.Common": "1.0.0",
           "Yunt.Dtsc.Domain": "1.0.0"
@@ -1505,7 +1464,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "NewLife.XCoder": "6.9.6678.32718"
+          "NewLife.Core": "7.0.6701.38514",
+          "NewLife.XCode": "9.7.6701.38516"
         },
         "compile": {
           "bin/placeholder/Yunt.Dtsc.Domain.dll": {}
@@ -1581,58 +1541,63 @@
         "version.txt"
       ]
     },
-    "Microsoft.EntityFrameworkCore/2.0.1": {
-      "sha512": "RlwInZHfIUWwFgQJCpUMKrLeE8QJ64MA/GxD881oTMFa9j7iiGKCtI0xK4J1NNgRKvgVDPJbh9CIGJiu0KEdeA==",
+    "Microsoft.EntityFrameworkCore/2.0.3": {
+      "sha512": "h1qEOSOyYQU4SiPR2bvKHcH3Ik2z3eXlrlAt8WiP8AmtaUEUiEWVE/WUP5i2MvL067TJkMFuRoVOS2YU1VjiPg==",
       "type": "package",
-      "path": "microsoft.entityframeworkcore/2.0.1",
+      "path": "microsoft.entityframeworkcore/2.0.3",
       "files": [
+        ".signature.p7s",
         "lib/netstandard2.0/Microsoft.EntityFrameworkCore.dll",
         "lib/netstandard2.0/Microsoft.EntityFrameworkCore.xml",
-        "microsoft.entityframeworkcore.2.0.1.nupkg.sha512",
+        "microsoft.entityframeworkcore.2.0.3.nupkg.sha512",
         "microsoft.entityframeworkcore.nuspec"
       ]
     },
-    "Microsoft.Extensions.Caching.Abstractions/2.0.0": {
-      "sha512": "kGMEV53Od1ES0BDh7OOKbTW9Zu5dbbQ72yI936dvvbHlde3puuq/WRKAccFgcB2PuRjox1HFhA9+t53RYqfuEA==",
+    "Microsoft.Extensions.Caching.Abstractions/2.0.2": {
+      "sha512": "X0+dBcQHmOlPz2BOty8mQtku0TCffCIkvqEvLi4iNNubDjY0G1zwFVpBdJb1P0nEMbcfbh3EgBVHf8OJWvq3iw==",
       "type": "package",
-      "path": "microsoft.extensions.caching.abstractions/2.0.0",
+      "path": "microsoft.extensions.caching.abstractions/2.0.2",
       "files": [
+        ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Extensions.Caching.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Caching.Abstractions.xml",
-        "microsoft.extensions.caching.abstractions.2.0.0.nupkg.sha512",
+        "microsoft.extensions.caching.abstractions.2.0.2.nupkg.sha512",
         "microsoft.extensions.caching.abstractions.nuspec"
       ]
     },
-    "Microsoft.Extensions.Caching.Memory/2.0.0": {
-      "sha512": "NqvVdYLbX7N2J2Wz9y3zjhE66JRdROiZZsGhA2u4a9IcIq/jzINC/cLM96BHA+TSOZFPxVdWneqB6/yt9u846A==",
+    "Microsoft.Extensions.Caching.Memory/2.0.2": {
+      "sha512": "tI8xks60vEmuRiXDwnRBnNWEZG5CeInh2ZyAhBelkxhNM8hDZJDw4tnyCRCeyHFh+oi7dQXMSIij67S3p5SvYg==",
       "type": "package",
-      "path": "microsoft.extensions.caching.memory/2.0.0",
+      "path": "microsoft.extensions.caching.memory/2.0.2",
       "files": [
+        ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.xml",
-        "microsoft.extensions.caching.memory.2.0.0.nupkg.sha512",
+        "microsoft.extensions.caching.memory.2.0.2.nupkg.sha512",
         "microsoft.extensions.caching.memory.nuspec"
       ]
     },
-    "Microsoft.Extensions.Configuration/2.0.1": {
-      "sha512": "d9fFoEYRaBccu/Z2B2BZCil/lEnmoVQ8YiY1dGViERh0qWjixgR9y/M7EGaoTrAunnmvAmfwxuij/gCq6WvL1w==",
+    "Microsoft.Extensions.Configuration/2.0.2": {
+      "sha512": "n5HeFXiEFONntcwVFvEGY5dnB8VRqGD20RrdB9omX6dAAUSIV/sGwGhaLV5neOt/uvhc64VDmKjIjdffC6TX5A==",
       "type": "package",
-      "path": "microsoft.extensions.configuration/2.0.1",
+      "path": "microsoft.extensions.configuration/2.0.2",
       "files": [
+        ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.xml",
-        "microsoft.extensions.configuration.2.0.1.nupkg.sha512",
+        "microsoft.extensions.configuration.2.0.2.nupkg.sha512",
         "microsoft.extensions.configuration.nuspec"
       ]
     },
-    "Microsoft.Extensions.Configuration.Abstractions/2.0.1": {
-      "sha512": "stGq1c136UUYOsgQuJ5fjiygqZhgt6Kj0pm4iL0qq1MICNgEKTJ4tnbXLkZfrDHDz+olsT2VY9cVv2yshg+m+A==",
+    "Microsoft.Extensions.Configuration.Abstractions/2.0.2": {
+      "sha512": "IoTZQU9aQOHr9zQbwozyzWq25eFbu/EcUZnPAMum6hh0Nl2RuM7ieziNLk3xk+c2g8YnnmxiA3VEvVaCFYCoTQ==",
       "type": "package",
-      "path": "microsoft.extensions.configuration.abstractions/2.0.1",
+      "path": "microsoft.extensions.configuration.abstractions/2.0.2",
       "files": [
+        ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.xml",
-        "microsoft.extensions.configuration.abstractions.2.0.1.nupkg.sha512",
+        "microsoft.extensions.configuration.abstractions.2.0.2.nupkg.sha512",
         "microsoft.extensions.configuration.abstractions.nuspec"
       ]
     },
@@ -1658,36 +1623,39 @@
         "microsoft.extensions.dependencyinjection.abstractions.nuspec"
       ]
     },
-    "Microsoft.Extensions.Logging/2.0.0": {
-      "sha512": "VP10syWV/vxYYMKgZ2eDESmUsz3gPxvBn5J6tkVN8lI4M+dF43RN8fWsEPbcAneDmZrHl3Pv23z05nmyGkJlpg==",
+    "Microsoft.Extensions.Logging/2.0.2": {
+      "sha512": "OAfe/ju23vgXyqG/E9eDQ8lE5ydMV/IruvHqZ8MRi3T8DTpdL+kDGhDR/zqChnnTcalsZV31bB1OPn75RLHdqQ==",
       "type": "package",
-      "path": "microsoft.extensions.logging/2.0.0",
+      "path": "microsoft.extensions.logging/2.0.2",
       "files": [
+        ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.xml",
-        "microsoft.extensions.logging.2.0.0.nupkg.sha512",
+        "microsoft.extensions.logging.2.0.2.nupkg.sha512",
         "microsoft.extensions.logging.nuspec"
       ]
     },
-    "Microsoft.Extensions.Logging.Abstractions/2.0.0": {
-      "sha512": "6ZCllUYGFukkymSTx3Yr0G/ajRxoNJp7/FqSxSB4fGISST54ifBhgu4Nc0ItGi3i6DqwuNd8SUyObmiC++AO2Q==",
+    "Microsoft.Extensions.Logging.Abstractions/2.0.2": {
+      "sha512": "B1F5GAMGCIuYzL1LouJ08ie+CrTYGzLVd1gfJHWpjXtIfNwzs2PZxsuLYLIAqMTlpiDcoB8PSZHbzU5bMOi+gg==",
       "type": "package",
-      "path": "microsoft.extensions.logging.abstractions/2.0.0",
+      "path": "microsoft.extensions.logging.abstractions/2.0.2",
       "files": [
+        ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.xml",
-        "microsoft.extensions.logging.abstractions.2.0.0.nupkg.sha512",
+        "microsoft.extensions.logging.abstractions.2.0.2.nupkg.sha512",
         "microsoft.extensions.logging.abstractions.nuspec"
       ]
     },
-    "Microsoft.Extensions.Options/2.0.0": {
-      "sha512": "sAKBgjl2gWsECBLLR9K54T7/uZaP2n9GhMYHay/oOLfvpvX0+iNAlQ2NJgVE352C9Fs5CDV3VbNTK8T2aNKQFA==",
+    "Microsoft.Extensions.Options/2.0.2": {
+      "sha512": "OrIk/xmo5rsN4ufV32cjAQgM9uCoe6FaNijFX7Huwdg8T3z5L5r1kMBMwjROvDJZNiNkcfJ6iJi2JhCRi6GTfA==",
       "type": "package",
-      "path": "microsoft.extensions.options/2.0.0",
+      "path": "microsoft.extensions.options/2.0.2",
       "files": [
+        ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Extensions.Options.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Options.xml",
-        "microsoft.extensions.options.2.0.0.nupkg.sha512",
+        "microsoft.extensions.options.2.0.2.nupkg.sha512",
         "microsoft.extensions.options.nuspec"
       ]
     },
@@ -2210,10 +2178,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "NewLife.Core/6.6.6678.32714": {
-      "sha512": "0NqEiXuLCGeos3UXy6WetVFE+hnP3dccff19HDuo5zpZzSEHYLzsu1RPE2Bs7Cvtn4xPxwNvBi0zy8eXNFDmwQ==",
+    "NewLife.Core/7.0.6701.38514": {
+      "sha512": "/xhIWG/oDhRJlutt49BMkRD9RpssYW9YEw7andLYTtaVDKf2y/B+GqgJXCshSo3HZWYlFVrRuXhxfCArp+eShA==",
       "type": "package",
-      "path": "newlife.core/6.6.6678.32714",
+      "path": "newlife.core/7.0.6701.38514",
       "files": [
         "lib/net40/NewLife.Core.XML",
         "lib/net40/NewLife.Core.dll",
@@ -2224,29 +2192,14 @@
         "lib/netstandard2.0/NewLife.Core.dll",
         "lib/netstandard2.0/NewLife.Core.pdb",
         "lib/netstandard2.0/NewLife.Core.xml",
-        "newlife.core.6.6.6678.32714.nupkg.sha512",
+        "newlife.core.7.0.6701.38514.nupkg.sha512",
         "newlife.core.nuspec"
       ]
     },
-    "NewLife.Net/3.2.6456.33157": {
-      "sha512": "J6w9SUfPAixu5/YupkpzQMhEnoQE8wM3yeCy0dN4XIx8i9j7oy3aJTlGT9EECU8GJ5WoHxFB9fR/eUuVBj74+Q==",
+    "NewLife.XCode/9.7.6701.38516": {
+      "sha512": "7mGzsVBi1UtGiB15rWz08NDTSYCWiOb4C8LM0O3KVVta4PMc2jrSfWeldMyhrcpKbS1Zcjxnydhh7PKJz3wVwA==",
       "type": "package",
-      "path": "newlife.net/3.2.6456.33157",
-      "files": [
-        "lib/net40/NewLife.Net.XML",
-        "lib/net40/NewLife.Net.dll",
-        "lib/net40/NewLife.Net.pdb",
-        "lib/net45/NewLife.Net.XML",
-        "lib/net45/NewLife.Net.dll",
-        "lib/net45/NewLife.Net.pdb",
-        "newlife.net.3.2.6456.33157.nupkg.sha512",
-        "newlife.net.nuspec"
-      ]
-    },
-    "NewLife.XCode/9.6.6678.32715": {
-      "sha512": "U69ZBoqesBF94BZHi5wX5LzvpXPk/F4/eHskI3FlrR8zPtFjE/VYhjgZ4iTLivv/rGCfPpeQ3XEr7QleHZoWig==",
-      "type": "package",
-      "path": "newlife.xcode/9.6.6678.32715",
+      "path": "newlife.xcode/9.7.6701.38516",
       "files": [
         "content/生成实体类.tt",
         "lib/net40/XCode.dll",
@@ -2258,20 +2211,8 @@
         "lib/netstandard2.0/XCode.dll",
         "lib/netstandard2.0/XCode.pdb",
         "lib/netstandard2.0/XCode.xml",
-        "newlife.xcode.9.6.6678.32715.nupkg.sha512",
+        "newlife.xcode.9.7.6701.38516.nupkg.sha512",
         "newlife.xcode.nuspec"
-      ]
-    },
-    "NewLife.XCoder/6.9.6678.32718": {
-      "sha512": "rktPHTzC63TZxRXU5kT2Jyype6tkGW/XR2CZgPi3abms6em2e6Dhrw2lAlf0wVpcOaunYvvPDbusBBKUlbdNQA==",
-      "type": "package",
-      "path": "newlife.xcoder/6.9.6678.32718",
-      "files": [
-        "lib/net46/XCoder.exe",
-        "lib/net46/XTemplate.XML",
-        "lib/net46/XTemplate.dll",
-        "newlife.xcoder.6.9.6678.32718.nupkg.sha512",
-        "newlife.xcoder.nuspec"
       ]
     },
     "Quartz/3.0.4": {
@@ -5587,17 +5528,6 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
-    "UDE.CSharp/1.1.0": {
-      "sha512": "mCdLwQGz/9C6FptnFCoBTJI/C0K74fZOwfQWq2sl/p3H2H4RNS40Rnf2WF6G6+ZK1lCaOhtOdLlpXQTtbP13fQ==",
-      "type": "package",
-      "path": "ude.csharp/1.1.0",
-      "files": [
-        "content/_._",
-        "lib/Ude.dll",
-        "ude.csharp.1.1.0.nupkg.sha512",
-        "ude.csharp.nuspec"
-      ]
-    },
     "Yunt.Common/1.0.0": {
       "type": "project",
       "path": "../Yunt.Common/Yunt.Common.csproj",
@@ -5651,6 +5581,7 @@
         "netcoreapp2.0"
       ],
       "sources": {
+        "http://10.1.5.25:8000/nuget": {},
         "https://api.nuget.org/v3/index.json": {},
         "https://www.nuget.org/api/v2/": {}
       },
@@ -5690,37 +5621,5 @@
         "warn": true
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "已使用“.NETFramework,Version=v4.6.1”而不是项目目标框架“.NETCoreApp,Version=v2.0”还原包“NewLife.Net 3.2.6456.33157”。此包可能与项目不完全兼容。",
-      "libraryId": "NewLife.Net",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v2.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "已使用“.NETFramework,Version=v4.6.1”而不是项目目标框架“.NETCoreApp,Version=v2.0”还原包“NewLife.XCoder 6.9.6678.32718”。此包可能与项目不完全兼容。",
-      "libraryId": "NewLife.XCoder",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v2.0"
-      ]
-    },
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "已使用“.NETFramework,Version=v4.6.1”而不是项目目标框架“.NETCoreApp,Version=v2.0”还原包“UDE.CSharp 1.1.0”。此包可能与项目不完全兼容。",
-      "libraryId": "UDE.CSharp",
-      "targetGraphs": [
-        ".NETCoreApp,Version=v2.0"
-      ]
-    }
-  ]
+  }
 }

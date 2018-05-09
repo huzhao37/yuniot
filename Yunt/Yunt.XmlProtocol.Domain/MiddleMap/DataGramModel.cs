@@ -12,9 +12,9 @@ namespace Yunt.XmlProtocol.Domain.MiddleMap
     public class DataGramModel
     {
         /// <summary>
-        /// 设备ID;
+        /// 设备表单ID;
         /// </summary>
-        public string DeviceId { get; set; }
+        public int DeviceId { get; set; }
         /// <summary>
         /// 采集设备Index;
         /// </summary>

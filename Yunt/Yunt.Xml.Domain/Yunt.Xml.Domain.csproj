@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="IRepository\ISparePartsIdFactoriesRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\IdModel\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="protobuf-net" Version="2.3.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
+  </ItemGroup>
+
+</Project>

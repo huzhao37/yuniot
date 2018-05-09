@@ -57,11 +57,11 @@ namespace Yunt.Device.Repository.EF
 
             //todo
 
-            var sTypes = Assembly.Load("Yunt.Device.Repository.EF").GetSubclasses(typeof(BaseModel));
+            var sTypes = Assembly.LoadFrom("Yunt.Device.Repository.EF").GetSubclasses(typeof(BaseModel));
             //.Where(type => !String.IsNullOrEmpty(type.Namespace))
             //.Where(type => type.BaseType != null && type.BaseType == typeof(BaseModel));
 
-            var dTypes = Assembly.Load("Yunt.Device.Domain").GetSubclasses(typeof(AggregateRoot));//.GetTypes()
+            var dTypes = Assembly.LoadFrom("Yunt.Device.Domain").GetSubclasses(typeof(AggregateRoot));//.GetTypes()
             //.Where(type => !String.IsNullOrEmpty(type.Namespace))
             //.Where(type => type.BaseType != null && type.BaseType == typeof(BaseModel));
 

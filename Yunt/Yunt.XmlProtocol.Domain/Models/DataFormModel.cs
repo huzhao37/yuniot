@@ -280,13 +280,13 @@ namespace Yunt.XmlProtocol.Domain.Models
             set { if (OnPropertyChanging(__.CollectdeviceIndex, value)) { _CollectdeviceIndex = value; OnPropertyChanged(__.CollectdeviceIndex); } }
         }
 
-        private Int32 _MotorId;
+        private string _MotorId;
         /// <summary></summary>
         [DisplayName("MotorId")]
         [Description("")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("MotorId", "", "int(11)")]
-        public virtual Int32 MotorId
+        [BindColumn("MotorId", "", "vachar(15)")]
+        public virtual string MotorId
         {
             get { return _MotorId; }
             set { if (OnPropertyChanging(__.MotorId, value)) { _MotorId = value; OnPropertyChanged(__.MotorId); } }
@@ -385,7 +385,7 @@ namespace Yunt.XmlProtocol.Domain.Models
                     case __.BitDesc : _BitDesc = Convert.ToString(value); break;
                     case __.LineId : _LineId = Convert.ToString(value); break;
                     case __.CollectdeviceIndex : _CollectdeviceIndex = Convert.ToString(value); break;
-                    case __.MotorId : _MotorId = Convert.ToInt32(value); break;
+                    case __.MotorId : _MotorId = Convert.ToString(value); break;
                     case __.DataPhysicalId : _DataPhysicalId = Convert.ToInt32(value); break;
                     case __.FormatId : _FormatId = Convert.ToInt32(value); break;
                     default: base[name] = value; break;
@@ -629,7 +629,7 @@ namespace Yunt.XmlProtocol.Domain.Models
         String CollectdeviceIndex { get; set; }
 
         /// <summary></summary>
-        Int32 MotorId { get; set; }
+        string MotorId { get; set; }
 
         /// <summary></summary>
         Int32 DataPhysicalId { get; set; }

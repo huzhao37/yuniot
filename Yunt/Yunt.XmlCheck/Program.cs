@@ -8,6 +8,7 @@ using NewLife.Log;
 using Yunt.Common;
 using Yunt.Device.Domain.Model;
 using Yunt.XmlCheck.Main;
+using Yunt.XmlProtocol.Domain.Models;
 
 namespace Yunt.XmlCheck
 {
@@ -24,13 +25,13 @@ namespace Yunt.XmlCheck
             var configuration = builder.Build();
             services.AddSingleton<IConfiguration>(configuration);
 
-         
+        
             //services.AddOptions();
             //  services.Configure<AppSetting>(Configuration.GetSection("AppSettings"));
 
             //var providers = ServiceEx.StartServices(services, configuration);
             //services.AddAutoMapper();
-      
+
             //var cy = ServiceProviderServiceExtensions.GetService<Motor>(providers["Device"]);
 
             #region 基础xml初始化(初次使用)

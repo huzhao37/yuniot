@@ -6,20 +6,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Auth-Migrations\**" />
     <Compile Remove="conecrusher2\**" />
     <Compile Remove="cone\**" />
     <Compile Remove="config\**" />
     <Compile Remove="conveyor2\**" />
     <Compile Remove="conveyor\**" />
+    <Compile Remove="Device-Migrations\**" />
     <Compile Remove="doubletoothrollcrusher2\**" />
     <Compile Remove="doubletoothrollcrusher\**" />
     <Compile Remove="impactcrusher2\**" />
     <Compile Remove="impactcrusher\**" />
+    <Compile Remove="Inventory-Migrations\**" />
     <Compile Remove="jawcrusher2\**" />
     <Compile Remove="jawcrusher\**" />
     <Compile Remove="materialfeeder2\**" />
     <Compile Remove="materialfeeder\**" />
-    <Compile Remove="Migrations\**" />
     <Compile Remove="models\**" />
     <Compile Remove="pulverizer2\**" />
     <Compile Remove="reverhammercrusher2\**" />
@@ -31,20 +33,22 @@
     <Compile Remove="verticalcrusher\**" />
     <Compile Remove="vibrosieve2\**" />
     <Compile Remove="vibrosieve\**" />
+    <EmbeddedResource Remove="Auth-Migrations\**" />
     <EmbeddedResource Remove="conecrusher2\**" />
     <EmbeddedResource Remove="cone\**" />
     <EmbeddedResource Remove="config\**" />
     <EmbeddedResource Remove="conveyor2\**" />
     <EmbeddedResource Remove="conveyor\**" />
+    <EmbeddedResource Remove="Device-Migrations\**" />
     <EmbeddedResource Remove="doubletoothrollcrusher2\**" />
     <EmbeddedResource Remove="doubletoothrollcrusher\**" />
     <EmbeddedResource Remove="impactcrusher2\**" />
     <EmbeddedResource Remove="impactcrusher\**" />
+    <EmbeddedResource Remove="Inventory-Migrations\**" />
     <EmbeddedResource Remove="jawcrusher2\**" />
     <EmbeddedResource Remove="jawcrusher\**" />
     <EmbeddedResource Remove="materialfeeder2\**" />
     <EmbeddedResource Remove="materialfeeder\**" />
-    <EmbeddedResource Remove="Migrations\**" />
     <EmbeddedResource Remove="models\**" />
     <EmbeddedResource Remove="pulverizer2\**" />
     <EmbeddedResource Remove="reverhammercrusher2\**" />
@@ -56,20 +60,22 @@
     <EmbeddedResource Remove="verticalcrusher\**" />
     <EmbeddedResource Remove="vibrosieve2\**" />
     <EmbeddedResource Remove="vibrosieve\**" />
+    <None Remove="Auth-Migrations\**" />
     <None Remove="conecrusher2\**" />
     <None Remove="cone\**" />
     <None Remove="config\**" />
     <None Remove="conveyor2\**" />
     <None Remove="conveyor\**" />
+    <None Remove="Device-Migrations\**" />
     <None Remove="doubletoothrollcrusher2\**" />
     <None Remove="doubletoothrollcrusher\**" />
     <None Remove="impactcrusher2\**" />
     <None Remove="impactcrusher\**" />
+    <None Remove="Inventory-Migrations\**" />
     <None Remove="jawcrusher2\**" />
     <None Remove="jawcrusher\**" />
     <None Remove="materialfeeder2\**" />
     <None Remove="materialfeeder\**" />
-    <None Remove="Migrations\**" />
     <None Remove="models\**" />
     <None Remove="pulverizer2\**" />
     <None Remove="reverhammercrusher2\**" />
@@ -85,7 +91,6 @@
 
   <ItemGroup>
     <Compile Remove="AuthContext.cs" />
-    <Compile Remove="DeviceContext.cs" />
     <Compile Remove="InventoryContext.cs" />
   </ItemGroup>
 
@@ -101,12 +106,12 @@
 
   <ItemGroup>
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.1" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.0.3" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
@@ -117,6 +122,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
+    <ProjectReference Include="..\Yunt.Device.Repository.EF\Yunt.Device.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.Dtsc.Core\Yunt.Dtsc.Core.csproj" />
     <ProjectReference Include="..\Yunt.Dtsc.Domain\Yunt.Dtsc.Domain.csproj" />
   </ItemGroup>

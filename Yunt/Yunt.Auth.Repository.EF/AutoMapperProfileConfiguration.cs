@@ -31,9 +31,9 @@ namespace Yunt.Auth.Repository.EF
             //以反射形式建立映射关系
             //todo
 
-            var sTypes = Assembly.Load("Yunt.Auth.Repository.EF").GetSubclasses(typeof(BaseModel));
+            var sTypes = Assembly.LoadFrom("Yunt.Auth.Repository.EF").GetSubclasses(typeof(BaseModel));
 
-            var dTypes = Assembly.Load("Yunt.Auth.Domain").GetSubclasses(typeof(AggregateRoot));
+            var dTypes = Assembly.LoadFrom("Yunt.Auth.Domain").GetSubclasses(typeof(AggregateRoot));
             dTypes.ToList().ForEach(d =>
             {
                 sTypes.ToList().ForEach(s =>

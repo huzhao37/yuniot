@@ -81,11 +81,11 @@ namespace Yunt.XmlProtocol.Domain.MiddleMap
         /// </summary>
         public string FormatName { get; set; }
         /// <summary>
-        ///数据精度ID
+        ///数据物理特性ID
         /// </summary>
         public int PhysicId { get; set; }
         /// <summary>
-        ///数据精度名称
+        ///数据物理特性名称
         /// </summary>
         public string PhysicName { get; set; }
 

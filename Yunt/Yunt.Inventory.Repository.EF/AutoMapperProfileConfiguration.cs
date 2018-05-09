@@ -28,9 +28,9 @@ namespace Yunt.Inventory.Repository.EF
             //以反射形式建立映射关系
             //todo
 
-            var sTypes = Assembly.Load("Yunt.Inventory.Repository.EF").GetSubclasses(typeof(BaseModel));
+            var sTypes = Assembly.LoadFrom("Yunt.Inventory.Repository.EF").GetSubclasses(typeof(BaseModel));
 
-            var dTypes = Assembly.Load("Yunt.Inventory.Domain").GetSubclasses(typeof(AggregateRoot));
+            var dTypes = Assembly.LoadFrom("Yunt.Inventory.Domain").GetSubclasses(typeof(AggregateRoot));
             dTypes.ToList().ForEach(d =>
             {
                 sTypes.ToList().ForEach(s =>

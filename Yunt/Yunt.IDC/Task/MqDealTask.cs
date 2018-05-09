@@ -20,32 +20,33 @@ namespace Yunt.IDC.Task
    /// 队列解析任务
    /// </summary>
   public  class MqDealTask
-    {  
-        /// <summary>
-        /// 所有队列集合
-        /// </summary>
-        static readonly List<QueueModel> _queueList = new List<QueueModel>();
-
+   {
+       /// <summary>
+       /// 所有队列集合
+       /// </summary>
+       //static readonly List<QueueModel> _queueList = new List<QueueModel>();
+       internal static  Messagequeue WddQueue;
         /// <summary>
         /// 启动队列解析
         /// </summary>
         public static void Start()
         {
-            var wddQueue =
-                Messagequeue.FindAll()
-                    .Where(e => e.WriteRead.Equals(WriteOrRead.Read) && !e.RouteKey.EqualIgnoreCase("STATUS")).FirstOrDefault();
-            var interval = wddQueue.Timer;
+            var w_r =(int) WriteOrRead.Read;
+            var where = " Write_Read = '" + w_r + "' and  Route_Key != 'STATUS'";
+            WddQueue =
+               Messagequeue.Find(where);
+            var interval = WddQueue.Timer;
 #if DEBUG
             var s1 = new Stopwatch();
             s1.Start();
 #endif
-            var queueHost = wddQueue.Host;
-            var queuePort = wddQueue.Port;
-            var queueUserName = wddQueue.Username;
-            var queuePassword = wddQueue.Pwd;
+            var queueHost = WddQueue.Host;
+            var queuePort = WddQueue.Port;
+            var queueUserName = WddQueue.Username;
+            var queuePassword = WddQueue.Pwd;
 
             var ccuri = "amqp://" + queueHost + ":" + queuePort;
-            var queue = wddQueue.RouteKey; //"FailedData";// //AppSettings.GetConfigValue("QueueName");// //sumin
+            var queue = "WUDDTEST";//WddQueue.RouteKey; //"FailedData";
             var errorQueue = queue+"Error"; //faileddata
 #if DEBUG
             s1.Stop();
@@ -54,9 +55,6 @@ namespace Yunt.IDC.Task
             var rabbitHelper = new RabbitMqHelper();
             RabbitMqHelper.Cancelled = !Program.Configuration.GetSection("AppSettings").GetValue<bool>("MqDealEnable");
             rabbitHelper.Read(ccuri, queue, queueHost, queuePort, queueUserName, queuePassword, interval, errorQueue,Deal,DataType.Integrate);
-
-
-
         
         }
         /// <summary>

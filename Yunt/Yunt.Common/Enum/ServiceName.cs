@@ -32,6 +32,7 @@ namespace Yunt.Common
     {
         Auth=0,
         Device,
-        Inventory
+        Inventory,
+        Xml
     }
 }

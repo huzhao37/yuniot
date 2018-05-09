@@ -63,11 +63,12 @@ namespace Yunt.Device.Repository.EF.Repositories
         public virtual DbSet<Vibrosieve> Vibrosieve { get; set; }
         public virtual DbSet<VibrosieveByDay> VibrosieveByDay { get; set; }
         public virtual DbSet<VibrosieveByHour> VibrosieveByHour { get; set; }
+        public virtual DbSet<OriginalBytes> OriginalBytes { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
             base.OnModelCreating(modelBuilder);
-            var namespaces = MethodBase.GetCurrentMethod().DeclaringType.Namespace;
+            //var namespaces = MethodBase.GetCurrentMethod().DeclaringType.Namespace;
             var typesToRegister = Assembly.Load("Yunt.Device.Repository.EF").GetTypes()
               .Where(type => !String.IsNullOrEmpty(type.Namespace))
               .Where(type => type.BaseType != null && type.BaseType.IsGenericType

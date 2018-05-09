@@ -197,7 +197,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "NewLife.Core/6.6.6631.1417": {
+      "NewLife.Core/7.0.6701.38514": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/NewLife.Core.dll": {}
@@ -666,10 +666,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "NewLife.Core/6.6.6631.1417": {
-      "sha512": "TELLuAGkNY9tJlYXhZS1tEnudMV9nCnahomHjV+ybJ14Qtbw8fDKZHlq/rW4DC74+8cApX0m8WQK2JDHDEvXZg==",
+    "NewLife.Core/7.0.6701.38514": {
+      "sha512": "/xhIWG/oDhRJlutt49BMkRD9RpssYW9YEw7andLYTtaVDKf2y/B+GqgJXCshSo3HZWYlFVrRuXhxfCArp+eShA==",
       "type": "package",
-      "path": "newlife.core/6.6.6631.1417",
+      "path": "newlife.core/7.0.6701.38514",
       "files": [
         "lib/net40/NewLife.Core.XML",
         "lib/net40/NewLife.Core.dll",
@@ -680,7 +680,7 @@
         "lib/netstandard2.0/NewLife.Core.dll",
         "lib/netstandard2.0/NewLife.Core.pdb",
         "lib/netstandard2.0/NewLife.Core.xml",
-        "newlife.core.6.6.6631.1417.nupkg.sha512",
+        "newlife.core.7.0.6701.38514.nupkg.sha512",
         "newlife.core.nuspec"
       ]
     }
@@ -688,7 +688,7 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "Microsoft.NETCore.App >= 2.0.0",
-      "NewLife.Core >= 6.6.6631.1417"
+      "NewLife.Core >= 7.0.6701.38514"
     ]
   },
   "packageFolders": {
@@ -721,6 +721,7 @@
         "netcoreapp2.0"
       ],
       "sources": {
+        "http://10.1.5.25:8000/nuget": {},
         "https://api.nuget.org/v3/index.json": {},
         "https://www.nuget.org/api/v2/": {}
       },
@@ -746,7 +747,7 @@
           },
           "NewLife.Core": {
             "target": "Package",
-            "version": "[6.6.6631.1417, )"
+            "version": "[7.0.6701.38514, )"
           }
         },
         "imports": [
