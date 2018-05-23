@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="App.config" />
     <None Remove="appsettings.json" />
   </ItemGroup>
 
@@ -18,10 +19,12 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.1" />
-    <PackageReference Include="NewLife.XCode" Version="9.7.6701.38516" />
+    <PackageReference Include="NewLife.XCode" Version="9.7.6706.39253" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.5.0-rc1" />
     <PackageReference Include="System.Management" Version="4.5.0-preview2-26406-04" />
     <PackageReference Include="System.Security.Permissions" Version="4.4.1" />
   </ItemGroup>

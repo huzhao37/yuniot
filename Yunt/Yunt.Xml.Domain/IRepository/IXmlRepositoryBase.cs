@@ -38,5 +38,6 @@ namespace Yunt.Xml.Domain.IRepository
         Task InsertOrUpdateAsync(T t);
         // Task CommitAsync();
         //int Commit();
+        void Batch();
     }
 }

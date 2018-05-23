@@ -420,15 +420,16 @@ namespace Yunt.Device.Repository.EF.Repositories
         #region private commit 
         protected static async Task CommitAsync()
         {
-            try
-            {
-                await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).SaveChangesAsync();
+            //UnDO
+            //try
+            //{
+            //    await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).SaveChangesAsync();
 
-            }
-            catch (DbUpdateConcurrencyException e)
-            {
-                Logger.Exception(e, "可接受范围内的异常");
-            }
+            //}
+            //catch (DbUpdateConcurrencyException e)
+            //{
+            //    Logger.Exception(e, "可接受范围内的异常");
+            //}
         }
         protected static int Commit()
         {
@@ -443,7 +444,26 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
         }
 
+        /// <summary>
+        /// 批量提交
+        /// </summary>
+        public void Batch()
+        {
+            try
+            {
+                var contextObjs = ContextFactory.ContextDic.Values;
+                foreach (var context in contextObjs)
+                {
+                    var con = context;
+                    con.SaveChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Exception(e, "批量提交错误！");
+            }
 
+        }
         #endregion
 
     }

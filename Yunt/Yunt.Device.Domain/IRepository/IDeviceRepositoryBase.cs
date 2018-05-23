@@ -36,5 +36,10 @@ namespace Yunt.Device.Domain.IRepository
         Task UpdateEntityAsync(IEnumerable<T> ts);
 
         Task InsertOrUpdateAsync(T t);
+
+        /// <summary>
+        /// 批量提交
+        /// </summary>
+       void Batch();
     }
 }

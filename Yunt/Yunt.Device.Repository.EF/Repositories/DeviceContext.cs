@@ -64,6 +64,8 @@ namespace Yunt.Device.Repository.EF.Repositories
         public virtual DbSet<VibrosieveByDay> VibrosieveByDay { get; set; }
         public virtual DbSet<VibrosieveByHour> VibrosieveByHour { get; set; }
         public virtual DbSet<OriginalBytes> OriginalBytes { get; set; }
+
+        public virtual DbSet<ProductionLine> ProductionLine { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 

@@ -62,6 +62,12 @@ namespace Yunt.Redis
         void Delete(IList<string> keys);
 
         /// <summary>
+        /// </summary>
+        /// <param name="keys"></param>
+        /// <returns></returns>
+        int Delete(params string[] keys);
+
+        /// <summary>
         ///     查找符合给定模式的key。
         /// </summary>
         /// <param name="match"></param>

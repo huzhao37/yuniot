@@ -14,19 +14,19 @@ namespace Yunt.Xml.Repository.EF.Repositories
     public sealed class ContextFactory
     {
         private static readonly object Objlock = new object();
-        public static  ConcurrentDictionary<int, object> ContextDic;
+        public static  ConcurrentDictionary<int, XmlContext> ContextDic;
         public static  IServiceProvider ServiceProvider;
 
         public static XmlContext Get(int threadId)
         {
             lock (Objlock)
             {
-                if (ContextDic.ContainsKey(threadId)) return (XmlContext) ContextDic[threadId];
-                ContextDic[threadId] = ServiceProvider.GetService(typeof(XmlContext));//第一次缓存的时候速度会慢很多，之后速度就上去了
+                if (ContextDic.ContainsKey(threadId)) return  ContextDic[threadId];
+                ContextDic[threadId] = (XmlContext)ServiceProvider.GetService(typeof(XmlContext));//第一次缓存的时候速度会慢很多，之后速度就上去了
 #if DEBUG
                 Console.WriteLine($"current threadid is :{threadId}");
 #endif
-                return (XmlContext)ContextDic[threadId];
+                return ContextDic[threadId];
             }
 
         }
@@ -34,7 +34,7 @@ namespace Yunt.Xml.Repository.EF.Repositories
         public static void Init(IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
-            ContextDic=new ConcurrentDictionary<int, object>();
+            ContextDic=new ConcurrentDictionary<int, XmlContext>();
         }
 
     }

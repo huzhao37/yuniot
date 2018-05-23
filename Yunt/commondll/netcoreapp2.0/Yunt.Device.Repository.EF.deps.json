@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0",
-    "signature": "3471e78fb96e7ca4e87af8835bceaf36ec86c836"
+    "signature": "bf3769f2925ce9846d147babed1a7e4ddbb7fe3e"
   },
   "compilationOptions": {},
   "targets": {
@@ -315,7 +315,7 @@
           "lib/netstandard2.0/MySqlConnector.dll": {}
         }
       },
-      "NewLife.Core/7.0.6701.38514": {
+      "NewLife.Core/7.0.6707.38036": {
         "runtime": {
           "lib/netstandard2.0/NewLife.Core.dll": {}
         }
@@ -1330,7 +1330,7 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "2.0.3",
           "Microsoft.Extensions.Configuration": "2.0.2",
-          "NewLife.Core": "7.0.6701.38514",
+          "NewLife.Core": "7.0.6707.38036",
           "SharpCompress": "0.20.0"
         },
         "runtime": {
@@ -1592,12 +1592,12 @@
       "path": "mysqlconnector/0.32.0",
       "hashPath": "mysqlconnector.0.32.0.nupkg.sha512"
     },
-    "NewLife.Core/7.0.6701.38514": {
+    "NewLife.Core/7.0.6707.38036": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-/xhIWG/oDhRJlutt49BMkRD9RpssYW9YEw7andLYTtaVDKf2y/B+GqgJXCshSo3HZWYlFVrRuXhxfCArp+eShA==",
-      "path": "newlife.core/7.0.6701.38514",
-      "hashPath": "newlife.core.7.0.6701.38514.nupkg.sha512"
+      "sha512": "sha512-hK62FMOiwiJZQxyAc720qcwKYcg8QFTFLNipzyS8+P/48eqaptgl/aSE3sbuSQCMo9DpxS4W7W4ftineSOg0jA==",
+      "path": "newlife.core/7.0.6707.38036",
+      "hashPath": "newlife.core.7.0.6707.38036.nupkg.sha512"
     },
     "Newtonsoft.Json/11.0.1": {
       "type": "package",

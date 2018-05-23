@@ -57,7 +57,7 @@ namespace Yunt.IDC.Helper
             if (queuePassword == null) queuePassword = wddQueue.Pwd;
 
             if (ccuri == null) ccuri = "amqp://" + queueHost + ":" + queuePort;
-            if (queue == null) queue = "OriginalBytes"; //sumin
+            if (queue == null) queue = "Wdd_OriginalBytes"; //sumin
             motorRepository = ServiceProviderServiceExtensions.GetService<IMotorRepository>(Program.Providers["Device"]);
             mfRepository = ServiceProviderServiceExtensions.GetService<IMaterialFeederRepository>(Program.Providers["Device"]);
             cyRepository = ServiceProviderServiceExtensions.GetService<IConveyorRepository>(Program.Providers["Device"]);
@@ -108,7 +108,8 @@ namespace Yunt.IDC.Helper
                 rabbitHelper.Write(ccuri, Extention.strToToHexByte(buffer), queue, queueUserName, queuePassword);
 
 
-                var motors = motorRepository.GetEntities(e => e.EmbeddedDeviceId == emDevice.ID && e.Id != 0 && e.ProductionLineId.EqualIgnoreCase(emDevice.ProductionlineID));
+                var motors = motorRepository.GetEntities(e => e.EmbeddedDeviceId == emDevice.ID && e.Id != 0
+                && e.ProductionLineId.EqualIgnoreCase(emDevice.ProductionlineID)).ToList();
 
                 if (motors == null || !motors.Any())
                 {
@@ -196,7 +197,7 @@ namespace Yunt.IDC.Helper
                                         var mf = new Pulverizer();
                                         var obj = MotorObj(pvalue, motor.MotorId, mf);
                                         if (obj != null)
-                                            pulRepository.InsertAsync(obj as Pulverizer);
+                                            pulRepository.Insert(obj as Pulverizer);
                                         break;
                                     }
                                 case "IC":
@@ -252,11 +253,12 @@ namespace Yunt.IDC.Helper
                 //更新绑定产线的最新GPRS通信时间;   
                 var current = _model.PValues.First().Key;
                 var line =
-                    lineRepository.GetEntities(e => e.ProductionLineId.Equals(emDevice.ProductionlineID))
+                    lineRepository.GetEntities(e => e.ProductionLineId.Equals(emDevice.ProductionlineID)).ToList()
                         .FirstOrDefault();
                 if (line != null)
                     line.Time = current.TimeSpan();
                 lineRepository.UpdateEntityAsync(line);
+                lineRepository.Batch();
                 return true;
             }
             catch (Exception ex)
@@ -274,7 +276,7 @@ namespace Yunt.IDC.Helper
             var type = obj.GetType();
             //var where = " MotorId = '"+motorId + "' and  BitDesc = '整型模拟量'";
 
-            var forms = Dataformmodel.FindAll(new string[] { "MotorId", "BitDesc" }, new object[] { "0", "整型模拟量" });
+            var forms = Dataformmodel.FindAll(new string[] { "MotorId", "BitDesc" }, new object[] { motorId, "整型模拟量" });
             if (!forms.Any())
                 return null;
             for (var i = 0; i < forms.Count(); i++)

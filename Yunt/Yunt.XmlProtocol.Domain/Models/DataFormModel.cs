@@ -285,7 +285,7 @@ namespace Yunt.XmlProtocol.Domain.Models
         [DisplayName("MotorId")]
         [Description("")]
         [DataObjectField(false, false, true, 0)]
-        [BindColumn("MotorId", "", "vachar(15)")]
+        [BindColumn("MotorId", "", "vachar(20)")]
         public virtual string MotorId
         {
             get { return _MotorId; }

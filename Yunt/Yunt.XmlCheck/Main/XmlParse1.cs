@@ -6,9 +6,13 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using DeviceManager.Model;
+using Microsoft.Extensions.DependencyInjection;
 using NewLife.Log;
 using XCode;
+using Yunt.Common;
 using Yunt.Common.Xml;
+using Yunt.Device.Domain.IRepository;
+using Yunt.Device.Domain.Model;
 using Yunt.XmlProtocol.Domain.MiddleMap;
 using Yunt.XmlProtocol.Domain.Models;
 using DataType = System.ComponentModel.DataAnnotations.DataType;
@@ -23,6 +27,8 @@ namespace Yunt.XmlCheck.Main
         //public static int _EmbeddedDataFormIndex;
         public static string _LineId = "WDD-P001";
         private static XmlProtocolHelper xmlHelper = new XmlProtocolHelper();
+
+        private static IMotorRepository motorRepository;
         #region Xml主文件相关
 
         /// <summary>
@@ -55,6 +61,7 @@ namespace Yunt.XmlCheck.Main
         /// </summary>
         public static void SaveXmlInfo(XmlInfo xmlInfo)
         {
+            motorRepository= ServiceProviderServiceExtensions.GetService<IMotorRepository>(Program.Providers["Device"]);
             try
             {
                 //嵌入式设备Index
@@ -66,7 +73,7 @@ namespace Yunt.XmlCheck.Main
                     ProductionlineID = _LineId,
                     Time = DateTime.Now
                 };
-                collectDevice.SaveAsync();
+                //collectDevice.Save();
 
                 var inDataIndexList = new List<IndexModel>();
                 var machineModelList = new List<MachineModel>();
@@ -111,7 +118,7 @@ namespace Yunt.XmlCheck.Main
                                 {
                                     if (q.Timer.IsNullOrWhiteSpace())
                                         q.Timer = "0";
-                                    var outQ = queues.Where(e => e.RouteKey.EqualIgnoreCase(q.RouteKey)).SingleOrDefault();
+                                    var outQ = queues.FirstOrDefault(e => e.RouteKey.EqualIgnoreCase(q.RouteKey));
                                     outQ.ComType = q.Type;
                                     outQ.Timer = int.Parse(q.Timer);
                                 });
@@ -139,7 +146,7 @@ namespace Yunt.XmlCheck.Main
                                     });
                                 });
                             }
-                            queues.Insert();
+                            //queues.Insert();
                             //1.2.2.1---indata
                             if (server.Channel.Indatas.Any())
                             {                             
@@ -177,6 +184,40 @@ namespace Yunt.XmlCheck.Main
                                     MachineTypeId = machine.MachineType.MachineTypeId
                                 });
                             }
+                        }
+                        //初始化Motor
+                        if (machineModelList.Any())
+                        {
+                            var motors = new List<Motor>();
+                            machineModelList.ForEach(machine =>
+                            {
+                                if(string.IsNullOrWhiteSpace(machine.MachineTypeId))
+                                    return;
+                                motors.Add(new Motor()
+                                {
+                                    EmbeddedDeviceId =collectDevice.ID,
+                                    ProductionLineId = collectDevice.ProductionlineID,
+                                    FeedSize = 0,
+                                    FinalSize = 0,
+                                    MotorId = "0",
+                                    MotorTypeId = machine.MachineTypeId,
+                                    MotorPower = 0,
+                                    Name = machine.MachineName,
+                                    ProductSpecification = "",
+                                    SerialNumber = "",
+                                    StandValue = 0,
+                                    Time = DateTime.Now.TimeSpan()
+                                });
+                                
+                            });
+                            if (motors.Any())
+                            {
+                                Common.Logger.Info("正在初始化电机设备，请耐心等候...");
+                               // var result=motorRepository.Insert(motors);
+                                //Common.Logger.Info($"已完成初始化电机设备:{result}个");
+
+                            }
+                              
                         }
                         //4.data-数据      
                         var dataList = table.Datas;
@@ -241,69 +282,104 @@ namespace Yunt.XmlCheck.Main
                         {
                             continue;
                         }
-                        var dataForm = new Dataformmodel()
+
+                        var name = machine?.MachineName ?? "";
+                        var typeName = machine?.MachineTypeId ?? "";
+                        var motorId = "0";
+                        if (!name.IsNullOrWhiteSpace()&& !typeName.IsNullOrWhiteSpace())
                         {
+                            motorId = motorRepository.GetEntities(
+                          e =>
+                              e.Name.EqualIgnoreCase(name) &&
+                              e.ProductionLineId.EqualIgnoreCase(_LineId) &&
+                              e.MotorTypeId.EqualIgnoreCase(typeName))?.ToList()?.FirstOrDefault()?.MotorId;
+                        }
+                        if (!name.IsNullOrWhiteSpace() && typeName.IsNullOrWhiteSpace())
+                        {
+                            motorId = motorRepository.GetEntities(
+                          e =>
+                              e.Name.EqualIgnoreCase(name) &&
+                              e.ProductionLineId.EqualIgnoreCase(_LineId))?.ToList().FirstOrDefault()?.MotorId;
+                        }
+                        if (name.IsNullOrWhiteSpace() && !typeName.IsNullOrWhiteSpace())
+                        {
+                            motorId = motorRepository.GetEntities(
+                          e =>
+                              e.ProductionLineId.EqualIgnoreCase(_LineId) &&
+                              e.MotorTypeId.EqualIgnoreCase(typeName))?.ToList().FirstOrDefault().MotorId;
+                        }
 
-                            MachineId = dataModel?.MachineId ?? "",
-                            DeviceId = dataModel?.DeviceId ?? "",
-                            FieldParam = dataModel?.DescCn ?? "",
-                            FieldParamEn = dataModel?.DescEn ?? "",
-                            DataPhysicalAccuracy = dataModel?.Precision ?? "",
-                            DataPhysicalFeature = dataModel?.PhysicName ?? "",
-                            DataType = dataModel?.FormatName ?? "",
-                            Index = index?.DataIndex ?? 0,
-                            MotorTypeName = machine?.MachineTypeId ?? "",
-                            MachineName = machine?.MachineName ?? "",
-                            Bit = Convert.ToInt32(bit),
-                            BitDesc = desc,
-                            LineId = _LineId,
-                            CollectdeviceIndex = _collectDeviceIndex,
-                            DataPhysicalId = dataModel?.PhysicId ?? 0,
-                            FormatId = dataModel?.FormatId ?? 0,
-                            Unit = dataModel?.Unit ?? "",
+                        //var dataForm = new Dataformmodel()
+                        //{
 
-                        };
-
+                        //    MachineId = dataModel?.MachineId ?? "",
+                        //    DeviceId = dataModel?.DeviceId ?? "",
+                        //    FieldParam = dataModel?.DescCn ?? "",
+                        //    FieldParamEn = dataModel?.DescEn ?? "",
+                        //    DataPhysicalAccuracy = dataModel?.Precision ?? "",
+                        //    DataPhysicalFeature = dataModel?.PhysicName ?? "",
+                        //    DataType = dataModel?.FormatName ?? "",
+                        //    Index = index?.DataIndex ?? 0,
+                        //    MotorTypeName = machine?.MachineTypeId ?? "",
+                        //    MachineName = machine?.MachineName ?? "",
+                        //    Bit = Convert.ToInt32(bit),
+                        //    BitDesc = desc,
+                        //    LineId = _LineId,
+                        //    CollectdeviceIndex = _collectDeviceIndex,
+                        //    DataPhysicalId = dataModel?.PhysicId ?? 0,
+                        //    FormatId = dataModel?.FormatId ?? 0,
+                        //    Unit = dataModel?.Unit ?? "",
+                        //    MotorId = motorId
+                        //};
+                        Dataformmodel dataForm = null;
+                        if (index != null)
+                        {
+                            dataForm = Dataformmodel.Find(new string[] { "Index" },
+                           new object[] { index?.DataIndex ?? 0 });
+                            dataForm.MotorId = motorId;
+                        }
+                       
                         //dataForm.Insert();
-                        dataFormList.Add(dataForm);
+                        if(dataForm!=null)
+                            dataFormList.Add(dataForm);
                     }
                 }
 
-                var isValid = true;
-                var paramList = Motorparams.FindAll();
-                if (paramList.Any())
-                {
-                    foreach (var param in dataFormList)
-                    {
-                        if (!param.BitDesc.EqualIgnoreCase("整型模拟量") ||
-                            (string.IsNullOrWhiteSpace(param.FieldParam) && string.IsNullOrWhiteSpace(param.FieldParamEn)) ||
-                            param.FieldParam.Contains("皮带产量") || param.FieldParam.EqualIgnoreCase("起始时间") ||
-                            param.FieldParam.EqualIgnoreCase("结束时间") || param.FieldParam.EqualIgnoreCase("记录ID"))
-                        {
-                            continue;
-                        }
-                        var isExist =
-                            paramList.Where(
-                                e => e.Description.Equals(param.FieldParam) && e.MotorTypeId.Equals(param.MotorTypeName)
-                                && e.Param.Equals(param.FieldParamEn));
+                //var isValid = true;
+                //var paramList = Motorparams.FindAll();
+                //if (paramList.Any())
+                //{
+                //    foreach (var param in dataFormList)
+                //    {
+                //        if (!param.BitDesc.EqualIgnoreCase("整型模拟量") ||
+                //            (string.IsNullOrWhiteSpace(param.FieldParam) && string.IsNullOrWhiteSpace(param.FieldParamEn)) ||
+                //            param.FieldParam.Contains("皮带产量") || param.FieldParam.EqualIgnoreCase("起始时间") ||
+                //            param.FieldParam.EqualIgnoreCase("结束时间") || param.FieldParam.EqualIgnoreCase("记录ID"))
+                //        {
+                //            continue;
+                //        }
+                //        var isExist =
+                //            paramList.Where(
+                //                e => e.Description.Equals(param.FieldParam) && e.MotorTypeId.Equals(param.MotorTypeName)
+                //                && e.Param.Equals(param.FieldParamEn));
 
-                        if (!isExist.Any())
-                        {
-                            isValid = false;
-                            XTrace.Log.Error($"id:{param.DataPhysicalAccuracy},value:{param.Value}----设备类型ID：" +
-                                             $"{param.MotorTypeName}，设备参数：{param.FieldParam},设备参数英文：{param.FieldParamEn}");
-                        }
+                //        if (!isExist.Any())
+                //        {
+                //            isValid = false;
+                //            XTrace.Log.Error($"id:{param.DataPhysicalAccuracy},value:{param.Value}----设备类型ID：" +
+                //                             $"{param.MotorTypeName}，设备参数：{param.FieldParam},设备参数英文：{param.FieldParamEn}");
+                //        }
 
-                    }
-                }
+                //    }
+                //}
                 //生成数据配置项（DataConfig）记录
-                xmlHelper.SaveToDataConfigInfo(dataFormList);
-                if (isValid)
-                {
+                //xmlHelper.SaveToDataConfigInfo(dataFormList);
+                //if (isValid)
+                //{
 
                     var result = dataFormList.Save();
                     XTrace.Log.Info($"xml信息初始化完成，共有{result}记录入库！");
-                }
+                //}
 
             }
             catch (Exception ex)

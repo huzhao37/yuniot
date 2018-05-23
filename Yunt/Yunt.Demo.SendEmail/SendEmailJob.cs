@@ -5,6 +5,7 @@ using System.Threading;
 using Quartz;
 using Yunt.Common;
 using Yunt.Dtsc.Core;
+using Yunt.Dtsc.Domain.Model;
 
 namespace Yunt.Demo.SendEmail
 {
@@ -20,18 +21,27 @@ namespace Yunt.Demo.SendEmail
         public override bool IsSingle => false;
 
         /// <summary>
-        /// Job的名称，默认为当前类名
+        /// Job的名称，默认为当前dll名
         /// </summary>
-        public override string JobName => GetType().Name;
+        public override string JobName => System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Namespace;
 
         /// <summary>
         /// 发布的版本号
         /// </summary>
         public override int Version => 1;
-
+   
         protected override void ExcuteJob(IJobExecutionContext context, CancellationTokenSource cancellationSource)
         {
-           Start();
+            //var jobId = context.JobDetail.JobDataMap?["jobid"];
+            //if (jobId != null)
+            //    JobId = Convert.ToInt32(jobId);
+            //var job=TbJob.Find("JobID", JobId);
+                 
+            Start();
+            
+            //if (job == null) return;
+            //job.Lastedend = DateTime.Now.TimeSpan();                   
+            //job.SaveAsync();
         }
 
         private static void Start()

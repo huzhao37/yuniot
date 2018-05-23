@@ -37,7 +37,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("MovaStress");
 
@@ -115,7 +115,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -173,7 +173,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -213,7 +213,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("PowerFactor");
 
@@ -273,7 +273,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -323,7 +323,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -413,7 +413,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("OilFeedStress");
 
@@ -481,7 +481,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -531,7 +531,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -614,7 +614,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("SpindleTemperature1");
 
@@ -704,7 +704,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -782,7 +782,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -818,7 +818,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("PowerFactor");
 
@@ -886,7 +886,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -940,7 +940,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -974,7 +974,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("PowerFactor");
 
@@ -1020,7 +1020,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -1060,7 +1060,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -1083,11 +1083,11 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("FeedSize");
 
-                    b.Property<string>("FinalSize");
+                    b.Property<float>("FinalSize");
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("MotorPower");
 
@@ -1214,7 +1214,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("PowerFactor");
 
@@ -1270,7 +1270,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -1316,7 +1316,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -1496,7 +1496,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("PowerFactor");
 
@@ -1552,7 +1552,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -1598,7 +1598,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -1630,7 +1630,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("PowerFactor");
 
@@ -1690,7 +1690,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 
@@ -1736,7 +1736,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("MotorId")
                         .IsRequired()
-                        .HasMaxLength(15);
+                        .HasMaxLength(20);
 
                     b.Property<float>("RunningTime");
 

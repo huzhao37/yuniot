@@ -49,10 +49,14 @@
     <PackageReference Include="AutoMapper" Version="6.2.2" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
-    <PackageReference Include="NewLife.XCode" Version="9.7.6701.38516" />
+    <PackageReference Include="NewLife.XCode" Version="9.7.6712.2420" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.Extensions.ToSql" Version="2.0.0-rtm-10002" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
     <PackageReference Include="System.Management" Version="4.5.0-preview2-26406-04" />
     <PackageReference Include="System.Security.Permissions" Version="4.4.1" />
@@ -63,5 +67,7 @@
     <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
     <ProjectReference Include="..\Yunt.XmlProtocol.Domain\Yunt.XmlProtocol.Domain.csproj" />
   </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JSONSchema="http://json.schemastore.org/bundleconfig" /></VisualStudio></ProjectExtensions>
 
 </Project>

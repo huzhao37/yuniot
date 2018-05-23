@@ -34,7 +34,7 @@ namespace Yunt.Device.Domain.Model
         [ProtoMember(9)]
         public float MotorPower { get; set; }
         [ProtoMember(10)]
-        public string FinalSize { get; set; }
+        public float FinalSize { get; set; }
 
         [ProtoMember(11)]
         public int EmbeddedDeviceId { get; set; }

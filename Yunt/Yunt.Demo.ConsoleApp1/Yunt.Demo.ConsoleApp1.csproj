@@ -12,7 +12,6 @@
     <Compile Remove="config\**" />
     <Compile Remove="conveyor2\**" />
     <Compile Remove="conveyor\**" />
-    <Compile Remove="Device-Migrations\**" />
     <Compile Remove="doubletoothrollcrusher2\**" />
     <Compile Remove="doubletoothrollcrusher\**" />
     <Compile Remove="impactcrusher2\**" />
@@ -39,7 +38,6 @@
     <EmbeddedResource Remove="config\**" />
     <EmbeddedResource Remove="conveyor2\**" />
     <EmbeddedResource Remove="conveyor\**" />
-    <EmbeddedResource Remove="Device-Migrations\**" />
     <EmbeddedResource Remove="doubletoothrollcrusher2\**" />
     <EmbeddedResource Remove="doubletoothrollcrusher\**" />
     <EmbeddedResource Remove="impactcrusher2\**" />
@@ -66,7 +64,6 @@
     <None Remove="config\**" />
     <None Remove="conveyor2\**" />
     <None Remove="conveyor\**" />
-    <None Remove="Device-Migrations\**" />
     <None Remove="doubletoothrollcrusher2\**" />
     <None Remove="doubletoothrollcrusher\**" />
     <None Remove="impactcrusher2\**" />

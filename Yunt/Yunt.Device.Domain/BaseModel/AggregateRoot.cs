@@ -58,10 +58,10 @@ namespace Yunt.Device.Domain.BaseModel
     public abstract class AggregateRoot : IAggregateRoot
     {
         [DataMember]
-        [ProtoMember(48)]
+        [ProtoMember(49)]
         public long Id { get; set; }
         [DataMember]
-        [ProtoMember(49)]
+        [ProtoMember(50)]
         public long Time { get; set; }
     }
 }

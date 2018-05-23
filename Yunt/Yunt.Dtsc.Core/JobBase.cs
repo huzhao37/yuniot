@@ -32,9 +32,9 @@ namespace Yunt.Dtsc.Core
         public virtual bool IsSingle => false;
 
         /// <summary>
-        /// Job的名称，默认为当前类名
+        /// Job的名称，默认为当前DLL名
         /// </summary>
-        public virtual string JobName => GetType().Name;
+        public virtual string JobName => System.Reflection.MethodBase.GetCurrentMethod().DeclaringType.Namespace;
 
         /// <summary>
         /// Job执行的超时时间(毫秒)，默认5分钟
@@ -46,6 +46,7 @@ namespace Yunt.Dtsc.Core
         /// </summary>
         public virtual int Version => 0;
 
+        public int JobId;
         #endregion Properties
 
         #region Methods
@@ -63,7 +64,14 @@ namespace Yunt.Dtsc.Core
         {
             CancellationSource.Cancel();
             StdSchedulerFactory.GetDefaultScheduler().Result.Interrupt(new JobKey(JobName));
-            Logger.Info(JobName + " excute time out，has canceled，wait for next operate...");
+
+            new TbError()
+            {
+                Createtime = DateTime.Now.TimeSpan(),
+                JobID = TbJob.Find("Name", JobName)?.ID ?? 0,
+                Msg = ($"Warn:excute time out，has canceled，wait for next operate...")
+            }.SaveAsync();
+            Logger.Warn(JobName + " excute time out，has canceled，wait for next operate...");
         }
 
         #endregion Methods
@@ -82,16 +90,31 @@ namespace Yunt.Dtsc.Core
                     foreach (var pa in context.JobDetail.JobDataMap)
                         Logger.Info($"JobDataMap，key：{pa.Key}，value：{pa.Value}");
                 }
+                var jobId = context.JobDetail.JobDataMap?["jobid"];
+                if (jobId != null)
+                    JobId = Convert.ToInt32(jobId);
+                var job = TbJob.Find("ID", JobId);
+
                 ExcuteJob(context, CancellationSource);
+
+                if (job != null)
+                {
+                    job.Runcount++;
+                    job.Lastedstart= Convert.ToInt64(context.FireTimeUtc.DateTime.ToLocalTime().TimeSpan());
+                    job.Lastedend = DateTime.Now.TimeSpan();
+                    job.Nextstart = Convert.ToInt64(context.NextFireTimeUtc?.DateTime.ToLocalTime().TimeSpan());
+                    job.SaveAsync();
+                }
+             
             }
             catch (Exception ex)
             {
-                TbError.Insert(new TbError()
-                {
-                    Createtime = DateTime.Now.TimeSpan(),
-                    JobID = TbJob.Find("Name",JobName)?.ID??0,
-                    Msg = (JobName + "error:" + ex.Message)
-                });
+              new TbError()
+              {
+                  Createtime = DateTime.Now.TimeSpan(),
+                  JobID = TbJob.Find("Name",JobName)?.ID??0,
+                  Msg = ($"error:{JobName}-{ex.Message}")
+              }.SaveAsync();
                 
             }
             finally

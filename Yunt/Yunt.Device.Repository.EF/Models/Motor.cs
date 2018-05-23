@@ -33,7 +33,7 @@ namespace Yunt.Device.Repository.EF.Models
         [ProtoMember(9)]
         public float MotorPower { get; set; }    
         [ProtoMember(10)]
-        public string FinalSize { get; set; }    
+        public float FinalSize { get; set; }    
 
         [ProtoMember(11)]
         public int EmbeddedDeviceId { get; set; }

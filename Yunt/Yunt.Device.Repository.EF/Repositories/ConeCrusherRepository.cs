@@ -64,8 +64,6 @@ namespace Yunt.Device.Repository.EF.Repositories
         {
             try
             {
-
-
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().AddRange(Mapper.Map<IEnumerable<Models.ConeCrusher>>(ts));
                 var result = Commit();
                 var single = ts.ElementAt(0);
@@ -509,5 +507,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             return status;
         }
         #endregion
+
+   
     }
 }

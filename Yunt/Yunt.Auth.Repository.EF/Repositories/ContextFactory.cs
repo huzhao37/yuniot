@@ -14,19 +14,19 @@ namespace Yunt.Auth.Repository.EF.Repositories
     public sealed class ContextFactory
     {
         private static readonly object Objlock = new object();
-        public static  ConcurrentDictionary<int, object> ContextDic;
+        public static  ConcurrentDictionary<int, AuthContext> ContextDic;
         public static  IServiceProvider ServiceProvider;
 
         public static AuthContext Get(int threadId)
         {
             lock (Objlock)
             {
-                if (ContextDic.ContainsKey(threadId)) return (AuthContext) ContextDic[threadId];
+                if (ContextDic.ContainsKey(threadId)) return ContextDic[threadId];
                 ContextDic[threadId] = (AuthContext)ServiceProvider.GetService(typeof(AuthContext));
 #if DEBUG
                 Console.WriteLine($"current threadid is :{threadId}");
 #endif
-                return (AuthContext)ContextDic[threadId];
+                return ContextDic[threadId];
             }
 
         }
@@ -34,7 +34,7 @@ namespace Yunt.Auth.Repository.EF.Repositories
         public static void Init(IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
-            ContextDic=new ConcurrentDictionary<int, object>();
+            ContextDic=new ConcurrentDictionary<int, AuthContext>();
         }
 
     }

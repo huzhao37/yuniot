@@ -197,13 +197,25 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "NewLife.Core/7.0.6701.38514": {
+      "NewLife.Core/7.0.6707.38036": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/NewLife.Core.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/NewLife.Core.dll": {}
+        }
+      },
+      "NewLife.XCode/9.7.6706.39253": {
+        "type": "package",
+        "dependencies": {
+          "NewLife.Core": "7.0.6706.39251"
+        },
+        "compile": {
+          "lib/netstandard2.0/XCode.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/XCode.dll": {}
         }
       }
     }
@@ -666,11 +678,14 @@
         "netstandard.library.nuspec"
       ]
     },
-    "NewLife.Core/7.0.6701.38514": {
-      "sha512": "/xhIWG/oDhRJlutt49BMkRD9RpssYW9YEw7andLYTtaVDKf2y/B+GqgJXCshSo3HZWYlFVrRuXhxfCArp+eShA==",
+    "NewLife.Core/7.0.6707.38036": {
+      "sha512": "hK62FMOiwiJZQxyAc720qcwKYcg8QFTFLNipzyS8+P/48eqaptgl/aSE3sbuSQCMo9DpxS4W7W4ftineSOg0jA==",
       "type": "package",
-      "path": "newlife.core/7.0.6701.38514",
+      "path": "newlife.core/7.0.6707.38036",
       "files": [
+        "lib/net20/NewLife.Core.dll",
+        "lib/net20/NewLife.Core.pdb",
+        "lib/net20/NewLife.Core.xml",
         "lib/net40/NewLife.Core.XML",
         "lib/net40/NewLife.Core.dll",
         "lib/net40/NewLife.Core.pdb",
@@ -680,15 +695,38 @@
         "lib/netstandard2.0/NewLife.Core.dll",
         "lib/netstandard2.0/NewLife.Core.pdb",
         "lib/netstandard2.0/NewLife.Core.xml",
-        "newlife.core.7.0.6701.38514.nupkg.sha512",
+        "newlife.core.7.0.6707.38036.nupkg.sha512",
         "newlife.core.nuspec"
+      ]
+    },
+    "NewLife.XCode/9.7.6706.39253": {
+      "sha512": "BIEsDak8N7oegbeYE4MZAYSKEOxLRT9RhXaGFS+nK5zm8xn4qLAsmzoUvEJdzPrUneZ5voO2AD5UPZFX3LbClg==",
+      "type": "package",
+      "path": "newlife.xcode/9.7.6706.39253",
+      "files": [
+        "content/生成实体类.tt",
+        "lib/net20/XCode.dll",
+        "lib/net20/XCode.pdb",
+        "lib/net20/XCode.xml",
+        "lib/net40/XCode.dll",
+        "lib/net40/XCode.pdb",
+        "lib/net40/XCode.xml",
+        "lib/net45/XCode.XML",
+        "lib/net45/XCode.dll",
+        "lib/net45/XCode.pdb",
+        "lib/netstandard2.0/XCode.dll",
+        "lib/netstandard2.0/XCode.pdb",
+        "lib/netstandard2.0/XCode.xml",
+        "newlife.xcode.9.7.6706.39253.nupkg.sha512",
+        "newlife.xcode.nuspec"
       ]
     }
   },
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "Microsoft.NETCore.App >= 2.0.0",
-      "NewLife.Core >= 7.0.6701.38514"
+      "NewLife.Core >= 7.0.6707.38036",
+      "NewLife.XCode >= 9.7.6706.39253"
     ]
   },
   "packageFolders": {
@@ -721,6 +759,7 @@
         "netcoreapp2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "http://10.1.5.25:8000/nuget": {},
         "https://api.nuget.org/v3/index.json": {},
         "https://www.nuget.org/api/v2/": {}
@@ -747,7 +786,11 @@
           },
           "NewLife.Core": {
             "target": "Package",
-            "version": "[7.0.6701.38514, )"
+            "version": "[7.0.6707.38036, )"
+          },
+          "NewLife.XCode": {
+            "target": "Package",
+            "version": "[9.7.6706.39253, )"
           }
         },
         "imports": [

@@ -50,7 +50,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public override async Task InsertAsync(Motor t)
         {
             var idfac = _idRep.GetEntities(e => e.ProductionLineId.Equals(t.ProductionLineId) && e.MotorTypeId.Equals(t.MotorTypeId)).FirstOrDefault();
-            var newIndex = idfac?.MotorIndex ?? 0 + 1;
+            var newIndex = idfac?.MotorIndex + 1 ?? 1;
             if (idfac != null)
             {
                 idfac.MotorIndex = newIndex;
@@ -72,7 +72,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 foreach (var t in ts)
                 {
                     var idfac = _idRep.GetEntities(e => e.ProductionLineId.Equals(t.ProductionLineId) && e.MotorTypeId.Equals(t.MotorTypeId)).FirstOrDefault();
-                    var newIndex = idfac?.MotorIndex ?? 0 + 1;
+                    var newIndex = idfac?.MotorIndex + 1 ?? 1;
                     if (idfac != null)
                     {
                         idfac.MotorIndex = newIndex;
@@ -102,7 +102,8 @@ namespace Yunt.Device.Repository.EF.Repositories
                 foreach (var t in ts)
                 {
                     var idfac = _idRep.GetEntities(e => e.ProductionLineId.Equals(t.ProductionLineId) && e.MotorTypeId.Equals(t.MotorTypeId)).FirstOrDefault();
-                    var newIndex = idfac?.MotorIndex ?? 0 + 1;
+                    var newIndex = idfac?.MotorIndex+1 ?? 1;               
+
                     if (idfac != null)
                     {
                         idfac.MotorIndex = newIndex;

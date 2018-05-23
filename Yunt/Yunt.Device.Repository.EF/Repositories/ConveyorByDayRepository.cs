@@ -57,7 +57,7 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             var count = originalDatas.Sum(e => e.RunningTime);
             var weightSum = (float) Math.Round(originalDatas.Sum(o => o.AccumulativeWeight), 2);
-            var hours = originalDatas.Count();
+            //var hours = originalDatas.Count();
             var entity = new ConveyorByDay()
             {
                 Time = start.TimeSpan(),
@@ -69,7 +69,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AccumulativeWeight = weightSum, //TODO：累计称重计算;
                 RunningTime = count,
                 //负荷 = 累计重量/额定产量 (单位: 吨/小时);
-                LoadStall = hours* cap == 0?0:(float)Math.Round(weightSum/ hours / cap, 2)
+                LoadStall = count*cap == 0?0:(float)Math.Round(weightSum*60/ count / cap, 2)
             };
             return entity;
 

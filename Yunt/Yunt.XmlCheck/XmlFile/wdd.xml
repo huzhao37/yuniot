@@ -1302,7 +1302,7 @@
       <remark>反击破2给料机频率</remark>
       <unit>Hz</unit>
       <precision>0.1000</precision>
-      <format id="11">12bit整型模拟量</format>
+      <format id="11">12bit整型模拟量</format>G:\2018\Yunt\Yunt\Yunt.IDC\Program.cs
     </data>
     <data id="0x10160003">
       <desc>记录ID</desc>

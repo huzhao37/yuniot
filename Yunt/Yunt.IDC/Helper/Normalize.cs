@@ -27,6 +27,8 @@ namespace Yunt.IDC.Helper
         public static double ConvertToNormal(Dataformmodel form, List<int> values)
         {
 
+            if (form == null)
+                return 0;
             if (string.IsNullOrWhiteSpace(form.MotorId))
                 return 0;
             if (form.Index >= values.Count)
@@ -58,7 +60,9 @@ namespace Yunt.IDC.Helper
                     }
                     break;
                 case "称重":
-                    var unitForm=Dataformmodel.Find(new string[] { "MotorId", "FieldParamEn" }, new object[] { form.MotorId, "WeightUnit" });         
+                    var unitForm=Dataformmodel.Find(new string[] { "MotorId", "FieldParamEn" }, new object[] { form.MotorId, "WeightUnit" });
+                    if (unitForm == null)
+                        return 0;
                     unitForm.Value = ConvertToNormal(unitForm,values);
                     var originalValue = (oldValue == -1) ? -1 : Math.Round(oldValue * accu, 2);
                     return ConveyorWeightConvert(Convert.ToInt32(unitForm.Value), form.FieldParam, originalValue);               

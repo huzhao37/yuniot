@@ -31,7 +31,7 @@ namespace Yunt.Inventory.Repository.EF.Repositories
         public override int Insert( SpareParts t)
         {
             var idfac=_idRep.GetEntities(e => e.SparePartsTypeId.Equals(t.SparePartsTypeId)).FirstOrDefault();
-            var newIndex = idfac?. SparePartsIndex + 1 ?? 1;
+            var newIndex = idfac?.SparePartsIndex + 1 ?? 1;
             if (idfac != null)
             {
                 idfac. SparePartsIndex = newIndex;              
@@ -50,7 +50,7 @@ namespace Yunt.Inventory.Repository.EF.Repositories
         public override async Task InsertAsync( SpareParts t)
         {
             var idfac = _idRep.GetEntities(e =>  e. SparePartsTypeId.Equals(t. SparePartsTypeId)).FirstOrDefault();
-            var newIndex = idfac?. SparePartsIndex ?? 0 + 1;
+            var newIndex = idfac?.SparePartsIndex + 1 ?? 1;
             if (idfac != null)
             {
                 idfac. SparePartsIndex = newIndex;
@@ -72,7 +72,7 @@ namespace Yunt.Inventory.Repository.EF.Repositories
                 foreach (var t in ts)
                 {
                     var idfac = _idRep.GetEntities(e => e.SparePartsTypeId.Equals(t.SparePartsTypeId) && e. SparePartsTypeId.Equals(t. SparePartsTypeId)).FirstOrDefault();
-                    var newIndex = idfac?. SparePartsIndex ?? 0 + 1;
+                     var newIndex = idfac?.SparePartsIndex + 1 ?? 1;
                     if (idfac != null)
                     {
                         idfac. SparePartsIndex = newIndex;
@@ -102,7 +102,7 @@ namespace Yunt.Inventory.Repository.EF.Repositories
                 foreach (var t in ts)
                 {
                     var idfac = _idRep.GetEntities(e => e. SparePartsTypeId.Equals(t. SparePartsTypeId)).FirstOrDefault();
-                    var newIndex = idfac?. SparePartsIndex ?? 0 + 1;
+                     var newIndex = idfac?.SparePartsIndex + 1 ?? 1;
                     if (idfac != null)
                     {
                         idfac. SparePartsIndex = newIndex;

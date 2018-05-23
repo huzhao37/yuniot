@@ -11,7 +11,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
-    <PackageReference Include="NewLife.Core" Version="7.0.6701.38514" />
+    <PackageReference Include="NewLife.Core" Version="7.0.6707.38036" />
     <PackageReference Include="SharpCompress" Version="0.20.0" />
   </ItemGroup>
 

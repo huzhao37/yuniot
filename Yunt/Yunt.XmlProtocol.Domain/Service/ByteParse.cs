@@ -38,8 +38,11 @@ namespace Yunt.XmlProtocol.Domain.Service
             dataGram.CollectdeviceIndex = Extention.ByteArrayToHexString(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 6));
             dataGram.DeviceId = Extention.byteToInt(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 2));
             dataGram.Count = Extention.byteToInt(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 1));
-
-            Logger.Info(dataGram.DeviceId.ToString());
+            var logId = Extention.byteToInt(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 4));
+            var form = Dataformmodel.Find("collectdevice_index", dataGram.CollectdeviceIndex);
+            form.Value = logId;
+            form.SaveAsync();
+           Logger.Info(dataGram.DeviceId.ToString());
             Logger.Info(dataGram.CollectdeviceIndex);
 
             var configModels = _configs.Where(m => m.CollectdeviceIndex == dataGram.CollectdeviceIndex).OrderBy(e => e.DatatypeID)
@@ -73,7 +76,7 @@ namespace Yunt.XmlProtocol.Domain.Service
                                     var value = Extention.byteToUInt(temp);
                                     var resultValue = (value == 4294967295) ? -1 : (int)value;
                                     parmValues.Add(resultValue);
-                                    Logger.Info(resultValue.ToString());
+                                    //Logger.Info(resultValue.ToString());
                                 }
                                 break;
                             }
@@ -83,7 +86,7 @@ namespace Yunt.XmlProtocol.Domain.Service
                                 var temp = Extention.ByteCapture(_buffer, ref bufferIndex, 0, typeModel.InByte);
                                 var value = Extention.byteToTime(temp);
                                 time = Unix.ConvertIntDateTime(value);
-                                Logger.Info(time.ToString("yyyy-MM-dd HH:mm:ss"));
+                                //Logger.Info(time.ToString("yyyy-MM-dd HH:mm:ss"));
                                 break;
                             }
                         case 7:
@@ -95,7 +98,7 @@ namespace Yunt.XmlProtocol.Domain.Service
                                     var value = Extention.byteToUInt(temp);
                                     var resultValue = (value == 4294967295) ? -1 : (int)value;
                                     parmValues.Add(resultValue);
-                                    Logger.Info(resultValue.ToString());
+                                    //Logger.Info(resultValue.ToString());
                                 }
                                 break;
                             }
@@ -108,7 +111,7 @@ namespace Yunt.XmlProtocol.Domain.Service
                                     var value = Extention.byteToUInt(temp);
                                     var resultValue = (value == 4294967295) ? -1 : (int)value;
                                     parmValues.Add(resultValue);
-                                    Logger.Info(resultValue.ToString());
+                                   // Logger.Info(resultValue.ToString());
                                 }
                                 break;
                             }
@@ -121,7 +124,7 @@ namespace Yunt.XmlProtocol.Domain.Service
                                     var value = Extention.byteToInt(temp);
                                     var resultValue = (value == 65535) ? -1 : value;
                                     parmValues.Add(resultValue);
-                                    Logger.Info(resultValue.ToString());
+                                    //Logger.Info(resultValue.ToString());
                                 }
                                 break;
                             }
@@ -142,7 +145,7 @@ namespace Yunt.XmlProtocol.Domain.Service
                                         if (tempCount > config.Count)
                                             continue;
                                         parmValues.Add(tempValue);
-                                        Logger.Info(tempValue.ToString());
+                                       // Logger.Info(tempValue.ToString());
                                     }
                                 }
                                 break;
@@ -157,7 +160,7 @@ namespace Yunt.XmlProtocol.Domain.Service
                                     var value = Extention.byteToInt(temp);
                                     var resultValue = (value == 255) ? -1 : value;
                                     parmValues.Add(resultValue);
-                                    Logger.Info(resultValue.ToString());
+                                    //Logger.Info(resultValue.ToString());
                                 }
                                 break;
                             }
@@ -178,7 +181,7 @@ namespace Yunt.XmlProtocol.Domain.Service
                                         if (tempCount > config.Count)
                                             continue;
                                         parmValues.Add(value);
-                                        Logger.Info(value.ToString());
+                                       // Logger.Info(value.ToString());
                                     }
                                 }
                                 break;

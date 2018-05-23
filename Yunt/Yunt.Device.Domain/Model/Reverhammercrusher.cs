@@ -4,6 +4,7 @@ using Yunt.Device.Domain.BaseModel;
 
 namespace Yunt.Device.Domain.Model
 {
+
     public partial class ReverHammerCrusher : AggregateRoot
     {
   

@@ -38,5 +38,9 @@ namespace Yunt.Inventory.Domain.IRepository
         Task InsertOrUpdateAsync(T t);
         // Task CommitAsync();
         //int Commit();
+        /// <summary>
+        /// 批量提交
+        /// </summary>
+        void Batch();
     }
 }

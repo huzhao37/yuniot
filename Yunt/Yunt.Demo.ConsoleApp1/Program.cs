@@ -121,7 +121,7 @@ namespace Yunt.Demo.ConsoleApp1
 
                         foreach (var type in asm.GetTypes().Where(i => i.BaseType == typeof(JobBase)))
                         {
-                            JobHelper.JoinToQuartz(type, DateTimeOffset.Now, dic);
+                            //JobHelper.JoinToQuartz(type, DateTimeOffset.Now, dic);
                         }
                     }
                 }
@@ -133,7 +133,7 @@ namespace Yunt.Demo.ConsoleApp1
 
                         foreach (var type in asm.GetTypes().Where(i => i.BaseType == typeof(JobBase)))
                         {
-                            JobHelper.JoinToQuartz(type, DateTimeOffset.Now, dic);
+                            //JobHelper.JoinToQuartz(type, DateTimeOffset.Now, dic);
                         }
                     }
                 }
@@ -149,7 +149,7 @@ namespace Yunt.Demo.ConsoleApp1
 
                         foreach (var type in asm.GetTypes().Where(i => i.BaseType == typeof(JobBase)))
                         {
-                            JobHelper.DelteToQuartz(type);
+                            //JobHelper.DelteToQuartz(type);
                         }
                     }
                 }
@@ -161,7 +161,7 @@ namespace Yunt.Demo.ConsoleApp1
 
                         foreach (var type in asm.GetTypes().Where(i => i.BaseType == typeof(JobBase)))
                         {
-                            JobHelper.DelteToQuartz(type);
+                            //JobHelper.DelteToQuartz(type);
                         }
                     }
                 }

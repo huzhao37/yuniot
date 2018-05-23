@@ -3540,6 +3540,7 @@
         "netcoreapp2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "http://10.1.5.25:8000/nuget": {},
         "https://api.nuget.org/v3/index.json": {},
         "https://www.nuget.org/api/v2/": {}

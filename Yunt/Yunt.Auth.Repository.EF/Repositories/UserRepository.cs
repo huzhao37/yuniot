@@ -35,7 +35,7 @@ namespace Yunt.Auth.Repository.EF.Repositories
            //}
 
             var idfac =_idRep.GetEntities().FirstOrDefault();
-            var newIndex = idfac?. UserIndex + 1 ?? 1;
+            var newIndex = idfac?.UserIndex + 1 ?? 1;
             if (idfac != null)
             {
                 idfac. UserIndex = newIndex;              
@@ -54,7 +54,7 @@ namespace Yunt.Auth.Repository.EF.Repositories
         public override async Task InsertAsync( User t)
         {
             var idfac = _idRep.GetEntities().FirstOrDefault();
-            var newIndex = idfac?. UserIndex ?? 0 + 1;
+            var newIndex = idfac?.UserIndex + 1 ?? 1;
             if (idfac != null)
             {
                 idfac. UserIndex = newIndex;
@@ -76,7 +76,7 @@ namespace Yunt.Auth.Repository.EF.Repositories
                 foreach (var t in ts)
                 {
                     var idfac = _idRep.GetEntities().FirstOrDefault();
-                    var newIndex = idfac?. UserIndex ?? 0 + 1;
+                    var newIndex = idfac?.UserIndex + 1 ?? 1;
                     if (idfac != null)
                     {
                         idfac. UserIndex = newIndex;
@@ -106,7 +106,7 @@ namespace Yunt.Auth.Repository.EF.Repositories
                 foreach (var t in ts)
                 {
                     var idfac = _idRep.GetEntities().FirstOrDefault();
-                    var newIndex = idfac?. UserIndex ?? 0 + 1;
+                    var newIndex = idfac?.UserIndex + 1 ?? 1;
                     if (idfac != null)
                     {
                         idfac. UserIndex = newIndex;
