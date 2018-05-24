@@ -43,7 +43,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public ConveyorByHour GetByMotorId(string motorId, bool isExceed, DateTime dt)
         {
             var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();         
-            var StandValue = motor?.StandValue??0;
+            var standValue = motor?.StandValue??0;
 
             var start = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0);
             var end = start.AddHours(1);
@@ -102,12 +102,11 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AvgCurrent_B = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2),
                 AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.Voltage_B), 2),           
                 AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.PowerFactor), 2),             
-                AccumulativeWeight = (float)Math.Round(weightSum, 2), //TODO：累计称重计算;
-
+                AccumulativeWeight = (float)Math.Round(weightSum, 2), //TODO：累计称重计算;               
                 RunningTime = count,
 
                 //负荷 = 该小时内累计重量/额定产量 (单位: 吨/小时);
-                LoadStall = count* StandValue == 0 ? 0 : (float)Math.Round(weightSum / StandValue, 2),
+                LoadStall = count* standValue == 0 ? 0 : (float)Math.Round(weightSum / standValue, 2),
             };
             return entity;
 

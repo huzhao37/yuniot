@@ -40,17 +40,16 @@ namespace Yunt.WebApi
 #if DEBUG
             XTrace.UseConsole(true, true);
 #endif
-
+            dynamic type = (new Program()).GetType();
+            string currentDirectory = Path.GetDirectoryName(type.Assembly.Location);
             var builder = new ConfigurationBuilder()
-                  .SetBasePath(Directory.GetCurrentDirectory())
+                  .SetBasePath(currentDirectory)
                   .AddJsonFile("appsettings.json", true, reloadOnChange: true);
 
             var configuration = builder.Build();
             services.AddSingleton<IConfiguration>(configuration);
 
-          
-            //services.AddOptions();
-            //  services.Configure<AppSetting>(Configuration.GetSection("AppSettings"));
+  
 
             Providers = ServiceEx.StartServices(services, configuration);
             services.AddAutoMapper();

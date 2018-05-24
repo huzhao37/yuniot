@@ -17,19 +17,12 @@ namespace Yunt.IDC.Helper
         /// <summary>
         /// 根据数据精度和数据参数将数值转化为实际值
         /// </summary>
-        /// <param name="accuracy">精度</param>
-        /// <param name="param">参数</param>
-        /// <param name="oldValue">原始值</param>
-        /// <param name="motor">电机</param>
-        /// <param name="forms">数据表单集合</param>
+        /// <param name="form">数据表单集合</param>
         /// <param name="values">数据值集合</param>
         /// <returns></returns>
         public static double ConvertToNormal(Dataformmodel form, List<int> values)
         {
-
-            if (form == null)
-                return 0;
-            if (string.IsNullOrWhiteSpace(form.MotorId))
+            if (string.IsNullOrWhiteSpace(form?.MotorId))
                 return 0;
             if (form.Index >= values.Count)
             {
@@ -60,7 +53,7 @@ namespace Yunt.IDC.Helper
                     }
                     break;
                 case "称重":
-                    var unitForm=Dataformmodel.Find(new string[] { "MotorId", "FieldParamEn" }, new object[] { form.MotorId, "WeightUnit" });
+                    var unitForm=Dataformmodel.Find(new[] { "MotorId", "FieldParamEn" }, new object[] { form.MotorId, "WeightUnit" });
                     if (unitForm == null)
                         return 0;
                     unitForm.Value = ConvertToNormal(unitForm,values);
