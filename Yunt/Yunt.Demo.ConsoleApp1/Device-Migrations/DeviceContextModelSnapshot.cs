@@ -1085,6 +1085,10 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<float>("FinalSize");
 
+                    b.Property<bool>("IsBeltWeight");
+
+                    b.Property<bool>("IsMainBeltWeight");
+
                     b.Property<string>("MotorId")
                         .IsRequired()
                         .HasMaxLength(20);
@@ -1097,15 +1101,21 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<float>("OffSet");
+
                     b.Property<string>("ProductSpecification");
 
                     b.Property<string>("ProductionLineId");
 
                     b.Property<string>("SerialNumber");
 
+                    b.Property<float>("Slope");
+
                     b.Property<float>("StandValue");
 
                     b.Property<long>("Time");
+
+                    b.Property<bool>("UseCalc");
 
                     b.HasKey("Id");
 

@@ -33,6 +33,8 @@ namespace Yunt.MQ
         /// </summary>
         /// <param name="brokerUri">连接字符串</param>
         /// <param name="queueName">队列名</param>
+        /// <param name="routKey">队列关键字</param>
+        ///  <param name="exchange">交换机</param>
         /// <param name="hostName">主机名</param>
         /// <param name="port">端口号</param>
         /// <param name="username">用户名</param>
@@ -41,7 +43,7 @@ namespace Yunt.MQ
         ///  <param name="errorQueueName">错误数据队列名称</param>
         /// <param name="operation">匿名委托方法</param>
         /// <param name="type">数据类型</param>
-        public void Read<T>(string brokerUri, string queueName,
+        public void Read<T>(string brokerUri, string queueName,string routKey,string exchange,
             string hostName, int port, string username, string password, int rabbitMqResolveInterval,
             string errorQueueName, Func<byte[], T, bool> operation, T type)
         {
@@ -81,6 +83,7 @@ namespace Yunt.MQ
 
                         _channel = _connection.CreateModel();
                         var declare = _channel.QueueDeclare(queueName, true, false, false, null);
+                        _channel.QueueBind(queue: queueName, exchange: exchange,routingKey: routKey);
                         var messageCount = declare.MessageCount;//获取当前队列中的未读消息数
 #if DEBUG
                         if (messageCount > 2)
@@ -104,7 +107,7 @@ namespace Yunt.MQ
                         var bytes = args.Body;
                         _subscription.Ack(args);
 
-                        Write(brokerUri, args.Body, queueName + "BK", username, password);
+                        Write(brokerUri, args.Body, queueName + "BK", queueName + "BK",exchange, username, password);
                         try
                         {
 #if DEBUG
@@ -136,7 +139,7 @@ namespace Yunt.MQ
 
                             if (!result)
                             {
-                                Write(brokerUri, args.Body, errorQueueName, username, password);
+                                Write(brokerUri, args.Body, errorQueueName, errorQueueName, exchange, username, password);
                             }
                         }
                         catch (Exception ex)
@@ -158,10 +161,12 @@ namespace Yunt.MQ
         /// </summary>
         /// <param name="uri">连接字符串</param>
         /// <param name="buffer">数据</param>
-        /// <param name="queueName">队列名</param>
+        /// <param name="queueName">队列名(默认与路由关键字一致)</param>
+        /// <param name="routKey">队列关键字</param>
+        ///  <param name="exchange">交换机</param>
         /// <param name="userName">用户名</param>
         /// <param name="pwd">密码</param>
-        public void Write(string uri, byte[] buffer, string queueName, string userName, string pwd)
+        public void Write(string uri, byte[] buffer, string queueName, string routKey, string exchange, string userName, string pwd)
         {
 
             if (_factory == null)
@@ -183,9 +188,11 @@ namespace Yunt.MQ
                 {
                     //定义一个持久化队列;
                     _channel.QueueDeclare(queueName, true, false, false, null);
+                    _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
                     var properties = _channel.CreateBasicProperties();
                     properties.DeliveryMode = 2;
-                    _channel.BasicPublish("", queueName, properties, buffer);
+
+                    _channel.BasicPublish(exchange, routKey, properties, buffer);
                 }
             }
 
@@ -249,12 +256,14 @@ namespace Yunt.MQ
         /// </summary>
         /// <param name="brokerUri">连接字符串</param>
         /// <param name="queueName">队列名</param>
+        /// <param name="routKey">队列关键字</param>
+        ///  <param name="exchange">交换机</param>
         /// <param name="hostName">主机名</param>
         /// <param name="port">端口号</param>
         /// <param name="username">用户名</param>
         /// <param name="password">密码</param> 
         /// <returns></returns>
-        public uint GetMessageCount(string brokerUri, string queueName,
+        public uint GetMessageCount(string brokerUri, string queueName, string routKey, string exchange,
             string hostName, int port, string username, string password)
         {
 
@@ -285,6 +294,7 @@ namespace Yunt.MQ
                     if (_channel == null)
                         _channel = _connection.CreateModel();
                     var declare = _channel.QueueDeclare(queueName, true, false, false, null);
+                    _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
                     return declare.MessageCount; //获取当前队列中的未读消息数
                 }
             }
@@ -328,28 +338,27 @@ namespace Yunt.MQ
         #region New Data Parse
 
         /// <summary>
-        /// 开启读取所有队列的任务
+        ///  开启读取所有队列的任务
         /// </summary>
-        /// <param name="uri">uri</param>
-        /// <param name="queueList">队列集合</param>
-        /// <param name="operation">匿名方法</param>
-        public void TaskForReadAllQueue(string uri, List<QueueModel> queueList, Func<byte[], DataType, bool> operation)
+        /// <param name="uri"></param>
+        /// <param name="username"></param>
+        /// <param name="password"></param>
+        /// <param name="queueList"></param>
+        /// <param name="operation"></param>
+
+        public void TaskForReadAllQueue<T>(string uri, string username, string password, List<QueueModel> queueList, Func<byte[], T, bool> operation, T type)
         {
             try
             {
-                _rabbitMqClientHelper.InitSubscribes(uri, queueList, "amq.topic", "guest", "guest");
+                _rabbitMqClientHelper.InitSubscribes(uri, queueList, "amq.topic", username, password);
 
                 if (!_rabbitMqClientHelper._sessionModels.Any()) return;
 
                 foreach (var session in _rabbitMqClientHelper._sessionModels)
                 {
                     Thread.Sleep(50);
-                    Task.Factory.StartNew(() => ReadMessage(session, operation));
-                    //var thread=new Thread(()=>
-                    //{
-                    //    ReadMessage(session);
-                    //});
-                    // thread.Start();
+                    Task.Factory.StartNew(() => ReadMessage(session, operation,type));
+               
                 }
 
                 Logger.Info("[RabbitMq]No message in the queue(s) at this time.");
@@ -363,8 +372,11 @@ namespace Yunt.MQ
         /// <summary>
         /// 读取消息
         /// </summary>
-        /// <param name="element">会话实体</param>
-        private void ReadMessage(SessionModel element, Func<byte[], DataType, bool> operation)
+        /// <typeparam name="T"></typeparam>
+        /// <param name="element"></param>
+        /// <param name="operation"></param>
+        /// <param name="type"></param>
+        private void ReadMessage<T>(SessionModel element, Func<byte[], T, bool> operation, T type)
         {
             try
             {
@@ -398,7 +410,7 @@ namespace Yunt.MQ
                         //{
                         //    var thread = new Thread(() =>
                         //    {
-                        var result = operation(buff, DataType.Integrate);
+                        var result = operation(buff, type);
                         if (!result)
                         {
                             //再尝试解析两次
@@ -408,7 +420,7 @@ namespace Yunt.MQ
                                 var sw1 = new Stopwatch();
                                 sw1.Start();
 #endif
-                                result = operation(buff, DataType.Integrate);
+                                result = operation(buff, type);
 #if DEBUG
                                 sw1.Stop();
                                 Logger.Info($"[RabbitMq]解析数据耗时:{sw1.ElapsedMilliseconds}ms");

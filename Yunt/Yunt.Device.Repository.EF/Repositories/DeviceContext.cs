@@ -86,5 +86,6 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             //modelBuilder.ApplyConfiguration(new ConeCrusherMapping());
         }
+
     }
 }

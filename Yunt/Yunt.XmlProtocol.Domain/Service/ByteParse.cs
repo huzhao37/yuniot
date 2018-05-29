@@ -38,10 +38,10 @@ namespace Yunt.XmlProtocol.Domain.Service
             dataGram.CollectdeviceIndex = Extention.ByteArrayToHexString(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 6));
             dataGram.DeviceId = Extention.byteToInt(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 2));
             dataGram.Count = Extention.byteToInt(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 1));
-            var logId = Extention.byteToInt(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 4));
-            var form = Dataformmodel.Find("collectdevice_index", dataGram.CollectdeviceIndex);
-            form.Value = logId;
-            form.SaveAsync();
+            //var logId = Extention.byteToInt(Extention.ByteCapture(_buffer, ref bufferIndex, 0, 4));
+            //var form = Dataformmodel.Find(new []{"collectdevice_index","index"},new object[]{dataGram.CollectdeviceIndex,0});
+            //form.Value = logId;
+            //form.SaveAsync();
            Logger.Info(dataGram.DeviceId.ToString());
             Logger.Info(dataGram.CollectdeviceIndex);
 

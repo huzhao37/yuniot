@@ -181,7 +181,7 @@ namespace Yunt.Device.Repository.EF.Services
         {
             var now = DateTime.Now.TimeSpan();
             var line = GetEntities(e => e.ProductionLineId.EqualIgnoreCase(lineId)).SingleOrDefault();
-            return line != null && now.CompareTo(line.Time) <= 10 * 60;
+            return line != null && now-line.Time <= 10 * 60;
         }
 
         /// <summary>
@@ -233,73 +233,74 @@ namespace Yunt.Device.Repository.EF.Services
         /// <summary>
         /// 根据电机设备ID和时间节点获取电机设备详情
         /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="startTime"></param>
+        /// <param name="endTime"></param>
         /// <param name="motorId"></param>
         /// <returns></returns>
-        public virtual IEnumerable<dynamic> MotorDetails(DateTime start, DateTime end, string motorId)
+        public virtual IEnumerable<dynamic> MotorDetails(DateTime startTime, DateTime endTime, string motorId)
         {
+            long start = startTime.TimeSpan(), end = endTime.TimeSpan();
             var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId)).SingleOrDefault();
             if (motor == null) return new List<dynamic>();
             dynamic list=new List<dynamic>();
             switch (motor.MotorTypeId)
             {
                 case "CY":
-                      list = _cyByDayRep.GetEntities(e=>e.MotorId.Equals(motor.MotorId)&&e.Time.CompareTo(start)>=0&&
-                      e.Time.CompareTo(end)<=0);//?.ToList()??new List<ConveyorByDay>();
+                      list = _cyByDayRep.GetEntities(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&
+                      e.Time<=end);//?.ToList()??new List<ConveyorByDay>();
                       list.Add(_cyByHourRep.GetRealData(motor.MotorId));
                       return list;
                 case "MF":
-                    list = _mfByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time.CompareTo(start) >= 0 &&
-                     e.Time.CompareTo(end) <= 0);//?.ToList() ?? new List<MaterialFeederByDay>();
+                    list = _mfByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+                     e.Time<=end);//?.ToList() ?? new List<MaterialFeederByDay>();
                     list.Add(_mfByHourRep.GetRealData(motor.MotorId));
                     return list;
 
                 case "JC":
-                    list = _jcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time.CompareTo(start) >= 0 &&
-                     e.Time.CompareTo(end) <= 0);//?.ToList() ?? new List<JawCrusherByDay>();
+                    list = _jcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+                     e.Time<=end);//?.ToList() ?? new List<JawCrusherByDay>();
                     list.Add(_jcByHourRep.GetRealData(motor.MotorId));
                     return list;
 
                 case "CC":
-                    list = _ccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time.CompareTo(start) >= 0 &&
-                     e.Time.CompareTo(end) <= 0);//?.ToList() ?? new List<ConeCrusherByDay>();
+                    list = _ccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+                     e.Time<=end);//?.ToList() ?? new List<ConeCrusherByDay>();
                     list.Add(_ccByHourRep.GetRealData(motor.MotorId));
                     return list;
 
                 case "VC":
-                    list = _vcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time.CompareTo(start) >= 0 &&
-                      e.Time.CompareTo(end) <= 0);//?.ToList() ?? new List<VerticalCrusherByDay>();
+                    list = _vcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+                      e.Time<=end);//?.ToList() ?? new List<VerticalCrusherByDay>();
                     list.Add(_vcByHourRep.GetRealData(motor.MotorId));
                     return list;
 
                 case "VB":
-                    list = _vbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time.CompareTo(start) >= 0 &&
-                     e.Time.CompareTo(end) <= 0);//?.ToList() ?? new List<VibrosieveByDay>();
+                    list = _vbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+                     e.Time<=end);//?.ToList() ?? new List<VibrosieveByDay>();
                     list.Add(_vbByHourRep.GetRealData(motor.MotorId));
                     return list;
 
                 case "SCC":
-                    list = _sccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time.CompareTo(start) >= 0 &&
-                     e.Time.CompareTo(end) <= 0);
+                    list = _sccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+                     e.Time<=end);
                     list.Add(_sccByHourRep.GetRealData(motor.MotorId));
                     return list;
 
                 case "PUL":
-                    list = _pulByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time.CompareTo(start) >= 0 &&
-                     e.Time.CompareTo(end) <= 0);//?.ToList() ?? new List<PulverizerByDay>();
+                    list = _pulByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+                     e.Time<=end);//?.ToList() ?? new List<PulverizerByDay>();
                     list.Add(_pulByHourRep.GetRealData(motor.MotorId));
                     return list;
 
                 case "IC":
-                    list = _icByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time.CompareTo(start) >= 0 &&
-                     e.Time.CompareTo(end) <= 0);//?.ToList() ?? new List<ImpactCrusherByDay>();
+                    list = _icByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+                     e.Time<=end);//?.ToList() ?? new List<ImpactCrusherByDay>();
                     list.Add(_icByHourRep.GetRealData(motor.MotorId));
                     return list;
 
                 case "HVB":
-                    list = _hvbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time.CompareTo(start) >= 0 &&
-                     e.Time.CompareTo(end) <= 0);//?.ToList() ?? new List<HVibByDay>();
+                    list = _hvbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+                     e.Time<=end);//?.ToList() ?? new List<HVibByDay>();
                     list.Add(_hvbByHourRep.GetRealData(motor.MotorId));
                     return list;
 

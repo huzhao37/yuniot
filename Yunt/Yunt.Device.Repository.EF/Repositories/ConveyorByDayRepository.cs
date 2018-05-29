@@ -41,23 +41,30 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <returns></returns>
         public ConveyorByDay GetByMotorId(string motorId, DateTime dt)
         {
-
-            var cap = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault()?.StandValue ?? 0;
+            var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId))?.FirstOrDefault() ?? null;
+            if (motor == null)
+                return null;
+            var cap = motor?.StandValue ?? 0;
 
             var start = dt.Date;
             var end = start.AddDays(1);
 
+            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
             var originalDatas =
                 _cyRep.GetEntities(
                     o =>
-                        o.Time.CompareTo(start) >= 0 && o.Time.CompareTo(end) <= 0 && o.MotorId.Equals(motorId) &&
+                        o.Time >= startUnix && o.Time <= endUnix && o.MotorId.Equals(motorId) &&
                         o.AccumulativeWeight > -1, o => o.Time);
 
             if (originalDatas == null || !originalDatas.Any()) return null;
 
             var count = originalDatas.Sum(e => e.RunningTime);
             var weightSum = (float) Math.Round(originalDatas.Sum(o => o.AccumulativeWeight), 2);
-            //var hours = originalDatas.Count();
+            var powerSum = (float)Math.Round(originalDatas.Sum(e => e.ActivePower), 2);
+          
+            var load = motor.UseCalc
+             ? Math.Round(((powerSum * 60) / count) / cap, 2)
+             : Math.Round(((weightSum * 60) / count) / cap, 2);
             var entity = new ConveyorByDay()
             {
                 Time = start.TimeSpan(),
@@ -67,9 +74,10 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
                 AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.AvgPowerFactor), 2),
                 AccumulativeWeight = weightSum, //TODO：累计称重计算;
+                ActivePower =powerSum,
                 RunningTime = count,
                 //负荷 = 累计重量/额定产量 (单位: 吨/小时);
-                LoadStall = count*cap == 0?0:(float)Math.Round(weightSum*60/ count / cap, 2)
+                LoadStall = count*cap == 0?0:(float)load
             };
             return entity;
 
@@ -84,12 +92,12 @@ namespace Yunt.Device.Repository.EF.Repositories
         public async Task InsertDayStatistics(DateTime dt, string motorTypeId)
         {
             var ts = new List<ConveyorByDay>();
-            var day = dt.Date;
+            var day = dt.Date.TimeSpan();
             var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
             foreach (var motor in query)
             {
                 var exsit = false;
-                exsit = GetEntities(o => o.Time.CompareTo(day) == 0 && o.MotorId == motor.MotorId).Any();
+                exsit = GetEntities(o => o.Time==day && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
                 var t = GetByMotorId(motor.MotorId, dt);

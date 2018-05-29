@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using XCode.DataAccessLayer;
 
 namespace MotorInfo
 {
@@ -14,6 +15,7 @@ namespace MotorInfo
         [STAThread]
         static void Main()
         {
+            XCode.Setting.Current.Migration=Migration.Off;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());

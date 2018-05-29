@@ -22,7 +22,7 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="2.0.1" />
-    <PackageReference Include="NewLife.XCode" Version="9.7.6706.39253" />
+    <PackageReference Include="NewLife.XCode" Version="9.7.6712.2420" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.4.1" />
     <PackageReference Include="System.Data.SqlClient" Version="4.5.0-rc1" />
     <PackageReference Include="System.Management" Version="4.5.0-preview2-26406-04" />
@@ -34,6 +34,21 @@
     <ProjectReference Include="..\Yunt.Dtsc.Core\Yunt.Dtsc.Core.csproj" />
     <ProjectReference Include="..\Yunt.Dtsc.Domain\Yunt.Dtsc.Domain.csproj" />
     <ProjectReference Include="..\Yunt.Redis\Yunt.Redis.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="System">
+      <HintPath>System</HintPath>
+    </Reference>
+    <Reference Include="System.Data">
+      <HintPath>System.Data</HintPath>
+    </Reference>
+    <Reference Include="System.ServiceProcess">
+      <HintPath>System.ServiceProcess</HintPath>
+    </Reference>
+    <Reference Include="System.Xml">
+      <HintPath>System.Xml</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

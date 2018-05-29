@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="NewLife.Core" Version="7.0.6707.38036" />
+    <PackageReference Include="NewLife.Core" Version="7.0.6712.2419" />
     <PackageReference Include="NewLife.XCode" Version="9.7.6706.39253" />
   </ItemGroup>
 

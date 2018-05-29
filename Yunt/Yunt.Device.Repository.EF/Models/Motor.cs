@@ -37,7 +37,16 @@ namespace Yunt.Device.Repository.EF.Models
 
         [ProtoMember(11)]
         public int EmbeddedDeviceId { get; set; }
-
+        [ProtoMember(12)]
+        public bool IsBeltWeight { get; set; }
+        [ProtoMember(13)]
+        public bool IsMainBeltWeight { get; set; }
+        [ProtoMember(14)]
+        public float Slope { get; set; }
+        [ProtoMember(15)]
+        public float OffSet { get; set; }
+        [ProtoMember(16)]
+        public bool UseCalc { get; set; }
 
     }
 }

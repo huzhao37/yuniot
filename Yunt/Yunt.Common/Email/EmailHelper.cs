@@ -117,17 +117,19 @@ namespace Yunt.Common.Email
             }
             catch (Exception err)
             {
-                throw new Exception("在添加附件时有错误:" + err);
+                Logger.Exception(err, "在添加附件时有错误");
+                return false;
+                //throw new Exception("在添加附件时有错误:" + err);
             }
 
-            SmtpClient smtp = new SmtpClient();
+            var smtp = new SmtpClient(host,587);
             //指定发件人的邮件地址和密码以验证发件人身份
             smtp.Credentials = new System.Net.NetworkCredential(mailFrom, mailPwd);
 
 
             //设置SMTP邮件服务器
-            smtp.Host = host;
-
+           // smtp.Host = host;
+            smtp.EnableSsl = true;
             try
             {
                 //将邮件发送到SMTP邮件服务器
@@ -135,8 +137,9 @@ namespace Yunt.Common.Email
                 return true;
 
             }
-            catch (System.Net.Mail.SmtpException ex)
+            catch (SmtpException ex)
             {
+                Logger.Exception(ex, "send email error");
                 return false;
             }
 

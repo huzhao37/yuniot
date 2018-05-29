@@ -42,19 +42,22 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <returns></returns>
         public ConveyorByHour GetByMotorId(string motorId, bool isExceed, DateTime dt)
         {
-            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();         
+            
+            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
+            if (motor == null)
+                return null;
             var standValue = motor?.StandValue??0;
 
             var start = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0);
             var end = start.AddHours(1);
             var dt3 = start.AddHours(-1);
 
+            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan(), dt3Unix=dt3.TimeSpan();
             //上一个小时的最后一条记录;
-            var lastRecord = _cyRep.GetEntities(motorId, dt, isExceed, e=>e.Time.CompareTo(dt3)>=0&&
-            e.Time.CompareTo(end)<0,e=>e.Time).LastOrDefault();
-
-            var originalDatas = _cyRep.GetEntities(motorId, dt, isExceed, e => e.Time.CompareTo(start) >= 0 &&
-                                                                       e.Time.CompareTo(end) < 0 &&
+            var lastRecord = _cyRep.GetEntities(motorId, dt, isExceed, e=>e.Time>= dt3Unix &&
+            e.Time< endUnix, e=>e.Time).LastOrDefault();
+            var originalDatas = _cyRep.GetEntities(motorId, dt, isExceed, e => e.Time >= startUnix &&
+                                                                       e.Time < endUnix &&
                                                                        e.AccumulativeWeight > -1, e => e.Time).ToList();         
             var length = originalDatas?.Count() ?? 0;
             float lastWeight = 0;
@@ -62,41 +65,66 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             if (!(originalDatas?.Any()??false)) return null;
 
+            var first = originalDatas[0];
             //获取上一个有效累计称重的值      
             if (lastRecord != null && lastRecord.AccumulativeWeight != -1 &&
-                originalDatas[0].AccumulativeWeight - lastRecord.AccumulativeWeight <=10*600 &&
-                originalDatas[0].AccumulativeWeight - lastRecord.AccumulativeWeight >= 0)
+                first.AccumulativeWeight - lastRecord.AccumulativeWeight <=10*600 &&
+                first.AccumulativeWeight - lastRecord.AccumulativeWeight >= 0)
             {
                 lastWeight = lastRecord.AccumulativeWeight;
             }
 
+            #region 计算产量
+            double lastPower = 0;
+            double powerSum = 0;
+            //获取上一个有效累计称重的值      
+            if (lastRecord != null && lastRecord.ActivePower != -1 &&
+               first.ActivePower - lastRecord.ActivePower >= 0)
+            {
+                lastPower = lastRecord.ActivePower;
+            }
+
+            #endregion
+
             for (var i = 0; i < length; i++)
             {
-                //瞬时重量为负数时，统计按照零计算;
-                if (originalDatas[i].InstantWeight < 0)
-                    originalDatas[i].InstantWeight = 0;
-
                 var cy = originalDatas[i];
-                if (cy.AccumulativeWeight == -1)
-                    continue;
-
-                if (cy.AccumulativeWeight < lastWeight || cy.AccumulativeWeight - lastWeight > 100) //比上次小，认作清零,或者比上次多出100t以上
+                if (cy.AccumulativeWeight == -1 && cy.AccumulativeWeight < lastWeight || cy.AccumulativeWeight - lastWeight > 100) //比上次小，认作清零,或者比上次多出100t以上
                 {
                     lastWeight = cy.AccumulativeWeight;
                     continue;
                 }
+                //电能
+                if (cy.ActivePower == -1 || cy.ActivePower < lastPower)
+                {
+                    lastPower = cy.ActivePower;
+                    continue;
+                }
+                //瞬时重量为负数时，统计按照零计算;
+                if (cy.InstantWeight < 0)
+                    cy.InstantWeight = 0;         
                 var sub = cy.AccumulativeWeight - lastWeight;
                 lastWeight = cy.AccumulativeWeight;
                 weightSum += sub;
-
+                //电能
+                var subPower = cy.ActivePower - lastPower;
+                lastPower = cy.ActivePower;
+                powerSum += subPower;
             }
-          
+            //电能
+            float k = motor.Slope, b = motor.OffSet, calcWeight = 0;
+            calcWeight = (float)Math.Round((k * powerSum + b), 2);
+
             var instantWeight = originalDatas.
                 Where(c => c.InstantWeight >= 0);
             var count = instantWeight.Count();
+
+
+            var load = motor.UseCalc ? Math.Round(((calcWeight * 60) / count) / standValue, 2) :
+                  Math.Round(((weightSum * 60) / count) / standValue, 2);
             var entity = new ConveyorByHour
             {
-                Time = start.TimeSpan(),
+                Time = startUnix,
                 MotorId = motorId,
                 AvgInstantWeight = (float)Math.Round(instantWeight.Average(e => e.InstantWeight), 2),
                 AvgCurrent_B = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2),
@@ -104,9 +132,9 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.PowerFactor), 2),             
                 AccumulativeWeight = (float)Math.Round(weightSum, 2), //TODO：累计称重计算;               
                 RunningTime = count,
-
+                ActivePower = calcWeight,
                 //负荷 = 该小时内累计重量/额定产量 (单位: 吨/小时);
-                LoadStall = count* standValue == 0 ? 0 : (float)Math.Round(weightSum / standValue, 2),
+                LoadStall = count* standValue == 0 ? 0 : (float)load,
             };
             return entity;
 
@@ -115,16 +143,16 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// 统计该小时内所有皮带机的数据;
         /// </summary>
         /// <param name="dt">时间</param>
-        /// <param name="MotorTypeId">设备类型</param>
-        public async Task InsertHourStatistics(DateTime dt, string MotorTypeId)
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task InsertHourStatistics(DateTime dt, string motorTypeId)
         {
             var ts = new List<ConveyorByHour>();
-            var hour = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0);
-            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(MotorTypeId));
+            var hour = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0).TimeSpan();
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
             foreach (var motor in query)
             {
                 var exsit = false;
-                exsit = GetEntities(o => o.Time.CompareTo(hour) == 0 && o.MotorId == motor.MotorId).Any();
+                exsit = GetEntities(o => o.Time == hour && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
                 var t = GetByMotorId(motor.MotorId, false, dt);
@@ -148,9 +176,10 @@ namespace Yunt.Device.Repository.EF.Repositories
             var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
             var standValue = motor?.StandValue ?? 0;
 
+            long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
             var hourData =
                 GetEntities(
-                    e => e.MotorId.Equals(motorId) && e.Time.CompareTo(hourStart) >= 0 && e.Time.CompareTo(hourEnd) <= 0)?.ToList();
+                    e => e.MotorId.Equals(motorId) && e.Time >= startUnix && e.Time<= endUnix)?.ToList();
 
             var minuteData = GetByMotorId(motorId, false, minuteStart);
 

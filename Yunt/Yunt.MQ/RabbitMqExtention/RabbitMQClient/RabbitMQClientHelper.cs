@@ -79,7 +79,7 @@ namespace Yunt.MQ
         /// 初始化主题订阅对象集合
         /// </summary>
         /// <param name="url">url</param>
-        /// <param name="queueDictionary">队列和路由关键字集合</param>
+        /// <param name="queues">队列和路由关键字集合</param>
         /// <param name="exchange">交换机类型</param>
         /// <param name="userName">用户名</param>
         ///  <param name="pwd">密码</param>

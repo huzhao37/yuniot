@@ -69,6 +69,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         }
         public virtual async Task InsertAsync(IEnumerable<DT> ts)
         {
+            if(!ts?.Any()??false) return;
             //using (var transaction = _context.Database.BeginTransaction())
             //{
             try
@@ -235,7 +236,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).OrderBy(orderby).ProjectTo<DT>(Mapper);
 #if DEBUG
                 Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
-                Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+                Logger.Warn(string.Join(Environment.NewLine, sql.ToUnevaluated()));
 #endif
                 return sql;
             }
@@ -360,22 +361,42 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         public virtual void InsertOrUpdate(DT t)
         {
-            var existing = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Find(t.Id);
-            if (existing == null)
+            try
             {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Add(Mapper.Map<ST>(t));
+                var existing = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Find(t.Id);
+                if (existing == null)
+                {
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Add(Mapper.Map<ST>(t));
+                }
+                else
+                {
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<ST>(t));
+                }
             }
-            else
+            catch (Exception e)
             {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<ST>(t));
+#if DEBUG
+                Logger.Warn($"并发异常:{e.Message}");
+#endif
             }
 
-           var result = Commit();
+
+            var result = Commit();
         }
 
         public virtual async Task UpdateEntityAsync(DT t)
         {
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Update(Mapper.Map<ST>(t));
+            try
+            {
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Update(Mapper.Map<ST>(t));
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Logger.Warn($"并发异常:{e.Message}");
+#endif
+            }
+        
             await CommitAsync();
         }
 
@@ -394,7 +415,9 @@ namespace Yunt.Device.Repository.EF.Repositories
                 }
                 catch (Exception ex)
                 {
-                    Logger.Exception(ex, $"提交事务错误");
+#if DEBUG
+                    Logger.Warn($"并发异常:{ex.Message}");
+#endif
                 }
             }
 
@@ -402,15 +425,25 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         public virtual async Task InsertOrUpdateAsync(DT t)
         {
-            var existing = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<DT>().FindAsync(t.Id);
-            if (existing == null)
+            try
             {
-                await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).AddAsync(Mapper.Map<ST>(t));
+                var existing = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<DT>().FindAsync(t.Id);
+                if (existing == null)
+                {
+                    await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).AddAsync(Mapper.Map<ST>(t));
+                }
+                else
+                {
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<ST>(t));
+                }
             }
-            else
+            catch (Exception e)
             {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<ST>(t));
+#if DEBUG
+                Logger.Warn($"并发异常:{e.Message}");
+#endif
             }
+
 
             await CommitAsync();
         }

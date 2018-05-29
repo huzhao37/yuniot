@@ -55,7 +55,10 @@ namespace Yunt.IDC.Helper
                 case "称重":
                     var unitForm=Dataformmodel.Find(new[] { "MotorId", "FieldParamEn" }, new object[] { form.MotorId, "WeightUnit" });
                     if (unitForm == null)
+                    {
+                        Logger.Error($"{form.MotorId}:not exist WeightUnit");
                         return 0;
+                    }
                     unitForm.Value = ConvertToNormal(unitForm,values);
                     var originalValue = (oldValue == -1) ? -1 : Math.Round(oldValue * accu, 2);
                     return ConveyorWeightConvert(Convert.ToInt32(unitForm.Value), form.FieldParam, originalValue);               

@@ -20,6 +20,7 @@ using NewLife.Log;
 using Swashbuckle.AspNetCore.Swagger;
 using Yunt.Common;
 using Yunt.WebApi.Data;
+using Logger = Yunt.Common.Logger;
 
 namespace Yunt.WebApi
 {
@@ -48,8 +49,8 @@ namespace Yunt.WebApi
 
             var configuration = builder.Build();
             services.AddSingleton<IConfiguration>(configuration);
+            Logger.Create(configuration, new LoggerFactory(), "Yunt.WebApi");
 
-  
 
             Providers = ServiceEx.StartServices(services, configuration);
             services.AddAutoMapper();

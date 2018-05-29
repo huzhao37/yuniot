@@ -23,7 +23,7 @@ namespace Yunt.WebApi
              //    .Build();
              new WebHostBuilder()
             .UseKestrel()
-            .UseUrls("http://localhost:5200")
+            .UseUrls("http://10.1.5.102:5200")
             .UseContentRoot(Directory.GetCurrentDirectory())
             .ConfigureLogging((hostingContext, logging) =>
             {

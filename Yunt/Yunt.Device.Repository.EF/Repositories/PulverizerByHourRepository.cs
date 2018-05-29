@@ -46,21 +46,21 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
-
-            var originalDatas = _pulRep.GetEntities(motorId, dt, isExceed, e => e.Current_B > -1 && e.Time.CompareTo(start) >= 0 &&
-                                    e.Time.CompareTo(end) < 0, e => e.Time);
+            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
+            var originalDatas = _pulRep.GetEntities(motorId, dt, isExceed, e => e.Current_B > -1 && e.Time >= startUnix &&
+                                    e.Time < endUnix, e => e.Time);
 
             if ((!originalDatas?.Any()??false)) return null;
 
-            var Average = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2);
+            var average = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2);
             var entity = new PulverizerByHour
             {
-                Time = start.TimeSpan(),
+                Time = startUnix,
                 MotorId = motorId,
-                AvgCurrent_B = Average,
+                AvgCurrent_B = average,
 
                 RunningTime = originalDatas.Count(c => c.Current_B > 0),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(Average / standValue, 2)
+                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
             };
             return entity;
 
@@ -76,12 +76,12 @@ namespace Yunt.Device.Repository.EF.Repositories
         public async Task InsertHourStatistics(DateTime dt, string MotorTypeId)
         {
             var ts = new List<PulverizerByHour>();
-            var hour = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0);
+            var hour = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0).TimeSpan();
             var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(MotorTypeId));
             foreach (var motor in query)
             {
                 var exsit = false;
-                exsit = GetEntities(o => o.Time.CompareTo(hour) == 0 && o.MotorId == motor.MotorId).Any();
+                exsit = GetEntities(o => o.Time== hour && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
                 var t = GetByMotorId(motor.MotorId, false, dt);
@@ -105,10 +105,10 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
             var standValue = motor?.StandValue ?? 0;
-
+            long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
             var hourData =
                 GetEntities(
-                    e => e.MotorId.Equals(motorId) && e.Time.CompareTo(hourStart) >= 0 && e.Time.CompareTo(hourEnd) <= 0)?.ToList();
+                    e => e.MotorId.Equals(motorId) && e.Time >= startUnix && e.Time<= endUnix)?.ToList();
 
             var minuteData = GetByMotorId(motorId, false, minuteStart);
 

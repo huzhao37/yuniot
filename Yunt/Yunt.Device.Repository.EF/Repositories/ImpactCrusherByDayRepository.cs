@@ -45,9 +45,9 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             var start = dt.Date;
             var end = start.AddDays(1);
-
-            var originalDatas = _icRep.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
-                                    e.Time.CompareTo(end) < 0, e => e.Time);
+            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
+            var originalDatas = _icRep.GetEntities(e => e.Time >= startUnix &&
+                                    e.Time< endUnix, e => e.Time);
 
             if (!(originalDatas?.Any() ?? false)) return null;
 
@@ -75,12 +75,12 @@ namespace Yunt.Device.Repository.EF.Repositories
         public async Task InsertDayStatistics(DateTime dt, string motorTypeId)
         {
             var ts = new List<ImpactCrusherByDay>();
-            var day = dt.Date;
+            var day = dt.Date.TimeSpan();
             var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
             foreach (var motor in query)
             {
                 var exsit = false;
-                exsit = GetEntities(o => o.Time.CompareTo(day) == 0 && o.MotorId == motor.MotorId).Any();
+                exsit = GetEntities(o => o.Time== day && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
                 var t = GetByMotorId(motor.MotorId, dt);

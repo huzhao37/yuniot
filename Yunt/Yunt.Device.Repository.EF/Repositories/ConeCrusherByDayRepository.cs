@@ -44,17 +44,17 @@ namespace Yunt.Device.Repository.EF.Repositories
             var standValue = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault()?.StandValue ?? 0;
 
             var start = dt.Date;
-            var end = start.AddDays(1);
-
-            var originalDatas = _ccRep.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
-                                    e.Time.CompareTo(end) < 0, e => e.Time);
+            var end = start.AddDays(1).TimeSpan();
+            var startUnix = start.TimeSpan();
+            var originalDatas = _ccRep.GetEntities(e => e.Time>= startUnix &&
+                                    e.Time<end, e => e.Time);
 
             if (!(originalDatas?.Any() ?? false)) return null;
 
             var average = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_B), 2);
             var entity = new ConeCrusherByDay
             {
-                Time = start.TimeSpan(),
+                Time = startUnix,
                 MotorId = motorId,
                 AvgCurrent_B = average,
                 AvgMovaStress =(float)Math.Round(originalDatas.Average(o => o.AvgMovaStress),2),
@@ -88,12 +88,12 @@ namespace Yunt.Device.Repository.EF.Repositories
         public async Task InsertDayStatistics(DateTime dt, string motorTypeId)
         {
             var ts = new List<ConeCrusherByDay>();
-            var day = dt.Date;
+            var day = dt.Date.TimeSpan();
             var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
             foreach (var motor in query)
             {
                 var exsit = false;
-                exsit = GetEntities(o => o.Time.CompareTo(day) == 0 && o.MotorId == motor.MotorId).Any();
+                exsit = GetEntities(o => o.Time==day && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
                 var t = GetByMotorId(motor.MotorId, dt);
