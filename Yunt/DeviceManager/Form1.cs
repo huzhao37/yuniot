@@ -160,6 +160,7 @@ namespace DeviceManager
                 if (lv.Selected)
                 {
                     var MotorTypeCode = "";
+                    var physicCode = "";
                     if (!lv.SubItems[2].Text.IsNullOrWhiteSpace())
                     {
                         var motorT = Motortype.Find("MotorTypeId", lv.SubItems[3].Text);
@@ -177,7 +178,7 @@ namespace DeviceManager
 
                         physicType.SelectedValue = phy.Id;    //根据索引修改选中项
                         physicType.SelectedItem = phy; //根据Key得到选中项
-                                                       // this.physicType.SelectedText = lv.SubItems[2].Text;
+                        physicCode = phy.PhysicType;
                     }
 
                     this.txtParam.Text = lv.Text;
@@ -378,7 +379,7 @@ namespace DeviceManager
 
         private void btnJsonIn_Click(object sender, EventArgs e)
         {
-            var info = GetJsonInfo("File\\configure.json");
+            var info = GetJsonInfo("File\\configure.v0.2.1.json");
             var phsics = info.phy;
             if(phsics.Any())
                 phsics.ForEach(p =>
