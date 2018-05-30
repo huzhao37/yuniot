@@ -47,7 +47,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var end = start.AddDays(1).TimeSpan();
             var startUnix = start.TimeSpan();
             var originalDatas = _ccRep.GetEntities(e => e.Time>= startUnix &&
-                                    e.Time<end, e => e.Time);
+                                    e.Time<end, e => e.Time)?.ToList();
 
             if (!(originalDatas?.Any() ?? false)) return null;
 

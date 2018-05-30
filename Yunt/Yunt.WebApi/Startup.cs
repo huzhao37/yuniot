@@ -101,6 +101,8 @@ namespace Yunt.WebApi
             //    c.IncludeXmlComments(xmlPath);
             //     }
             //);
+
+          
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -142,6 +144,15 @@ namespace Yunt.WebApi
             //app.UseSwaggerUI(c => {
             //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "YuntApi");
             //});
+
+            //跨域
+            app.UseCors(builder =>
+            {
+                builder.AllowAnyHeader();
+                builder.AllowAnyMethod();
+               // builder.WithOrigins("http://localhost:8080");//生产环境-前端地址
+                builder.AllowAnyOrigin();
+            });
         }
     }
 }

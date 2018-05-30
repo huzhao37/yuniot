@@ -48,7 +48,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 return null;
             var standValue = motor?.StandValue??0;
 
-            var start = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0);
+            var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
             var dt3 = start.AddHours(-1);
 
@@ -58,7 +58,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             e.Time< endUnix, e=>e.Time).LastOrDefault();
             var originalDatas = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
                                                                        e.Time < endUnix &&
-                                                                       e.AccumulativeWeight > -1, e => e.Time).ToList();         
+                                                                       e.AccumulativeWeight > -1, e => e.Time)?.ToList();         
             var length = originalDatas?.Count() ?? 0;
             float lastWeight = 0;
             float weightSum = 0;
@@ -147,7 +147,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public async Task InsertHourStatistics(DateTime dt, string motorTypeId)
         {
             var ts = new List<ConveyorByHour>();
-            var hour = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0).TimeSpan();
+            var hour = dt.Date.AddHours(dt.Hour).TimeSpan();
             var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
             foreach (var motor in query)
             {

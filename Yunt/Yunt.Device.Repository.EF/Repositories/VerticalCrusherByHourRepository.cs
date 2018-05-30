@@ -76,7 +76,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public async Task InsertHourStatistics(DateTime dt, string motorTypeId)
         {
             var ts = new List<VerticalCrusherByHour>();
-            var hour = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0).TimeSpan();
+            var hour = dt.Date.AddHours(dt.Hour).TimeSpan();
             var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
             foreach (var motor in query)
             {

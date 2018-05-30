@@ -53,8 +53,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             var originalDatas =
                 _cyRep.GetEntities(
                     o =>
-                        o.Time >= startUnix && o.Time <= endUnix && o.MotorId.Equals(motor.MotorId) &&
-                        o.AccumulativeWeight > -1, o => o.Time);
+                        o.Time >= startUnix && o.Time < endUnix && o.MotorId.Equals(motor.MotorId) &&
+                        o.AccumulativeWeight > -1, o => o.Time)?.ToList();
 
             if (originalDatas == null || !originalDatas.Any()) return null;
 
@@ -62,9 +62,10 @@ namespace Yunt.Device.Repository.EF.Repositories
             var weightSum = (float) Math.Round(originalDatas.Sum(o => o.AccumulativeWeight), 2);
             var powerSum = (float)Math.Round(originalDatas.Sum(e => e.ActivePower), 2);
           
-            var load = motor.UseCalc
+            var load = count * cap == 0 ? 0 :(motor.UseCalc
              ? Math.Round(((powerSum * 60) / count) / cap, 2)
-             : Math.Round(((weightSum * 60) / count) / cap, 2);
+             : Math.Round(((weightSum * 60) / count) / cap, 2));
+            load=double.IsNaN(load) ?0:load;
             var entity = new ConveyorByDay()
             {
                 Time = start.TimeSpan(),
@@ -77,7 +78,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 ActivePower =powerSum,
                 RunningTime = count,
                 //负荷 = 累计重量/额定产量 (单位: 吨/小时);
-                LoadStall = count*cap == 0?0:(float)load
+                LoadStall = (float)load
             };
             return entity;
 

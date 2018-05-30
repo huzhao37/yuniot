@@ -8,20 +8,21 @@ using XCode.DataAccessLayer;
 
 namespace DeviceManager.Model
 {
-    /// <summary>Motorparams</summary>
+    /// <summary>Datatype</summary>
     /// <remarks></remarks>
     [Serializable]
     [DataObject]
     [Description("")]
-    [BindTable("motorparams", Description = "", ConnName = "yunt_xml", DbType = DatabaseType.MySql)]
-    public partial class Motorparams : IMotorparams
+    [BindIndex("PRIMARY", true, "Id")]
+    [BindTable("datatype", Description = "", ConnName = "yunt_xml", DbType = DatabaseType.MySql)]
+    public partial class Datatype : IDatatype
     {
         #region 属性
         private Int32 _Id;
         /// <summary></summary>
         [DisplayName("Id")]
         [Description("")]
-        [DataObjectField(true, true, false, 0)]
+        [DataObjectField(true, false, false, 0)]
         [BindColumn("Id", "", "int(11)")]
         public virtual Int32 Id
         {
@@ -29,64 +30,52 @@ namespace DeviceManager.Model
             set { if (OnPropertyChanging(__.Id, value)) { _Id = value; OnPropertyChanged(__.Id); } }
         }
 
-        private String _Param;
-        /// <summary></summary>
-        [DisplayName("Param")]
-        [Description("")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Param", "", "VARCHAR(255)")]
-        public virtual String Param
-        {
-            get { return _Param; }
-            set { if (OnPropertyChanging(__.Param, value)) { _Param = value; OnPropertyChanged(__.Param); } }
-        }
-
         private String _Description;
         /// <summary></summary>
         [DisplayName("Description")]
         [Description("")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("Description", "", "VARCHAR(255)")]
+        [DataObjectField(false, false, false, 50)]
+        [BindColumn("Description", "", "VARCHAR(50)")]
         public virtual String Description
         {
             get { return _Description; }
             set { if (OnPropertyChanging(__.Description, value)) { _Description = value; OnPropertyChanged(__.Description); } }
         }
 
-        private String _MotorTypeId;
+        private Int32 _Bit;
         /// <summary></summary>
-        [DisplayName("MotorTypeId")]
+        [DisplayName("Bit")]
         [Description("")]
-        [DataObjectField(false, false, true, 255)]
-        [BindColumn("MotorTypeId", "", "VARCHAR(255)")]
-        public virtual String MotorTypeId
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("Bit", "", "int(11)")]
+        public virtual Int32 Bit
         {
-            get { return _MotorTypeId; }
-            set { if (OnPropertyChanging(__.MotorTypeId, value)) { _MotorTypeId = value; OnPropertyChanged(__.MotorTypeId); } }
+            get { return _Bit; }
+            set { if (OnPropertyChanging(__.Bit, value)) { _Bit = value; OnPropertyChanged(__.Bit); } }
         }
 
-        private Int32 _PhysicId;
+        private Int32 _InByte;
         /// <summary></summary>
-        [DisplayName("PhysicId")]
+        [DisplayName("InByte")]
         [Description("")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("PhysicId", "", "int(11)")]
-        public virtual Int32 PhysicId
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("InByte", "", "int(11)")]
+        public virtual Int32 InByte
         {
-            get { return _PhysicId; }
-            set { if (OnPropertyChanging(__.PhysicId, value)) { _PhysicId = value; OnPropertyChanged(__.PhysicId); } }
+            get { return _InByte; }
+            set { if (OnPropertyChanging(__.InByte, value)) { _InByte = value; OnPropertyChanged(__.InByte); } }
         }
 
-        private DateTime _Time;
+        private Int32 _OutIntArray;
         /// <summary></summary>
-        [DisplayName("Time")]
+        [DisplayName("OutIntArray")]
         [Description("")]
-        [DataObjectField(false, false, true, 0)]
-        [BindColumn("Time", "", "datetime")]
-        public virtual DateTime Time
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("OutIntArray", "", "int(11)")]
+        public virtual Int32 OutIntArray
         {
-            get { return _Time; }
-            set { if (OnPropertyChanging(__.Time, value)) { _Time = value; OnPropertyChanged(__.Time); } }
+            get { return _OutIntArray; }
+            set { if (OnPropertyChanging(__.OutIntArray, value)) { _OutIntArray = value; OnPropertyChanged(__.OutIntArray); } }
         }
         #endregion
 
@@ -105,11 +94,10 @@ namespace DeviceManager.Model
                 switch (name)
                 {
                     case __.Id : return _Id;
-                    case __.Param : return _Param;
                     case __.Description : return _Description;
-                    case __.MotorTypeId : return _MotorTypeId;
-                    case __.PhysicId : return _PhysicId;
-                    case __.Time : return _Time;
+                    case __.Bit : return _Bit;
+                    case __.InByte : return _InByte;
+                    case __.OutIntArray : return _OutIntArray;
                     default: return base[name];
                 }
             }
@@ -118,11 +106,10 @@ namespace DeviceManager.Model
                 switch (name)
                 {
                     case __.Id : _Id = Convert.ToInt32(value); break;
-                    case __.Param : _Param = Convert.ToString(value); break;
                     case __.Description : _Description = Convert.ToString(value); break;
-                    case __.MotorTypeId : _MotorTypeId = Convert.ToString(value); break;
-                    case __.PhysicId : _PhysicId = Convert.ToInt32(value); break;
-                    case __.Time : _Time = Convert.ToDateTime(value); break;
+                    case __.Bit : _Bit = Convert.ToInt32(value); break;
+                    case __.InByte : _InByte = Convert.ToInt32(value); break;
+                    case __.OutIntArray : _OutIntArray = Convert.ToInt32(value); break;
                     default: base[name] = value; break;
                 }
             }
@@ -130,77 +117,68 @@ namespace DeviceManager.Model
         #endregion
 
         #region 字段名
-        /// <summary>取得Motorparams字段信息的快捷方式</summary>
+        /// <summary>取得Datatype字段信息的快捷方式</summary>
         public partial class _
         {
             ///<summary></summary>
             public static readonly Field Id = FindByName(__.Id);
 
             ///<summary></summary>
-            public static readonly Field Param = FindByName(__.Param);
-
-            ///<summary></summary>
             public static readonly Field Description = FindByName(__.Description);
 
             ///<summary></summary>
-            public static readonly Field MotorTypeId = FindByName(__.MotorTypeId);
+            public static readonly Field Bit = FindByName(__.Bit);
 
             ///<summary></summary>
-            public static readonly Field PhysicId = FindByName(__.PhysicId);
+            public static readonly Field InByte = FindByName(__.InByte);
 
             ///<summary></summary>
-            public static readonly Field Time = FindByName(__.Time);
+            public static readonly Field OutIntArray = FindByName(__.OutIntArray);
 
             static Field FindByName(String name) { return Meta.Table.FindByName(name); }
         }
 
-        /// <summary>取得Motorparams字段名称的快捷方式</summary>
+        /// <summary>取得Datatype字段名称的快捷方式</summary>
         partial class __
         {
             ///<summary></summary>
             public const String Id = "Id";
 
             ///<summary></summary>
-            public const String Param = "Param";
-
-            ///<summary></summary>
             public const String Description = "Description";
 
             ///<summary></summary>
-            public const String MotorTypeId = "MotorTypeId";
+            public const String Bit = "Bit";
 
             ///<summary></summary>
-            public const String PhysicId = "PhysicId";
+            public const String InByte = "InByte";
 
             ///<summary></summary>
-            public const String Time = "Time";
+            public const String OutIntArray = "OutIntArray";
 
         }
         #endregion
     }
 
-    /// <summary>Motorparams接口</summary>
+    /// <summary>Datatype接口</summary>
     /// <remarks></remarks>
-    public partial interface IMotorparams
+    public partial interface IDatatype
     {
         #region 属性
         /// <summary></summary>
         Int32 Id { get; set; }
 
         /// <summary></summary>
-        String Param { get; set; }
-
-        /// <summary></summary>
         String Description { get; set; }
 
         /// <summary></summary>
-        String MotorTypeId { get; set; }
+        Int32 Bit { get; set; }
 
         /// <summary></summary>
-        Int32 PhysicId { get; set; }
+        Int32 InByte { get; set; }
 
         /// <summary></summary>
-        DateTime Time { get; set; }
+        Int32 OutIntArray { get; set; }
         #endregion
 
         #region 获取/设置 字段值

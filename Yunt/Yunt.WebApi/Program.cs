@@ -31,5 +31,6 @@ namespace Yunt.WebApi
             })
             .UseStartup<Startup>()
             .Build();
+
     }
 }

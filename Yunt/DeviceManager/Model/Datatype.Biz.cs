@@ -1,7 +1,8 @@
 ﻿﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Text;
+ using System.Linq;
+ using System.Text;
 using System.Xml.Serialization;
 using NewLife.Log;
 using NewLife.Web;
@@ -12,9 +13,9 @@ using XCode.Membership;
 
 namespace DeviceManager.Model
 {
-    /// <summary>Motortype</summary>
+    /// <summary>Datatype</summary>
     /// <remarks></remarks>
-    public partial class Motortype : Entity<Motortype>
+    public partial class Datatype : Entity<Datatype>
     {
         #region 对象操作
             ﻿
@@ -49,15 +50,17 @@ namespace DeviceManager.Model
         //    if (Meta.Count > 0) return;
 
         //    // 需要注意的是，如果该方法调用了其它实体类的首次数据库操作，目标实体类的数据初始化将会在同一个线程完成
-        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化{0}[{1}]数据……", typeof(Motortype).Name, Meta.Table.DataTable.DisplayName);
+        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化{0}[{1}]数据……", typeof(Datatype).Name, Meta.Table.DataTable.DisplayName);
 
-        //    var entity = new Motortype();
-        //    entity.MotorTypeName = "abc";
-        //    entity.MotorTypeId = "abc";
-        //    entity.Time = DateTime.Now;
+        //    var entity = new Datatype();
+        //    entity.Id = 0;
+        //    entity.Description = "abc";
+        //    entity.Bit = 0;
+        //    entity.InByte = 0;
+        //    entity.OutIntArray = 0;
         //    entity.Insert();
 
-        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化{0}[{1}]数据！", typeof(Motortype).Name, Meta.Table.DataTable.DisplayName);
+        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化{0}[{1}]数据！", typeof(Datatype).Name, Meta.Table.DataTable.DisplayName);
         //}
 
         ///// <summary>已重载。基类先调用Valid(true)验证数据，然后在事务保护内调用OnInsert</summary>
@@ -81,6 +84,19 @@ namespace DeviceManager.Model
 
         #region 扩展查询
             ﻿
+        /// <summary>根据Id查找</summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public static Datatype FindById(Int32 id)
+        {
+            if (Meta.Count >= 1000)
+                return Find(__.Id, id);
+            else // 实体缓存
+                return Meta.Cache.Entities.FirstOrDefault(e => e.Id == id);
+            // 单对象缓存
+            //return Meta.SingleCache[id];
+        }
 
         #endregion
 
@@ -94,7 +110,7 @@ namespace DeviceManager.Model
         /// <param name="key">关键字</param>
         /// <param name="param">分页排序参数，同时返回满足条件的总记录数</param>
         /// <returns>实体集</returns>
-        public static IList<Motortype> Search(Int32 userid, DateTime start, DateTime end, String key, PageParameter param)
+        public static IList<Datatype> Search(Int32 userid, DateTime start, DateTime end, String key, PageParameter param)
         {
             // WhereExpression重载&和|运算符，作为And和Or的替代
             // SearchWhereByKeys系列方法用于构建针对字符串字段的模糊搜索，第二个参数可指定要搜索的字段

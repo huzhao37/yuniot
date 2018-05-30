@@ -47,11 +47,12 @@ namespace Yunt.Device.Repository.EF.Repositories
             var end = start.AddDays(1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
             var originalDatas = _vibRep.GetEntities(e => e.Time>= startUnix &&
-                                    e.Time < endUnix, e => e.Time);
+                                    e.Time < endUnix, e => e.Time).ToList();
 
             if (!(originalDatas?.Any() ?? false)) return null;
 
             var average = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_B), 2);
+            
             var entity = new HVibByDay
             {
                 Time = start.TimeSpan(),

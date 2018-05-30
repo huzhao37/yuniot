@@ -48,7 +48,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var end = start.AddHours(1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
             var originalDatas = _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Current > -1 && e.Time >= startUnix &&
-                                    e.Time < endUnix, e => e.Time);
+                                    e.Time < endUnix, e => e.Time)?.ToList();
 
             if (!(originalDatas?.Any()??false)) return null;
 
@@ -79,7 +79,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public async Task InsertHourStatistics(DateTime dt, string motorTypeId)
         {
             var ts = new List<SimonsConeCrusherByHour>();
-            var hour = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0).TimeSpan();
+            var hour = dt.Date.AddHours(dt.Hour).TimeSpan();
             var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
             foreach (var motor in query)
             {

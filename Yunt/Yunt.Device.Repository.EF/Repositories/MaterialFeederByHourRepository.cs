@@ -48,11 +48,14 @@ namespace Yunt.Device.Repository.EF.Repositories
             var end = start.AddHours(1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
             var originalDatas = _mfRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Frequency > 0 && e.Time>= startUnix &&
-                                    e.Time < endUnix, e => e.Time);
+                                    e.Time < endUnix, e => e.Time)?.ToList();
 
             if (!(originalDatas?.Any() ?? false))return null;
             
             var average = (float)Math.Round(originalDatas.Average(o => o.Frequency), 2);
+
+            var load = (standValue == 0) ? 0 : (float) Math.Round(average / standValue, 2);
+            load = double.IsNaN(load) ? 0 : load;
             var entity = new MaterialFeederByHour
             {
                 Time = startUnix,
@@ -63,7 +66,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.Voltage_B), 2),
 
                 RunningTime = originalDatas.Count(c => c.Frequency > 0),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+                LoadStall = load
             };
             return entity;
 
@@ -79,7 +82,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public async Task InsertHourStatistics(DateTime dt, string motorTypeId)
         {
             var ts = new List<MaterialFeederByHour>();
-            var hour = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0).TimeSpan();
+            var hour = dt.Date.AddHours(dt.Hour).TimeSpan();
             var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
             foreach (var motor in query)
             {
