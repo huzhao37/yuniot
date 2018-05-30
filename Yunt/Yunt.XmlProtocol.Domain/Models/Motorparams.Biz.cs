@@ -11,7 +11,7 @@ using XCode;
 using XCode.Configuration;
 using XCode.Membership;
 
-namespace DeviceManager.Model
+namespace Yunt.XmlProtocol.Domain.Models
 {
     /// <summary>Motorparams</summary>
     /// <remarks></remarks>

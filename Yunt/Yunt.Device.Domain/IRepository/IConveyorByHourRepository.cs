@@ -14,11 +14,11 @@ namespace Yunt.Device.Domain.IRepository
         /// <summary>
         /// 统计该小时的皮带机数据;
         /// </summary>
-        /// <param name="motorId">设备id</param>
-        /// <param name="isExceed">是否超过一天的数据范围</param>
+        /// <param name="motor">设备</param>
+        /// <param name="isExceed">是否超出3 months数据范围</param>
         /// <param name="dt">查询时间,精确到小时</param>
         /// <returns></returns>
-        ConveyorByHour GetByMotorId(string motorId, bool isExceed, DateTime dt);
+        ConveyorByHour GetByMotor(Motor motor, bool isExceed, DateTime dt);
 
         /// <summary>
         /// 统计该小时内所有皮带机的数据;

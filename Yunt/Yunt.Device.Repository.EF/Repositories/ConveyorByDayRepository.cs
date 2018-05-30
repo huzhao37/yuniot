@@ -36,12 +36,12 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <summary>
         /// 统计该当日的皮带机数据;
         /// </summary>
-        /// <param name="motorId">设备id</param>
+        /// <param name="motor">设备</param>
         /// <param name="dt">查询时间,精确到当日</param>
         /// <returns></returns>
-        public ConveyorByDay GetByMotorId(string motorId, DateTime dt)
+        public ConveyorByDay GetByMotor(Motor motor, DateTime dt)
         {
-            var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId))?.FirstOrDefault() ?? null;
+            //var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId))?.FirstOrDefault() ?? null;
             if (motor == null)
                 return null;
             var cap = motor?.StandValue ?? 0;
@@ -53,7 +53,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var originalDatas =
                 _cyRep.GetEntities(
                     o =>
-                        o.Time >= startUnix && o.Time <= endUnix && o.MotorId.Equals(motorId) &&
+                        o.Time >= startUnix && o.Time <= endUnix && o.MotorId.Equals(motor.MotorId) &&
                         o.AccumulativeWeight > -1, o => o.Time);
 
             if (originalDatas == null || !originalDatas.Any()) return null;
@@ -68,7 +68,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var entity = new ConveyorByDay()
             {
                 Time = start.TimeSpan(),
-                MotorId = motorId,
+                MotorId = motor.MotorId,
                 AvgInstantWeight = (float)Math.Round(originalDatas.Average(e=>e.AvgInstantWeight), 2),
                 AvgCurrent_B = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_B), 2),
                 AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
@@ -100,7 +100,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 exsit = GetEntities(o => o.Time==day && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
-                var t = GetByMotorId(motor.MotorId, dt);
+                var t = GetByMotor(motor, dt);
                 if (t != null)
                     ts.Add(t);
             }

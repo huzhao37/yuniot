@@ -14,10 +14,10 @@ namespace Yunt.Device.Domain.IRepository
         /// <summary>
         /// 统计该当日的皮带机数据;
         /// </summary>
-        /// <param name="motorId">设备id</param>
+        /// <param name="motor">设备</param>
         /// <param name="dt">查询时间,精确到当日</param>
         /// <returns></returns>
-         ConveyorByDay GetByMotorId(string motorId, DateTime dt);
+         ConveyorByDay GetByMotor(Motor motor, DateTime dt);
 
         /// <summary>
         /// 统计该当日内所有皮带机的数据;

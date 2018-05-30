@@ -166,6 +166,7 @@
     <EmbeddedResource Include="TranslateForm.resx">
       <DependentUpon>TranslateForm.cs</DependentUpon>
     </EmbeddedResource>
+    <None Include="configure.json" />
     <None Include="DeviceManager_TemporaryKey.pfx" />
     <Content Include="Dll\CabinetParamter.xls">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -35,13 +35,13 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <summary>
         /// 统计该当日的圆锥破数据;
         /// </summary>
-        /// <param name="motorId">设备id</param>
+        /// <param name="motor">设备</param>
         /// <param name="dt">查询时间,精确到当日</param>
         /// <returns></returns>
-        public SimonsConeCrusherByDay GetByMotorId(string motorId, DateTime dt)
+        public SimonsConeCrusherByDay GetByMotor(Motor motor, DateTime dt)
         {
 
-            var standValue = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault()?.StandValue ?? 0;
+            var standValue = motor?.StandValue ?? 0;
 
             var start = dt.Date;
             var end = start.AddDays(1);
@@ -55,7 +55,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var entity = new SimonsConeCrusherByDay
             {
                 Time = start.TimeSpan(),
-                MotorId = motorId,
+                MotorId = motor.MotorId,
                 AverageCurrent = average,
                 AverageOilFeedTempreature = (float)Math.Round(originalDatas.Average(o => o.AverageOilFeedTempreature), 2),
                 AverageOilReturnTempreature = (float)Math.Round(originalDatas.Average(o => o.AverageOilReturnTempreature), 2),
@@ -83,7 +83,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 exsit = GetEntities(o => o.Time == day && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
-                var t = GetByMotorId(motor.MotorId, dt);
+                var t = GetByMotor(motor, dt);
                 if (t != null)
                     ts.Add(t);
             }

@@ -23,5 +23,8 @@ namespace Yunt.Xml.Repository.EF.Models
         [DataMember]
         [ProtoMember(4)]
         public DateTime? Time { get; set; }
+        [DataMember]
+        [ProtoMember(5)]
+        public int PhysicId { get; set; }
     }
 }

@@ -36,18 +36,18 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <summary>
         /// 统计该小时的反击破数据;
         /// </summary>
-        /// <param name="motorId">设备id</param>
+        /// <param name="motor">设备</param>
         /// <param name="isExceed">是否超过3个月的数据范围</param>
         /// <param name="dt">查询时间,精确到小时</param>
         /// <returns></returns>
-        public ImpactCrusherByHour GetByMotorId(string motorId, bool isExceed, DateTime dt)
+        public ImpactCrusherByHour GetByMotor(Motor motor, bool isExceed, DateTime dt)
         {
-            var standValue = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault()?.StandValue ?? 0;
+            var standValue = motor?.StandValue ?? 0;
 
             var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
-            var originalDatas = _icRep.GetEntities(motorId, dt, isExceed, e => e.Motor1Current_B > -1 && e.Time >= startUnix &&
+            var originalDatas = _icRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Motor1Current_B > -1 && e.Time >= startUnix &&
                                     e.Time < endUnix, e => e.Time);
 
             if (!originalDatas?.Any()??false) return null;
@@ -57,7 +57,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var entity = new ImpactCrusherByHour
             {
                 Time = startUnix,
-                MotorId = motorId,
+                MotorId = motor.MotorId,
                 AvgMotor1Current_B = average,
                 AvgMotor2Current_B = (float)Math.Round(originalDatas.Average(o => o.Motor2Current_B), 2),
                 AvgSpindleTemperature1 = (float)Math.Round(originalDatas.Average(o => o.SpindleTemperature1), 2),
@@ -85,7 +85,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 exsit = GetEntities(o => o.Time==hour && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
-                var t = GetByMotorId(motor.MotorId, false, dt);
+                var t = GetByMotor(motor, false, dt);
                 if (t != null)
                     ts.Add(t);
             }
@@ -110,7 +110,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 GetEntities(
                     e => e.MotorId.Equals(motorId) && e.Time >= startUnix && e.Time<= endUnix)?.ToList();
 
-            var minuteData = GetByMotorId(motorId, false, minuteStart);
+            var minuteData = GetByMotor(motor, false, minuteStart);
 
             if (minuteData != null)
                 hourData?.Add(minuteData);

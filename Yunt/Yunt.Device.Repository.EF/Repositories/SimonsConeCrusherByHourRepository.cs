@@ -35,19 +35,19 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <summary>
         /// 统计该小时的西蒙斯数据;
         /// </summary>
-        /// <param name="motorId">设备id</param>
+        /// <param name="motor">设备</param>
         /// <param name="isExceed">是否超过3个月的数据范围</param>
         /// <param name="dt">查询时间,精确到小时</param>
         /// <returns></returns>
-        public SimonsConeCrusherByHour GetByMotorId(string motorId, bool isExceed, DateTime dt)
+        public SimonsConeCrusherByHour GetByMotor(Motor motor, bool isExceed, DateTime dt)
         {
 
-            var standValue = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault()?.StandValue ?? 0;
+            var standValue = motor?.StandValue ?? 0;
 
             var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
-            var originalDatas = _ccRep.GetEntities(motorId, dt, isExceed, e => e.Current > -1 && e.Time >= startUnix &&
+            var originalDatas = _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Current > -1 && e.Time >= startUnix &&
                                     e.Time < endUnix, e => e.Time);
 
             if (!(originalDatas?.Any()??false)) return null;
@@ -56,7 +56,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var entity = new SimonsConeCrusherByHour
             {
                 Time = startUnix,
-                MotorId = motorId,
+                MotorId = motor.MotorId,
                 AverageCurrent = (float)Math.Round(originalDatas.Average(o => o.Current), 2),
                 AverageOilFeedTempreature = (float)Math.Round(originalDatas.Average(o => o.OilFeedTempreature), 2),
                 AverageOilReturnTempreature = (float)Math.Round(originalDatas.Average(o => o.OilReturnTempreature), 2),
@@ -75,19 +75,19 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// 统计该小时内所有西蒙斯的数据;
         /// </summary>
         /// <param name="dt">时间</param>
-        /// <param name="MotorTypeId">设备类型</param>
-        public async Task InsertHourStatistics(DateTime dt, string MotorTypeId)
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task InsertHourStatistics(DateTime dt, string motorTypeId)
         {
             var ts = new List<SimonsConeCrusherByHour>();
             var hour = new DateTime(dt.Year, dt.Month, dt.Day, dt.Hour, 0, 0).TimeSpan();
-            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(MotorTypeId));
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
             foreach (var motor in query)
             {
                 var exsit = false;
                 exsit = GetEntities(o => o.Time == hour && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
-                var t = GetByMotorId(motor.MotorId, false, dt);
+                var t = GetByMotor(motor, false, dt);
                 if (t != null)
                     ts.Add(t);
             }
@@ -113,7 +113,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 GetEntities(
                     e => e.MotorId.Equals(motorId) && e.Time >= startUnix && e.Time <= endUnix)?.ToList();
 
-            var minuteData = GetByMotorId(motorId, false, minuteStart);
+            var minuteData = GetByMotor(motor, false, minuteStart);
 
             if (minuteData != null)
                 hourData?.Add(minuteData);

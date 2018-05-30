@@ -6,7 +6,7 @@ using XCode;
 using XCode.Configuration;
 using XCode.DataAccessLayer;
 
-namespace DeviceManager.Model
+namespace Yunt.XmlProtocol.Domain.Models
 {
     /// <summary>MotorType</summary>
     /// <remarks></remarks>
