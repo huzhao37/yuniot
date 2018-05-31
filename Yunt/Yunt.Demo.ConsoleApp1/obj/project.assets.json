@@ -359,17 +359,42 @@
           "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {}
         }
       },
-      "Microsoft.Extensions.Logging.Console/2.0.0": {
+      "Microsoft.Extensions.Logging.Console/2.0.2": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Configuration.Abstractions": "2.0.0",
-          "Microsoft.Extensions.Logging": "2.0.0"
+          "Microsoft.Extensions.Configuration.Abstractions": "2.0.2",
+          "Microsoft.Extensions.Logging": "2.0.2"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Logging.Console.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/Microsoft.Extensions.Logging.Console.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Logging.Debug/2.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "2.0.2"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.Debug.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.Debug.dll": {}
+        }
+      },
+      "Microsoft.Extensions.Logging.EventSource/2.0.2": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Extensions.Logging": "2.0.2",
+          "Newtonsoft.Json": "10.0.1"
+        },
+        "compile": {
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.EventSource.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.EventSource.dll": {}
         }
       },
       "Microsoft.Extensions.Options/2.0.2": {
@@ -669,7 +694,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "NewLife.Core/7.0.6707.38036": {
+      "NewLife.Core/7.0.6712.2419": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/NewLife.Core.dll": {}
@@ -678,10 +703,10 @@
           "lib/netstandard2.0/NewLife.Core.dll": {}
         }
       },
-      "NewLife.XCode/9.7.6706.39253": {
+      "NewLife.XCode/9.7.6712.2420": {
         "type": "package",
         "dependencies": {
-          "NewLife.Core": "7.0.6706.39251"
+          "NewLife.Core": "7.0.6712.2419"
         },
         "compile": {
           "lib/netstandard2.0/XCode.dll": {}
@@ -2493,7 +2518,11 @@
         "dependencies": {
           "Microsoft.EntityFrameworkCore": "2.0.3",
           "Microsoft.Extensions.Configuration": "2.0.2",
-          "NewLife.Core": "7.0.6707.38036",
+          "Microsoft.Extensions.Configuration.Binder": "2.0.2",
+          "Microsoft.Extensions.Logging.Console": "2.0.2",
+          "Microsoft.Extensions.Logging.Debug": "2.0.2",
+          "Microsoft.Extensions.Logging.EventSource": "2.0.2",
+          "NewLife.Core": "7.0.6712.2419",
           "SharpCompress": "0.20.0"
         },
         "compile": {
@@ -2547,7 +2576,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "NewLife.XCode": "9.7.6706.39253",
+          "NewLife.XCode": "9.7.6712.2420",
           "Quartz": "3.0.4",
           "Yunt.Common": "1.0.0",
           "Yunt.Dtsc.Domain": "1.0.0"
@@ -2563,8 +2592,8 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "NewLife.Core": "7.0.6707.38036",
-          "NewLife.XCode": "9.7.6706.39253"
+          "NewLife.Core": "7.0.6712.2419",
+          "NewLife.XCode": "9.7.6712.2420"
         },
         "compile": {
           "bin/placeholder/Yunt.Dtsc.Domain.dll": {}
@@ -2985,15 +3014,40 @@
         "microsoft.extensions.logging.abstractions.nuspec"
       ]
     },
-    "Microsoft.Extensions.Logging.Console/2.0.0": {
-      "sha512": "NBjNp899FW7byDsex2ch/CkwNd2GbuHQIXCbvUVqOzSbnIsYrxOaR//BY2h2apJhnqm10IPLGkcjXxUyfAcIKA==",
+    "Microsoft.Extensions.Logging.Console/2.0.2": {
+      "sha512": "6Bfhw152LogpEk7Au9wyomeat68k9ZedcR7CX/IdYuTu34sG5jYgiK4m1Yt089ewOaslYAOgbDIzZI0MPvm8UQ==",
       "type": "package",
-      "path": "microsoft.extensions.logging.console/2.0.0",
+      "path": "microsoft.extensions.logging.console/2.0.2",
       "files": [
+        ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Console.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Logging.Console.xml",
-        "microsoft.extensions.logging.console.2.0.0.nupkg.sha512",
+        "microsoft.extensions.logging.console.2.0.2.nupkg.sha512",
         "microsoft.extensions.logging.console.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Logging.Debug/2.0.2": {
+      "sha512": "vKSQBCU/MASzFZRAIFjEcSBZzoVHsLv8uGLoC2X8DxZsFnhodm2YlrXvH+SltIcbPX/2kp7bGYYVfiIXP+lbPQ==",
+      "type": "package",
+      "path": "microsoft.extensions.logging.debug/2.0.2",
+      "files": [
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.Extensions.Logging.Debug.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Logging.Debug.xml",
+        "microsoft.extensions.logging.debug.2.0.2.nupkg.sha512",
+        "microsoft.extensions.logging.debug.nuspec"
+      ]
+    },
+    "Microsoft.Extensions.Logging.EventSource/2.0.2": {
+      "sha512": "/+v4fyWd9MJ/wcKBvOjDGwdUX7tfnaxVQ/wSxjNlM2CMnTU9Zs9r9BDGm4l6lq/WfNXE6NUwLGCR3hn6GZSF+Q==",
+      "type": "package",
+      "path": "microsoft.extensions.logging.eventsource/2.0.2",
+      "files": [
+        ".signature.p7s",
+        "lib/netstandard2.0/Microsoft.Extensions.Logging.EventSource.dll",
+        "lib/netstandard2.0/Microsoft.Extensions.Logging.EventSource.xml",
+        "microsoft.extensions.logging.eventsource.2.0.2.nupkg.sha512",
+        "microsoft.extensions.logging.eventsource.nuspec"
       ]
     },
     "Microsoft.Extensions.Options/2.0.2": {
@@ -3587,10 +3641,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "NewLife.Core/7.0.6707.38036": {
-      "sha512": "hK62FMOiwiJZQxyAc720qcwKYcg8QFTFLNipzyS8+P/48eqaptgl/aSE3sbuSQCMo9DpxS4W7W4ftineSOg0jA==",
+    "NewLife.Core/7.0.6712.2419": {
+      "sha512": "ARhn94lxbhdqbneaqloqyXX7rEVsxOfylcGZcmedniWbto46/oRhh/iXoAXbQi6fYnPqD37YHoci1+gS7a+oBA==",
       "type": "package",
-      "path": "newlife.core/7.0.6707.38036",
+      "path": "newlife.core/7.0.6712.2419",
       "files": [
         "lib/net20/NewLife.Core.dll",
         "lib/net20/NewLife.Core.pdb",
@@ -3604,16 +3658,17 @@
         "lib/netstandard2.0/NewLife.Core.dll",
         "lib/netstandard2.0/NewLife.Core.pdb",
         "lib/netstandard2.0/NewLife.Core.xml",
-        "newlife.core.7.0.6707.38036.nupkg.sha512",
+        "newlife.core.7.0.6712.2419.nupkg.sha512",
         "newlife.core.nuspec"
       ]
     },
-    "NewLife.XCode/9.7.6706.39253": {
-      "sha512": "BIEsDak8N7oegbeYE4MZAYSKEOxLRT9RhXaGFS+nK5zm8xn4qLAsmzoUvEJdzPrUneZ5voO2AD5UPZFX3LbClg==",
+    "NewLife.XCode/9.7.6712.2420": {
+      "sha512": "yKLTBjVSiRKR1Qy24mWzxtjTyf74dGHz698rYE/TjONv17wU4DiNfgw/olcYHvZpTuRvwTjmQIfWF9d3upgnkg==",
       "type": "package",
-      "path": "newlife.xcode/9.7.6706.39253",
+      "path": "newlife.xcode/9.7.6712.2420",
       "files": [
-        "content/生成实体类.tt",
+        "content/Build.tt",
+        "content/Model.xml",
         "lib/net20/XCode.dll",
         "lib/net20/XCode.pdb",
         "lib/net20/XCode.xml",
@@ -3626,8 +3681,9 @@
         "lib/netstandard2.0/XCode.dll",
         "lib/netstandard2.0/XCode.pdb",
         "lib/netstandard2.0/XCode.xml",
-        "newlife.xcode.9.7.6706.39253.nupkg.sha512",
-        "newlife.xcode.nuspec"
+        "newlife.xcode.9.7.6712.2420.nupkg.sha512",
+        "newlife.xcode.nuspec",
+        "tools/install.ps1"
       ]
     },
     "Newtonsoft.Json/11.0.1": {

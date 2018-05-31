@@ -12,9 +12,9 @@ using XCode.Membership;
 
 namespace DeviceManager.Model
 {
-    /// <summary>MotorType</summary>
+    /// <summary>Motortype</summary>
     /// <remarks></remarks>
-    public partial class MotorType : Entity<MotorType>
+    public partial class Motortype : Entity<Motortype>
     {
         #region 对象操作
             ﻿
@@ -49,15 +49,15 @@ namespace DeviceManager.Model
         //    if (Meta.Count > 0) return;
 
         //    // 需要注意的是，如果该方法调用了其它实体类的首次数据库操作，目标实体类的数据初始化将会在同一个线程完成
-        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化{0}[{1}]数据……", typeof(MotorType).Name, Meta.Table.DataTable.DisplayName);
+        //    if (XTrace.Debug) XTrace.WriteLine("开始初始化{0}[{1}]数据……", typeof(Motortype).Name, Meta.Table.DataTable.DisplayName);
 
-        //    var entity = new MotorType();
+        //    var entity = new Motortype();
         //    entity.MotorTypeName = "abc";
         //    entity.MotorTypeId = "abc";
         //    entity.Time = DateTime.Now;
         //    entity.Insert();
 
-        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化{0}[{1}]数据！", typeof(MotorType).Name, Meta.Table.DataTable.DisplayName);
+        //    if (XTrace.Debug) XTrace.WriteLine("完成初始化{0}[{1}]数据！", typeof(Motortype).Name, Meta.Table.DataTable.DisplayName);
         //}
 
         ///// <summary>已重载。基类先调用Valid(true)验证数据，然后在事务保护内调用OnInsert</summary>
@@ -94,7 +94,7 @@ namespace DeviceManager.Model
         /// <param name="key">关键字</param>
         /// <param name="param">分页排序参数，同时返回满足条件的总记录数</param>
         /// <returns>实体集</returns>
-        public static IList<MotorType> Search(Int32 userid, DateTime start, DateTime end, String key, PageParameter param)
+        public static IList<Motortype> Search(Int32 userid, DateTime start, DateTime end, String key, PageParameter param)
         {
             // WhereExpression重载&和|运算符，作为And和Or的替代
             // SearchWhereByKeys系列方法用于构建针对字符串字段的模糊搜索，第二个参数可指定要搜索的字段

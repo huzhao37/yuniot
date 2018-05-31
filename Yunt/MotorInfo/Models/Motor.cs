@@ -58,7 +58,7 @@ namespace MotorInfo.Models
         /// <summary></summary>
         [DisplayName("FinalSize")]
         [Description("")]
-        [DataObjectField(false, false, true, 0)]
+        [DataObjectField(false, false, false, 0)]
         [BindColumn("FinalSize", "", "float")]
         public virtual Single FinalSize
         {
@@ -173,6 +173,66 @@ namespace MotorInfo.Models
             get { return _Time; }
             set { if (OnPropertyChanging(__.Time, value)) { _Time = value; OnPropertyChanged(__.Time); } }
         }
+
+        private Int64 _IsBeltWeight;
+        /// <summary></summary>
+        [DisplayName("IsBeltWeight")]
+        [Description("")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("IsBeltWeight", "", "bit(1)")]
+        public virtual Int64 IsBeltWeight
+        {
+            get { return _IsBeltWeight; }
+            set { if (OnPropertyChanging(__.IsBeltWeight, value)) { _IsBeltWeight = value; OnPropertyChanged(__.IsBeltWeight); } }
+        }
+
+        private Int64 _IsMainBeltWeight;
+        /// <summary></summary>
+        [DisplayName("IsMainBeltWeight")]
+        [Description("")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("IsMainBeltWeight", "", "bit(1)")]
+        public virtual Int64 IsMainBeltWeight
+        {
+            get { return _IsMainBeltWeight; }
+            set { if (OnPropertyChanging(__.IsMainBeltWeight, value)) { _IsMainBeltWeight = value; OnPropertyChanged(__.IsMainBeltWeight); } }
+        }
+
+        private Single _OffSet;
+        /// <summary></summary>
+        [DisplayName("OffSet")]
+        [Description("")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("OffSet", "", "float")]
+        public virtual Single OffSet
+        {
+            get { return _OffSet; }
+            set { if (OnPropertyChanging(__.OffSet, value)) { _OffSet = value; OnPropertyChanged(__.OffSet); } }
+        }
+
+        private Single _Slope;
+        /// <summary></summary>
+        [DisplayName("Slope")]
+        [Description("")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("Slope", "", "float")]
+        public virtual Single Slope
+        {
+            get { return _Slope; }
+            set { if (OnPropertyChanging(__.Slope, value)) { _Slope = value; OnPropertyChanged(__.Slope); } }
+        }
+
+        private Int64 _UseCalc;
+        /// <summary></summary>
+        [DisplayName("UseCalc")]
+        [Description("")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("UseCalc", "", "bit(1)")]
+        public virtual Int64 UseCalc
+        {
+            get { return _UseCalc; }
+            set { if (OnPropertyChanging(__.UseCalc, value)) { _UseCalc = value; OnPropertyChanged(__.UseCalc); } }
+        }
         #endregion
 
         #region 获取/设置 字段值
@@ -202,6 +262,11 @@ namespace MotorInfo.Models
                     case __.SerialNumber : return _SerialNumber;
                     case __.StandValue : return _StandValue;
                     case __.Time : return _Time;
+                    case __.IsBeltWeight : return _IsBeltWeight;
+                    case __.IsMainBeltWeight : return _IsMainBeltWeight;
+                    case __.OffSet : return _OffSet;
+                    case __.Slope : return _Slope;
+                    case __.UseCalc : return _UseCalc;
                     default: return base[name];
                 }
             }
@@ -222,6 +287,11 @@ namespace MotorInfo.Models
                     case __.SerialNumber : _SerialNumber = Convert.ToString(value); break;
                     case __.StandValue : _StandValue = Convert.ToSingle(value); break;
                     case __.Time : _Time = Convert.ToInt64(value); break;
+                    case __.IsBeltWeight : _IsBeltWeight = Convert.ToInt64(value); break;
+                    case __.IsMainBeltWeight : _IsMainBeltWeight = Convert.ToInt64(value); break;
+                    case __.OffSet : _OffSet = Convert.ToSingle(value); break;
+                    case __.Slope : _Slope = Convert.ToSingle(value); break;
+                    case __.UseCalc : _UseCalc = Convert.ToInt64(value); break;
                     default: base[name] = value; break;
                 }
             }
@@ -271,6 +341,21 @@ namespace MotorInfo.Models
             ///<summary></summary>
             public static readonly Field Time = FindByName(__.Time);
 
+            ///<summary></summary>
+            public static readonly Field IsBeltWeight = FindByName(__.IsBeltWeight);
+
+            ///<summary></summary>
+            public static readonly Field IsMainBeltWeight = FindByName(__.IsMainBeltWeight);
+
+            ///<summary></summary>
+            public static readonly Field OffSet = FindByName(__.OffSet);
+
+            ///<summary></summary>
+            public static readonly Field Slope = FindByName(__.Slope);
+
+            ///<summary></summary>
+            public static readonly Field UseCalc = FindByName(__.UseCalc);
+
             static Field FindByName(String name) { return Meta.Table.FindByName(name); }
         }
 
@@ -315,6 +400,21 @@ namespace MotorInfo.Models
 
             ///<summary></summary>
             public const String Time = "Time";
+
+            ///<summary></summary>
+            public const String IsBeltWeight = "IsBeltWeight";
+
+            ///<summary></summary>
+            public const String IsMainBeltWeight = "IsMainBeltWeight";
+
+            ///<summary></summary>
+            public const String OffSet = "OffSet";
+
+            ///<summary></summary>
+            public const String Slope = "Slope";
+
+            ///<summary></summary>
+            public const String UseCalc = "UseCalc";
 
         }
         #endregion
@@ -363,6 +463,21 @@ namespace MotorInfo.Models
 
         /// <summary></summary>
         Int64 Time { get; set; }
+
+        /// <summary></summary>
+        Int64 IsBeltWeight { get; set; }
+
+        /// <summary></summary>
+        Int64 IsMainBeltWeight { get; set; }
+
+        /// <summary></summary>
+        Single OffSet { get; set; }
+
+        /// <summary></summary>
+        Single Slope { get; set; }
+
+        /// <summary></summary>
+        Int64 UseCalc { get; set; }
         #endregion
 
         #region 获取/设置 字段值

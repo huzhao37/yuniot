@@ -6,7 +6,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{B0D82CC2-D0CC-4F6F-A59C-0357706DDE9E}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <RootNamespace>DeviceManager</RootNamespace>
     <AssemblyName>DeviceManager</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -107,6 +107,11 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Mapping\ConfigureJsonInfo.cs" />
+    <Compile Include="Model\Datatype.Biz.cs" />
+    <Compile Include="Model\Datatype.cs" />
+    <Compile Include="Model\Messagequeue.Biz.cs" />
+    <Compile Include="Model\Messagequeue.cs" />
     <Compile Include="Model\Motorparams.Biz.cs" />
     <Compile Include="Model\Motorparams.cs" />
     <Compile Include="Model\Motortype.Biz.cs" />
@@ -166,8 +171,17 @@
     <EmbeddedResource Include="TranslateForm.resx">
       <DependentUpon>TranslateForm.cs</DependentUpon>
     </EmbeddedResource>
+    <Content Include="File\configure.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="DeviceManager_TemporaryKey.pfx" />
     <Content Include="Dll\CabinetParamter.xls">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="File\configure.v0.2.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="File\configure.v0.2.1.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

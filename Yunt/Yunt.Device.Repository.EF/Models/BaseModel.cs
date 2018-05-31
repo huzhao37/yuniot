@@ -51,13 +51,17 @@ namespace Yunt.Device.Repository.EF.Models
     [ProtoInclude(46, typeof(Motor))]
     [ProtoInclude(47, typeof(ProductionLine))]
     [ProtoInclude(48, typeof(OriginalBytes))]
+
+    [ProtoInclude(49, typeof(HVib))]
+    [ProtoInclude(50, typeof(HVibByHour))]
+    [ProtoInclude(51, typeof(HVibByDay))]
     public class BaseModel
     {
         [DataMember]
-        [ProtoMember(49)]
+        [ProtoMember(52)]
         public long Id { get; set; }
         [DataMember]
-        [ProtoMember(50)]
+        [ProtoMember(53)]
         public long Time { get; set; }
     }
 }

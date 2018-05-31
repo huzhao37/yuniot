@@ -5,12 +5,17 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DeviceManager.Core;
+using DeviceManager.Mapping;
 using DeviceManager.Model;
 using IWshRuntimeLibrary;
+using NewLife.Log;
+using NewLife.Serialization;
+using NewLife.Xml;
 
 namespace DeviceManager
 {
@@ -50,8 +55,8 @@ namespace DeviceManager
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-            var MotorTypeId = (this.motorType.SelectedItem as MotorType).MotorTypeId;
-            //var physicType = (this.physicType.SelectedItem as Physicfeature).PhysicType;
+            var MotorTypeId = (this.motorType.SelectedItem as Motortype).MotorTypeId;
+            var physicTypeId = (this.physicType.SelectedItem as Physicfeature).Id;
             var param = this.txtParam.Text;
             var desc = this.txtDesc.Text;
 
@@ -126,7 +131,7 @@ namespace DeviceManager
                 exp.Param = param;
                 exp.Description = desc;
                 exp.MotorTypeId = MotorTypeId;
-               // exp.PhysicFeature = physicType;
+                exp.PhysicId = physicTypeId;
                 exp.Time = DateTime.Now;
 
                 exp.Update();
@@ -142,7 +147,7 @@ namespace DeviceManager
         private void AllInit()
         {
             MotorTypeInit();
-            //PhysicTypeInit();
+            PhysicTypeInit();
             ListInit();
         }
     
@@ -155,9 +160,10 @@ namespace DeviceManager
                 if (lv.Selected)
                 {
                     var MotorTypeCode = "";
+                    var physicCode = "";
                     if (!lv.SubItems[2].Text.IsNullOrWhiteSpace())
                     {
-                        var motorT = MotorType.Find("MotorTypeId", lv.SubItems[2].Text);
+                        var motorT = Motortype.Find("MotorTypeId", lv.SubItems[3].Text);
                         if (motorT != null)
                         {
                             motorType.SelectedValue = motorT.MotorTypeId; //根据索引修改选中项
@@ -166,14 +172,14 @@ namespace DeviceManager
                             MotorTypeCode = motorT.MotorTypeId;
                         }
                     }
-                    //var phy = Physicfeature.Find("PhysicType", lv.SubItems[2].Text);
-                    //if (phy != null)
-                    //{
+                    var phy = Physicfeature.Find("Id", lv.SubItems[2].Text);
+                    if (phy != null)
+                    {
 
-                    //    physicType.SelectedValue = phy.Id;    //根据索引修改选中项
-                    //    physicType.SelectedItem = phy; //根据Key得到选中项
-                    //                                   // this.physicType.SelectedText = lv.SubItems[2].Text;
-                    //}
+                        physicType.SelectedValue = phy.Id;    //根据索引修改选中项
+                        physicType.SelectedItem = phy; //根据Key得到选中项
+                        physicCode = phy.PhysicType;
+                    }
 
                     this.txtParam.Text = lv.Text;
                     this.txtDesc.Text = lv.SubItems[1].Text;
@@ -191,13 +197,12 @@ namespace DeviceManager
         {
             this.listView1.BeginUpdate();
             this.listView1.Items.Clear();
-            //this.listView1.Items.Clear();
             var paramList = Motorparams.FindAll();
             foreach (var param in paramList)
             {
                 var strings = new string[]
                {
-                    param.Param,param.Description,param.MotorTypeId,param.Time.ToString()
+                    param.Param,param.Description,param.PhysicId.ToString(),param.MotorTypeId,param.Time.ToString()
                };
                 var listViewItem = new ListViewItem(strings) { Tag = param };
                 this.listView1.Items.Add(listViewItem);
@@ -208,7 +213,7 @@ namespace DeviceManager
 
         private void MotorTypeInit()
         {
-            var types = MotorType.FindAll();
+            var types = Motortype.FindAll();
 
             this.motorType.DataSource = types;
             this.motorType.ValueMember = "MotorTypeId";
@@ -217,11 +222,11 @@ namespace DeviceManager
 
         private void PhysicTypeInit()
         {
-            //var types = Physicfeature.FindAll();
+            var types = Physicfeature.FindAll();
 
-            //this.physicType.DataSource = types;
-            //this.physicType.ValueMember = "Id";
-            //this.physicType.DisplayMember = "PhysicType";
+            this.physicType.DataSource = types;
+            this.physicType.ValueMember = "Id";
+            this.physicType.DisplayMember = "PhysicType";
         }
         /// <summary>
         /// 参考文档
@@ -257,19 +262,20 @@ namespace DeviceManager
         private void Seacher()
         {
             var txt = this.txtKey.Text;
-            var MotorTypeId = (this.motorType.SelectedItem as MotorType).MotorTypeId;
+            var MotorTypeId = (this.motorType.SelectedItem as Motortype).MotorTypeId;
             //var physicType = (this.physicType.SelectedItem as Physicfeature).PhysicType;
 
             IList<Motorparams> list = null;
-            if (txt.IsEnlish())
-            {
-                list = Motorparams.FindByParam(MotorTypeId, txt);
-            }
+            //if (txt.IsEnlish())
+            //{
+            //    //list = Motorparams.FindByParam(MotorTypeId, txt);
+            //}
 
-            if (txt.IsChina())
-            {
-                list = Motorparams.FindByDesc(MotorTypeId, txt);
-            }
+            //if (txt.IsChina())
+            //{
+                
+            //}
+            list = Motorparams.FindByDesc(MotorTypeId, txt);
             if (txt.IsNullOrWhiteSpace())
             {
                 list = Motorparams.FindAll();
@@ -277,7 +283,7 @@ namespace DeviceManager
             }
             this.listView1.BeginUpdate();
             this.listView1.Items.Clear();
-            //this.listView1.Items.Clear();
+        
             if (list != null)
             {
                 var paramList = list;
@@ -370,6 +376,76 @@ namespace DeviceManager
             }
             return;
         }
+
+        private void btnJsonIn_Click(object sender, EventArgs e)
+        {
+            var info = GetJsonInfo("File\\configure.v0.2.1.json");
+            var phsics = info.phy;
+            if(phsics.Any())
+                phsics.ForEach(p =>
+                {
+                    if(Physicfeature.Find("Id",p.id)==null)
+                        new Physicfeature()
+                        {
+                            Accur = p.accur,
+                            Id = p.id,
+                            Format = p.format,
+                            Unit = p.unit,
+                            PhysicType = p.name,
+                            Time = DateTime.Now
+                        }.SaveAsync();
+
+
+                    if (p.func!=null&&p.func.Any())
+                    {
+                        p.func.ForEach(f =>
+                        {
+                            var paramList=Motorparams.FindAll("Param", f);
+                            if (paramList == null||!paramList.Any()) return;
+                            var list = paramList;
+                            foreach (var t in list)
+                            {
+                                var update=paramList.FirstOrDefault(x=> x.Id ==t.Id);
+                                update.PhysicId = p.id;
+                                update.SaveAsync();
+                            }
+                          
+                        });
+                    }
+                });
+            MessageBox.Show("配置初始化完成！");
+
+        }
+
+        #region private extend method
+
+        /// <summary>
+        /// xml序列化
+        /// </summary>
+        /// <param name="jsonPath"></param>
+        public static ConfigureJsonInfo GetJsonInfo(string jsonPath)
+        {
+            try
+            {
+                var path = AppDomain.CurrentDomain.BaseDirectory + jsonPath;
+                if (!System.IO.File.Exists(path)) return new ConfigureJsonInfo();
+                var fs = System.IO.File.Open(path, FileMode.Open, FileAccess.Read);
+                var sr = new StreamReader(fs);
+                var text = sr.ReadToEnd();
+                return text.ToJsonEntity<ConfigureJsonInfo>();
+            }
+            catch (Exception e)
+            {
+                XTrace.Log.Error(e.Message);
+                // throw;
+                return new ConfigureJsonInfo();
+            }
+
+
+        }
+
+        #endregion
+
     }
 
 }

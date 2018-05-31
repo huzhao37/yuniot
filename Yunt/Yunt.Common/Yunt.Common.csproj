@@ -11,7 +11,11 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
-    <PackageReference Include="NewLife.Core" Version="7.0.6707.38036" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.0.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.EventSource" Version="2.0.2" />
+    <PackageReference Include="NewLife.Core" Version="7.0.6712.2419" />
     <PackageReference Include="SharpCompress" Version="0.20.0" />
   </ItemGroup>
 

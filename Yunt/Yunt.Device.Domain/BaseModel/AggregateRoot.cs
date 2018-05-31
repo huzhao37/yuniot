@@ -33,7 +33,6 @@ namespace Yunt.Device.Domain.BaseModel
     [ProtoInclude(27, typeof(DoubleToothRollCrusherByDay))]
     [ProtoInclude(28, typeof(DoubleToothRollCrusherByHour))]
     [ProtoInclude(29, typeof(ImpactCrusherByDay))]
-
     [ProtoInclude(30, typeof(ImpactCrusherByHour))]
     [ProtoInclude(31, typeof(JawCrusherByDay))]
     [ProtoInclude(32, typeof(JawCrusherByHour))]
@@ -55,13 +54,17 @@ namespace Yunt.Device.Domain.BaseModel
     [ProtoInclude(46, typeof(Motor))]
     [ProtoInclude(47, typeof(ProductionLine))]
     [ProtoInclude(48, typeof(OriginalBytes))]
+
+    [ProtoInclude(49, typeof(HVib))]
+    [ProtoInclude(50, typeof(HVibByHour))]
+    [ProtoInclude(51, typeof(HVibByDay))]
     public abstract class AggregateRoot : IAggregateRoot
     {
         [DataMember]
-        [ProtoMember(49)]
+        [ProtoMember(52)]
         public long Id { get; set; }
         [DataMember]
-        [ProtoMember(50)]
+        [ProtoMember(53)]
         public long Time { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace MotorEvent.EmailPush
                 while (true)
                 {
                     if (_timerX == null)
-                        _timerX = new TimerX(obj => { SendEmail(); }, null, 1000, 60 * 1000);
+                        _timerX = new TimerX(obj => { SendEmail(); }, null, 1000, 6000 * 1000);
                 }
             }
             catch (Exception e)

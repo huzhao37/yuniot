@@ -10,7 +10,7 @@ using XCode;
 using XCode.Configuration;
 using XCode.Membership;
 
-namespace DeviceManager.Model
+namespace Yunt.XmlProtocol.Domain.Models
 {
     /// <summary>Physicfeature</summary>
     /// <remarks></remarks>

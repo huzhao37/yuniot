@@ -6,7 +6,7 @@ using XCode;
 using XCode.Configuration;
 using XCode.DataAccessLayer;
 
-namespace DeviceManager.Model
+namespace Yunt.XmlProtocol.Domain.Models
 {
     /// <summary>Motorparams</summary>
     /// <remarks></remarks>
@@ -45,7 +45,7 @@ namespace DeviceManager.Model
         /// <summary></summary>
         [DisplayName("Description")]
         [Description("")]
-        [DataObjectField(false, false, true, 0)]
+        [DataObjectField(false, false, true, 255)]
         [BindColumn("Description", "", "VARCHAR(255)")]
         public virtual String Description
         {
@@ -57,12 +57,24 @@ namespace DeviceManager.Model
         /// <summary></summary>
         [DisplayName("MotorTypeId")]
         [Description("")]
-        [DataObjectField(false, false, true, 0)]
+        [DataObjectField(false, false, true, 255)]
         [BindColumn("MotorTypeId", "", "VARCHAR(255)")]
         public virtual String MotorTypeId
         {
             get { return _MotorTypeId; }
             set { if (OnPropertyChanging(__.MotorTypeId, value)) { _MotorTypeId = value; OnPropertyChanged(__.MotorTypeId); } }
+        }
+
+        private Int32 _PhysicId;
+        /// <summary></summary>
+        [DisplayName("PhysicId")]
+        [Description("")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("PhysicId", "", "int(11)")]
+        public virtual Int32 PhysicId
+        {
+            get { return _PhysicId; }
+            set { if (OnPropertyChanging(__.PhysicId, value)) { _PhysicId = value; OnPropertyChanged(__.PhysicId); } }
         }
 
         private DateTime _Time;
@@ -76,8 +88,6 @@ namespace DeviceManager.Model
             get { return _Time; }
             set { if (OnPropertyChanging(__.Time, value)) { _Time = value; OnPropertyChanged(__.Time); } }
         }
-
-  
         #endregion
 
         #region 获取/设置 字段值
@@ -98,6 +108,7 @@ namespace DeviceManager.Model
                     case __.Param : return _Param;
                     case __.Description : return _Description;
                     case __.MotorTypeId : return _MotorTypeId;
+                    case __.PhysicId : return _PhysicId;
                     case __.Time : return _Time;
                     default: return base[name];
                 }
@@ -110,6 +121,7 @@ namespace DeviceManager.Model
                     case __.Param : _Param = Convert.ToString(value); break;
                     case __.Description : _Description = Convert.ToString(value); break;
                     case __.MotorTypeId : _MotorTypeId = Convert.ToString(value); break;
+                    case __.PhysicId : _PhysicId = Convert.ToInt32(value); break;
                     case __.Time : _Time = Convert.ToDateTime(value); break;
                     default: base[name] = value; break;
                 }
@@ -134,8 +146,10 @@ namespace DeviceManager.Model
             public static readonly Field MotorTypeId = FindByName(__.MotorTypeId);
 
             ///<summary></summary>
+            public static readonly Field PhysicId = FindByName(__.PhysicId);
+
+            ///<summary></summary>
             public static readonly Field Time = FindByName(__.Time);
-            
 
             static Field FindByName(String name) { return Meta.Table.FindByName(name); }
         }
@@ -156,8 +170,10 @@ namespace DeviceManager.Model
             public const String MotorTypeId = "MotorTypeId";
 
             ///<summary></summary>
+            public const String PhysicId = "PhysicId";
+
+            ///<summary></summary>
             public const String Time = "Time";
-            
 
         }
         #endregion
@@ -181,8 +197,10 @@ namespace DeviceManager.Model
         String MotorTypeId { get; set; }
 
         /// <summary></summary>
+        Int32 PhysicId { get; set; }
+
+        /// <summary></summary>
         DateTime Time { get; set; }
-        
         #endregion
 
         #region 获取/设置 字段值

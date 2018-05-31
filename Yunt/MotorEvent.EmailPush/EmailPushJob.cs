@@ -6,6 +6,7 @@ using System.Threading;
 using MotorEvent.EmailPush.Models;
 using NewLife.Log;
 using Quartz;
+using XCode.DataAccessLayer;
 using Yunt.Common;
 using Yunt.Common.Email;
 using Yunt.Dtsc.Core;
@@ -40,7 +41,7 @@ namespace MotorEvent.EmailPush
         private static void Start()
         {
             XTrace.Log.Info("mail push start ...");
-
+            
             #region MyRegion
 
             var now = DateTime.Now;

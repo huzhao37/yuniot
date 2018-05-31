@@ -40,7 +40,7 @@ namespace Yunt.XmlProtocol.Domain.Service
                 if (bitStr.Equals("LOGID"))
                 {
                     bit = 32;
-                    desc = "整型模拟量";
+                    desc = "LOGID";
                 }
                 else if (bitStr.Equals("时间"))
                 {

@@ -46,7 +46,9 @@ namespace Yunt.IDC.Task
             var queuePassword = WddQueue.Pwd;
 
             var ccuri = "amqp://" + queueHost + ":" + queuePort;
-            var queue = "WUDDTEST";//WddQueue.RouteKey; //"FailedData";
+            var queue = "WUDDTEST";//"FailedData";
+            var route = "0102030405FE.WUDD";//WddQueue.RouteKey; 
+            var exchange = "amq.topic";
             var errorQueue = queue+"Error"; //faileddata
 #if DEBUG
             s1.Stop();
@@ -54,8 +56,8 @@ namespace Yunt.IDC.Task
 #endif
             var rabbitHelper = new RabbitMqHelper();
             RabbitMqHelper.Cancelled = !Program.Configuration.GetSection("AppSettings").GetValue<bool>("MqDealEnable");
-            rabbitHelper.Read(ccuri, queue, queueHost, queuePort, queueUserName, queuePassword, interval, errorQueue,Deal,DataType.Integrate);
-        
+            rabbitHelper.Read(ccuri, queue, route,exchange, queueHost, queuePort, queueUserName, queuePassword, interval, errorQueue,Deal,DataType.Integrate);
+            //rabbitHelper.TaskForReadAllQueue(ccuri,queueUserName,queuePassword, Deal, DataType.Integrate);
         }
         /// <summary>
         /// 队列持久化

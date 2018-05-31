@@ -20,10 +20,10 @@ namespace DeviceManager
         [STAThread]
         static void Main()
         {
-
-            //Application.EnableVisualStyles();
-            //Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new Form1());
+            XCode.Setting.Current.Migration = XCode.DataAccessLayer.Migration.Off;
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new Form1());
 
             #region 实体类自动生成
             //Motorparams.FromExcel("cc");
@@ -36,14 +36,14 @@ namespace DeviceManager
             //Motorparams.FromExcel("vc");
             //Motorparams.FromExcel("pul");
 
-            InitClassFile("BaseModel", "Yunt.Device.Repository.EF.Models", TableType.Instant);
-            InitClassFile("BaseModel", "Yunt.Device.Repository.EF.Models", TableType.Hour);
-            InitClassFile("BaseModel", "Yunt.Device.Repository.EF.Models", TableType.Day);
+            //InitClassFile("BaseModel", "Yunt.Device.Repository.EF.Models", TableType.Instant);
+            //InitClassFile("BaseModel", "Yunt.Device.Repository.EF.Models", TableType.Hour);
+            //InitClassFile("BaseModel", "Yunt.Device.Repository.EF.Models", TableType.Day);
 
             //InitClassFile("AggregateRoot", "Yunt.Device.Domain.Model", TableType.Instant);
             //InitClassFile("AggregateRoot", "Yunt.Device.Domain.Model", TableType.Hour);
             //InitClassFile("AggregateRoot", "Yunt.Device.Domain.Model", TableType.Day);
-            Console.ReadKey();
+            //Console.ReadKey();
 
             #endregion
 

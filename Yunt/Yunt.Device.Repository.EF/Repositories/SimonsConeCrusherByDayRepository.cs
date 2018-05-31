@@ -35,19 +35,19 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <summary>
         /// 统计该当日的圆锥破数据;
         /// </summary>
-        /// <param name="motorId">设备id</param>
+        /// <param name="motor">设备</param>
         /// <param name="dt">查询时间,精确到当日</param>
         /// <returns></returns>
-        public SimonsConeCrusherByDay GetByMotorId(string motorId, DateTime dt)
+        public SimonsConeCrusherByDay GetByMotor(Motor motor, DateTime dt)
         {
 
-            var standValue = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault()?.StandValue ?? 0;
+            var standValue = motor?.StandValue ?? 0;
 
             var start = dt.Date;
             var end = start.AddDays(1);
-
-            var originalDatas = _sccRep.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
-                                    e.Time.CompareTo(end) < 0, e => e.Time);
+            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
+            var originalDatas = _sccRep.GetEntities(e => e.Time >= startUnix &&
+                                    e.Time < endUnix, e => e.Time)?.ToList();
 
             if (!(originalDatas?.Any() ?? false)) return null;
 
@@ -55,7 +55,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var entity = new SimonsConeCrusherByDay
             {
                 Time = start.TimeSpan(),
-                MotorId = motorId,
+                MotorId = motor.MotorId,
                 AverageCurrent = average,
                 AverageOilFeedTempreature = (float)Math.Round(originalDatas.Average(o => o.AverageOilFeedTempreature), 2),
                 AverageOilReturnTempreature = (float)Math.Round(originalDatas.Average(o => o.AverageOilReturnTempreature), 2),
@@ -75,15 +75,15 @@ namespace Yunt.Device.Repository.EF.Repositories
         public async Task InsertDayStatistics(DateTime dt, string motorTypeId)
         {
             var ts = new List<SimonsConeCrusherByDay>();
-            var day = dt.Date;
+            var day = dt.Date.TimeSpan();
             var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
             foreach (var motor in query)
             {
                 var exsit = false;
-                exsit = GetEntities(o => o.Time.CompareTo(day) == 0 && o.MotorId == motor.MotorId).Any();
+                exsit = GetEntities(o => o.Time == day && o.MotorId == motor.MotorId).Any();
                 if (exsit)
                     continue;
-                var t = GetByMotorId(motor.MotorId, dt);
+                var t = GetByMotor(motor, dt);
                 if (t != null)
                     ts.Add(t);
             }

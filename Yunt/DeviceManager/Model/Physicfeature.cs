@@ -13,7 +13,7 @@ namespace DeviceManager.Model
     [Serializable]
     [DataObject]
     [Description("")]
-    [BindTable("physicfeature", Description = "", ConnName = "devicemanager", DbType = DatabaseType.MySql)]
+    [BindTable("physicfeature", Description = "", ConnName = "yunt_xml", DbType = DatabaseType.MySql)]
     public partial class Physicfeature : IPhysicfeature
     {
         #region 属性
@@ -21,7 +21,7 @@ namespace DeviceManager.Model
         /// <summary></summary>
         [DisplayName("Id")]
         [Description("")]
-        [DataObjectField(true, true, false, 0)]
+        [DataObjectField(true, false, false, 0)]
         [BindColumn("Id", "", "int(11)")]
         public virtual Int32 Id
         {
@@ -30,15 +30,51 @@ namespace DeviceManager.Model
         }
 
         private String _PhysicType;
-        /// <summary></summary>
-        [DisplayName("PhysicType")]
-        [Description("")]
+        /// <summary>名称</summary>
+        [DisplayName("名称")]
+        [Description("名称")]
         [DataObjectField(false, false, true, 255)]
-        [BindColumn("PhysicType", "", "VARCHAR(255)")]
+        [BindColumn("PhysicType", "名称", "VARCHAR(255)")]
         public virtual String PhysicType
         {
             get { return _PhysicType; }
             set { if (OnPropertyChanging(__.PhysicType, value)) { _PhysicType = value; OnPropertyChanged(__.PhysicType); } }
+        }
+
+        private String _Unit;
+        /// <summary>单位</summary>
+        [DisplayName("单位")]
+        [Description("单位")]
+        [DataObjectField(false, false, true, 255)]
+        [BindColumn("Unit", "单位", "VARCHAR(255)")]
+        public virtual String Unit
+        {
+            get { return _Unit; }
+            set { if (OnPropertyChanging(__.Unit, value)) { _Unit = value; OnPropertyChanged(__.Unit); } }
+        }
+
+        private Int32 _Format;
+        /// <summary>格式</summary>
+        [DisplayName("格式")]
+        [Description("格式")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Format", "格式", "int(11)")]
+        public virtual Int32 Format
+        {
+            get { return _Format; }
+            set { if (OnPropertyChanging(__.Format, value)) { _Format = value; OnPropertyChanged(__.Format); } }
+        }
+
+        private Single _Accur;
+        /// <summary>精度</summary>
+        [DisplayName("精度")]
+        [Description("精度")]
+        [DataObjectField(false, false, true, 0)]
+        [BindColumn("Accur", "精度", "float(8,0)")]
+        public virtual Single Accur
+        {
+            get { return _Accur; }
+            set { if (OnPropertyChanging(__.Accur, value)) { _Accur = value; OnPropertyChanged(__.Accur); } }
         }
 
         private DateTime _Time;
@@ -70,6 +106,9 @@ namespace DeviceManager.Model
                 {
                     case __.Id : return _Id;
                     case __.PhysicType : return _PhysicType;
+                    case __.Unit : return _Unit;
+                    case __.Format : return _Format;
+                    case __.Accur : return _Accur;
                     case __.Time : return _Time;
                     default: return base[name];
                 }
@@ -80,6 +119,9 @@ namespace DeviceManager.Model
                 {
                     case __.Id : _Id = Convert.ToInt32(value); break;
                     case __.PhysicType : _PhysicType = Convert.ToString(value); break;
+                    case __.Unit : _Unit = Convert.ToString(value); break;
+                    case __.Format : _Format = Convert.ToInt32(value); break;
+                    case __.Accur : _Accur = Convert.ToSingle(value); break;
                     case __.Time : _Time = Convert.ToDateTime(value); break;
                     default: base[name] = value; break;
                 }
@@ -94,8 +136,17 @@ namespace DeviceManager.Model
             ///<summary></summary>
             public static readonly Field Id = FindByName(__.Id);
 
-            ///<summary></summary>
+            ///<summary>名称</summary>
             public static readonly Field PhysicType = FindByName(__.PhysicType);
+
+            ///<summary>单位</summary>
+            public static readonly Field Unit = FindByName(__.Unit);
+
+            ///<summary>格式</summary>
+            public static readonly Field Format = FindByName(__.Format);
+
+            ///<summary>精度</summary>
+            public static readonly Field Accur = FindByName(__.Accur);
 
             ///<summary></summary>
             public static readonly Field Time = FindByName(__.Time);
@@ -109,8 +160,17 @@ namespace DeviceManager.Model
             ///<summary></summary>
             public const String Id = "Id";
 
-            ///<summary></summary>
+            ///<summary>名称</summary>
             public const String PhysicType = "PhysicType";
+
+            ///<summary>单位</summary>
+            public const String Unit = "Unit";
+
+            ///<summary>格式</summary>
+            public const String Format = "Format";
+
+            ///<summary>精度</summary>
+            public const String Accur = "Accur";
 
             ///<summary></summary>
             public const String Time = "Time";
@@ -127,8 +187,17 @@ namespace DeviceManager.Model
         /// <summary></summary>
         Int32 Id { get; set; }
 
-        /// <summary></summary>
+        /// <summary>名称</summary>
         String PhysicType { get; set; }
+
+        /// <summary>单位</summary>
+        String Unit { get; set; }
+
+        /// <summary>格式</summary>
+        Int32 Format { get; set; }
+
+        /// <summary>精度</summary>
+        Single Accur { get; set; }
 
         /// <summary></summary>
         DateTime Time { get; set; }

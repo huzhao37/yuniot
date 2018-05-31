@@ -10,6 +10,11 @@ namespace Yunt.Device.Domain.IRepository
 {
     public interface IMaterialFeederByDayRepository : IDeviceRepositoryBase<MaterialFeederByDay>
     {
-        
+        /// <summary>
+        /// 统计该当日内所有给料机的数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        Task InsertDayStatistics(DateTime dt, string motorTypeId);
     }
 }

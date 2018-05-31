@@ -292,6 +292,42 @@ namespace MotorEvent.EmailPush.Models
             get { return _StorageSiloId; }
             set { if (OnPropertyChanging(__.StorageSiloId, value)) { _StorageSiloId = value; OnPropertyChanged(__.StorageSiloId); } }
         }
+
+        private Single _Slope;
+        /// <summary></summary>
+        [DisplayName("Slope")]
+        [Description("")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("Slope", "", "real")]
+        public virtual Single Slope
+        {
+            get { return _Slope; }
+            set { if (OnPropertyChanging(__.Slope, value)) { _Slope = value; OnPropertyChanged(__.Slope); } }
+        }
+
+        private Single _OffSet;
+        /// <summary></summary>
+        [DisplayName("OffSet")]
+        [Description("")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("OffSet", "", "real")]
+        public virtual Single OffSet
+        {
+            get { return _OffSet; }
+            set { if (OnPropertyChanging(__.OffSet, value)) { _OffSet = value; OnPropertyChanged(__.OffSet); } }
+        }
+
+        private Boolean _UseCalc;
+        /// <summary></summary>
+        [DisplayName("UseCalc")]
+        [Description("")]
+        [DataObjectField(false, false, false, 0)]
+        [BindColumn("UseCalc", "", "bit")]
+        public virtual Boolean UseCalc
+        {
+            get { return _UseCalc; }
+            set { if (OnPropertyChanging(__.UseCalc, value)) { _UseCalc = value; OnPropertyChanged(__.UseCalc); } }
+        }
         #endregion
 
         #region 获取/设置 字段值
@@ -331,6 +367,9 @@ namespace MotorEvent.EmailPush.Models
                     case __.Time : return _Time;
                     case __.EmbeddedDeviceId : return _EmbeddedDeviceId;
                     case __.StorageSiloId : return _StorageSiloId;
+                    case __.Slope : return _Slope;
+                    case __.OffSet : return _OffSet;
+                    case __.UseCalc : return _UseCalc;
                     default: return base[name];
                 }
             }
@@ -361,6 +400,9 @@ namespace MotorEvent.EmailPush.Models
                     case __.Time : _Time = Convert.ToDateTime(value); break;
                     case __.EmbeddedDeviceId : _EmbeddedDeviceId = Convert.ToInt32(value); break;
                     case __.StorageSiloId : _StorageSiloId = Convert.ToInt32(value); break;
+                    case __.Slope : _Slope = Convert.ToSingle(value); break;
+                    case __.OffSet : _OffSet = Convert.ToSingle(value); break;
+                    case __.UseCalc : _UseCalc = Convert.ToBoolean(value); break;
                     default: base[name] = value; break;
                 }
             }
@@ -440,6 +482,15 @@ namespace MotorEvent.EmailPush.Models
             ///<summary></summary>
             public static readonly Field StorageSiloId = FindByName(__.StorageSiloId);
 
+            ///<summary></summary>
+            public static readonly Field Slope = FindByName(__.Slope);
+
+            ///<summary></summary>
+            public static readonly Field OffSet = FindByName(__.OffSet);
+
+            ///<summary></summary>
+            public static readonly Field UseCalc = FindByName(__.UseCalc);
+
             static Field FindByName(String name) { return Meta.Table.FindByName(name); }
         }
 
@@ -514,6 +565,15 @@ namespace MotorEvent.EmailPush.Models
 
             ///<summary></summary>
             public const String StorageSiloId = "StorageSiloId";
+
+            ///<summary></summary>
+            public const String Slope = "Slope";
+
+            ///<summary></summary>
+            public const String OffSet = "OffSet";
+
+            ///<summary></summary>
+            public const String UseCalc = "UseCalc";
 
         }
         #endregion
@@ -592,6 +652,15 @@ namespace MotorEvent.EmailPush.Models
 
         /// <summary></summary>
         Int32 StorageSiloId { get; set; }
+
+        /// <summary></summary>
+        Single Slope { get; set; }
+
+        /// <summary></summary>
+        Single OffSet { get; set; }
+
+        /// <summary></summary>
+        Boolean UseCalc { get; set; }
         #endregion
 
         #region 获取/设置 字段值

@@ -33,7 +33,7 @@ namespace Yunt.Auth.Repository.EF.Repositories
            //{
            //transaction.Commit();
            //}
-
+            if (t == null) return 0;
             var idfac =_idRep.GetEntities().FirstOrDefault();
             var newIndex = idfac?.UserIndex + 1 ?? 1;
             if (idfac != null)

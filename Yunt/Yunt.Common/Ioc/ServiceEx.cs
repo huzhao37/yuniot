@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NewLife.Reflection;
 
 namespace Yunt.Common
 {
@@ -19,9 +20,12 @@ namespace Yunt.Common
             var providers = new Dictionary<string, IServiceProvider>();
             try
             {
-                var path = AppDomain.CurrentDomain.BaseDirectory;
-               // FileEx.DelectDir(path);
-                FileEx.CopyFolderTo("./../commondll/netcoreapp2.0", path);
+                //var path = AppDomain.CurrentDomain.BaseDirectory;
+                dynamic type = (new ServiceEx()).GetType();
+                string path = Path.GetDirectoryName(type.Assembly.Location);
+
+                var dllPath= configuration.GetSection("AppSettings").GetValue<string>("DllPath");
+                FileEx.CopyFolderTo(dllPath, path);
 
                 //FileEx.TryLoadAssembly();
                 var files = new DirectoryInfo(path).GetFiles();

@@ -6,6 +6,7 @@ using System.Reflection;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using NewLife.Log;
 using Yunt.Common;
 using Yunt.Device.Domain.BaseModel;
@@ -15,6 +16,7 @@ using Yunt.IDC.Helper;
 using Yunt.IDC.Task;
 using Yunt.Xml.Domain.IRepository;
 using Yunt.XmlProtocol.Domain.Models;
+using LogLevel = NewLife.Log.LogLevel;
 
 namespace Yunt.IDC
 {
@@ -103,7 +105,9 @@ namespace Yunt.IDC
                 .AddJsonFile("appsettings.json", true, reloadOnChange: true);
 
             var configuration = builder.Build();
+            Common.Logger.Create(configuration, new LoggerFactory(), "service");
             services.AddSingleton<IConfiguration>(configuration);
+         
             Configuration = configuration;
             var providers = ServiceEx.StartServices(services, configuration);
             Providers = providers;

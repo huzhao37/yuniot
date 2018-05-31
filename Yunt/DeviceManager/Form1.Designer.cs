@@ -39,6 +39,7 @@
             this.listView1 = new System.Windows.Forms.ListView();
             this.Param = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Desc = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.PhysicTypeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MotorTypeId = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.Time = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.menuOperate = new System.Windows.Forms.ContextMenuStrip(this.components);
@@ -49,15 +50,18 @@
             this.button2 = new System.Windows.Forms.Button();
             this.btnRefresh = new System.Windows.Forms.Button();
             this.btnTranslate = new System.Windows.Forms.Button();
+            this.label4 = new System.Windows.Forms.Label();
+            this.physicType = new System.Windows.Forms.ComboBox();
+            this.btnJsonIn = new System.Windows.Forms.Button();
             this.menuOperate.SuspendLayout();
             this.SuspendLayout();
             // 
-            // MotorType
+            // motorType
             // 
             this.motorType.DisplayMember = "MotorTypeName";
             this.motorType.FormattingEnabled = true;
             this.motorType.Location = new System.Drawing.Point(169, 75);
-            this.motorType.Name = "MotorType";
+            this.motorType.Name = "motorType";
             this.motorType.Size = new System.Drawing.Size(121, 20);
             this.motorType.TabIndex = 0;
             this.motorType.ValueMember = "MotorType";
@@ -120,6 +124,7 @@
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.Param,
             this.Desc,
+            this.PhysicTypeId,
             this.MotorTypeId,
             this.Time});
             this.listView1.ContextMenuStrip = this.menuOperate;
@@ -147,13 +152,20 @@
             this.Desc.Text = "描述";
             this.Desc.Width = 122;
             // 
+            // PhysicTypeId
+            // 
+            this.PhysicTypeId.DisplayIndex = 4;
+            this.PhysicTypeId.Text = "物理特性";
+            // 
             // MotorTypeId
             // 
+            this.MotorTypeId.DisplayIndex = 2;
             this.MotorTypeId.Text = "电机设备类型";
             this.MotorTypeId.Width = 122;
             // 
             // Time
             // 
+            this.Time.DisplayIndex = 3;
             this.Time.Text = "时间";
             this.Time.Width = 144;
             // 
@@ -228,11 +240,43 @@
             this.btnTranslate.UseVisualStyleBackColor = true;
             this.btnTranslate.Click += new System.EventHandler(this.btnTranslate_Click);
             // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(361, 78);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 12);
+            this.label4.TabIndex = 16;
+            this.label4.Text = "物理特性：";
+            // 
+            // physicType
+            // 
+            this.physicType.DisplayMember = "PhysicType";
+            this.physicType.FormattingEnabled = true;
+            this.physicType.Location = new System.Drawing.Point(445, 75);
+            this.physicType.Name = "physicType";
+            this.physicType.Size = new System.Drawing.Size(121, 20);
+            this.physicType.TabIndex = 15;
+            this.physicType.ValueMember = "ID";
+            // 
+            // btnJsonIn
+            // 
+            this.btnJsonIn.Location = new System.Drawing.Point(711, 67);
+            this.btnJsonIn.Name = "btnJsonIn";
+            this.btnJsonIn.Size = new System.Drawing.Size(75, 23);
+            this.btnJsonIn.TabIndex = 17;
+            this.btnJsonIn.Text = "导入Json";
+            this.btnJsonIn.UseVisualStyleBackColor = true;
+            this.btnJsonIn.Click += new System.EventHandler(this.btnJsonIn_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(787, 546);
+            this.Controls.Add(this.btnJsonIn);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.physicType);
             this.Controls.Add(this.btnTranslate);
             this.Controls.Add(this.btnRefresh);
             this.Controls.Add(this.button2);
@@ -277,6 +321,10 @@
         private System.Windows.Forms.ContextMenuStrip menuOperate;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.ComboBox physicType;
+        private System.Windows.Forms.ColumnHeader PhysicTypeId;
+        private System.Windows.Forms.Button btnJsonIn;
     }
 }
 

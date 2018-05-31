@@ -105,10 +105,10 @@ namespace Yunt.IDC.Helper
                 };
                 bytesRepository.InsertAsync(bytes);
                 //写入队列中缓冲
-                rabbitHelper.Write(ccuri, Extention.strToToHexByte(buffer), queue, queueUserName, queuePassword);
+                rabbitHelper.Write(ccuri, Extention.strToToHexByte(buffer), queue, queue,"amq.topic", queueUserName, queuePassword);
 
 
-                var motors = motorRepository.GetEntities(e => e.EmbeddedDeviceId == emDevice.ID && e.Id != 0
+                var motors = motorRepository.GetEntities(e => e.EmbeddedDeviceId == emDevice.ID
                 && e.ProductionLineId.EqualIgnoreCase(emDevice.ProductionlineID)).ToList();
 
                 if (motors == null || !motors.Any())
@@ -197,7 +197,7 @@ namespace Yunt.IDC.Helper
                                         var mf = new Pulverizer();
                                         var obj = MotorObj(pvalue, motor.MotorId, mf);
                                         if (obj != null)
-                                            pulRepository.Insert(obj as Pulverizer);
+                                            pulRepository.InsertAsync(obj as Pulverizer);
                                         break;
                                     }
                                 case "IC":

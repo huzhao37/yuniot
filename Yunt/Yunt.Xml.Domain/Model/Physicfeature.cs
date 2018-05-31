@@ -17,5 +17,15 @@ namespace Yunt.Xml.Domain.Model
         [DataMember]
         [ProtoMember(2)]
         public DateTime? Time { get; set; }
+
+        [DataMember]
+        [ProtoMember(3)]
+        public string Unit { get; set; }
+        [DataMember]
+        [ProtoMember(4)]
+        public int Format { get; set; }
+        [DataMember]
+        [ProtoMember(5)]
+        public float Accur { get; set; }
     }
 }
