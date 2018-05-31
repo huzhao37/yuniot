@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Yunt.WebApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class SampleDataController : Controller
     {
