@@ -117,6 +117,7 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             if (minuteData != null)
                 hourData?.Add(minuteData);
+            if (hourData == null || !hourData.Any()) return null;
             var average = (float)Math.Round(hourData.Average(o => o.AverageCurrent), 2);
             var data = new SimonsConeCrusherByDay
             {

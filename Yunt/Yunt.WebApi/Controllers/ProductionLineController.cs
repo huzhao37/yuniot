@@ -112,8 +112,8 @@ namespace Yunt.WebApi.Controllers
             var end = DateTime.Now.Date;
             var start = end.AddDays(-15);
             var datas = _conveyorByDayRepository.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
-                        e.Time.CompareTo(end) <= 0 && e.MotorId.Equals(motorId));
-            if (!datas.Any()) return resp;
+                        e.Time.CompareTo(end) <= 0 && e.MotorId.Equals(motorId))?.ToList();
+            if (datas==null||!datas.Any()) return resp;
             foreach (var d in datas)
             {
                 resp.Add(new MainConveyorHository()
@@ -131,8 +131,8 @@ namespace Yunt.WebApi.Controllers
         public IEnumerable<MotorSummary> Motors(string productionlineId)
         {
             var datas = new List<MotorSummary>();
-            var motors = _motorRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase(productionlineId));
-            if (!motors.Any()) return datas;
+            var motors = _motorRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase(productionlineId))?.ToList();
+            if (motors==null||!motors.Any()) return datas;
             foreach (var motor in motors)
             {
                 var status = _productionLineRepository.GetMotorStatusByMotorId(motor.MotorId);

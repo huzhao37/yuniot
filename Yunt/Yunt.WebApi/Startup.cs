@@ -49,7 +49,7 @@ namespace Yunt.WebApi
 
             var configuration = builder.Build();
             services.AddSingleton<IConfiguration>(configuration);
-            Logger.Create(configuration, new LoggerFactory(), "Yunt.WebApi");
+            //Logger.Create(configuration, new LoggerFactory(), "Yunt.WebApi");
 
 
             Providers = ServiceEx.StartServices(services, configuration);

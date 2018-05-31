@@ -48,12 +48,12 @@ namespace Yunt.Device.Repository.EF
                         $"\"MySqlConn\":\"***\"}}");
                 }
 
-                //var contextOptions = new DbContextOptionsBuilder().UseMySql(mySqlConn).EnableSensitiveDataLogging().Options;
-                //services.AddSingleton(contextOptions)
-                //  .AddSingleton<DeviceContext>();
+                var contextOptions = new DbContextOptionsBuilder().UseMySql(mySqlConn).EnableSensitiveDataLogging().Options;
+                services.AddSingleton(contextOptions)
+                  .TryAddTransient<DeviceContext>();
 
-                services.AddDbContextPool<DeviceContext>(options =>
-                                  options.UseMySql(mySqlConn).EnableSensitiveDataLogging());
+                //services.AddDbContextPool<DeviceContext>(options =>
+                //                  options.UseMySql(mySqlConn).EnableSensitiveDataLogging());
 
                 var currentpath = AppDomain.CurrentDomain.BaseDirectory;
                 var allTypes = Assembly.LoadFrom($"{currentpath}{ MethodBase.GetCurrentMethod().DeclaringType.Namespace}.dll").GetTypes();

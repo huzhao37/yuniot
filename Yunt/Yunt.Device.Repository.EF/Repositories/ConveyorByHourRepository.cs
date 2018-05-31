@@ -173,7 +173,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var hourEnd = minuteEnd.Date.AddHours(minuteEnd.Hour);
             var minuteStart = hourEnd;
 
-            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
+            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).FirstOrDefault();
             var standValue = motor?.StandValue ?? 0;
 
             long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
@@ -185,6 +185,7 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             if (minuteData != null)
                 hourData?.Add(minuteData);
+            if (hourData == null || !hourData.Any()) return null;
             var weightSum = (float)Math.Round(hourData?.Sum(e => e.AccumulativeWeight) ?? 0, 2);
             var hours = hourData?.Count ?? 0;
             var data = new ConveyorByDay
