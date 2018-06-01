@@ -1,16 +1,12 @@
 ﻿<Properties StartupConfiguration="{CB545D29-E1C5-4453-8334-CF051089F459}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="Yunt.WebApi/Controllers/OAuthController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Yunt.WebApi/Program.cs">
     <Files>
-      <File FileName="Yunt.WebApi/Controllers/OAuthController.cs" Line="34" Column="49" />
-      <File FileName="Yunt.WebApi/Controllers/ProductionLineController.cs" Line="163" Column="6" />
-      <File FileName="Yunt.WebApi/Models/Logins/LoginInfo.cs" Line="6" Column="18" />
+      <File FileName="Yunt.WebApi/Program.cs" Line="25" Column="26" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore>
-      <Breakpoint file="/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.WebApi/Controllers/SampleDataController.cs" relfile="Yunt.WebApi/Controllers/SampleDataController.cs" line="21" column="1" />
-    </BreakpointStore>
+    <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.Demo.QuartzDemo.Yunt.Demo.ConsoleApp1 PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
