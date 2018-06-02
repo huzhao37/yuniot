@@ -39,7 +39,7 @@ namespace Yunt.WebApi.Controllers
         // GET: api/OutHouse
         [EnableCors("any")]
         [HttpGet]
-        [Route("OutHouseList")]
+        //[Route("OutHouseList")]
         public dynamic Get(int pageindex, int pagesize, string productionLineId)
         {
             try

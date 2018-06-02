@@ -32,7 +32,7 @@ namespace Yunt.WebApi.Controllers
         // GET: api/InHouse
         [EnableCors("any")]
         [HttpGet]
-        [Route("InHouseList")]
+        //[Route("InHouseList")]
         public dynamic Get(int pageindex, int pagesize, string productionLineId)
         {
             try
@@ -128,7 +128,7 @@ namespace Yunt.WebApi.Controllers
 
                 });
                 // var result = source.Select(e => new {e.Id,e.WareHousesId,e.WareHousesName,e.SparePartsTypeId,e.SparePartsTypeName,e.Remains });
-                var results = source.OrderBy(x => x.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
+                var results = source.OrderBy(x => (int)x.WareHousesId).Skip((pageindex - 1) * pagesize).Take(pagesize);
                 return new PaginatedList<dynamic>(pageindex, pagesize, source.Count(), results);
             }
             catch (Exception ex)

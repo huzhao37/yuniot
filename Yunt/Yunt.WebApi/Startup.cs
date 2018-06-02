@@ -20,7 +20,6 @@ using NewLife.Log;
 using Swashbuckle.AspNetCore.Swagger;
 using Yunt.Common;
 using Yunt.WebApi.Data;
-using Logger = Yunt.Common.Logger;
 
 namespace Yunt.WebApi
 {
@@ -75,7 +74,7 @@ namespace Yunt.WebApi
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(o =>
             {
-                o.Authority = "https://oidc.faasx.com/";
+                //o.Authority = "https://oidc.faasx.com/";
                 o.Audience = "api";
 
                 o.Events = new JwtBearerEvents()
