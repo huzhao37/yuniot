@@ -83,6 +83,7 @@ namespace Yunt.WebApi.Controllers
         }
 
         // POST: api/WareHouses
+        [EnableCors("any")]
         [HttpPost]
         public bool Post([FromBody]WareHouses value)//dynamic
         {

@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+    <UserSecretsId>5ef08c87-eae8-4269-8e35-96eb2b854c6e</UserSecretsId>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -9,22 +10,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\Inventories\StockController.cs" />
-    <Compile Remove="Controllers\Inventories\UnitOutController.cs" />
-    <Compile Remove="Controllers\Inventories\UnitsInController.cs" />
     <Compile Remove="Controllers\Inventories\WareHouseController.cs" />
     <Compile Remove="Models\Inventories\InHouse.cs" />
     <Compile Remove="Models\Inventories\OutHouse.cs" />
     <Compile Remove="Models\Inventories\WareHouses.cs" />
-    <Compile Remove="Models\ProductionLines\Motors\CcDetail.cs" />
-    <Compile Remove="Models\ProductionLines\Motors\HvbDetail.cs" />
-    <Compile Remove="Models\ProductionLines\Motors\IcDetail.cs" />
-    <Compile Remove="Models\ProductionLines\Motors\JcDetail.cs" />
-    <Compile Remove="Models\ProductionLines\Motors\MfDetail.cs" />
-    <Compile Remove="Models\ProductionLines\Motors\PulDetail.cs" />
     <Compile Remove="Models\ProductionLines\Motors\SeriesData.cs" />
-    <Compile Remove="Models\ProductionLines\Motors\VbDetail.cs" />
-    <Compile Remove="Models\ProductionLines\Motors\VcDetail.cs" />
   </ItemGroup>
 
   <ItemGroup>

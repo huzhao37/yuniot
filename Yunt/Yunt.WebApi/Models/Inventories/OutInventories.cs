@@ -30,10 +30,11 @@ namespace Yunt.WebApi.Models.Inventories
         /// </summary>
         [DisplayName("电机设备编号")]
         public string MotorId { get; set; } = "Invalid";
-        ///// <summary>
-        ///// 仓库编号
-        ///// </summary>
-        //[DisplayName("仓库编号")]
-        //public int WareHousesId { get; set; }
+
+        /// <summary>
+        /// 出库时间
+        /// </summary>
+        [DisplayName("出库时间")]
+        public long OutTime { get; set; }
     }
 }

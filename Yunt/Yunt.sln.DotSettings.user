@@ -6,5 +6,5 @@
   &lt;Assembly Path="C:\Users\zhaoh\.nuget\packages\automapper\7.0.0-alpha-0001\lib\netstandard2.0\AutoMapper.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String>
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=0b3aaf82_002Dd9fd_002D425a_002D87b8_002Dc7d19d1f11cd_0023Publisher/@EntryIndexedValue">True</s:Boolean>
-	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=cb545d29_002De1c5_002D4453_002D8334_002Dcf051089f459_0023Yunt_002EWebApi/@EntryIndexedValue">True</s:Boolean>
+	
 	<s:Boolean x:Key="/Default/UnloadedProject/UnloadedProjects/=cd9a70c8_002D7daa_002D4790_002D81f7_002D3fad64772f96_0023Consumer/@EntryIndexedValue">True</s:Boolean></wpf:ResourceDictionary>

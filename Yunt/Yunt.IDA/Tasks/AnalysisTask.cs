@@ -117,7 +117,13 @@ namespace Yunt.IDA.Tasks
                 var time = DateTime.Now.TimeSpan();
                 if (logs.Any())
                 {
-                    var result = Statistics(logs.OrderBy(e => e.Time), key, time);
+                    string motorId = "";
+                    var strs = key.Split('|');
+                    if (strs.Length == 2)
+                        motorId = strs[1];
+                    if (motorId.IsNullOrWhiteSpace())
+                        return;
+                    var result = Statistics(logs.OrderBy(e => e.Time), motorId, time);
                     MotorEventLogRepository.Batch();
 #if DEBUG
                     if (result)

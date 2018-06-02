@@ -20,13 +20,15 @@ namespace webapi.Controllers
         private readonly ISparePartsTypeRepository _sparePartsTypeRepository;
         private readonly IMotortypeRepository _motortypeRepository;
         private readonly IMotorRepository _motorRepository;
+        private readonly IInHouseRepository _inHouseRepository;
         public SparePartTypeController(ISparePartsTypeRepository sparePartsTypeRepository,
             IMotortypeRepository motortypeRepository,
-            IMotorRepository motorRepository)
+            IMotorRepository motorRepository,
+            IInHouseRepository inHouseRepository)
         {
             _sparePartsTypeRepository = sparePartsTypeRepository;
             _motortypeRepository = motortypeRepository;
-            _motorRepository = motorRepository;
+            _inHouseRepository = inHouseRepository;
         }
         [EnableCors("any")]
         [HttpGet]
@@ -41,11 +43,16 @@ namespace webapi.Controllers
         [EnableCors("any")]
         [Route("SparePartsTypeList")]
         [HttpGet()]
-        public dynamic SparePartsTypeList()
+        public dynamic SparePartsTypeList(int wareHouseId)
         {
             try
             {
-                var data = _sparePartsTypeRepository.GetEntities()?.ToList();
+                var spareIds = _inHouseRepository.GetEntities(e => !e.IsDelete && e.WareHousesId == wareHouseId && e.Remains > 0)
+                                ?.Select(e => (long)e.SparePartsTypeId)
+                                ?.ToList();
+                if (spareIds == null || !spareIds.Any())
+                    return new List<dynamic>();
+                var data = _sparePartsTypeRepository.GetEntities(e=> spareIds.Contains(e.Id))?.ToList();
                 if (data == null || !data.Any())
                     return new List<dynamic>();
                 return data.Select(e => new { e.Id, e.Name });
@@ -96,6 +103,25 @@ namespace webapi.Controllers
                     });
                 }
                 return _sparePartsTypeRepository.UpdateEntity(updates) > 0;
+            }
+            catch (Exception ex)
+            {
+                Logger.Exception(ex);
+                return false;
+            }
+
+        }
+        [EnableCors("any")]
+        [HttpPut]
+        public bool Put([FromBody]int sparePartsTypeId,int limit)
+        {
+            try
+            {
+                var sparePartType = _sparePartsTypeRepository.GetEntities(e=>e.Id== sparePartsTypeId)?.FirstOrDefault()??null;
+                if (sparePartType == null)
+                    return false;
+                sparePartType.InventoryAlarmLimits = limit;
+                return _sparePartsTypeRepository.UpdateEntity(sparePartType) > 0;
             }
             catch (Exception ex)
             {

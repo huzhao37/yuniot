@@ -10,15 +10,15 @@
           <e p="Unitoon" t="Include" />
           <e p="Xml" t="Include" />
         </e>
+        <e p="WebApi【Web应用接口】" t="Include" />
         <e p="WinApp【桌面应用程序】" t="Include" />
       </e>
-      <e p="commondll\netcoreapp2.0" t="ExcludeRecursive" />
+      <e p="commondll\netcoreapp2.1" t="ExcludeRecursive" />
       <e p="Consumer\Consumer.csproj" t="IncludeRecursive" />
       <e p="Demo" t="Include">
         <e p="CAPDemo" t="Include" />
         <e p="QuartzDemo" t="Include" />
         <e p="Test" t="Include" />
-        <e p="WebApi【Web应用接口】" t="Include" />
       </e>
       <e p="DeviceManager" t="IncludeRecursive">
         <e p="App.config" t="Include" />
@@ -99,7 +99,7 @@
         <e p="EmailPushJob.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Dtsc.MailPush.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -117,7 +117,7 @@
         <e p="MainService.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Dtsc.NodeService.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -152,7 +152,7 @@
         <e p="MailTest.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="MailTest.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -180,7 +180,7 @@
         <e p="MotorEvent.EmailPush.csproj" t="IncludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="MotorEvent.EmailPush.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -246,18 +246,23 @@
         </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="IRepository" t="Include">
+          <e p="IAlarmInfoRepository.cs" t="Include" />
           <e p="IAnalysisRepositoryBase.cs" t="Include" />
           <e p="IEventKindRepository.cs" t="Include" />
+          <e p="IMaintainRepository.cs" t="Include" />
           <e p="IMotorEventLogRepository.cs" t="Include" />
         </e>
         <e p="Model" t="Include">
           <e p="AiLog.cs" t="Include" />
+          <e p="AlarmInfo.cs" t="Include" />
+          <e p="DiHistory.cs" t="Include" />
           <e p="EventKind.cs" t="Include" />
+          <e p="Maintain .cs" t="Include" />
           <e p="MotorEventLog.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Analysis.Domain.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -269,26 +274,32 @@
         <e p="AutoMapperProfileConfiguration.cs" t="Include" />
         <e p="BootStrap.cs" t="Include" />
         <e p="Mappings" t="Include">
+          <e p="AlarmInfoMapping.cs" t="Include" />
           <e p="EventKindMapping.cs" t="Include" />
+          <e p="MaintainMapping.cs" t="Include" />
           <e p="MotorEventLogMapping.cs" t="Include" />
         </e>
         <e p="Models" t="Include">
+          <e p="AlarmInfo.cs" t="Include" />
           <e p="BaseModel.cs" t="Include" />
           <e p="EventKind.cs" t="Include" />
+          <e p="Maintain .cs" t="Include" />
           <e p="MotorEventLog.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Analysis.Repository.EF.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
         </e>
         <e p="Repositories" t="Include">
+          <e p="AlarmInfoRepository.cs" t="Include" />
           <e p="AnalysisContext.cs" t="Include" />
           <e p="AnalysisRepositoryBase.cs" t="Include" />
           <e p="ContextFactory.cs" t="Include" />
           <e p="EventKindRepository.cs" t="Include" />
+          <e p="MaintainRepository.cs" t="Include" />
           <e p="MotorEventLogRepository.cs" t="Include" />
         </e>
         <e p="Yunt.Analysis.Repository.EF.csproj" t="IncludeRecursive" />
@@ -315,7 +326,7 @@
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Auth.Domain.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -341,7 +352,7 @@
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Auth.Repository.EF.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -404,10 +415,13 @@
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Common.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
+        </e>
+        <e p="ObjectExtentsions" t="Include">
+          <e p="ObjectCopy.cs" t="Include" />
         </e>
         <e p="Time" t="Include">
           <e p="TimeEx.cs" t="Include" />
@@ -480,22 +494,38 @@
         <e p="Yunt.CommonST.csproj" t="IncludeRecursive" />
       </e>
       <e p="Yunt.Demo.ConsoleApp1" t="IncludeRecursive">
-        <e p="Analysis-Migrations" t="Include">
-          <e p="AnalysisContext.cs" t="Include" />
-        </e>
         <e p="AppSetting.cs" t="Include" />
         <e p="appsettings.json" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
-        <e p="Migrations" t="Include">
-          <e p="20180609060919_1.cs" t="Include" />
-          <e p="20180609060919_1.Designer.cs" t="Include" />
-          <e p="20180609065448_2.cs" t="Include" />
-          <e p="20180609065448_2.Designer.cs" t="Include" />
-          <e p="AnalysisContextModelSnapshot.cs" t="Include" />
+        <e p="Inventory-Migrations" t="Include">
+          <e p="20180327061618_1.cs" t="Include" />
+          <e p="20180327061618_1.Designer.cs" t="Include" />
+          <e p="20180327070313_2.cs" t="Include" />
+          <e p="20180327070313_2.Designer.cs" t="Include" />
+          <e p="20180610082612_3.cs" t="Include" />
+          <e p="20180610082612_3.Designer.cs" t="Include" />
+          <e p="20180611083104_4.cs" t="Include" />
+          <e p="20180611083104_4.Designer.cs" t="Include" />
+          <e p="20180611093350_5.cs" t="Include" />
+          <e p="20180611093350_5.Designer.cs" t="Include" />
+          <e p="20180612060853_6.cs" t="Include" />
+          <e p="20180612060853_6.Designer.cs" t="Include" />
+          <e p="20180707063410_7.cs" t="Include" />
+          <e p="20180707063410_7.Designer.cs" t="Include" />
+          <e p="20180708013534_8.cs" t="Include" />
+          <e p="20180708013534_8.Designer.cs" t="Include" />
+          <e p="20180708015229_9.cs" t="Include" />
+          <e p="20180708015229_9.Designer.cs" t="Include" />
+          <e p="20180709030003_10.cs" t="Include" />
+          <e p="20180709030003_10.Designer.cs" t="Include" />
+          <e p="20180709031645_11.cs" t="Include" />
+          <e p="20180709031645_11.Designer.cs" t="Include" />
+          <e p="InventoryContext.cs" t="Include" />
+          <e p="InventoryContextModelSnapshot.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Demo.ConsoleApp1.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -525,7 +555,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Demo.SendEmail.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -583,6 +613,9 @@
           <e p="IVibrosieveByHourRepository.cs" t="Include" />
           <e p="IVibrosieveRepository.cs" t="Include" />
         </e>
+        <e p="MapModel" t="Include">
+          <e p="PowerCal.cs" t="Include" />
+        </e>
         <e p="Model" t="Include">
           <e p="Conecrusher.cs" t="Include" />
           <e p="ConeCrusherByDay.cs" t="Include" />
@@ -631,7 +664,7 @@
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Device.Domain.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -734,7 +767,7 @@
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Device.Repository.EF.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -795,12 +828,17 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.DIDC.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
         </e>
         <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="PublishProfiles" t="Include">
+            <e p="FolderProfile.pubxml" t="Include" />
+          </e>
+        </e>
         <e p="Tasks" t="Include">
           <e p="DayStatisticsTask.cs" t="Include" />
         </e>
@@ -813,7 +851,7 @@
         <e p="JobHelper.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Dtsc.Core.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -857,7 +895,7 @@
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Dtsc.Domain.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -899,7 +937,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.HIDC.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -915,16 +953,39 @@
         </e>
         <e p="Yunt.HIDC.csproj" t="IncludeRecursive" />
       </e>
+      <e p="Yunt.IDA" t="IncludeRecursive">
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="Yunt.IDA.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="PublishProfiles" t="Include">
+            <e p="FolderProfile.pubxml" t="Include" />
+          </e>
+        </e>
+        <e p="Tasks" t="Include">
+          <e p="AnalysisTask.cs" t="Include" />
+        </e>
+        <e p="Yunt.IDA.csproj" t="IncludeRecursive" />
+      </e>
       <e p="Yunt.IDC" t="IncludeRecursive">
         <e p="appsettings.json" t="Include" />
         <e p="bin" t="ExcludeRecursive" />
         <e p="Helper" t="Include">
           <e p="BytesToDb.cs" t="Include" />
+          <e p="DiNormalize.cs" t="Include" />
+          <e p="DiToRedis.cs" t="Include" />
           <e p="Normalize.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.IDC.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -948,25 +1009,24 @@
         </e>
         <e p="bin" t="ExcludeRecursive" />
         <e p="IRepository" t="Include">
+          <e p="IInHouseRepository.cs" t="Include" />
           <e p="IInventoryAlarmInfoRepository.cs" t="Include" />
           <e p="IInventoryRepositoryBase.cs" t="Include" />
-          <e p="ISparePartsIdFactoriesRepository.cs" t="Include" />
-          <e p="ISparePartsRepository.cs" t="Include" />
+          <e p="IOutHouseRepository.cs" t="Include" />
           <e p="ISparePartsTypeRepository.cs" t="Include" />
           <e p="IWareHousesRepository.cs" t="Include" />
         </e>
         <e p="Model" t="Include">
-          <e p="IdModel" t="Include">
-            <e p="SparePartsIdFactories.cs" t="Include" />
-          </e>
+          <e p="IdModel" t="Include" />
+          <e p="InHouse.cs" t="Include" />
           <e p="InventoryAlarmInfo.cs" t="Include" />
-          <e p="SpareParts.cs" t="Include" />
+          <e p="OutHouse.cs" t="Include" />
           <e p="SparePartsType.cs" t="Include" />
           <e p="WareHouses.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Inventory.Domain.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -981,36 +1041,35 @@
         <e p="AutoMapperProfileConfiguration.cs" t="Include" />
         <e p="BootStrap.cs" t="Include" />
         <e p="Mappings" t="Include">
+          <e p="InHouseMapping.cs" t="Include" />
           <e p="InventoryAlarmInfoMapping.cs" t="Include" />
-          <e p="SparePartsIdFactoriesMapping.cs" t="Include" />
-          <e p="SparePartsMapping.cs" t="Include" />
+          <e p="OutHouseMapping.cs" t="Include" />
           <e p="SparePartsTypeMapping.cs" t="Include" />
           <e p="WareHousesMapping.cs" t="Include" />
         </e>
         <e p="Models" t="Include">
           <e p="BaseModel.cs" t="Include" />
-          <e p="IdModel" t="Include">
-            <e p="SparePartsIdFactories.cs" t="Include" />
-          </e>
+          <e p="IdModel" t="Include" />
+          <e p="InHouse.cs" t="Include" />
           <e p="InventoryAlarmInfo.cs" t="Include" />
-          <e p="SpareParts.cs" t="Include" />
+          <e p="OutHouse.cs" t="Include" />
           <e p="SparePartsType.cs" t="Include" />
           <e p="WareHouses.cs" t="Include" />
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Inventory.Repository.EF.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
         </e>
         <e p="Repositories" t="Include">
           <e p="ContextFactory.cs" t="Include" />
+          <e p="InHouseRepository.cs" t="Include" />
           <e p="InventoryAlarmInfoRepository.cs" t="Include" />
           <e p="InventoryContext.cs" t="Include" />
           <e p="InventoryRepositoryBase.cs" t="Include" />
-          <e p="SparePartsIdFactoriesRepository.cs" t="Include" />
-          <e p="SparePartsRepository.cs" t="Include" />
+          <e p="OutHouseRepository.cs" t="Include" />
           <e p="SparePartsTypeRepository.cs" t="Include" />
           <e p="WareHousesRepository.cs" t="Include" />
         </e>
@@ -1021,7 +1080,7 @@
         <e p="DataType.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.MQ.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -1046,7 +1105,7 @@
         <e p="bin" t="ExcludeRecursive" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.NetcoreTest.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -1080,7 +1139,7 @@
         <e p="NameType.cs" t="Include" />
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Redis.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -1102,7 +1161,133 @@
         <e p="YuntRedisServiceExtensions.cs" t="Include" />
       </e>
       <e p="Yunt.sln" t="IncludeFlat" />
-      <e p="Yunt.WebApi\Yunt.WebApi.csproj" t="IncludeRecursive" />
+      <e p="Yunt.WebApi" t="IncludeRecursive">
+        <e p="appsettings.Development.json" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Controllers" t="Include">
+          <e p="HomeController.cs" t="Include" />
+          <e p="Inventories" t="Include">
+            <e p="InHouseController.cs" t="Include" />
+            <e p="OutHouseController.cs" t="Include" />
+            <e p="SparePartTypeController.cs" t="Include" />
+            <e p="WareHousesController.cs" t="Include" />
+          </e>
+          <e p="MaintainController.cs" t="Include" />
+          <e p="MobileController.cs" t="Include" />
+          <e p="OAuthController.cs" t="Include" />
+          <e p="ProductionLineController.cs" t="Include" />
+          <e p="SampleDataController.cs" t="Include" />
+          <e p="UserController.cs" t="Include" />
+          <e p="ValuesController.cs" t="Include" />
+        </e>
+        <e p="Data" t="Include">
+          <e p="Consts.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="Inventories" t="Include">
+            <e p="OutInventories.cs" t="Include" />
+          </e>
+          <e p="Logins" t="Include">
+            <e p="LoginInfo.cs" t="Include" />
+          </e>
+          <e p="Mobile" t="Include">
+            <e p="Mobiles.cs" t="Include" />
+          </e>
+          <e p="ProductionLines" t="Include">
+            <e p="MainConveyorHository.cs" t="Include" />
+            <e p="MainConveyorReal.cs" t="Include" />
+            <e p="Motors" t="Include">
+              <e p="CyDetail.cs" t="Include" />
+            </e>
+            <e p="MotorSummary.cs" t="Include" />
+            <e p="ProductionLineStatus.cs" t="Include" />
+          </e>
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="Yunt.WebApi.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+          <e p="PublishProfiles" t="Include">
+            <e p="FolderProfile.pubxml" t="Include" />
+          </e>
+        </e>
+        <e p="server.pfx" t="Include" />
+        <e p="Startup.cs" t="Include" />
+        <e p="wwwroot" t="Include" />
+        <e p="Yunt.WebApi.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.WebApiV2" t="IncludeRecursive">
+        <e p="appsettings.Development.json" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Controllers" t="Include">
+          <e p="HomeController.cs" t="Include" />
+          <e p="Inventories" t="Include">
+            <e p="InHouseController.cs" t="Include" />
+            <e p="OutHouseController.cs" t="Include" />
+            <e p="SparePartTypeController.cs" t="Include" />
+            <e p="StockController.cs" t="Include" />
+            <e p="UnitOutController.cs" t="Include" />
+            <e p="UnitsInController.cs" t="Include" />
+            <e p="WareHouseController.cs" t="Include" />
+            <e p="WareHousesController.cs" t="Include" />
+          </e>
+          <e p="MaintainController.cs" t="Include" />
+          <e p="MobileController.cs" t="Include" />
+          <e p="OAuthController.cs" t="Include" />
+          <e p="ProductionLineController.cs" t="Include" />
+          <e p="SampleDataController.cs" t="Include" />
+          <e p="UserController.cs" t="Include" />
+          <e p="ValuesController.cs" t="Include" />
+        </e>
+        <e p="Data" t="Include">
+          <e p="Consts.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="Inventories" t="Include">
+            <e p="CodeModel.cs" t="Include" />
+            <e p="InHouse.cs" t="Include" />
+            <e p="OutHouse.cs" t="Include" />
+            <e p="WareHouses.cs" t="Include" />
+          </e>
+          <e p="Logins" t="Include">
+            <e p="LoginInfo.cs" t="Include" />
+          </e>
+          <e p="Mobile" t="Include">
+            <e p="Mobiles.cs" t="Include" />
+          </e>
+          <e p="ProductionLines" t="Include">
+            <e p="MainConveyorHository.cs" t="Include" />
+            <e p="MainConveyorReal.cs" t="Include" />
+            <e p="Motors" t="Include">
+              <e p="CyDetail.cs" t="Include" />
+            </e>
+            <e p="MotorSummary.cs" t="Include" />
+            <e p="ProductionLineStatus.cs" t="Include" />
+          </e>
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.1" t="Include">
+              <e p="Yunt.WebApiV2.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Startup.cs" t="Include" />
+        <e p="wwwroot" t="Include" />
+        <e p="Yunt.WebApiV2.csproj" t="IncludeRecursive" />
+      </e>
       <e p="Yunt.Xml.Domain" t="IncludeRecursive">
         <e p="BaseModel" t="Include">
           <e p="AggregateRoot.cs" t="Include" />
@@ -1145,7 +1330,7 @@
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Xml.Domain.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -1189,7 +1374,7 @@
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.Xml.Repository.EF.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -1232,7 +1417,7 @@
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.XmlCheck.AssemblyInfo.cs" t="Include" />
             </e>
           </e>
@@ -1243,6 +1428,8 @@
           <e p="DataType.xml" t="Include" />
           <e p="mini_cfg.xml" t="Include" />
           <e p="wdd.v0.6.3.3.xml" t="Include" />
+          <e p="wdd.v0.6.3.6.1.xml" t="Include" />
+          <e p="wdd.v0.6.3.6.xml" t="Include" />
           <e p="wdd.xml" t="Include" />
           <e p="wudd.xml" t="Include" />
         </e>
@@ -1281,7 +1468,7 @@
         </e>
         <e p="obj" t="ExcludeRecursive">
           <e p="Debug" t="Include">
-            <e p="netcoreapp2.0" t="Include">
+            <e p="netcoreapp2.1" t="Include">
               <e p="Yunt.XmlProtocol.Domain.AssemblyInfo.cs" t="Include" />
             </e>
           </e>

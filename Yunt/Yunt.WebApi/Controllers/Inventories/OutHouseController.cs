@@ -39,6 +39,7 @@ namespace Yunt.WebApi.Controllers
         // GET: api/OutHouse
         [EnableCors("any")]
         [HttpGet]
+        [Route("OutHouseList")]
         public dynamic Get(int pageindex, int pagesize, string productionLineId)
         {
             try
@@ -49,7 +50,7 @@ namespace Yunt.WebApi.Controllers
                 var wareHouseIds = wareHouses.Select(e => e.Id);
                 var batchNos = _inHouseRepository.GetEntities(e => wareHouseIds.Contains(e.WareHousesId))?.Select(e => e.Id)?.ToList();
                 if (!(batchNos?.Any() ?? false)) return new PaginatedList<dynamic>(0, 0, 0, source);
-                var datas = _outHouseRepository.GetEntities(e => batchNos.Contains(e.BatchNo))?.ToList();
+                var datas = _outHouseRepository.GetEntities(e =>!e.IsDelete&& batchNos.Contains(e.BatchNo))?.ToList();
 
                 if (!datas?.Any() ?? true) return new PaginatedList<dynamic>(0, 0, 0, source);
                 var spares = _sparePartsTypeRepository.GetEntities()?.ToList();
@@ -76,6 +77,7 @@ namespace Yunt.WebApi.Controllers
                         WareHousesName = wareHousesName,
                         d.UnitPrice,
                         d.WareHousesId,
+                        d.IsDelete
                     });
                 });
                 var list = source.OrderBy(x => x.Id).Skip((pageindex - 1) * pagesize).Take(pagesize);
@@ -136,6 +138,7 @@ namespace Yunt.WebApi.Controllers
                     BatchNo=exist.Id,
                     UnitPrice= exist.UnitPrice,
                     SparePartsStatus = SparePartsTypeStatus.Using,
+                    OutTime=value.OutTime,
                     Time = DateTime.Now.TimeSpan(),
                 };
 

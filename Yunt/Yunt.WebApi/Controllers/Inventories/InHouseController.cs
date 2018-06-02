@@ -32,6 +32,7 @@ namespace Yunt.WebApi.Controllers
         // GET: api/InHouse
         [EnableCors("any")]
         [HttpGet]
+        [Route("InHouseList")]
         public dynamic Get(int pageindex, int pagesize, string productionLineId)
         {
             try
