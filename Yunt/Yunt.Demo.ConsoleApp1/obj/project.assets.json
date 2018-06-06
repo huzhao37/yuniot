@@ -4830,12 +4830,10 @@
       ]
     },
     "System.Diagnostics.Process/4.3.0": {
-      "sha512": "vM5w13QUnU7Xm4NZm0jeyga5TOjl8Qn9y4nPzKbd9vzrTRRtqf0OZk4uHcsH5SQzstkw6aU3eMRCpNRjfV5DDA==",
+      "sha512": "J0wOX07+QASQblsfxmIMFc9Iq7KTXYL3zs2G/Xc704Ylv3NpuVdo6gij6V3PGiptTxqsK0K7CdXenRvKUnkA2g==",
       "type": "package",
       "path": "system.diagnostics.process/4.3.0",
       "files": [
-        "System.Diagnostics.Process.4.3.0.nupkg.sha512",
-        "System.Diagnostics.Process.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4881,7 +4879,9 @@
         "runtimes/win/lib/net46/System.Diagnostics.Process.dll",
         "runtimes/win/lib/net461/System.Diagnostics.Process.dll",
         "runtimes/win/lib/netstandard1.4/System.Diagnostics.Process.dll",
-        "runtimes/win7/lib/netcore50/_._"
+        "runtimes/win7/lib/netcore50/_._",
+        "system.diagnostics.process.4.3.0.nupkg.sha512",
+        "system.diagnostics.process.nuspec"
       ]
     },
     "System.Diagnostics.Tools/4.3.0": {
@@ -8196,54 +8196,44 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\zhaoh\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "/Users/aiur/.nuget/packages/": {},
+    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
-    "restoreSettings": {
-      "hideWarningsAndErrors": true
-    },
     "restore": {
-      "projectUniqueName": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.ConsoleApp1\\Yunt.Demo.ConsoleApp1.csproj",
+      "projectUniqueName": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Demo.ConsoleApp1/Yunt.Demo.ConsoleApp1.csproj",
       "projectName": "Yunt.Demo.ConsoleApp1",
-      "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.ConsoleApp1\\Yunt.Demo.ConsoleApp1.csproj",
-      "packagesPath": "C:\\Users\\zhaoh\\.nuget\\packages\\",
-      "outputPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.ConsoleApp1\\obj\\",
+      "projectPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Demo.ConsoleApp1/Yunt.Demo.ConsoleApp1.csproj",
+      "packagesPath": "/Users/aiur/.nuget/packages/",
+      "outputPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Demo.ConsoleApp1/obj",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\zhaoh\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
+        "/Users/aiur/.config/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "http://10.1.5.25:8000/nuget": {},
-        "https://api.nuget.org/v3/index.json": {},
-        "https://www.nuget.org/api/v2/": {}
+        "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "G:\\2018\\Yunt\\Yunt\\Yunt.Common\\Yunt.Common.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Common\\Yunt.Common.csproj"
+            "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Common/Yunt.Common.csproj": {
+              "projectPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Common/Yunt.Common.csproj"
             },
-            "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Core\\Yunt.Dtsc.Core.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Core\\Yunt.Dtsc.Core.csproj"
+            "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Device.Repository.EF/Yunt.Device.Repository.EF.csproj": {
+              "projectPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Device.Repository.EF/Yunt.Device.Repository.EF.csproj"
             },
-            "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj"
+            "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Dtsc.Core/Yunt.Dtsc.Core.csproj": {
+              "projectPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Dtsc.Core/Yunt.Dtsc.Core.csproj"
             },
-            "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Domain\\Yunt.Dtsc.Domain.csproj": {
-              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Domain\\Yunt.Dtsc.Domain.csproj"
+            "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Dtsc.Domain/Yunt.Dtsc.Domain.csproj": {
+              "projectPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Dtsc.Domain/Yunt.Dtsc.Domain.csproj"
             }
           }
         }
@@ -8257,62 +8247,63 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
+          "Microsoft.NETCore.App": {
+            "suppressParent": "All",
+            "target": "Package",
+            "version": "2.0",
+            "autoReferenced": true
+          },
           "AutoMapper.Extensions.Microsoft.DependencyInjection": {
             "target": "Package",
-            "version": "[3.2.0, )"
+            "version": "3.2.0"
           },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
-            "version": "[2.0.3, )"
+            "version": "2.0.3"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "target": "Package",
-            "version": "[2.0.3, )"
+            "version": "2.0.3"
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",
-            "version": "[2.0.3, )"
+            "version": "2.0.3"
           },
           "Microsoft.EntityFrameworkCore.Tools": {
             "target": "Package",
-            "version": "[2.0.3, )"
+            "version": "2.0.3"
           },
           "Microsoft.Extensions.Configuration.Json": {
             "target": "Package",
-            "version": "[2.0.2, )"
+            "version": "2.0.2"
           },
           "Microsoft.Extensions.Configuration.Xml": {
             "target": "Package",
-            "version": "[2.0.2, )"
+            "version": "2.0.2"
           },
           "Microsoft.Extensions.Options.ConfigurationExtensions": {
             "target": "Package",
-            "version": "[2.0.1, )"
-          },
-          "Microsoft.NETCore.App": {
-            "target": "Package",
-            "version": "[2.0.0, )",
-            "autoReferenced": true
+            "version": "2.0.1"
           },
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
-            "version": "[2.0.1, )"
+            "version": "2.0.1"
           },
           "Pomelo.EntityFrameworkCore.MySql.Design": {
             "target": "Package",
-            "version": "[1.1.2, )"
+            "version": "1.1.2"
           },
           "Quartz": {
             "target": "Package",
-            "version": "[3.0.4, )"
+            "version": "3.0.4"
           },
           "System.Management": {
             "target": "Package",
-            "version": "[4.5.0-preview2-26406-04, )"
+            "version": "4.5.0-preview2-26406-04"
           },
           "System.Security.Permissions": {
             "target": "Package",
-            "version": "[4.4.1, )"
+            "version": "4.4.1"
           }
         },
         "imports": [

@@ -1,0 +1,15 @@
+﻿<Properties StartupConfiguration="{CB545D29-E1C5-4453-8334-CF051089F459}|Default">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Yunt.WebApi/Program.cs">
+    <Files>
+      <File FileName="Yunt.WebApi/Program.cs" Line="25" Column="26" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.Demo.QuartzDemo.Yunt.Demo.ConsoleApp1 PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.ItemProperties.Application_43010应用接口_43011.WebApi_43010Web应用接口_43011.Yunt.WebApi PreferredExecutionTarget="MonoDevelop.Default" />
+</Properties>
