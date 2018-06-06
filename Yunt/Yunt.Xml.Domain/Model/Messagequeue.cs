@@ -19,7 +19,7 @@ namespace Yunt.Xml.Domain.Model
         public int Port { get; set; }
         [DataMember]
         [ProtoMember(3)]
-        public string RouteKey { get; set; }
+        public string Route_Key { get; set; }
         [DataMember]
         [ProtoMember(4)]
         public string Name { get; set; }
@@ -28,13 +28,13 @@ namespace Yunt.Xml.Domain.Model
         public int Timer { get; set; }
         [DataMember]
         [ProtoMember(6)]
-        public string CollectdeviceIndex { get; set; }
+        public string Collectdevice_Index { get; set; }
         [DataMember]
         [ProtoMember(7)]
-        public int WriteRead { get; set; }
+        public int Write_Read { get; set; }
         [DataMember]
         [ProtoMember(8)]
-        public string ComType { get; set; }
+        public string Com_Type { get; set; }
         [DataMember]
         [ProtoMember(9)]
         public DateTime Time { get; set; }

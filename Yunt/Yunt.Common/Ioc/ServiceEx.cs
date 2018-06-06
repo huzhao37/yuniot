@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NewLife.Reflection;
+using Yunt.Common.Assemblies;
 
 namespace Yunt.Common
 {
@@ -29,22 +30,24 @@ namespace Yunt.Common
 
                 //FileEx.TryLoadAssembly();
                 var files = new DirectoryInfo(path).GetFiles();
-
                 foreach (var f in files)
                 {
                     if (f.Name.Contains(".dll") && f.Name.Contains("Repository"))
-                    {
-                        var dll = Assembly.LoadFrom(f.FullName);
-
+                    {                     
+                        var dll = AssemblyLoadContext.Default.LoadFromAssemblyPath(f.FullName);
+                        // Assembly.LoadFrom(f.FullName);
+                        AssemblyEx.GetReferencingAssemblies(f.FullName);
+                        AssemblyLoadContext.Default.LoadFromAssemblyPath(path+"\\Yunt.Redis.dll");
+                        if(dll==null) continue;
                         var types = dll.GetTypes().Where(a => a.IsClass && a.Name.Equals("BootStrap"));
-
                         types.ToList().ForEach(d =>
-                        {
+                        {                          
                             var method = d.GetMethod("Start", BindingFlags.Instance | BindingFlags.Public);
 
                             var method2 = d.GetMethod("ContextInit", BindingFlags.Instance | BindingFlags.Public);
                             var obj = Activator.CreateInstance(d);
 
+                           
                             method.Invoke(obj, new object[] { services, configuration });
                             var serviceProvider = services.BuildServiceProvider();
                             method2.Invoke(obj, new object[] { serviceProvider });
@@ -64,6 +67,11 @@ namespace Yunt.Common
             }
             catch (Exception ex)
             {
+                Logger.Info($"ServiceEx报错:{ex.StackTrace}");
+                Logger.Info($"ServiceEx报错:{ex.InnerException}");
+                Logger.Info($"ServiceEx报错:{ex.InnerException.Message+"_"+ex.InnerException.StackTrace}");
+                Logger.Info($"ServiceEx报错:{ex.InnerException.InnerException}");
+                Logger.Info($"ServiceEx报错:{ex.InnerException.InnerException.Message + "_" + ex.InnerException.InnerException.StackTrace}");
                 Logger.Exception(ex);
             }
             return providers;

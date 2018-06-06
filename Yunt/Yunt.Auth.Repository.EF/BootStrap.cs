@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,19 +15,21 @@ using Microsoft.Extensions.DependencyInjection.Extensions;
 using Yunt.Redis;
 using Yunt.Common;
 using Microsoft.Extensions.Configuration;
+using NewLife.Reflection;
 using Yunt.Auth.Domain.BaseModel;
 using Yunt.Auth.Domain.IRepository;
 
 namespace Yunt.Auth.Repository.EF
 {
     [Service(ServiceType.Auth)]
-    public class BootStrap //: IBootStrap
+    public class BootStrap : MarshalByRefObject //: IBootStrap
     {
         internal static IServiceProvider ServiceProvider;
         public void Start(IServiceCollection services, IConfigurationRoot configuration)
         {
             try
             {
+              
                 AutoMapper.IConfigurationProvider config = new MapperConfiguration(cfg =>
                 {
                     cfg.AddProfile<AutoMapperProfileConfiguration>();
@@ -50,8 +54,12 @@ namespace Yunt.Auth.Repository.EF
                 services.AddSingleton(contextOptions)
                   .AddTransient<AuthContext>();
 
-                var currentpath = AppDomain.CurrentDomain.BaseDirectory;
-                var allTypes = Assembly.LoadFrom($"{currentpath}{ MethodBase.GetCurrentMethod().DeclaringType.Namespace}.dll").GetTypes();
+                dynamic x = (new BootStrap()).GetType();
+                string currentpath = Path.GetDirectoryName(x.Assembly.Location);
+                // var currentpath = AppDomain.CurrentDomain.BaseDirectory;
+                var allTypes = AssemblyLoadContext.Default.LoadFromAssemblyPath($"{currentpath}\\{ MethodBase.GetCurrentMethod().DeclaringType.Namespace}.dll").GetTypes();
+                // Assembly.LoadFrom($"{currentpath}\\{ MethodBase.GetCurrentMethod().DeclaringType.Namespace}.dll").GetTypes();
+          
                 var type = typeof(IAuthRepositoryBase<>);
 
                 allTypes.Where(t => t.IsClass).ToList().ForEach(t =>

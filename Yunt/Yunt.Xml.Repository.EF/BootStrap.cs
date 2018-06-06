@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,7 +22,7 @@ using Microsoft.Extensions.Configuration;
 namespace Yunt.Xml.Repository.EF
 {
     [Service(ServiceType.Xml)]
-    public class BootStrap //: IBootStrap
+    public class BootStrap : MarshalByRefObject//: IBootStrap
     {
         internal static IServiceProvider ServiceProvider;
         public void Start(IServiceCollection services, IConfigurationRoot configuration)
@@ -51,8 +53,12 @@ namespace Yunt.Xml.Repository.EF
                 services.AddSingleton(contextOptions)
                   .AddTransient<XmlContext>();
 
-                var currentpath = AppDomain.CurrentDomain.BaseDirectory;
-                var allTypes = Assembly.LoadFrom($"{currentpath}{ MethodBase.GetCurrentMethod().DeclaringType.Namespace}.dll").GetTypes();
+                dynamic x = (new BootStrap()).GetType();
+                string currentpath = Path.GetDirectoryName(x.Assembly.Location);
+                // var currentpath = AppDomain.CurrentDomain.BaseDirectory;
+                var allTypes = AssemblyLoadContext.Default.LoadFromAssemblyPath($"{currentpath}\\{ MethodBase.GetCurrentMethod().DeclaringType.Namespace}.dll").GetTypes();
+                // Assembly.LoadFrom($"{currentpath}\\{ MethodBase.GetCurrentMethod().DeclaringType.Namespace}.dll").GetTypes();
+            
                 var type = typeof(IXmlRepositoryBase<>);
              
                 allTypes.Where(t => t.IsClass).ToList().ForEach(t =>

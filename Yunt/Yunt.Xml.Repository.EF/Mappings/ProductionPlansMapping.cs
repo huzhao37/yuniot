@@ -24,27 +24,27 @@ namespace Yunt.Xml.Repository.EF.Mappings
                 .HasColumnName("end")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.FinishCy1)
+            entity.Property(e => e.Finish_Cy1)
                 .HasColumnName("finish_cy1")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.FinishCy2)
+            entity.Property(e => e.Finish_Cy2)
                 .HasColumnName("finish_cy2")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.FinishCy3)
+            entity.Property(e => e.Finish_Cy3)
                 .HasColumnName("finish_cy3")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.FinishCy4)
+            entity.Property(e => e.Finish_Cy4)
                 .HasColumnName("finish_cy4")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.MainCy)
+            entity.Property(e => e.Main_Cy)
                 .HasColumnName("main_cy")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.ProductionlineId)
+            entity.Property(e => e.Productionline_Id)
                 .IsRequired()
                 .HasColumnName("productionline_id")
                 .HasMaxLength(50);

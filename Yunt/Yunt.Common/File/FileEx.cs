@@ -66,8 +66,9 @@ namespace Yunt.Common
             //移动所有文件  
             foreach (FileInfo file in files)
             {
+                var path = Path.Combine(directoryTarget, file.Name);
                 //直接覆盖??
-                if (File.Exists(Path.Combine(directoryTarget, file.Name)))
+                if (File.Exists(path))
                 {                 
                     // File.Delete(Path.Combine(directoryTarget, file.Name));
                     
@@ -76,7 +77,7 @@ namespace Yunt.Common
                 }
                 else
                 {
-                    file.CopyTo(Path.Combine(directoryTarget, file.Name));
+                    file.CopyTo(path);
 
                 }
        

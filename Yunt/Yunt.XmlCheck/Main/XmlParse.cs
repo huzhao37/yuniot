@@ -6,7 +6,6 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using NewLife.Log;
-using NewLife.Reflection;
 
 namespace Yunt.XmlCheck.Main
 {

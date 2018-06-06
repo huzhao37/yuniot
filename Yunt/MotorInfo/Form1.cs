@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MotorInfo.Models;
+using NewLife.Log;
 
 namespace MotorInfo
 {
@@ -167,6 +169,48 @@ namespace MotorInfo
                 this.txtProductionline.Text = motorInfo.ProductionLineId;
             }
 
+        }
+        /// <summary>
+        /// 从excel中导入
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void btnImport_Click(object sender, EventArgs e)
+        {
+            using (var stream=new StreamReader("./File/motorinfo.txt",Encoding.Default))
+            {
+                //排除第一行
+                stream.ReadLine();
+                while (!stream.EndOfStream)
+                {
+                    var line = stream.ReadLine();
+                    if(line.IsNullOrWhiteSpace())
+                        continue;
+                    var str= line.Split(new char[] { ' ', '\t', ';' }, StringSplitOptions.RemoveEmptyEntries);
+                  
+                    var motorId = str[3];
+                    var motor = Motor.Find("MotorId", motorId);
+                    if (motor == null)
+                    {
+                        XTrace.Log.Error($"不存在该电机设备：{motorId}");
+                        continue;
+                    }
+                    if(!str[4].IsNullOrWhiteSpace())
+                        motor.MotorPower = Convert.ToSingle(str[4]);
+                    if (!str[8].IsNullOrWhiteSpace())
+                        motor.StandValue = Convert.ToSingle(str[8]);
+                    if (!str[9].IsNullOrWhiteSpace())
+                        motor.IsBeltWeight = Convert.ToInt64(str[9]);
+                    if (!str[10].IsNullOrWhiteSpace())
+                        motor.IsMainBeltWeight = Convert.ToInt64(str[10]);
+                    if (str.Length == 12)
+                    {
+                        if (!str[11].IsNullOrWhiteSpace())
+                            motor.SerialNumber =str[11];
+                    }
+                    motor.SaveAsync();
+                }
+            }
         }
     }
 }

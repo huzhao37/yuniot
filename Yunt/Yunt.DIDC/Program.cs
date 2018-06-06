@@ -8,7 +8,7 @@ using NewLife.Log;
 using NewLife.Threading;
 using Yunt.Common;
 using Yunt.DIDC.Task;
-using Yunt.XmlProtocol.Domain.Models;
+using Yunt.Xml.Domain.Model;
 
 namespace Yunt.DIDC
 {
@@ -23,13 +23,11 @@ namespace Yunt.DIDC
             #region init
             XTrace.UseConsole(true, true);
             XTrace.Log.Level = LogLevel.Info;//打印错误级别的日志
-            XCode.Setting.Current.Migration = XCode.DataAccessLayer.Migration.Off;//关闭反向工程
-            XCode.Setting.Current.TraceSQLTime = 2000;//sql执行时间超过2s打印log
 
             var services = new ServiceCollection();
             Init(services);
 
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Program).Assembly);
 
 
 
@@ -57,7 +55,7 @@ namespace Yunt.DIDC
         private static void Init(ServiceCollection services)
         {
             //先将xcode所需mysql驱动加载进来，这样efcore的mysql驱动就不会与此发生冲突。。。等待xcode的驱动dnc更新
-            Datatype.FindAll();
+           // Datatype.FindAll();
             dynamic type = (new Program()).GetType();
             string currentDirectory = Path.GetDirectoryName(type.Assembly.Location);
             var builder = new ConfigurationBuilder()

@@ -67,6 +67,7 @@
             this.label10 = new System.Windows.Forms.Label();
             this.txtMotorId = new System.Windows.Forms.TextBox();
             this.label13 = new System.Windows.Forms.Label();
+            this.btnImport = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnSave
@@ -380,11 +381,22 @@
             this.label13.TabIndex = 29;
             this.label13.Text = "（例如，额定电流，额定频率，额定电压等）";
             // 
+            // btnImport
+            // 
+            this.btnImport.Location = new System.Drawing.Point(826, 192);
+            this.btnImport.Name = "btnImport";
+            this.btnImport.Size = new System.Drawing.Size(120, 23);
+            this.btnImport.TabIndex = 30;
+            this.btnImport.Text = "从excel信息中导入";
+            this.btnImport.UseVisualStyleBackColor = true;
+            this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1056, 568);
+            this.Controls.Add(this.btnImport);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.txtMotorId);
@@ -461,6 +473,7 @@
         private System.Windows.Forms.ColumnHeader line;
         private System.Windows.Forms.ColumnHeader collect;
         private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Button btnImport;
     }
 }
 

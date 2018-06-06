@@ -24,7 +24,7 @@ namespace Yunt.Xml.Repository.EF.Mappings
 
             entity.Property(e => e.BitDesc).HasMaxLength(50);
 
-            entity.Property(e => e.CollectdeviceIndex)
+            entity.Property(e => e.Collectdevice_Index)
                 .HasColumnName("collectdevice_index")
                 .HasMaxLength(50);
 

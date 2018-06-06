@@ -219,6 +219,7 @@ namespace Yunt.Xml.Repository.EF.Repositories
         #endregion
 
         #region query
+        
         //注意闭包效率，参数应设置成作用域变量，可重复利用sql查询计划
         public virtual IQueryable<DT> GetEntities(Expression<Func<DT, bool>> where = null, Expression<Func<DT, object>> order = null)
         {
@@ -253,8 +254,8 @@ namespace Yunt.Xml.Repository.EF.Repositories
                 wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
                 sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).ProjectTo<DT>(Mapper);
 #if DEBUG
-                //Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
-               // Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
 #endif
                 return sql;
             }
@@ -332,6 +333,7 @@ namespace Yunt.Xml.Repository.EF.Repositories
 
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Update(Mapper.Map<ST>(t));
             return Commit();
+
         }
 
         public virtual int UpdateEntity(IEnumerable<DT> ts)
@@ -360,23 +362,42 @@ namespace Yunt.Xml.Repository.EF.Repositories
 
         public virtual void InsertOrUpdate(DT t)
         {
-            var existing = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Find(t.Id);
-            if (existing == null)
+            try
             {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Add(Mapper.Map<ST>(t));
-            }
-            else
-            {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<ST>(t));
-            }
+                var existing = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Find(t.Id);
+                if (existing == null)
+                {
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Add(Mapper.Map<ST>(t));
+                }
+                else
+                {
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<ST>(t));
+                }
 
-           var result = Commit();
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Logger.Warn($"并发异常:{e.Message}");
+#endif
+            }
+            var result = Commit();
         }
 
         public virtual async Task UpdateEntityAsync(DT t)
         {
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Update(Mapper.Map<ST>(t));
-            await CommitAsync();
+            try
+            {
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Update(Mapper.Map<ST>(t));
+                await CommitAsync();
+            }
+           
+                      catch (Exception e)
+            {
+#if DEBUG
+                Logger.Warn($"并发异常:{e.Message}");
+#endif
+            }
         }
 
         public virtual async Task UpdateEntityAsync(IEnumerable<DT> ts)
@@ -392,9 +413,11 @@ namespace Yunt.Xml.Repository.EF.Repositories
                     // when disposed if either commands fails
                     // transaction.Commit();
                 }
-                catch (Exception ex)
+                catch (Exception e)
                 {
-                    Logger.Exception(ex, $"提交事务错误");
+#if DEBUG
+                    Logger.Warn($"并发异常:{e.Message}");
+#endif
                 }
             }
 
@@ -402,17 +425,27 @@ namespace Yunt.Xml.Repository.EF.Repositories
 
         public virtual async Task InsertOrUpdateAsync(DT t)
         {
-            var existing = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<DT>().FindAsync(t.Id);
-            if (existing == null)
+            try
             {
-                await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).AddAsync(Mapper.Map<ST>(t));
+                var existing = await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<DT>().FindAsync(t.Id);
+                if (existing == null)
+                {
+                    await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).AddAsync(Mapper.Map<ST>(t));
+                }
+                else
+                {
+                    ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<ST>(t));
+                }
             }
-            else
+       
+                            catch (Exception e)
             {
-                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Entry(existing).CurrentValues.SetValues(Mapper.Map<ST>(t));
+#if DEBUG
+                Logger.Warn($"并发异常:{e.Message}");
+#endif
             }
-
             await CommitAsync();
+
         }
 
         #endregion

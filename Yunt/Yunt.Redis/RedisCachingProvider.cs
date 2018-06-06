@@ -8,14 +8,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
-using NewLife.Reflection;
 using Yunt.Common;
 using Yunt.Redis.Config;
 
 
 namespace Yunt.Redis
 {
-    public class RedisCachingProvider : IRedisCachingProvider
+    public class RedisCachingProvider : MarshalByRefObject, IRedisCachingProvider
     {
         public string ChannelName = string.Empty;
 
@@ -82,7 +81,25 @@ namespace Yunt.Redis
                 }
             }
         }
+        /// <summary>
+        ///     访问授权
+        /// </summary>
+        /// <param name="pwd"></param>
+        /// <param name="c"></param>
+        /// <returns>哈希表中域的数量 当key不存在时，返回0</returns>
+        public bool Auth(string pwd,RedisHost.ClientItem c)
+        {
+                using (var cmd = new Command())
+                {
 
+                    cmd.Add(ConstValues.REDIS_COMMAND_AUTH);
+                    cmd.Add(pwd);
+                    using (var result = TcpClient.Send(cmd, c.Client))
+                    {
+                        return result.ResultData.ToString().Equals("OK\r\n");
+                    }
+                }         
+        }
         #endregion
 
         /// <summary>
@@ -131,7 +148,7 @@ namespace Yunt.Redis
                     cmd.Add(time.ToString());
                     using (var result = TcpClient.Send(cmd, c.Client))
                     {
-                        return int.Parse(result.ResultData.ToString());
+                        return int.Parse(result.ResultData?.ToString()??"0");
                     }
                 }
             }
@@ -2394,6 +2411,8 @@ namespace Yunt.Redis
                 if (host.Available)
                 {
                     client = host.Pop();
+                    if (!Auth(_options.Password, client))
+                        Logger.Error("redis unauth ！");
                     SelectDB(client.Client);
                     return client;
                 }
@@ -2419,6 +2438,8 @@ namespace Yunt.Redis
                 if (host.Available)
                 {
                     var client = host.Pop();
+                    if(!Auth(_options.Password, client))
+                        Logger.Error("redis unauth！");
                     SelectDB(client.Client);
                     return client;
                 }
@@ -2446,10 +2467,7 @@ namespace Yunt.Redis
         public RedisCachingProvider(IOptions<RedisCacheOptions> options)
         {
             _options = options.Value;
-            Init();
-            //var result = Auth(_options.Password);
-            //if (result)
-            //    Logger.Error("验证失败！");
+            Init();          
         }
 
         /// <summary>

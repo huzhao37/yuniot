@@ -14,12 +14,12 @@ namespace Yunt.Xml.Repository.EF.Models
   
         [DataMember]
         [ProtoMember(1)]
-        public int DatatypeId { get; set; }
+        public int Datatype_Id { get; set; }
         [DataMember]
         [ProtoMember(2)]
         public int Count { get; set; }
         [DataMember]
         [ProtoMember(3)]
-        public string CollectdeviceIndex { get; set; }
+        public string Collectdevice_Index { get; set; }
     }
 }

@@ -20,12 +20,12 @@ namespace Yunt.Xml.Repository.EF.Mappings
                 .HasColumnName("id")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.CollectdeviceIndex)
+            entity.Property(e => e.Collectdevice_Index)
                 .IsRequired()
                 .HasColumnName("collectdevice_index")
                 .HasMaxLength(20);
 
-            entity.Property(e => e.ComType)
+            entity.Property(e => e.Com_Type)
                 .IsRequired()
                 .HasColumnName("com_type")
                 .HasMaxLength(50);
@@ -53,15 +53,14 @@ namespace Yunt.Xml.Repository.EF.Mappings
                 .HasColumnName("remark")
                 .HasMaxLength(255);
 
-            entity.Property(e => e.RouteKey)
+            entity.Property(e => e.Route_Key)
                 .IsRequired()
                 .HasColumnName("route_key")
                 .HasMaxLength(20);
 
             entity.Property(e => e.Time)
                 .HasColumnName("time")
-                .HasColumnType("datetime")
-               ;
+                .HasColumnType("datetime");
 
             entity.Property(e => e.Timer)
                 .HasColumnName("timer")
@@ -72,7 +71,7 @@ namespace Yunt.Xml.Repository.EF.Mappings
                 .HasColumnName("username")
                 .HasMaxLength(255);
 
-            entity.Property(e => e.WriteRead)
+            entity.Property(e => e.Write_Read)
                 .HasColumnName("write_read")
                 .HasColumnType("int(10)");
         }

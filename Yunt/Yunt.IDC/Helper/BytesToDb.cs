@@ -13,8 +13,9 @@ using Yunt.Device.Domain.Model;
 using Yunt.Device.Domain.Services;
 using Yunt.IDC.Task;
 using Yunt.MQ;
-using Yunt.XmlProtocol.Domain.MiddleMap;
-using Yunt.XmlProtocol.Domain.Models;
+using Yunt.Xml.Domain.IRepository;
+using Yunt.Xml.Domain.MiddleMap;
+using Yunt.Xml.Domain.Model;
 
 namespace Yunt.IDC.Helper
 {
@@ -46,6 +47,8 @@ namespace Yunt.IDC.Helper
         private static IHVibRepository hvibRepository;
         private static IProductionLineRepository lineRepository;
         private static IOriginalBytesRepository bytesRepository;
+        private static readonly ICollectdeviceRepository CollectdeviceRepository;
+        public static readonly IDataformmodelRepository DataformmodelRepository;
         static BytesToDb()
         {
             var wddQueue = MqDealTask.WddQueue;
@@ -74,6 +77,8 @@ namespace Yunt.IDC.Helper
             hvibRepository = ServiceProviderServiceExtensions.GetService<IHVibRepository>(Program.Providers["Device"]);
             lineRepository = ServiceProviderServiceExtensions.GetService<IProductionLineRepository>(Program.Providers["Device"]);
             bytesRepository= ServiceProviderServiceExtensions.GetService<IOriginalBytesRepository>(Program.Providers["Device"]);
+            CollectdeviceRepository = ServiceProviderServiceExtensions.GetService<ICollectdeviceRepository>(Program.Providers["Xml"]);
+            DataformmodelRepository = ServiceProviderServiceExtensions.GetService<IDataformmodelRepository>(Program.Providers["Xml"]);
         }
 
         public static bool Saving(DataGramModel model, string buffer)
@@ -89,7 +94,7 @@ namespace Yunt.IDC.Helper
                     return false;
                 }
 
-                var emDevice = Collectdevice.Find("Index", _model.CollectdeviceIndex);
+                var emDevice = CollectdeviceRepository.GetEntities(e=>e.Index.Equals(_model.CollectdeviceIndex)).FirstOrDefault();
                 if (emDevice == null)
                 {
                     Logger.Info("[BytesToDb]No Related EmbeddedDevice!");
@@ -100,16 +105,16 @@ namespace Yunt.IDC.Helper
                 {
                     Time = _model.PValues.FirstOrDefault().Key.TimeSpan(),
                     Bytes = _buffer,
-                    ProductionLineId = emDevice.ProductionlineID,
-                    EmbeddedDeviceId = emDevice.ID
+                    ProductionLineId = emDevice.Productionline_Id,
+                    EmbeddedDeviceId = emDevice.Id
                 };
                 bytesRepository.InsertAsync(bytes);
                 //写入队列中缓冲
                 rabbitHelper.Write(ccuri, Extention.strToToHexByte(buffer), queue, queue,"amq.topic", queueUserName, queuePassword);
 
 
-                var motors = motorRepository.GetEntities(e => e.EmbeddedDeviceId == emDevice.ID
-                && e.ProductionLineId.EqualIgnoreCase(emDevice.ProductionlineID)).ToList();
+                var motors = motorRepository.GetEntities(e => e.EmbeddedDeviceId == emDevice.Id
+                && e.ProductionLineId.EqualIgnoreCase(emDevice.Productionline_Id)).ToList();
 
                 if (motors == null || !motors.Any())
                 {
@@ -253,12 +258,13 @@ namespace Yunt.IDC.Helper
                 //更新绑定产线的最新GPRS通信时间;   
                 var current = _model.PValues.First().Key;
                 var line =
-                    lineRepository.GetEntities(e => e.ProductionLineId.Equals(emDevice.ProductionlineID)).ToList()
+                    lineRepository.GetEntities(e => e.ProductionLineId.Equals(emDevice.Productionline_Id)).ToList()
                         .FirstOrDefault();
                 if (line != null)
                     line.Time = current.TimeSpan();
                 lineRepository.UpdateEntityAsync(line);
                 lineRepository.Batch();
+                DataformmodelRepository.Batch();
                 return true;
             }
             catch (Exception ex)
@@ -276,20 +282,20 @@ namespace Yunt.IDC.Helper
             var type = obj.GetType();
             //var where = " MotorId = '"+motorId + "' and  BitDesc = '整型模拟量'";
 
-            var forms = Dataformmodel.FindAll(new string[] { "MotorId", "BitDesc" }, new object[] { motorId, "整型模拟量" });
+            var forms = DataformmodelRepository.GetEntities(e=>e.MotorId.Equals(motorId)&&e.BitDesc.EqualIgnoreCase("整型模拟量")).ToList();
             if (!forms.Any())
                 return null;
             for (var i = 0; i < forms.Count(); i++)
             {
                 var form = forms[i];
                 form.Value = Normalize.ConvertToNormal(form, values);
-                form.SaveAsync();//更新实时数据
+                DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
                 if (string.IsNullOrWhiteSpace(form.FieldParamEn))
                     continue;
                 var info = type.GetProperty(form.FieldParamEn);
                 if (info == null || info?.Name == "")
                     continue;
-                info?.SetValue(obj, Convert.ToSingle(Math.Round(form.Value, 2)));//保留两位小数
+                info?.SetValue(obj, Convert.ToSingle(Math.Round((decimal)form.Value, 2)));//保留两位小数
             }
             var idInfo = type.GetProperty("MotorId");
             idInfo.SetValue(obj, motorId);

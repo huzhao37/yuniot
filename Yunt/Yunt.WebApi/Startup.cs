@@ -53,7 +53,7 @@ namespace Yunt.WebApi
 
 
             Providers = ServiceEx.StartServices(services, configuration);
-            services.AddAutoMapper();
+            services.AddAutoMapper(typeof(Startup).Assembly);
 
             services.AddMvc();
 

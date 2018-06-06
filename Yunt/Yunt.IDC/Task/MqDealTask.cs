@@ -8,11 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
+using Microsoft.Extensions.DependencyInjection;
 using Yunt.Common;
 using Yunt.IDC.Helper;
 using Yunt.MQ;
-using Yunt.XmlProtocol.Domain.Models;
-using Yunt.XmlProtocol.Domain.Service;
+using Yunt.Xml.Domain.IRepository;
+using Yunt.Xml.Domain.Model;
+using Yunt.Xml.Domain.Services;
 
 namespace Yunt.IDC.Task
 {
@@ -20,7 +22,14 @@ namespace Yunt.IDC.Task
    /// 队列解析任务
    /// </summary>
   public  class MqDealTask
-   {
+    {
+        private static readonly IMessagequeueRepository MessagequeueRepository;
+        private static readonly IBytesParseRepository BytesParseRepository;
+        static MqDealTask()
+       {
+            MessagequeueRepository = ServiceProviderServiceExtensions.GetService<IMessagequeueRepository>(Program.Providers["Xml"]);
+            BytesParseRepository = ServiceProviderServiceExtensions.GetService<IBytesParseRepository>(Program.Providers["Xml"]);
+        }
        /// <summary>
        /// 所有队列集合
        /// </summary>
@@ -32,9 +41,11 @@ namespace Yunt.IDC.Task
         public static void Start()
         {
             var w_r =(int) WriteOrRead.Read;
-            var where = " Write_Read = '" + w_r + "' and  Route_Key != 'STATUS'";
+            //var where = " Write_Read = '" + w_r + "' and  Route_Key != 'STATUS'";
             WddQueue =
-               Messagequeue.Find(where);
+               MessagequeueRepository.GetEntities(e => e.Write_Read.Equals(w_r) && !e.Route_Key.Equals("STATUS")).FirstOrDefault();
+            if (WddQueue == null)
+                return;
             var interval = WddQueue.Timer;
 #if DEBUG
             var s1 = new Stopwatch();
@@ -69,11 +80,11 @@ namespace Yunt.IDC.Task
             switch (type)
             {
                 case DataType.SimonsConeCrusher:
-                    return MqHandler.UniversalParser(buffer, "SimonsConeCrusher", BytesToDb.Saving);
+                    return BytesParseRepository.UniversalParser(buffer, "SimonsConeCrusher", BytesToDb.Saving);
                 case DataType.Integrate:
-                    return MqHandler.UniversalParser(buffer, "Integrate", BytesToDb.Saving);
+                    return BytesParseRepository.UniversalParser(buffer, "Integrate", BytesToDb.Saving);
                 case DataType.Locker:
-                    return MqHandler.UniversalParser(buffer, "Locker", BytesToDb.Saving);
+                    return BytesParseRepository.UniversalParser(buffer, "Locker", BytesToDb.Saving);
                 default:
                     return true;
             }

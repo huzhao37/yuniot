@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using AutoMapper;
 using NewLife.Reflection;
 using Yunt.Inventory.Domain.BaseModel;
@@ -27,10 +29,13 @@ namespace Yunt.Inventory.Repository.EF
 
             //以反射形式建立映射关系
             //todo
+            dynamic x = (new AutoMapperProfileConfiguration()).GetType();
+            string currentpath = Path.GetDirectoryName(x.Assembly.Location);
+            var sTypes = AssemblyLoadContext.Default.LoadFromAssemblyPath($"{currentpath}\\Yunt.Inventory.Repository.EF.dll").GetSubclasses(typeof(BaseModel));
+            // Assembly.LoadFrom($"{currentpath}\\Yunt.Inventory.Repository.EF.dll").GetSubclasses(typeof(BaseModel));
+            var dTypes = AssemblyLoadContext.Default.LoadFromAssemblyPath($"{currentpath}\\Yunt.Inventory.Domain.dll").GetSubclasses(typeof(AggregateRoot));
+            //Assembly.LoadFrom($"{currentpath}\\Yunt.Inventory.Domain.dll").GetSubclasses(typeof(AggregateRoot));
 
-            var sTypes = Assembly.LoadFrom("Yunt.Inventory.Repository.EF").GetSubclasses(typeof(BaseModel));
-
-            var dTypes = Assembly.LoadFrom("Yunt.Inventory.Domain").GetSubclasses(typeof(AggregateRoot));
             dTypes.ToList().ForEach(d =>
             {
                 sTypes.ToList().ForEach(s =>

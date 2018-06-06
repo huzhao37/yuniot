@@ -17,7 +17,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using NewLife;
 using NewLife.Log;
-using NewLife.Reflection;
 using Quartz;
 using Quartz.Impl;
 //using Yunt.Auth.Domain.IRepository;

@@ -10,7 +10,8 @@ using Yunt.Common;
 using Yunt.Device.Domain.IRepository;
 using Yunt.Device.Domain.Services;
 using Yunt.MQ;
-using Yunt.XmlProtocol.Domain.Models;
+using Yunt.Xml.Domain.IRepository;
+using Yunt.Xml.Domain.Model;
 
 namespace Yunt.HIDC.Task
 {
@@ -29,7 +30,7 @@ namespace Yunt.HIDC.Task
         private static readonly IImpactCrusherByHourRepository IcByHourRepository;
         private static readonly ISimonsConeCrusherByHourRepository SccByHourRepository;
         private static readonly IHVibByHourRepository HvibByHourRepository;
-
+        private static readonly IMessagequeueRepository MessagequeueRepository;
         static HourStatisticsTask()
         {
             //motorTypeRepository = ServiceProviderServiceExtensions.GetService<IMotorTypeRepository>(Program.Providers["Device"]);
@@ -46,14 +47,16 @@ namespace Yunt.HIDC.Task
             IcByHourRepository = ServiceProviderServiceExtensions.GetService<IImpactCrusherByHourRepository>(Program.Providers["Device"]);
             SccByHourRepository = ServiceProviderServiceExtensions.GetService<ISimonsConeCrusherByHourRepository>(Program.Providers["Device"]);
             HvibByHourRepository = ServiceProviderServiceExtensions.GetService<IHVibByHourRepository>(Program.Providers["Device"]);
+            MessagequeueRepository = ServiceProviderServiceExtensions.GetService<IMessagequeueRepository>(Program.Providers["Xml"]);
         }
         public static void Start()
         {
             var w_r = (int)WriteOrRead.Read;
-            var where = " Write_Read = '" + w_r + "' and  Route_Key != 'STATUS'";
+            //var where = " Write_Read = '" + w_r + "' and  Route_Key != 'STATUS'";
             WddQueue =
-               Messagequeue.Find(where);
-
+                 MessagequeueRepository.GetEntities(e => e.Write_Read.Equals(w_r) && !e.Route_Key.Equals("STATUS")).FirstOrDefault();
+            if (WddQueue == null)
+                return;
             var queueHost = WddQueue.Host;
             var queuePort = WddQueue.Port;
             var queueUserName = WddQueue.Username;

@@ -73,7 +73,7 @@ namespace Yunt.Xml.Domain.Model
         public int? LineId { get; set; }
         [DataMember]
         [ProtoMember(21)]
-        public string CollectdeviceIndex { get; set; }
+        public string Collectdevice_Index { get; set; }
         [DataMember]
         [ProtoMember(22)]
         public string MotorId { get; set; }

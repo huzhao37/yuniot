@@ -16,7 +16,7 @@ namespace Yunt.Xml.Domain.Model
         public string Index { get; set; }
         [DataMember]
         [ProtoMember(2)]
-        public string ProductionlineId { get; set; }
+        public string Productionline_Id { get; set; }
         [DataMember]
         [ProtoMember(3)]
         public DateTime Time { get; set; }

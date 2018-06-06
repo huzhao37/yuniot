@@ -15,7 +15,7 @@ using Yunt.Device.Domain.Model;
 using Yunt.IDC.Helper;
 using Yunt.IDC.Task;
 using Yunt.Xml.Domain.IRepository;
-using Yunt.XmlProtocol.Domain.Models;
+using Yunt.Xml.Domain.Model;
 using LogLevel = NewLife.Log.LogLevel;
 
 namespace Yunt.IDC
@@ -26,65 +26,32 @@ namespace Yunt.IDC
         public static Dictionary<string, IServiceProvider> Providers;
         static void Main(string[] args)
         {
-            #region init
-            XTrace.UseConsole(true, true);
-            XTrace.Log.Level = LogLevel.Info;//打印错误级别的日志
-            XCode.Setting.Current.Migration = XCode.DataAccessLayer.Migration.Off;//关闭反向工程
-            XCode.Setting.Current.TraceSQLTime = 2000;//sql执行时间超过2s打印log
+            try
+            {
+                #region init
+                XTrace.UseConsole(true, true);
+                XTrace.Log.Level = LogLevel.Info;//打印错误级别的日志
+                                                 //XCode.Setting.Current.Migration = XCode.DataAccessLayer.Migration.Off;//关闭反向工程
+                                                 //XCode.Setting.Current.TraceSQLTime = 2000;//sql执行时间超过2s打印log
 
-            var services = new ServiceCollection();
-            Init(services);          
+                var services = new ServiceCollection();
+                Init(services);
+               
+                services.AddAutoMapper(typeof(Program).Assembly);
 
-            services.AddAutoMapper();
 
 
+                #endregion
 
-            #endregion
-
-            #region test bacth
-            //var rh = ServiceProviderServiceExtensions.GetService<IConeCrusherRepository>(services.BuildServiceProvider());
-            //var rh2 = ServiceProviderServiceExtensions.GetService<IVerticalCrusherRepository>(services.BuildServiceProvider());
-            //try
-            //{
-            //    var i = 0;
-            //    while (true)
-            //    {
-            //        var model = new ConeCrusher()
-            //        {
-            //            MotorId = "00",AbsSpindleTravel = 0,ActivePower = 0,Current_A = 0,Current_B = 0,Current_C = 0,MovaStress = 0,OilFeedTempreature = 0,
-            //            OilReturnTempreatur = 0,
-            //            Time = 0
-            //        };
-
-            //        rh.InsertAsync(model);
-            //        var model2 = new VerticalCrusher()
-            //        {
-            //            MotorId = "00",
-            //            ActivePower = 0,
-            //            Current_A = 0,
-            //            Current_B = 0,
-            //            Time = 0,Current_C = 0,PowerFactor = 0,Vibrate1 = 0,Vibrate2 = 0
-            //        };
-
-            //        rh2.InsertAsync(model2);
-            //        System.Threading.Thread.Sleep(10);
-            //        i++;
-            //        if(i==1000)
-            //            break;
-            //    }
-            //    rh.BatchSql();             
-            //}
-            //catch (Exception e)
-            //{
-            //    Console.WriteLine(e);
-            //    throw;
-            //}
-         
-     
-
-            #endregion
-
-            MqDealTask.Start();
+                MqDealTask.Start();
+            }
+            catch (Exception e)
+            {
+                Common.Logger.Error($"program1{e.Message + e.StackTrace}");
+                Common.Logger.Error($"program2{e.InnerException.Message + e.InnerException.StackTrace}");
+                Common.Logger.Error($"program3{e.InnerException.InnerException.Message + e.InnerException.InnerException.StackTrace}");
+            }
+       
 
 
             Console.ReadKey();
@@ -97,15 +64,17 @@ namespace Yunt.IDC
         private static void Init(ServiceCollection services)
         {
             //先将xcode所需mysql驱动加载进来，这样efcore的mysql驱动就不会与此发生冲突。。。等待xcode的驱动dnc更新
-            Datatype.FindAll();
+            //Datatype.FindAll();
             dynamic type = (new Program()).GetType();
             string currentDirectory = Path.GetDirectoryName(type.Assembly.Location);
+
+            Common.Logger.Info($"currentDirectory:{currentDirectory}");
             var builder = new ConfigurationBuilder()
                 .SetBasePath(currentDirectory)
                 .AddJsonFile("appsettings.json", true, reloadOnChange: true);
 
             var configuration = builder.Build();
-            Common.Logger.Create(configuration, new LoggerFactory(), "service");
+            //Common.Logger.Create(configuration, new LoggerFactory(), "service");
             services.AddSingleton<IConfiguration>(configuration);
          
             Configuration = configuration;

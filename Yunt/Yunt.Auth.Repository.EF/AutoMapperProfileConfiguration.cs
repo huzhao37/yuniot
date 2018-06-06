@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Mime;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using AutoMapper;
 using NewLife.Reflection;
@@ -31,9 +33,15 @@ namespace Yunt.Auth.Repository.EF
             //以反射形式建立映射关系
             //todo
 
-            var sTypes = Assembly.LoadFrom("Yunt.Auth.Repository.EF").GetSubclasses(typeof(BaseModel));
+            //var sTypes = Assembly.LoadFrom("Yunt.Auth.Repository.EF").GetSubclasses(typeof(BaseModel));
 
-            var dTypes = Assembly.LoadFrom("Yunt.Auth.Domain").GetSubclasses(typeof(AggregateRoot));
+            //var dTypes = Assembly.LoadFrom("Yunt.Auth.Domain").GetSubclasses(typeof(AggregateRoot));
+            dynamic x = (new AutoMapperProfileConfiguration()).GetType();
+            string currentpath = Path.GetDirectoryName(x.Assembly.Location);
+            var sTypes = AssemblyLoadContext.Default.LoadFromAssemblyPath($"{currentpath}\\Yunt.Auth.Repository.EF.dll").GetSubclasses(typeof(BaseModel));
+            // Assembly.LoadFrom($"{currentpath}\\Yunt.Auth.Repository.EF.dll").GetSubclasses(typeof(BaseModel));
+            var dTypes = AssemblyLoadContext.Default.LoadFromAssemblyPath($"{currentpath}\\Yunt.Auth.Domain.dll").GetSubclasses(typeof(AggregateRoot));
+            //Assembly.LoadFrom($"{currentpath}\\Yunt.Auth.Domain.dll").GetSubclasses(typeof(AggregateRoot));
             dTypes.ToList().ForEach(d =>
             {
                 sTypes.ToList().ForEach(s =>

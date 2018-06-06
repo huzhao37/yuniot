@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Yunt.Device.Domain.Model;
-using Yunt.XmlProtocol.Domain.Models;
+using Yunt.Xml.Domain.Model;
 using Yunt.Common;
+using Yunt.Xml.Domain.IRepository;
 
 namespace Yunt.IDC.Helper
 {
@@ -14,6 +16,11 @@ namespace Yunt.IDC.Helper
     /// </summary>
     public class Normalize
     {
+        private static readonly IDataformmodelRepository DataformmodelRepository;
+        static Normalize()
+        {
+            DataformmodelRepository = BytesToDb.DataformmodelRepository;
+        }
         /// <summary>
         /// 根据数据精度和数据参数将数值转化为实际值
         /// </summary>
@@ -29,7 +36,7 @@ namespace Yunt.IDC.Helper
                 Logger.Error($"[Normalize]excite values index");
                 return 0;
             }
-            var oldValue = values[form.Index];
+            var oldValue = values[(int)form.Index];
             var accu = 1.0;
             accu = string.IsNullOrWhiteSpace(form.DataPhysicalAccuracy) ? 1 : Convert.ToDouble(form.DataPhysicalAccuracy);
 
@@ -53,7 +60,7 @@ namespace Yunt.IDC.Helper
                     }
                     break;
                 case "称重":
-                    var unitForm=Dataformmodel.Find(new[] { "MotorId", "FieldParamEn" }, new object[] { form.MotorId, "WeightUnit" });
+                    var unitForm= DataformmodelRepository.GetEntities(e=>e.MotorId.EqualIgnoreCase(form.MotorId)&&e.FieldParamEn.Equals("WeightUnit"))?.ToList().FirstOrDefault();
                     if (unitForm == null)
                     {
                         Logger.Error($"{form.MotorId}:not exist WeightUnit");

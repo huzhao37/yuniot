@@ -1,8 +1,10 @@
 ﻿using AutoMapper;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.Loader;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +23,7 @@ using Yunt.Device.Domain.Model.IdModel;
 namespace Yunt.Device.Repository.EF
 {
     [Service(ServiceType.Device)]
-    public class BootStrap //: IBootStrap
+    public class BootStrap:MarshalByRefObject //: IBootStrap
     {
         internal static IServiceProvider ServiceProvider;
         public void Start(IServiceCollection services, IConfigurationRoot configuration)
@@ -47,18 +49,19 @@ namespace Yunt.Device.Repository.EF
                     Logger.Error($"please write Device service's settings into appsettings! \n exp：\"Device\":{{\"RedisConn\":\"***\"," +
                         $"\"MySqlConn\":\"***\"}}");
                 }
-
+             
                 var contextOptions = new DbContextOptionsBuilder().UseMySql(mySqlConn).EnableSensitiveDataLogging().Options;
                 services.AddSingleton(contextOptions)
                   .TryAddTransient<DeviceContext>();
-
                 //services.AddDbContextPool<DeviceContext>(options =>
                 //                  options.UseMySql(mySqlConn).EnableSensitiveDataLogging());
-
-                var currentpath = AppDomain.CurrentDomain.BaseDirectory;
-                var allTypes = Assembly.LoadFrom($"{currentpath}{ MethodBase.GetCurrentMethod().DeclaringType.Namespace}.dll").GetTypes();
+                dynamic x = (new BootStrap()).GetType();
+                string currentpath = Path.GetDirectoryName(x.Assembly.Location);
+                // var currentpath = AppDomain.CurrentDomain.BaseDirectory;
+                var allTypes = AssemblyLoadContext.Default.LoadFromAssemblyPath($"{currentpath}\\{ MethodBase.GetCurrentMethod().DeclaringType.Namespace}.dll").GetTypes();
+                // Assembly.LoadFrom($"{currentpath}\\{ MethodBase.GetCurrentMethod().DeclaringType.Namespace}.dll").GetTypes();
+          
                 var type = typeof(IDeviceRepositoryBase<>);
-             
                 allTypes.Where(t => t.IsClass).ToList().ForEach(t =>
                 {
                     var ins = t.GetInterfaces();

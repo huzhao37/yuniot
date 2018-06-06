@@ -25,7 +25,7 @@ namespace Yunt.Xml.Repository.EF.Mappings
                 .HasColumnName("index")
                 .HasMaxLength(50);
 
-            entity.Property(e => e.ProductionlineId)
+            entity.Property(e => e.Productionline_Id)
                 .IsRequired()
                 .HasColumnName("productionline_id")
                 .HasMaxLength(50);

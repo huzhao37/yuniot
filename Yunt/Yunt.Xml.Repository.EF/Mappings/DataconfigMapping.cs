@@ -17,14 +17,14 @@ namespace Yunt.Xml.Repository.EF.Mappings
         {
             entity.ToTable("dataconfig");
 
-            entity.HasIndex(e => e.DatatypeId)
+            entity.HasIndex(e => e.Datatype_Id)
                 .HasName("IX_DataConfig_DataTypeId");
 
             entity.Property(e => e.Id)
                 .HasColumnName("id")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.CollectdeviceIndex)
+            entity.Property(e => e.Collectdevice_Index)
                 .IsRequired()
                 .HasColumnName("collectdevice_index")
                 .HasMaxLength(50);
@@ -33,7 +33,7 @@ namespace Yunt.Xml.Repository.EF.Mappings
                 .HasColumnName("count")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.DatatypeId)
+            entity.Property(e => e.Datatype_Id)
                 .HasColumnName("datatype_id")
                 .HasColumnType("int(11)");
 
