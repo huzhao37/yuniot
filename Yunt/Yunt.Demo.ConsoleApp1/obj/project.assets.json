@@ -179,10 +179,10 @@
           "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.dll": {}
         }
       },
-      "Microsoft.Extensions.Configuration/2.0.2": {
+      "Microsoft.Extensions.Configuration/2.1.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Configuration.Abstractions": "2.0.2"
+          "Microsoft.Extensions.Configuration.Abstractions": "2.1.0"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll": {}
@@ -191,10 +191,10 @@
           "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll": {}
         }
       },
-      "Microsoft.Extensions.Configuration.Abstractions/2.0.2": {
+      "Microsoft.Extensions.Configuration.Abstractions/2.1.0": {
         "type": "package",
         "dependencies": {
-          "Microsoft.Extensions.Primitives": "2.0.0"
+          "Microsoft.Extensions.Primitives": "2.1.0"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll": {}
@@ -416,10 +416,11 @@
           "lib/netstandard2.0/Microsoft.Extensions.Options.ConfigurationExtensions.dll": {}
         }
       },
-      "Microsoft.Extensions.Primitives/2.0.0": {
+      "Microsoft.Extensions.Primitives/2.1.0": {
         "type": "package",
         "dependencies": {
-          "System.Runtime.CompilerServices.Unsafe": "4.4.0"
+          "System.Memory": "4.5.0",
+          "System.Runtime.CompilerServices.Unsafe": "4.5.0"
         },
         "compile": {
           "lib/netstandard2.0/Microsoft.Extensions.Primitives.dll": {}
@@ -685,7 +686,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "NewLife.Core/7.0.6712.2419": {
+      "NewLife.Core/7.0.6722.39740": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/NewLife.Core.dll": {}
@@ -694,10 +695,10 @@
           "lib/netstandard2.0/NewLife.Core.dll": {}
         }
       },
-      "NewLife.XCode/9.7.6712.2420": {
+      "NewLife.XCode/9.7.6722.39741": {
         "type": "package",
         "dependencies": {
-          "NewLife.Core": "7.0.6712.2419"
+          "NewLife.Core": "7.0.6722.39740"
         },
         "compile": {
           "lib/netstandard2.0/XCode.dll": {}
@@ -773,13 +774,13 @@
           "lib/netstandard1.3/Pomelo.JsonObject.dll": {}
         }
       },
-      "protobuf-net/2.3.7": {
+      "protobuf-net/2.3.8-alpha2": {
         "type": "package",
         "dependencies": {
           "System.Reflection.Emit": "4.3.0",
           "System.Reflection.Emit.ILGeneration": "4.3.0",
           "System.Reflection.Emit.Lightweight": "4.3.0",
-          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.4.0",
           "System.Runtime.Serialization.Primitives": "4.3.0",
           "System.Xml.XmlSerializer": "4.3.0"
         },
@@ -1048,6 +1049,20 @@
         },
         "runtime": {
           "lib/netstandard2.0/SharpCompress.dll": {}
+        }
+      },
+      "SyrianBallaS.AutoMapper.Extensions.Microsoft.DependencyInjection.Signed/3.2.0": {
+        "type": "package",
+        "dependencies": {
+          "AutoMapper": "6.1.1",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0",
+          "Microsoft.Extensions.DependencyModel": "2.0.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll": {}
         }
       },
       "System.AppContext/4.1.0": {
@@ -1574,14 +1589,13 @@
           }
         }
       },
-      "System.Memory/4.5.0-preview2-26406-04": {
+      "System.Memory/4.5.0": {
         "type": "package",
         "dependencies": {
-          "System.Numerics.Vectors": "4.5.0-preview2-26406-04",
-          "System.Runtime.CompilerServices.Unsafe": "4.5.0-preview2-26406-04"
+          "System.Runtime.CompilerServices.Unsafe": "4.5.0"
         },
         "compile": {
-          "ref/netstandard2.0/_._": {}
+          "ref/netstandard2.0/System.Memory.dll": {}
         },
         "runtime": {
           "lib/netstandard2.0/System.Memory.dll": {}
@@ -1675,15 +1689,6 @@
             "assetType": "runtime",
             "rid": "win"
           }
-        }
-      },
-      "System.Numerics.Vectors/4.5.0-preview2-26406-04": {
-        "type": "package",
-        "compile": {
-          "ref/netstandard2.0/_._": {}
-        },
-        "runtime": {
-          "lib/netstandard2.0/System.Numerics.Vectors.dll": {}
         }
       },
       "System.ObjectModel/4.0.12": {
@@ -1851,7 +1856,7 @@
           "ref/netstandard1.5/System.Runtime.dll": {}
         }
       },
-      "System.Runtime.CompilerServices.Unsafe/4.5.0-preview2-26406-04": {
+      "System.Runtime.CompilerServices.Unsafe/4.5.0": {
         "type": "package",
         "compile": {
           "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
@@ -2504,6 +2509,46 @@
           "lib/netstandard1.3/System.Xml.XmlSerializer.dll": {}
         }
       },
+      "Yunt.Analysis.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "Yunt.Common": "1.0.0",
+          "protobuf-net": "2.3.7"
+        },
+        "compile": {
+          "bin/placeholder/Yunt.Analysis.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Yunt.Analysis.Domain.dll": {}
+        }
+      },
+      "Yunt.Analysis.Repository.EF/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.0",
+        "dependencies": {
+          "AutoMapper": "7.0.0-alpha-0001",
+          "AutoMapper.Extensions": "1.0.0",
+          "Microsoft.EntityFrameworkCore": "2.0.3",
+          "Microsoft.EntityFrameworkCore.Design": "2.0.3",
+          "Microsoft.EntityFrameworkCore.Tools": "2.0.3",
+          "Microsoft.Extensions.Configuration": "2.1.0",
+          "Pomelo.EntityFrameworkCore.Extensions.ToSql": "2.0.0-rtm-10002",
+          "Pomelo.EntityFrameworkCore.MySql": "2.0.1",
+          "Pomelo.EntityFrameworkCore.MySql.Design": "1.1.2",
+          "SyrianBallaS.AutoMapper.Extensions.Microsoft.DependencyInjection.Signed": "3.2.0",
+          "Yunt.Analysis.Domain": "1.0.0",
+          "Yunt.Common": "1.0.0",
+          "Yunt.Redis": "1.0.0",
+          "protobuf-net": "2.3.8-alpha2"
+        },
+        "compile": {
+          "bin/placeholder/Yunt.Analysis.Repository.EF.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Yunt.Analysis.Repository.EF.dll": {}
+        }
+      },
       "Yunt.Common/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
@@ -2568,7 +2613,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "NewLife.XCode": "9.7.6712.2420",
+          "NewLife.XCode": "9.7.6722.39741",
           "Quartz": "3.0.4",
           "Yunt.Common": "1.0.0",
           "Yunt.Dtsc.Domain": "1.0.0"
@@ -2584,8 +2629,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "NewLife.Core": "7.0.6712.2419",
-          "NewLife.XCode": "9.7.6712.2420"
+          "NewLife.XCode": "9.7.6722.39741"
         },
         "compile": {
           "bin/placeholder/Yunt.Dtsc.Domain.dll": {}
@@ -2839,27 +2883,27 @@
         "microsoft.extensions.caching.memory.nuspec"
       ]
     },
-    "Microsoft.Extensions.Configuration/2.0.2": {
-      "sha512": "n5HeFXiEFONntcwVFvEGY5dnB8VRqGD20RrdB9omX6dAAUSIV/sGwGhaLV5neOt/uvhc64VDmKjIjdffC6TX5A==",
+    "Microsoft.Extensions.Configuration/2.1.0": {
+      "sha512": "9OBzLBp9iD0slK3YKwnaWQ7VMWf5Vq2u8A1iULvMA5pXJ/A03bap24HQoH6AZR6O4HDOYRnjkfy9AydHRD7jVQ==",
       "type": "package",
-      "path": "microsoft.extensions.configuration/2.0.2",
+      "path": "microsoft.extensions.configuration/2.1.0",
       "files": [
         ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.xml",
-        "microsoft.extensions.configuration.2.0.2.nupkg.sha512",
+        "microsoft.extensions.configuration.2.1.0.nupkg.sha512",
         "microsoft.extensions.configuration.nuspec"
       ]
     },
-    "Microsoft.Extensions.Configuration.Abstractions/2.0.2": {
-      "sha512": "IoTZQU9aQOHr9zQbwozyzWq25eFbu/EcUZnPAMum6hh0Nl2RuM7ieziNLk3xk+c2g8YnnmxiA3VEvVaCFYCoTQ==",
+    "Microsoft.Extensions.Configuration.Abstractions/2.1.0": {
+      "sha512": "uGoebD8CvAeIY6GrZRVUYHuYT0s1Ci9A1Jcjvirfras/fKeMfottVuO2HrK7+V1LzAAU2YAdZKB2pZTAqjwBvQ==",
       "type": "package",
-      "path": "microsoft.extensions.configuration.abstractions/2.0.2",
+      "path": "microsoft.extensions.configuration.abstractions/2.1.0",
       "files": [
         ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.xml",
-        "microsoft.extensions.configuration.abstractions.2.0.2.nupkg.sha512",
+        "microsoft.extensions.configuration.abstractions.2.1.0.nupkg.sha512",
         "microsoft.extensions.configuration.abstractions.nuspec"
       ]
     },
@@ -3063,14 +3107,15 @@
         "microsoft.extensions.options.configurationextensions.nuspec"
       ]
     },
-    "Microsoft.Extensions.Primitives/2.0.0": {
-      "sha512": "ukg53qNlqTrK38WA30b5qhw0GD7y3jdI9PHHASjdKyTcBHTevFM2o23tyk3pWCgAV27Bbkm+CPQ2zUe1ZOuYSA==",
+    "Microsoft.Extensions.Primitives/2.1.0": {
+      "sha512": "U+TqiIAwTQQVlX/+270Z1pv+4aVOl7/Dd39znQcdDpK8nzbdaEt0qahI0e6ZPb8b/1YvQ/iUeWpuYq91NWjaTg==",
       "type": "package",
-      "path": "microsoft.extensions.primitives/2.0.0",
+      "path": "microsoft.extensions.primitives/2.1.0",
       "files": [
+        ".signature.p7s",
         "lib/netstandard2.0/Microsoft.Extensions.Primitives.dll",
         "lib/netstandard2.0/Microsoft.Extensions.Primitives.xml",
-        "microsoft.extensions.primitives.2.0.0.nupkg.sha512",
+        "microsoft.extensions.primitives.2.1.0.nupkg.sha512",
         "microsoft.extensions.primitives.nuspec"
       ]
     },
@@ -3631,10 +3676,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "NewLife.Core/7.0.6712.2419": {
-      "sha512": "ARhn94lxbhdqbneaqloqyXX7rEVsxOfylcGZcmedniWbto46/oRhh/iXoAXbQi6fYnPqD37YHoci1+gS7a+oBA==",
+    "NewLife.Core/7.0.6722.39740": {
+      "sha512": "7xnjQB8m6sbjWdnJ0Rf5M7x1Guda5r72Zm5Ubpgmc09NvKvXdtbIGbRnAbtHwl1FObDC1eypRSrKna6zlFfXrA==",
       "type": "package",
-      "path": "newlife.core/7.0.6712.2419",
+      "path": "newlife.core/7.0.6722.39740",
       "files": [
         "lib/net20/NewLife.Core.dll",
         "lib/net20/NewLife.Core.pdb",
@@ -3648,14 +3693,14 @@
         "lib/netstandard2.0/NewLife.Core.dll",
         "lib/netstandard2.0/NewLife.Core.pdb",
         "lib/netstandard2.0/NewLife.Core.xml",
-        "newlife.core.7.0.6712.2419.nupkg.sha512",
+        "newlife.core.7.0.6722.39740.nupkg.sha512",
         "newlife.core.nuspec"
       ]
     },
-    "NewLife.XCode/9.7.6712.2420": {
-      "sha512": "yKLTBjVSiRKR1Qy24mWzxtjTyf74dGHz698rYE/TjONv17wU4DiNfgw/olcYHvZpTuRvwTjmQIfWF9d3upgnkg==",
+    "NewLife.XCode/9.7.6722.39741": {
+      "sha512": "Kc8i8LcaWehPDtpTazrb5KXBwg9nOi1Fm+yNQ3Br7rfp4T+vws7P3251Zs/hda5QwiGAbepcSmoDy7ics9UgQQ==",
       "type": "package",
-      "path": "newlife.xcode/9.7.6712.2420",
+      "path": "newlife.xcode/9.7.6722.39741",
       "files": [
         "content/Build.tt",
         "content/Model.xml",
@@ -3671,7 +3716,7 @@
         "lib/netstandard2.0/XCode.dll",
         "lib/netstandard2.0/XCode.pdb",
         "lib/netstandard2.0/XCode.xml",
-        "newlife.xcode.9.7.6712.2420.nupkg.sha512",
+        "newlife.xcode.9.7.6722.39741.nupkg.sha512",
         "newlife.xcode.nuspec",
         "tools/install.ps1"
       ]
@@ -3746,10 +3791,10 @@
         "pomelo.jsonobject.nuspec"
       ]
     },
-    "protobuf-net/2.3.7": {
-      "sha512": "JG5ZUd42w4osBaDrFpJoEOelyRsuxV+EzY4c8J5o/Qhm+lqhm2iYWUl/T3zf7vhONBD968K190d7co1I2lucOQ==",
+    "protobuf-net/2.3.8-alpha2": {
+      "sha512": "DWHCPhk8rXY6E5oVjQKDkB/hhSrK5FGp4VYF9C4nUtrLsNd40JzMGoA2iniaTacRRFQB+CIsteuhAZE2A1Pi2Q==",
       "type": "package",
-      "path": "protobuf-net/2.3.7",
+      "path": "protobuf-net/2.3.8-alpha2",
       "files": [
         "lib/net20/protobuf-net.dll",
         "lib/net20/protobuf-net.xml",
@@ -3763,7 +3808,7 @@
         "lib/netstandard1.3/protobuf-net.xml",
         "lib/netstandard2.0/protobuf-net.dll",
         "lib/netstandard2.0/protobuf-net.xml",
-        "protobuf-net.2.3.7.nupkg.sha512",
+        "protobuf-net.2.3.8-alpha2.nupkg.sha512",
         "protobuf-net.nuspec"
       ]
     },
@@ -4060,6 +4105,16 @@
         "lib/netstandard2.0/SharpCompress.dll",
         "sharpcompress.0.20.0.nupkg.sha512",
         "sharpcompress.nuspec"
+      ]
+    },
+    "SyrianBallaS.AutoMapper.Extensions.Microsoft.DependencyInjection.Signed/3.2.0": {
+      "sha512": "8bx8z4tUBhribjzrWSFHPOnoRzGSdCzsQqSVLQUc2vA0t08YcktXtk9IjwAmNeFmdoYbJ6OuIVyNpD0f7JyrIA==",
+      "type": "package",
+      "path": "syrianballas.automapper.extensions.microsoft.dependencyinjection.signed/3.2.0",
+      "files": [
+        "lib/netstandard2.0/AutoMapper.Extensions.Microsoft.DependencyInjection.dll",
+        "syrianballas.automapper.extensions.microsoft.dependencyinjection.signed.3.2.0.nupkg.sha512",
+        "syrianballas.automapper.extensions.microsoft.dependencyinjection.signed.nuspec"
       ]
     },
     "System.AppContext/4.1.0": {
@@ -4830,10 +4885,12 @@
       ]
     },
     "System.Diagnostics.Process/4.3.0": {
-      "sha512": "J0wOX07+QASQblsfxmIMFc9Iq7KTXYL3zs2G/Xc704Ylv3NpuVdo6gij6V3PGiptTxqsK0K7CdXenRvKUnkA2g==",
+      "sha512": "vM5w13QUnU7Xm4NZm0jeyga5TOjl8Qn9y4nPzKbd9vzrTRRtqf0OZk4uHcsH5SQzstkw6aU3eMRCpNRjfV5DDA==",
       "type": "package",
       "path": "system.diagnostics.process/4.3.0",
       "files": [
+        "System.Diagnostics.Process.4.3.0.nupkg.sha512",
+        "System.Diagnostics.Process.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -4879,9 +4936,7 @@
         "runtimes/win/lib/net46/System.Diagnostics.Process.dll",
         "runtimes/win/lib/net461/System.Diagnostics.Process.dll",
         "runtimes/win/lib/netstandard1.4/System.Diagnostics.Process.dll",
-        "runtimes/win7/lib/netcore50/_._",
-        "system.diagnostics.process.4.3.0.nupkg.sha512",
-        "system.diagnostics.process.nuspec"
+        "runtimes/win7/lib/netcore50/_._"
       ]
     },
     "System.Diagnostics.Tools/4.3.0": {
@@ -5634,44 +5689,39 @@
         "version.txt"
       ]
     },
-    "System.Memory/4.5.0-preview2-26406-04": {
-      "sha512": "OtZsZV9htNIUrLz7hW84cZJlJ5gcKgt8GtNujqLCs2eH/mRDbhTd4QaHJKg/RS3ai4RNHw8M1DoZ57/vhI9hPg==",
+    "System.Memory/4.5.0": {
+      "sha512": "P56/L4B9vhz0YFTC4qIXFgx+VgMhg3JhCm5/EASihTotyjwmBt2QEAQdmd2tNctYET/w0CRJzVH1cwxgbKGnDQ==",
       "type": "package",
-      "path": "system.memory/4.5.0-preview2-26406-04",
+      "path": "system.memory/4.5.0",
       "files": [
+        ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "lib/MonoAndroid10/_._",
         "lib/MonoTouch10/_._",
+        "lib/netcoreapp2.1/_._",
         "lib/netstandard1.1/System.Memory.dll",
         "lib/netstandard1.1/System.Memory.xml",
         "lib/netstandard2.0/System.Memory.dll",
         "lib/netstandard2.0/System.Memory.xml",
+        "lib/uap10.0.16300/_._",
         "lib/xamarinios10/_._",
         "lib/xamarinmac20/_._",
         "lib/xamarintvos10/_._",
         "lib/xamarinwatchos10/_._",
         "ref/MonoAndroid10/_._",
         "ref/MonoTouch10/_._",
-        "ref/netcoreapp2.1/System.Memory.dll",
-        "ref/netcoreapp2.1/System.Memory.xml",
+        "ref/netcoreapp2.1/_._",
         "ref/netstandard1.1/System.Memory.dll",
         "ref/netstandard1.1/System.Memory.xml",
         "ref/netstandard2.0/System.Memory.dll",
         "ref/netstandard2.0/System.Memory.xml",
-        "ref/uap10.0.16299/System.Memory.dll",
-        "ref/uap10.0.16299/System.Memory.xml",
+        "ref/uap10.0.16300/_._",
         "ref/xamarinios10/_._",
         "ref/xamarinmac20/_._",
         "ref/xamarintvos10/_._",
         "ref/xamarinwatchos10/_._",
-        "runtimes/unix/lib/netcoreapp2.1/System.Memory.dll",
-        "runtimes/unix/lib/netcoreapp2.1/System.Memory.xml",
-        "runtimes/win/lib/netcoreapp2.1/System.Memory.dll",
-        "runtimes/win/lib/netcoreapp2.1/System.Memory.xml",
-        "runtimes/win/lib/uap10.0.16299/System.Memory.dll",
-        "runtimes/win/lib/uap10.0.16299/System.Memory.xml",
-        "system.memory.4.5.0-preview2-26406-04.nupkg.sha512",
+        "system.memory.4.5.0.nupkg.sha512",
         "system.memory.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -5832,49 +5882,6 @@
         "runtimes/win/lib/net46/System.Net.Security.dll",
         "runtimes/win/lib/netstandard1.3/System.Net.Security.dll",
         "runtimes/win7/lib/netcore50/_._"
-      ]
-    },
-    "System.Numerics.Vectors/4.5.0-preview2-26406-04": {
-      "sha512": "hNs3gQrj6hkIq8nfdTOm0kNCQ1l0Q6r3vY49dtEYll+eYd2H04gwxgD3NKNt7Eg7H6ELWn7aSLM0GlzBrAa/gA==",
-      "type": "package",
-      "path": "system.numerics.vectors/4.5.0-preview2-26406-04",
-      "files": [
-        "LICENSE.TXT",
-        "THIRD-PARTY-NOTICES.TXT",
-        "lib/MonoAndroid10/_._",
-        "lib/MonoTouch10/_._",
-        "lib/net46/System.Numerics.Vectors.dll",
-        "lib/net46/System.Numerics.Vectors.xml",
-        "lib/netcoreapp2.1/_._",
-        "lib/netstandard1.0/System.Numerics.Vectors.dll",
-        "lib/netstandard1.0/System.Numerics.Vectors.xml",
-        "lib/netstandard2.0/System.Numerics.Vectors.dll",
-        "lib/netstandard2.0/System.Numerics.Vectors.xml",
-        "lib/portable-net45+win8+wp8+wpa81/System.Numerics.Vectors.dll",
-        "lib/portable-net45+win8+wp8+wpa81/System.Numerics.Vectors.xml",
-        "lib/uap10.0.16299/_._",
-        "lib/xamarinios10/_._",
-        "lib/xamarinmac20/_._",
-        "lib/xamarintvos10/_._",
-        "lib/xamarinwatchos10/_._",
-        "ref/MonoAndroid10/_._",
-        "ref/MonoTouch10/_._",
-        "ref/net46/System.Numerics.Vectors.dll",
-        "ref/net46/System.Numerics.Vectors.xml",
-        "ref/netcoreapp2.1/_._",
-        "ref/netstandard1.0/System.Numerics.Vectors.dll",
-        "ref/netstandard1.0/System.Numerics.Vectors.xml",
-        "ref/netstandard2.0/System.Numerics.Vectors.dll",
-        "ref/netstandard2.0/System.Numerics.Vectors.xml",
-        "ref/uap10.0.16299/_._",
-        "ref/xamarinios10/_._",
-        "ref/xamarinmac20/_._",
-        "ref/xamarintvos10/_._",
-        "ref/xamarinwatchos10/_._",
-        "system.numerics.vectors.4.5.0-preview2-26406-04.nupkg.sha512",
-        "system.numerics.vectors.nuspec",
-        "useSharedDesignerContext.txt",
-        "version.txt"
       ]
     },
     "System.ObjectModel/4.0.12": {
@@ -6475,11 +6482,12 @@
         "ref/xamarinwatchos10/_._"
       ]
     },
-    "System.Runtime.CompilerServices.Unsafe/4.5.0-preview2-26406-04": {
-      "sha512": "gXymtiiv+JAkmEjdU8yPuEfKfVPVcK4vUZeU05ew/Dc3V4UQ7r9BUwpOkN4mgTKE1GKplNTcxbe4apYzbmqygA==",
+    "System.Runtime.CompilerServices.Unsafe/4.5.0": {
+      "sha512": "6zBxkHYemB0kQiHP3vGXGRXejZVoNVuMn2paUuqKKi5Wyjkxfkp+D0rd0c3VrGwotidRINt6KpOi2smL4VkJKw==",
       "type": "package",
-      "path": "system.runtime.compilerservices.unsafe/4.5.0-preview2-26406-04",
+      "path": "system.runtime.compilerservices.unsafe/4.5.0",
       "files": [
+        ".signature.p7s",
         "LICENSE.TXT",
         "THIRD-PARTY-NOTICES.TXT",
         "lib/netcoreapp2.0/System.Runtime.CompilerServices.Unsafe.dll",
@@ -6488,11 +6496,13 @@
         "lib/netstandard1.0/System.Runtime.CompilerServices.Unsafe.xml",
         "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
         "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
+        "lib/uap10.0.16300/_._",
         "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.dll",
         "ref/netstandard1.0/System.Runtime.CompilerServices.Unsafe.xml",
         "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll",
         "ref/netstandard2.0/System.Runtime.CompilerServices.Unsafe.xml",
-        "system.runtime.compilerservices.unsafe.4.5.0-preview2-26406-04.nupkg.sha512",
+        "ref/uap10.0.16300/_._",
+        "system.runtime.compilerservices.unsafe.4.5.0.nupkg.sha512",
         "system.runtime.compilerservices.unsafe.nuspec",
         "useSharedDesignerContext.txt",
         "version.txt"
@@ -8142,6 +8152,16 @@
         "system.xml.xmlserializer.nuspec"
       ]
     },
+    "Yunt.Analysis.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Yunt.Analysis.Domain/Yunt.Analysis.Domain.csproj",
+      "msbuildProject": "../Yunt.Analysis.Domain/Yunt.Analysis.Domain.csproj"
+    },
+    "Yunt.Analysis.Repository.EF/1.0.0": {
+      "type": "project",
+      "path": "../Yunt.Analysis.Repository.EF/Yunt.Analysis.Repository.EF.csproj",
+      "msbuildProject": "../Yunt.Analysis.Repository.EF/Yunt.Analysis.Repository.EF.csproj"
+    },
     "Yunt.Common/1.0.0": {
       "type": "project",
       "path": "../Yunt.Common/Yunt.Common.csproj",
@@ -8189,6 +8209,7 @@
       "Quartz >= 3.0.4",
       "System.Management >= 4.5.0-preview2-26406-04",
       "System.Security.Permissions >= 4.4.1",
+      "Yunt.Analysis.Repository.EF >= 1.0.0",
       "Yunt.Common >= 1.0.0",
       "Yunt.Device.Repository.EF >= 1.0.0",
       "Yunt.Dtsc.Core >= 1.0.0",
@@ -8196,44 +8217,57 @@
     ]
   },
   "packageFolders": {
-    "/Users/aiur/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\zhaoh\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
+    "restoreSettings": {
+      "hideWarningsAndErrors": true
+    },
     "restore": {
-      "projectUniqueName": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Demo.ConsoleApp1/Yunt.Demo.ConsoleApp1.csproj",
+      "projectUniqueName": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.ConsoleApp1\\Yunt.Demo.ConsoleApp1.csproj",
       "projectName": "Yunt.Demo.ConsoleApp1",
-      "projectPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Demo.ConsoleApp1/Yunt.Demo.ConsoleApp1.csproj",
-      "packagesPath": "/Users/aiur/.nuget/packages/",
-      "outputPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Demo.ConsoleApp1/obj",
+      "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.ConsoleApp1\\Yunt.Demo.ConsoleApp1.csproj",
+      "packagesPath": "C:\\Users\\zhaoh\\.nuget\\packages\\",
+      "outputPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.ConsoleApp1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/aiur/.config/NuGet/NuGet.Config"
+        "C:\\Users\\zhaoh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "http://10.1.5.25:8000/nuget": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://www.nuget.org/api/v2/": {}
       },
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Common/Yunt.Common.csproj": {
-              "projectPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Common/Yunt.Common.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Analysis.Repository.EF\\Yunt.Analysis.Repository.EF.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Analysis.Repository.EF\\Yunt.Analysis.Repository.EF.csproj"
             },
-            "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Device.Repository.EF/Yunt.Device.Repository.EF.csproj": {
-              "projectPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Device.Repository.EF/Yunt.Device.Repository.EF.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Common\\Yunt.Common.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Common\\Yunt.Common.csproj"
             },
-            "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Dtsc.Core/Yunt.Dtsc.Core.csproj": {
-              "projectPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Dtsc.Core/Yunt.Dtsc.Core.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Core\\Yunt.Dtsc.Core.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Core\\Yunt.Dtsc.Core.csproj"
             },
-            "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Dtsc.Domain/Yunt.Dtsc.Domain.csproj": {
-              "projectPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Dtsc.Domain/Yunt.Dtsc.Domain.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj"
+            },
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Domain\\Yunt.Dtsc.Domain.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Domain\\Yunt.Dtsc.Domain.csproj"
             }
           }
         }
@@ -8247,63 +8281,62 @@
     "frameworks": {
       "netcoreapp2.0": {
         "dependencies": {
-          "Microsoft.NETCore.App": {
-            "suppressParent": "All",
-            "target": "Package",
-            "version": "2.0",
-            "autoReferenced": true
-          },
           "AutoMapper.Extensions.Microsoft.DependencyInjection": {
             "target": "Package",
-            "version": "3.2.0"
+            "version": "[3.2.0, )"
           },
           "Microsoft.EntityFrameworkCore": {
             "target": "Package",
-            "version": "2.0.3"
+            "version": "[2.0.3, )"
           },
           "Microsoft.EntityFrameworkCore.Design": {
             "target": "Package",
-            "version": "2.0.3"
+            "version": "[2.0.3, )"
           },
           "Microsoft.EntityFrameworkCore.SqlServer": {
             "target": "Package",
-            "version": "2.0.3"
+            "version": "[2.0.3, )"
           },
           "Microsoft.EntityFrameworkCore.Tools": {
             "target": "Package",
-            "version": "2.0.3"
+            "version": "[2.0.3, )"
           },
           "Microsoft.Extensions.Configuration.Json": {
             "target": "Package",
-            "version": "2.0.2"
+            "version": "[2.0.2, )"
           },
           "Microsoft.Extensions.Configuration.Xml": {
             "target": "Package",
-            "version": "2.0.2"
+            "version": "[2.0.2, )"
           },
           "Microsoft.Extensions.Options.ConfigurationExtensions": {
             "target": "Package",
-            "version": "2.0.1"
+            "version": "[2.0.1, )"
+          },
+          "Microsoft.NETCore.App": {
+            "target": "Package",
+            "version": "[2.0.0, )",
+            "autoReferenced": true
           },
           "Pomelo.EntityFrameworkCore.MySql": {
             "target": "Package",
-            "version": "2.0.1"
+            "version": "[2.0.1, )"
           },
           "Pomelo.EntityFrameworkCore.MySql.Design": {
             "target": "Package",
-            "version": "1.1.2"
+            "version": "[1.1.2, )"
           },
           "Quartz": {
             "target": "Package",
-            "version": "3.0.4"
+            "version": "[3.0.4, )"
           },
           "System.Management": {
             "target": "Package",
-            "version": "4.5.0-preview2-26406-04"
+            "version": "[4.5.0-preview2-26406-04, )"
           },
           "System.Security.Permissions": {
             "target": "Package",
-            "version": "4.4.1"
+            "version": "[4.4.1, )"
           }
         },
         "imports": [

@@ -12,6 +12,7 @@
     <Compile Remove="config\**" />
     <Compile Remove="conveyor2\**" />
     <Compile Remove="conveyor\**" />
+    <Compile Remove="Device-Migrations\**" />
     <Compile Remove="doubletoothrollcrusher2\**" />
     <Compile Remove="doubletoothrollcrusher\**" />
     <Compile Remove="impactcrusher2\**" />
@@ -38,6 +39,7 @@
     <EmbeddedResource Remove="config\**" />
     <EmbeddedResource Remove="conveyor2\**" />
     <EmbeddedResource Remove="conveyor\**" />
+    <EmbeddedResource Remove="Device-Migrations\**" />
     <EmbeddedResource Remove="doubletoothrollcrusher2\**" />
     <EmbeddedResource Remove="doubletoothrollcrusher\**" />
     <EmbeddedResource Remove="impactcrusher2\**" />
@@ -64,6 +66,7 @@
     <None Remove="config\**" />
     <None Remove="conveyor2\**" />
     <None Remove="conveyor\**" />
+    <None Remove="Device-Migrations\**" />
     <None Remove="doubletoothrollcrusher2\**" />
     <None Remove="doubletoothrollcrusher\**" />
     <None Remove="impactcrusher2\**" />
@@ -118,6 +121,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Yunt.Analysis.Repository.EF\Yunt.Analysis.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
     <ProjectReference Include="..\Yunt.Device.Repository.EF\Yunt.Device.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.Dtsc.Core\Yunt.Dtsc.Core.csproj" />

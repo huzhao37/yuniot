@@ -98,20 +98,20 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <summary>
         /// 获取当日实时数据
         /// </summary>
-        /// <param name="motorId"></param>
-        public HVibByDay GetRealData(string motorId)
+        /// <param name="motor"></param>
+        public HVibByDay GetRealData(Motor motor)
         {
             var minuteEnd = DateTime.Now;
             var hourStart = minuteEnd.Date;
             var hourEnd = minuteEnd.Date.AddHours(minuteEnd.Hour);
             var minuteStart = hourEnd;
 
-            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
+           // var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
             var standValue = motor?.StandValue ?? 0;
             long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
             var hourData =
                 GetEntities(
-                    e => e.MotorId.Equals(motorId) && e.Time >= startUnix && e.Time <= endUnix)?.ToList();
+                    e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time <= endUnix)?.ToList();
 
             var minuteData = GetByMotor(motor, false, minuteStart);
 
@@ -120,7 +120,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var average = (float)Math.Round(hourData.Average(o => o.AvgCurrent_B), 2);
             var data = new HVibByDay
             {
-                MotorId = motorId,
+                MotorId = motor.MotorId,
                 AvgCurrent_B = average,
                 RunningTime = (float)Math.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
 
@@ -128,6 +128,32 @@ namespace Yunt.Device.Repository.EF.Repositories
             };
 
             return data;
+        }
+
+        /// <summary>
+        /// 获取当日实时数据统计
+        /// </summary>
+        /// <param name="motor"></param>
+        public IEnumerable<HVibByHour> GetRealDatas(Motor motor)
+        {
+            var minuteEnd = DateTime.Now;
+            var hourStart = minuteEnd.Date;
+            var hourEnd = minuteEnd.Date.AddHours(minuteEnd.Hour);
+            var minuteStart = hourEnd;
+
+            //var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).FirstOrDefault();
+
+            long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
+            var hourData =
+                GetEntities(
+                    e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time <= endUnix)?.ToList();
+
+            var minuteData = GetByMotor(motor, false, minuteStart);
+
+            if (minuteData != null)
+                hourData?.Add(minuteData);
+            if (hourData == null || !hourData.Any()) return null;
+            return hourData;
         }
         #endregion
 

@@ -160,7 +160,7 @@ namespace Dtsc.NodeService
         /// <param name="nodeId">nodeId</param>
         private static void ListenCmd(int nodeId)
         {
-            _redisProvider.DB = 15;
+            _redisProvider.DB = 0;
             var jobIds = _redisProvider.Keys("*");
             if (!jobIds?.Any() ?? false) return;
             jobIds.ForEach(jobId =>

@@ -427,7 +427,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "NewLife.Core/7.0.6712.2419": {
+      "NewLife.Core/7.0.6722.39740": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/NewLife.Core.dll": {}
@@ -436,10 +436,10 @@
           "lib/netstandard2.0/NewLife.Core.dll": {}
         }
       },
-      "NewLife.XCode/9.7.6712.2420": {
+      "NewLife.XCode/9.7.6722.39741": {
         "type": "package",
         "dependencies": {
-          "NewLife.Core": "7.0.6712.2419"
+          "NewLife.Core": "7.0.6722.39740"
         },
         "compile": {
           "lib/netstandard2.0/XCode.dll": {}
@@ -1598,7 +1598,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "NewLife.XCode": "9.7.6712.2420",
+          "NewLife.XCode": "9.7.6722.39741",
           "Quartz": "3.0.4",
           "Yunt.Common": "1.0.0",
           "Yunt.Dtsc.Domain": "1.0.0"
@@ -1614,8 +1614,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.0",
         "dependencies": {
-          "NewLife.Core": "7.0.6712.2419",
-          "NewLife.XCode": "9.7.6712.2420"
+          "NewLife.XCode": "9.7.6722.39741"
         },
         "compile": {
           "bin/placeholder/Yunt.Dtsc.Domain.dll": {}
@@ -2376,10 +2375,10 @@
         "netstandard.library.nuspec"
       ]
     },
-    "NewLife.Core/7.0.6712.2419": {
-      "sha512": "ARhn94lxbhdqbneaqloqyXX7rEVsxOfylcGZcmedniWbto46/oRhh/iXoAXbQi6fYnPqD37YHoci1+gS7a+oBA==",
+    "NewLife.Core/7.0.6722.39740": {
+      "sha512": "7xnjQB8m6sbjWdnJ0Rf5M7x1Guda5r72Zm5Ubpgmc09NvKvXdtbIGbRnAbtHwl1FObDC1eypRSrKna6zlFfXrA==",
       "type": "package",
-      "path": "newlife.core/7.0.6712.2419",
+      "path": "newlife.core/7.0.6722.39740",
       "files": [
         "lib/net20/NewLife.Core.dll",
         "lib/net20/NewLife.Core.pdb",
@@ -2393,14 +2392,14 @@
         "lib/netstandard2.0/NewLife.Core.dll",
         "lib/netstandard2.0/NewLife.Core.pdb",
         "lib/netstandard2.0/NewLife.Core.xml",
-        "newlife.core.7.0.6712.2419.nupkg.sha512",
+        "newlife.core.7.0.6722.39740.nupkg.sha512",
         "newlife.core.nuspec"
       ]
     },
-    "NewLife.XCode/9.7.6712.2420": {
-      "sha512": "yKLTBjVSiRKR1Qy24mWzxtjTyf74dGHz698rYE/TjONv17wU4DiNfgw/olcYHvZpTuRvwTjmQIfWF9d3upgnkg==",
+    "NewLife.XCode/9.7.6722.39741": {
+      "sha512": "Kc8i8LcaWehPDtpTazrb5KXBwg9nOi1Fm+yNQ3Br7rfp4T+vws7P3251Zs/hda5QwiGAbepcSmoDy7ics9UgQQ==",
       "type": "package",
-      "path": "newlife.xcode/9.7.6712.2420",
+      "path": "newlife.xcode/9.7.6722.39741",
       "files": [
         "content/Build.tt",
         "content/Model.xml",
@@ -2416,7 +2415,7 @@
         "lib/netstandard2.0/XCode.dll",
         "lib/netstandard2.0/XCode.pdb",
         "lib/netstandard2.0/XCode.xml",
-        "newlife.xcode.9.7.6712.2420.nupkg.sha512",
+        "newlife.xcode.9.7.6722.39741.nupkg.sha512",
         "newlife.xcode.nuspec",
         "tools/install.ps1"
       ]
@@ -5933,35 +5932,45 @@
     ]
   },
   "packageFolders": {
-    "/Users/aiur/.nuget/packages/": {},
-    "/usr/local/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\zhaoh\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
+    "restoreSettings": {
+      "hideWarningsAndErrors": true
+    },
     "restore": {
-      "projectUniqueName": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Demo.SendEmail/Yunt.Demo.SendEmail.csproj",
+      "projectUniqueName": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.SendEmail\\Yunt.Demo.SendEmail.csproj",
       "projectName": "Yunt.Demo.SendEmail",
-      "projectPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Demo.SendEmail/Yunt.Demo.SendEmail.csproj",
-      "packagesPath": "/Users/aiur/.nuget/packages/",
-      "outputPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Demo.SendEmail/obj",
+      "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.SendEmail\\Yunt.Demo.SendEmail.csproj",
+      "packagesPath": "C:\\Users\\zhaoh\\.nuget\\packages\\",
+      "outputPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.SendEmail\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackagesFallback\\",
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/Users/aiur/.config/NuGet/NuGet.Config"
+        "C:\\Users\\zhaoh\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.Fallback.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "http://10.1.5.25:8000/nuget": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://www.nuget.org/api/v2/": {}
       },
       "frameworks": {
         "netcoreapp2.0": {
           "projectReferences": {
-            "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Dtsc.Core/Yunt.Dtsc.Core.csproj": {
-              "projectPath": "/Users/aiur/Desktop/Yunt/Yunt/Yunt/Yunt/Yunt.Dtsc.Core/Yunt.Dtsc.Core.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Core\\Yunt.Dtsc.Core.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Core\\Yunt.Dtsc.Core.csproj"
             }
           }
         }
@@ -5978,12 +5987,12 @@
           "Microsoft.NETCore.App": {
             "suppressParent": "All",
             "target": "Package",
-            "version": "2.0",
+            "version": "[2.0.0, )",
             "autoReferenced": true
           },
           "Quartz": {
             "target": "Package",
-            "version": "3.0.4"
+            "version": "[3.0.4, )"
           }
         },
         "imports": [

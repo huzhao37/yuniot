@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Yunt.Common;
 using Yunt.Device.Domain.IRepository;
+using Yunt.Device.Domain.Model;
 using Yunt.Device.Domain.Services;
 using Yunt.WebApi.Models.ProductionLines;
 
@@ -17,10 +19,19 @@ namespace Yunt.WebApi.Controllers
     //[Authorize]
     public class MobileController : Controller
     {
-        
-        public MobileController()
+        private readonly IConveyorByHourRepository _conveyorByHourRepository;
+        private readonly IConveyorByDayRepository _conveyorByDayRepository;
+        private readonly IMotorRepository _motorRepository;
+        private readonly IProductionLineRepository _productionLineRepository;
+        public MobileController(IConveyorByHourRepository conveyorByHourRepository
+            , IConveyorByDayRepository conveyorByDayRepository,
+            IMotorRepository motorRepository,
+            IProductionLineRepository productionLineRepository)
         {
-            
+            _conveyorByHourRepository = conveyorByHourRepository;
+            _conveyorByDayRepository = conveyorByDayRepository;
+            _motorRepository = motorRepository;
+            _productionLineRepository = productionLineRepository;
         }
 
 
@@ -29,217 +40,190 @@ namespace Yunt.WebApi.Controllers
         [HttpPost("[action]")]
         public ConveyorOutlineModel MainconveyorOutline([FromBody]RequestModel value)
         {
-            ConveyorOutlineModel resData = new ConveyorOutlineModel();
+            var resData = new ConveyorOutlineModel();
 
-            //Business
-
-
-            //输入
-            //DateTime DateTimeHelper(value.startDatetime)
-            //DateTime DateTimeHelper(value.endDatetime)
-
-            //业务
-            //返回祝皮带数据 motorId由后端给定
-            //传入的开始时间==结束时间 也返回今日统计数据
-            //传入的开始时间!=结束时间 返回范围内皮带的平均数据
-            //注意返回的数据结构已确定
-            // result = {
-            //   "Output": 28470.1,
-            //   "RunningTime": 33.8,
-            //   "Load": 105.29,
-            //   "InstantOutput": 0
-            // }
-
-
-            //Eg.
-            resData = new ConveyorOutlineModel { Output = 28470.1, RunningTime = 33.8, Load = 105.29, InstantOutput = 0 };
-            //End Business
-
-
-            return resData;
+            #region bus
+            try
+            {
+                var motor=
+                    _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId) && e.IsMainBeltWeight)?.FirstOrDefault();
+                if (motor == null) return resData;
+                var end = value.startDatetime.ToDateTime();
+                var start = value.endDatetime.ToDateTime();
+                //当日数据
+                if (start == end)
+                {
+                    var data = _conveyorByHourRepository.GetRealData(motor.MotorId);
+                    return new ConveyorOutlineModel
+                    {
+                        Output = data.AccumulativeWeight,
+                        InstantOutput = data.AvgInstantWeight,
+                        Load = data.LoadStall,
+                        RunningTime = data.RunningTime
+                    };
+                }
+                //历史数据
+            
+                var datas = _conveyorByDayRepository.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
+                                                                      e.Time.CompareTo(end) <= 0 && e.MotorId.Equals(motor.MotorId))?.ToList();
+                if (datas == null || !datas.Any()) return resData;
+                return new ConveyorOutlineModel
+                {
+                    Output = datas.Sum(e=>e.AccumulativeWeight),
+                    InstantOutput = datas.Average(e => e.AvgInstantWeight),
+                    Load = datas.Average(e => e.LoadStall),
+                    RunningTime = datas.Average(e => e.RunningTime)
+                };
+            }
+            catch (Exception e)
+            {
+                Logger.Exception(e);
+                return resData;
+            }
+          
+            #endregion        
         }
 
         [HttpPost("[action]")]
         public List<ConveyorChartModel> OutputconveyorsOutline([FromBody]RequestModel value)
         {
-            List<ConveyorChartModel> resData = new List<ConveyorChartModel>();
+            var resData = new List<ConveyorChartModel>();
 
-            //Business
+            #region bus
+            try
+            {
+                var motors =
+                       _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId) && e.IsBeltWeight
+                       &&!e.IsMainBeltWeight)?.ToList();
+                if (motors == null||!motors.Any()) return resData;
+                var end = value.startDatetime.ToDateTime();
+                var start = value.endDatetime.ToDateTime();
+                //当日数据
+                if (start==end)
+                {
+                    Parallel.ForEach(motors, body: delegate(Motor motor)
+                    {
+                        var data = _conveyorByHourRepository.GetRealData(motor.MotorId);
+                        resData.Add(new ConveyorChartModel
+                        {
+                            y = data.AccumulativeWeight,
+                            InstantWeight = data.AvgInstantWeight,
+                            MotorLoad = data.LoadStall,
+                            RunningTime = data.RunningTime,
+                            name = motor.Name
+                        });
+                    });
+                    return resData;
+                }
 
+                Parallel.ForEach(motors, motor =>
+                {
+                    //历史数据                 
+                    var datas = _conveyorByDayRepository.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
+                                    e.Time.CompareTo(end) <= 0 && e.MotorId.Equals(motor.MotorId))?.ToList();
+                    if (datas != null&& datas.Any())
+                    {
+                        resData.Add(new ConveyorChartModel
+                        {
+                            y = datas.Sum(e => e.AccumulativeWeight),
+                            InstantWeight = datas.Average(e => e.AvgInstantWeight),
+                            MotorLoad = datas.Average(e => e.LoadStall),
+                            RunningTime = datas.Average(e => e.RunningTime),
+                            name = motor.Name
+                        });
+                    }
+                  
+                });
+                return resData;
+            }
+            catch (Exception e)
+            {
 
-            //输入
-            //DateTime DateTimeHelper(value.startDatetime)
-            //DateTime DateTimeHelper(value.endDatetime)
+                Logger.Exception(e);
+                return resData;
+            }
 
-            //业务
-            //返回成品皮带数据，motorId由后端给定
-            //传入的开始时间==结束时间 也返回今日统计数据
-            //传入的开始时间!=结束时间 返回范围内皮带的平均数据
-            //注意返回的数据结构已确定
-
-            // resData = [
-            //   {
-            //       name: "C22(5-15mm)",
-            //       y: 400,
-            //       RunningTime: 240,
-            //       InstantWeight: 40,
-            //       MotorLoad: 50
-            //   },
-            //   {
-            //       name: "C29(石粉)",
-            //       y: 300,
-            //       RunningTime: 180,
-            //       InstantWeight: 40,
-            //       MotorLoad: 60
-            //   }
-            // ]
-
-            //Eg.
-            ConveyorChartModel res1 = new ConveyorChartModel { name = "C22(5-15mm)", y = 400, RunningTime = 240, InstantWeight = 40, MotorLoad = 50 };
-            ConveyorChartModel res2 = new ConveyorChartModel { name = "C29(石粉)", y = 300, RunningTime = 180, InstantWeight = 40, MotorLoad = 60 };
-            ConveyorChartModel res3 = new ConveyorChartModel { name = "C25(15-25mm)", y = 200, RunningTime = 120, InstantWeight = 40, MotorLoad = 70 };
-            ConveyorChartModel res4 = new ConveyorChartModel { name = "C15(25-32mm)", y = 100, RunningTime = 60, InstantWeight = 40, MotorLoad = 80 };
-
-            resData.Add(res1);
-            resData.Add(res2);
-            resData.Add(res3);
-            resData.Add(res4);
-            //End Business
-
-
-
-            return resData;
+            #endregion
         }
 
         [HttpPost("[action]")]
         public ConveyorChartDataModel RecentMainconveyorOuputs([FromBody]RequestModel value)
         {
-            ConveyorChartDataModel resData = new ConveyorChartDataModel();
+            var resData = new ConveyorChartDataModel();
 
+            #region bus
 
-            //Business
-
-
-            //输入
-            //DateTime DateTimeHelper(value.startDatetime)
-            //DateTime DateTimeHelper(value.endDatetime)
-
-            //业务
-            //返回历史数据，motorId由后端给定
-            //传入的开始时间==结束时间 返回最近15日主皮带数据，最多24条，categories应与categories长度一致
-            //传入的开始时间!=结束时间 返回范围内历史数据
-            //注意返回的数据结构已确定
-
-            //{
-            //    "xAxis": {
-            //        "categories": [
-            //            "2018-4-1",
-            //            "2018-4-2"
-            //        ]
-            //    },
-            //    "series": [
-            //        {
-            //            "name": "主皮带",
-            //            "categories": [
-            //                19,
-            //                16,
-            //            ]
-            //        }
-            //    ]
-            //}
-
-
-
-            //Eg.
-            //
-            xAxisModel xAxis = new xAxisModel();
-            List<string> categories = new List<string>();
-
-            for (int i = 1; i < 16; i++)
+            try
             {
-                string str = "2018-4-" + i;
-                categories.Add(str);
+                var motor =
+                    _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId) && e.IsMainBeltWeight)?.FirstOrDefault();
+                if (motor == null) return resData;
+                var end = value.startDatetime.ToDateTime();
+                var start = value.endDatetime.ToDateTime();
+                long endTime = end.TimeSpan(), startTime = start.TimeSpan();
+                //最近15日数据
+                if (startTime== endTime)
+                {
+                    endTime = DateTime.Now.Date.TimeSpan();
+                    startTime = DateTime.Now.Date.AddDays(-15).TimeSpan();              
+                }
+                //历史数据
+                var datas = _conveyorByDayRepository.GetEntities(e => e.Time.CompareTo(startTime) >= 0 &&
+                               e.Time.CompareTo(endTime) < 0 && e.MotorId.Equals(motor.MotorId), e => e.Time)?.ToList();
+                if (datas == null || !datas.Any()) return resData;
+                var xList = datas.Select(e => e.Time.Time().ToShortDateString());
+                resData.xAxis = new xAxisModel() { categories = xList };
+                var yList = datas.Select(e => e.AccumulativeWeight);
+                resData.series = new List<seriesModel>() { new seriesModel() { name = motor.Name, data = yList } };
+                return resData;
             }
-            xAxis.categories = categories;
-
-            //
-            List<seriesModel> serieses = new List<seriesModel>();
-            seriesModel series = new seriesModel();
-            List<double> data = new List<double>();
-
-            for (int i = 1; i < 16; i++)
+            catch (Exception e)
             {
-                Random random = new Random();
-                int _value = random.Next(10, 20);
-                data.Add(_value);
-            }
-            series.name = "主皮带";
-            series.data = data;
+                Logger.Exception(e);
+                return resData;
+            }          
 
-            serieses.Add(series);
-
-            //
-            resData.xAxis = xAxis;
-            resData.series = serieses;
-            //End Business
-
-
-            return resData;
+            #endregion
         }
         #endregion
 
 
         #region MotorList 
-        [HttpGet("[action]")]
-        public List<MotorItemModel> MotorsOutline()
+        [HttpPost("[action]")]
+        public List<MotorItemModel> MotorsOutline([FromBody]RequestModel value)
         {
-            List<MotorItemModel> resData = new List<MotorItemModel>();
+            var resData = new List<MotorItemModel>();
 
-            //Business
-
-
-            //业务
-            //返回产线受监控的所有设备的今日数据，不存在历史数据
-            //注意返回的数据结构已确定
-            //[
-            //    {
-            //        "id": 1083,
-            //        "runningtime": 120,
-            //        "name": "C7(主皮带)",
-            //        "load": 33.3,
-            //        "type": "cy",
-            //        "status": false
-            //    },
-            //    {
-            //        "id": 1014,
-            //        "runningtime": 220,
-            //        "name": "28号皮带机",
-            //        "load": 22.3,
-            //        "type": "cc",
-            //        "status": true
-            //    }
-            //]
-
-
-            //Eg.
-            MotorItemModel motor1 = new MotorItemModel { id = 1083, name = "C7(主皮带)", load = 33.3, runningtime = 120, type = "cy", status = false };
-            MotorItemModel motor2 = new MotorItemModel { id = 1014, name = "28号皮带机", load = 22.3, runningtime = 220, type = "cc", status = true };
-            MotorItemModel motor3 = new MotorItemModel { id = 1015, name = "28号皮带机", load = 13.3, runningtime = 110, type = "jc", status = true };
-            MotorItemModel motor4 = new MotorItemModel { id = 1016, name = "28号皮带机", load = 42.3, runningtime = 140, type = "mf", status = true };
-            MotorItemModel motor5 = new MotorItemModel { id = 1017, name = "28号皮带机", load = 23.3, runningtime = 240, type = "vc", status = false };
-            resData.Add(motor1);
-            resData.Add(motor2);
-            resData.Add(motor3);
-            resData.Add(motor4);
-            resData.Add(motor5);
-            //End Business
-
-
-
-
-            return resData;
+            #region bus
+            try
+            {
+                var motors =
+                    _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId))?.ToList();
+                if (motors == null || !motors.Any()) return resData;
+                Parallel.ForEach(motors, motor =>
+                {
+                    var data = _conveyorByHourRepository.GetRealData(motor.MotorId);
+                    resData.Add(new MotorItemModel()
+                    {
+                        id = motor.MotorId,
+                        load = data.LoadStall,
+                        name = motor.Name,
+                        runningtime = data.RunningTime,
+                        type = motor.MotorTypeId,
+                        status = _productionLineRepository.GetMotorStatusByMotorId(motor.MotorId).Equals(MotorStatus.Run)
+                    });
+                });
+                return resData;
+            }
+            catch (Exception e)
+            {
+                Logger.Exception(e);
+                return resData;
+            }
+            
+            #endregion
+ 
         }
-
         #endregion
 
 
@@ -247,8 +231,43 @@ namespace Yunt.WebApi.Controllers
         [HttpPost("[action]")]
         public MotorChartDataModel MotorDetail([FromBody]RequestModel value)
         {
-            MotorChartDataModel resData = new MotorChartDataModel();
+            var resData = new MotorChartDataModel();
 
+            #region bus
+
+            try
+            {
+                var motor =
+                 _motorRepository.GetEntities(e => e.MotorId.Equals(value.motorId))?.FirstOrDefault();
+                if (motor == null) return resData;
+                var end = value.startDatetime.ToDateTime();
+                var start = value.endDatetime.ToDateTime();
+                //当日数据（24hours）
+                if (start == end)
+                {
+                    var data = _conveyorByHourRepository.GetRealData(motor.MotorId);
+                    return new MotorChartDataModel
+                    {
+                        Output = data.AccumulativeWeight,
+                        InstantOutput = data.AvgInstantWeight,
+                        Load = data.LoadStall,
+                        RunningTime = data.RunningTime
+                    };
+                }
+                //历史数据(阶段日期单位作为x轴)
+
+                var datas = _conveyorByDayRepository.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
+                                                                      e.Time.CompareTo(end) <= 0 && e.MotorId.Equals(motor.MotorId))?.ToList();
+                if (datas == null || !datas.Any()) return resData;
+            }
+            catch (Exception e)
+            {
+                Logger.Exception(e);
+                return resData;
+            }
+            
+
+            #endregion
             //Business
 
 
@@ -425,25 +444,6 @@ namespace Yunt.WebApi.Controllers
         #endregion
 
 
-        #region Methods
-        public DateTime DateTimeHelper(string datetime)
-        {
-            List<int> dateList = new List<int>();
-            string[] dateArr = datetime.Split('-');
-            for (int i = 0; i < dateArr.Length; i++)
-            {
-                dateList.Add(dateArr[i].ToInt());
-            }
-
-            DateTime result = new DateTime(dateList[0], dateList[1], dateList[2]);
-
-            return result;
-        }
-        #endregion
-
-
-
-
 
         #region ViewModels
 
@@ -466,7 +466,8 @@ namespace Yunt.WebApi.Controllers
         }
         public class RequestModel
         {
-            public int motorId { get; set; }
+            public string lineId { get; set; }
+            public string motorId { get; set; }
             public string startDatetime { get; set; }
             public string endDatetime { get; set; }
 
@@ -475,25 +476,37 @@ namespace Yunt.WebApi.Controllers
 
         public class ConveyorChartDataModel
         {
+            public ConveyorChartDataModel()
+            {
+                series=new List<seriesModel>();
+            }
             public xAxisModel xAxis { get; set; }
-            public List<seriesModel> series { get; set; }
+            public IEnumerable<seriesModel> series { get; set; }
 
         }
         public class xAxisModel
         {
-            public List<string> categories { get; set; }
+            public xAxisModel()
+            {
+                categories=new List<string>();
+            }
+            public IEnumerable<string> categories { get; set; }
         }
         public class seriesModel
         {
+            public seriesModel()
+            {
+                data=new List<float>();
+            }
             public string name { get; set; }
-            public List<double> data { get; set; }
+            public IEnumerable<float> data { get; set; }
 
         }
 
 
         public class MotorItemModel
         {
-            public int id { get; set; }
+            public string id { get; set; }
             public double runningtime { get; set; }
             public string name { get; set; }
             public double load { get; set; }

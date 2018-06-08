@@ -5,8 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NewLife.Core" Version="7.0.6712.2419" />
-    <PackageReference Include="NewLife.XCode" Version="9.7.6712.2420" />
+    <PackageReference Include="NewLife.XCode" Version="9.7.6722.39741" />
   </ItemGroup>
 
 </Project>

@@ -3,4 +3,5 @@
   &lt;Assembly Path="G:\2018\Yunt\Yunt\packages\NewLife.XCode.9.6.6644.19804\lib\net45\XCode.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Users\zhaoh\.nuget\packages\rabbitmq.client\5.0.1\lib\netstandard1.5\RabbitMQ.Client.dll" /&gt;&#xD;
   &lt;Assembly Path="C:\Program Files\dotnet\sdk\NuGetFallbackFolder\microsoft.extensions.dependencyinjection.abstractions\2.0.0\lib\netstandard2.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\zhaoh\.nuget\packages\automapper\7.0.0-alpha-0001\lib\netstandard2.0\AutoMapper.dll" /&gt;&#xD;
 &lt;/AssemblyExplorer&gt;</s:String></wpf:ResourceDictionary>

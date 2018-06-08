@@ -31,8 +31,13 @@ namespace Yunt.Device.Domain.IRepository
         /// <summary>
         /// 获取当日实时数据
         /// </summary>
-        /// <param name="motorId"></param>
-        VerticalCrusherByDay GetRealData(string motorId);
+        /// <param name="motor"></param>
+        VerticalCrusherByDay GetRealData(Motor motor);
+        /// <summary>
+        /// 获取当日实时数据统计
+        /// </summary>
+        /// <param name="motor"></param>
+        IEnumerable<VerticalCrusherByHour> GetRealDatas(Motor motor);
         #endregion
 
     }

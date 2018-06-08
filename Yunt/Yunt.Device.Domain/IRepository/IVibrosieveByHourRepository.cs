@@ -32,8 +32,13 @@ namespace Yunt.Device.Domain.IRepository
         /// <summary>
         /// 获取当日实时数据
         /// </summary>
-        /// <param name="motorId"></param>
-        VibrosieveByDay GetRealData(string motorId);
+        /// <param name="motor"></param>
+        VibrosieveByDay GetRealData(Motor motor);
+        /// <summary>
+        /// 获取当日实时数据统计
+        /// </summary>
+        /// <param name="motor"></param>
+        IEnumerable<VibrosieveByHour> GetRealDatas(Motor motor);
         #endregion
     }
 }

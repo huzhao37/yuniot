@@ -41,6 +41,13 @@ namespace Yunt.Device.Domain.Services
         /// <returns></returns>
         IEnumerable<dynamic> MotorDetails(DateTime start, DateTime end, string motorId);
 
+        /// <summary>
+        /// 根据电机设备ID获取当日电机设备详情
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+        IEnumerable<dynamic> MotorHours( Motor motor);
+
         #endregion
     }
 }

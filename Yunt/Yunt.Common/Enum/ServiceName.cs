@@ -33,6 +33,7 @@ namespace Yunt.Common
         Auth=0,
         Device,
         Inventory,
-        Xml
+        Xml,
+        Analysis
     }
 }

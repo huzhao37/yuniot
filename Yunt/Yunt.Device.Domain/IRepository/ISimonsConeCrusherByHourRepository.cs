@@ -32,8 +32,13 @@ namespace Yunt.Device.Domain.IRepository
         /// <summary>
         /// 获取当日实时数据
         /// </summary>
-        /// <param name="motorId"></param>
-        SimonsConeCrusherByDay GetRealData(string motorId);
+        /// <param name="motor"></param>
+        SimonsConeCrusherByDay GetRealData(Motor motor);
+        /// <summary>
+        /// 获取当日实时数据统计
+        /// </summary>
+        /// <param name="motor"></param>
+        IEnumerable<SimonsConeCrusherByHour> GetRealDatas(Motor motor);
         #endregion
     }
 }

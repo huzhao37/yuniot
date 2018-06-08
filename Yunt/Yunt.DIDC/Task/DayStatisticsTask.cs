@@ -66,8 +66,8 @@ namespace Yunt.DIDC.Task
             var queuePassword = WddQueue.Pwd;
 
             var ccuri = "amqp://" + queueHost + ":" + queuePort;
-            var queue = "WUDDTEST"; //"FailedData";
-            var route = "0102030405FE.WUDD";//WddQueue.RouteKey; 
+            var queue = "WUDD"; //"FailedData";
+            var route = WddQueue.Route_Key; 
             var exchange = "amq.topic";
             var errorQueue = queue + "Error"; //faileddata
             var rabbitHelper = new RabbitMqHelper();

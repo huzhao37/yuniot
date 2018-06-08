@@ -112,7 +112,7 @@ namespace Yunt.WebApi.Controllers
             var end = DateTime.Now.Date;
             var start = end.AddDays(-15);
             var datas = _conveyorByDayRepository.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
-                        e.Time.CompareTo(end) <= 0 && e.MotorId.Equals(motorId))?.ToList();
+                        e.Time.CompareTo(end) < 0 && e.MotorId.Equals(motorId))?.ToList();
             if (datas==null||!datas.Any()) return resp;
             foreach (var d in datas)
             {

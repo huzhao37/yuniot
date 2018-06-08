@@ -30,9 +30,13 @@ namespace Yunt.Device.Domain.IRepository
         /// <summary>
         /// 获取当日实时数据
         /// </summary>
-        /// <param name="motorId"></param>
-        ConveyorByDay GetRealData(string motorId);
-
+        /// <param name="motor"></param>
+        ConveyorByDay GetRealData(Motor motor);
+        /// <summary>
+        /// 获取当日实时数据统计
+        /// </summary>
+        /// <param name="motor"></param>
+        IEnumerable<ConveyorByHour> GetRealDatas(Motor motor);
         #endregion
     }
 }

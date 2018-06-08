@@ -165,21 +165,21 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <summary>
         /// 获取当日实时数据
         /// </summary>
-        /// <param name="motorId"></param>
-        public ConveyorByDay GetRealData(string motorId)
+        /// <param name="motor"></param>
+        public ConveyorByDay GetRealData(Motor motor)
         {
             var minuteEnd = DateTime.Now;
             var hourStart = minuteEnd.Date;
             var hourEnd = minuteEnd.Date.AddHours(minuteEnd.Hour);
             var minuteStart = hourEnd;
 
-            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).FirstOrDefault();
+            //var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).FirstOrDefault();
             var standValue = motor?.StandValue ?? 0;
 
             long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
             var hourData =
                 GetEntities(
-                    e => e.MotorId.Equals(motorId) && e.Time >= startUnix && e.Time<= endUnix)?.ToList();
+                    e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time<= endUnix)?.ToList();
 
             var minuteData = GetByMotor(motor, false, minuteStart);
 
@@ -190,9 +190,9 @@ namespace Yunt.Device.Repository.EF.Repositories
             var hours = hourData?.Count ?? 0;
             var data = new ConveyorByDay
             {
-                MotorId = motorId,
+                MotorId = motor.MotorId,
                 AccumulativeWeight = weightSum,
-                AvgInstantWeight = (float)Math.Round(_cyRep.GetLatestRecord(motorId)?.InstantWeight ?? 0, 2),//实时的瞬时称重
+                AvgInstantWeight = (float)Math.Round(_cyRep.GetLatestRecord(motor.MotorId)?.InstantWeight ?? 0, 2),//实时的瞬时称重
                 RunningTime = (float)Math.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
                 //负荷 = 累计重量/额定产量 (单位: 吨/小时);
                 LoadStall = hours * standValue == 0 ? 0 : (float)Math.Round(weightSum / hours / standValue, 2)
@@ -201,6 +201,32 @@ namespace Yunt.Device.Repository.EF.Repositories
             //data.LoadStall = data.RunningTime * standValue == 0
             //    ? 0 : (float)Math.Round(data.AccumulativeWeight / standValue, 2);
             return data;
+        }
+
+        /// <summary>
+        /// 获取当日实时数据统计
+        /// </summary>
+        /// <param name="motor"></param>
+        public IEnumerable<ConveyorByHour> GetRealDatas(Motor motor)
+        {
+            var minuteEnd = DateTime.Now;
+            var hourStart = minuteEnd.Date;
+            var hourEnd = minuteEnd.Date.AddHours(minuteEnd.Hour);
+            var minuteStart = hourEnd;
+
+            //var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motor.MotorId)).FirstOrDefault();
+
+            long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
+            var hourData =
+                GetEntities(
+                    e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time <= endUnix)?.ToList();
+
+            var minuteData = GetByMotor(motor, false, minuteStart);
+
+            if (minuteData != null)
+                hourData?.Add(minuteData);
+            if (hourData == null || !hourData.Any()) return null;
+            return hourData;
         }
         #endregion
 
