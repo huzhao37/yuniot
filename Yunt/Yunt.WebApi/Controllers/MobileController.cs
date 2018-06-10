@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Yunt.Analysis.Domain.IRepository;
 using Yunt.Common;
 using Yunt.Device.Domain.IRepository;
 using Yunt.Device.Domain.Model;
@@ -23,15 +24,18 @@ namespace Yunt.WebApi.Controllers
         private readonly IConveyorByDayRepository _conveyorByDayRepository;
         private readonly IMotorRepository _motorRepository;
         private readonly IProductionLineRepository _productionLineRepository;
+        private readonly IMotorEventLogRepository _motorEventLogRepository;
         public MobileController(IConveyorByHourRepository conveyorByHourRepository
             , IConveyorByDayRepository conveyorByDayRepository,
             IMotorRepository motorRepository,
-            IProductionLineRepository productionLineRepository)
+            IProductionLineRepository productionLineRepository,
+            IMotorEventLogRepository motorEventLogRepository)
         {
             _conveyorByHourRepository = conveyorByHourRepository;
             _conveyorByDayRepository = conveyorByDayRepository;
             _motorRepository = motorRepository;
             _productionLineRepository = productionLineRepository;
+            _motorEventLogRepository = motorEventLogRepository;
         }
 
 
@@ -45,7 +49,7 @@ namespace Yunt.WebApi.Controllers
             #region bus
             try
             {
-                var motor=
+                var motor =
                     _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId) && e.IsMainBeltWeight)?.FirstOrDefault();
                 if (motor == null) return resData;
                 var end = value.startDatetime.ToDateTime();
@@ -53,7 +57,7 @@ namespace Yunt.WebApi.Controllers
                 //当日数据
                 if (start == end)
                 {
-                    var data = _conveyorByHourRepository.GetRealData(motor.MotorId);
+                    var data = _conveyorByHourRepository.GetRealData(motor);
                     return new ConveyorOutlineModel
                     {
                         Output = data.AccumulativeWeight,
@@ -63,13 +67,13 @@ namespace Yunt.WebApi.Controllers
                     };
                 }
                 //历史数据
-            
+
                 var datas = _conveyorByDayRepository.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
                                                                       e.Time.CompareTo(end) <= 0 && e.MotorId.Equals(motor.MotorId))?.ToList();
                 if (datas == null || !datas.Any()) return resData;
                 return new ConveyorOutlineModel
                 {
-                    Output = datas.Sum(e=>e.AccumulativeWeight),
+                    Output = datas.Sum(e => e.AccumulativeWeight),
                     InstantOutput = datas.Average(e => e.AvgInstantWeight),
                     Load = datas.Average(e => e.LoadStall),
                     RunningTime = datas.Average(e => e.RunningTime)
@@ -80,8 +84,8 @@ namespace Yunt.WebApi.Controllers
                 Logger.Exception(e);
                 return resData;
             }
-          
-            #endregion        
+
+            #endregion
         }
 
         [HttpPost("[action]")]
@@ -94,16 +98,16 @@ namespace Yunt.WebApi.Controllers
             {
                 var motors =
                        _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId) && e.IsBeltWeight
-                       &&!e.IsMainBeltWeight)?.ToList();
-                if (motors == null||!motors.Any()) return resData;
+                       && !e.IsMainBeltWeight)?.ToList();
+                if (motors == null || !motors.Any()) return resData;
                 var end = value.startDatetime.ToDateTime();
                 var start = value.endDatetime.ToDateTime();
                 //当日数据
-                if (start==end)
+                if (start == end)
                 {
-                    Parallel.ForEach(motors, body: delegate(Motor motor)
+                    Parallel.ForEach(motors, body: delegate (Motor motor)
                     {
-                        var data = _conveyorByHourRepository.GetRealData(motor.MotorId);
+                        var data = _conveyorByHourRepository.GetRealData(motor);
                         resData.Add(new ConveyorChartModel
                         {
                             y = data.AccumulativeWeight,
@@ -121,7 +125,7 @@ namespace Yunt.WebApi.Controllers
                     //历史数据                 
                     var datas = _conveyorByDayRepository.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
                                     e.Time.CompareTo(end) <= 0 && e.MotorId.Equals(motor.MotorId))?.ToList();
-                    if (datas != null&& datas.Any())
+                    if (datas != null && datas.Any())
                     {
                         resData.Add(new ConveyorChartModel
                         {
@@ -132,7 +136,7 @@ namespace Yunt.WebApi.Controllers
                             name = motor.Name
                         });
                     }
-                  
+
                 });
                 return resData;
             }
@@ -162,10 +166,10 @@ namespace Yunt.WebApi.Controllers
                 var start = value.endDatetime.ToDateTime();
                 long endTime = end.TimeSpan(), startTime = start.TimeSpan();
                 //最近15日数据
-                if (startTime== endTime)
+                if (startTime == endTime)
                 {
                     endTime = DateTime.Now.Date.TimeSpan();
-                    startTime = DateTime.Now.Date.AddDays(-15).TimeSpan();              
+                    startTime = DateTime.Now.Date.AddDays(-15).TimeSpan();
                 }
                 //历史数据
                 var datas = _conveyorByDayRepository.GetEntities(e => e.Time.CompareTo(startTime) >= 0 &&
@@ -181,7 +185,7 @@ namespace Yunt.WebApi.Controllers
             {
                 Logger.Exception(e);
                 return resData;
-            }          
+            }
 
             #endregion
         }
@@ -202,7 +206,7 @@ namespace Yunt.WebApi.Controllers
                 if (motors == null || !motors.Any()) return resData;
                 Parallel.ForEach(motors, motor =>
                 {
-                    var data = _conveyorByHourRepository.GetRealData(motor.MotorId);
+                    var data = _conveyorByHourRepository.GetRealData(motor);
                     resData.Add(new MotorItemModel()
                     {
                         id = motor.MotorId,
@@ -220,9 +224,9 @@ namespace Yunt.WebApi.Controllers
                 Logger.Exception(e);
                 return resData;
             }
-            
+
             #endregion
- 
+
         }
         #endregion
 
@@ -235,37 +239,37 @@ namespace Yunt.WebApi.Controllers
 
             #region bus
 
-            try
-            {
-                var motor =
-                 _motorRepository.GetEntities(e => e.MotorId.Equals(value.motorId))?.FirstOrDefault();
-                if (motor == null) return resData;
-                var end = value.startDatetime.ToDateTime();
-                var start = value.endDatetime.ToDateTime();
-                //当日数据（24hours）
-                if (start == end)
-                {
-                    var data = _conveyorByHourRepository.GetRealData(motor.MotorId);
-                    return new MotorChartDataModel
-                    {
-                        Output = data.AccumulativeWeight,
-                        InstantOutput = data.AvgInstantWeight,
-                        Load = data.LoadStall,
-                        RunningTime = data.RunningTime
-                    };
-                }
-                //历史数据(阶段日期单位作为x轴)
+            //try
+            //{
+            //    var motor =
+            //     _motorRepository.GetEntities(e => e.MotorId.Equals(value.motorId))?.FirstOrDefault();
+            //    if (motor == null) return resData;
+            //    var end = value.startDatetime.ToDateTime();
+            //    var start = value.endDatetime.ToDateTime();
+            //    //当日数据（24hours）
+            //    if (start == end)
+            //    {
+            //        var data = _conveyorByHourRepository.GetRealData(motor.MotorId);
+            //        return new MotorChartDataModel
+            //        {
+            //            Output = data.AccumulativeWeight,
+            //            InstantOutput = data.AvgInstantWeight,
+            //            Load = data.LoadStall,
+            //            RunningTime = data.RunningTime
+            //        };
+            //    }
+            //    //历史数据(阶段日期单位作为x轴)
 
-                var datas = _conveyorByDayRepository.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
-                                                                      e.Time.CompareTo(end) <= 0 && e.MotorId.Equals(motor.MotorId))?.ToList();
-                if (datas == null || !datas.Any()) return resData;
-            }
-            catch (Exception e)
-            {
-                Logger.Exception(e);
-                return resData;
-            }
-            
+            //    var datas = _conveyorByDayRepository.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
+            //                                                          e.Time.CompareTo(end) <= 0 && e.MotorId.Equals(motor.MotorId))?.ToList();
+            //    if (datas == null || !datas.Any()) return resData;
+            //}
+            //catch (Exception e)
+            //{
+            //    Logger.Exception(e);
+            //    return resData;
+            //}
+
 
             #endregion
             //Business
@@ -333,7 +337,7 @@ namespace Yunt.WebApi.Controllers
             //
             List<seriesModel> serieses = new List<seriesModel>();
             seriesModel series = new seriesModel();
-            List<double> data = new List<double>();
+            List<float> data = new List<float>();
 
             for (int i = 1; i < 16; i++)
             {
@@ -382,7 +386,47 @@ namespace Yunt.WebApi.Controllers
         [HttpPost("[action]")]
         public List<EventModel> EventsDetail([FromBody]RequestModel value)
         {
-            List<EventModel> resData = new List<EventModel>();
+            var resData = new List<EventModel>();
+
+            #region bus
+
+            try
+            {
+                var lineId = value.lineId;
+                var end = value.startDatetime.ToDateTime().TimeSpan();
+                var start = value.endDatetime.ToDateTime().TimeSpan();
+                //当日数据
+                if (start == end)
+                {
+                    var datas = _motorEventLogRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase(lineId) &&
+                                                                          e.Time >= start && e.Time <= end);
+                    if (datas == null || !datas.Any())
+                        return resData;
+                    Parallel.ForEach(datas, d =>
+                    {
+                        resData.Add(new EventModel()
+                        {
+                            time = d.Time.ToString(),
+                            title = "Archery Training",
+                            motorname = d.MotorName,
+                            desc = d.Description,
+                            isalarm = true,
+                            lineColor = "darkturquoise",
+                            circleSize = 20,
+                            circleColor = "darkturquoise"
+                        });
+                    });
+                    return resData;
+                }
+            }
+            catch (Exception e)
+            {
+                Logger.Exception(e);
+                return resData;
+            }
+
+
+            #endregion
 
             //Business
 
@@ -478,7 +522,7 @@ namespace Yunt.WebApi.Controllers
         {
             public ConveyorChartDataModel()
             {
-                series=new List<seriesModel>();
+                series = new List<seriesModel>();
             }
             public xAxisModel xAxis { get; set; }
             public IEnumerable<seriesModel> series { get; set; }
@@ -488,7 +532,7 @@ namespace Yunt.WebApi.Controllers
         {
             public xAxisModel()
             {
-                categories=new List<string>();
+                categories = new List<string>();
             }
             public IEnumerable<string> categories { get; set; }
         }
@@ -496,7 +540,7 @@ namespace Yunt.WebApi.Controllers
         {
             public seriesModel()
             {
-                data=new List<float>();
+                data = new List<float>();
             }
             public string name { get; set; }
             public IEnumerable<float> data { get; set; }

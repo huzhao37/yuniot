@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NewLife.Log;
 using NewLife.Threading;
+using Quartz;
+using Quartz.Impl;
 using Yunt.Common;
-using Yunt.HIDC.Task;
+using Yunt.HIDC.Tasks;
 using Yunt.Xml.Domain.Model;
 using LogLevel = NewLife.Log.LogLevel;
 
@@ -17,8 +21,8 @@ namespace Yunt.HIDC
     {
         public static IConfigurationRoot Configuration;
         public static Dictionary<string, IServiceProvider> Providers;
-
-        public static TimerX _timerX;
+        public static IScheduler sched;
+        //public static TimerX _timerX;
         static void Main(string[] args)
         {
             #region init
@@ -38,18 +42,51 @@ namespace Yunt.HIDC
 
             while (true)
             {
-                if (_timerX == null)
-                    _timerX = new TimerX(obj =>
-                    {
-                        HourStatisticsTask.Start();
-                     
-                    }, null, 1000, 60 * 60 * 1000);
-
-                System.Threading.Thread.Sleep(10000);
+                if (sched?.IsShutdown ?? false)
+                    break;
+                if (sched == null)
+                    Start();
+                Thread.Sleep(60 * 1000);
             }
+
+            //while (true)
+            //{
+            //    if (_timerX == null)
+            //        _timerX = new TimerX(obj =>
+            //        {
+            //            HourStatisticsTask.Start();
+                     
+            //        }, null, 1000, 60 * 60 * 1000);
+
+            //    System.Threading.Thread.Sleep(10000);
+            //}
            
            
     
+        }
+        public static async Task Start()
+        {
+            var sf = new StdSchedulerFactory();
+            sched = await sf.GetScheduler();
+            var job = JobBuilder.Create<HourStatisticsTask>()
+                .WithIdentity("hourJob", "group2")
+                .Build();
+
+            var trigger = TriggerBuilder.Create()
+                    .WithIdentity("hourTrigger", "group2")
+                    .StartNow()
+                    .WithCronSchedule("0 0 * * * ? *")
+                    .Build();
+
+            await sched.ScheduleJob(job, trigger);
+
+            await sched.Start();
+        }
+
+        public static async Task Stop()
+        {
+            await sched.Shutdown(true);
+
         }
         /// <summary>
         /// 程序初始化

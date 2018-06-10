@@ -19,7 +19,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
+                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026");
 
             modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.IdModel.SparePartsIdFactories", b =>
                 {
@@ -28,7 +28,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<int>("SparePartsIndex");
 
-                    b.Property<string>("SparePartsTypeId");
+                    b.Property<string>("SparePartsTypeId")
+                        .HasMaxLength(10);
 
                     b.Property<int>("Time");
 
@@ -46,7 +47,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<int>("InventoryBalance");
 
-                    b.Property<string>("SparePartsId");
+                    b.Property<string>("SparePartsId")
+                        .HasMaxLength(20);
 
                     b.HasKey("Id");
 
@@ -58,33 +60,42 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Description");
+                    b.Property<string>("Description")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("FactoryInfo");
+                    b.Property<string>("FactoryInfo")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("InOperator");
+                    b.Property<string>("InOperator")
+                        .HasMaxLength(10);
 
                     b.Property<long>("InTime");
 
                     b.Property<bool>("IsDelete");
 
-                    b.Property<string>("MotorId");
+                    b.Property<string>("MotorId")
+                        .HasMaxLength(20);
 
-                    b.Property<string>("OutOperator");
+                    b.Property<string>("OutOperator")
+                        .HasMaxLength(10);
 
                     b.Property<long>("OutTime");
 
-                    b.Property<string>("SparePartsId");
+                    b.Property<string>("SparePartsId")
+                        .HasMaxLength(20);
 
-                    b.Property<string>("SparePartsName");
+                    b.Property<string>("SparePartsName")
+                        .HasMaxLength(20);
 
                     b.Property<int>("SparePartsStatus");
 
-                    b.Property<string>("SparePartsTypeId");
+                    b.Property<string>("SparePartsTypeId")
+                        .HasMaxLength(10);
 
                     b.Property<long>("UselessTime");
 
-                    b.Property<string>("WareHousesId");
+                    b.Property<string>("WareHousesId")
+                        .HasMaxLength(20);
 
                     b.HasKey("Id");
 
@@ -100,9 +111,11 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<int>("InventoryAlarmLimits");
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(10);
 
-                    b.Property<string>("SparePartsTypeId");
+                    b.Property<string>("SparePartsTypeId")
+                        .HasMaxLength(10);
 
                     b.HasKey("Id");
 
@@ -116,15 +129,20 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<long>("CreateTime");
 
-                    b.Property<string>("Keeper");
+                    b.Property<string>("Keeper")
+                        .HasMaxLength(10);
 
-                    b.Property<string>("MotorTypeId");
+                    b.Property<string>("MotorTypeId")
+                        .HasMaxLength(4);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(20);
 
-                    b.Property<string>("Remark");
+                    b.Property<string>("Remark")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("WareHousesId");
+                    b.Property<string>("WareHousesId")
+                        .HasMaxLength(20);
 
                     b.HasKey("Id");
 

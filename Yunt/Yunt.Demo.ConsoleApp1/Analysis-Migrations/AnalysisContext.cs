@@ -47,12 +47,17 @@ namespace Yunt.Demo.ConsoleApp1
 
             #region 创建组合索引
             modelBuilder.Entity<EventKind>().HasIndex(u => new { u.Code, u.MotorTypeId });
-            modelBuilder.Entity<EventKind>().Property(u => u.MotorTypeId).HasMaxLength(4).IsRequired();
-            modelBuilder.Entity<EventKind>().Property(u => u.Code).HasMaxLength(10).IsRequired();
+            modelBuilder.Entity<EventKind>().Property(u => u.MotorTypeId).HasMaxLength(5).IsRequired();
+            modelBuilder.Entity<EventKind>().Property(u => u.Code).HasMaxLength(12).IsRequired();
+            modelBuilder.Entity<EventKind>().Property(u => u.Regulation).HasMaxLength(200);
+            modelBuilder.Entity<EventKind>().Property(u => u.Description).HasMaxLength(200);
 
             modelBuilder.Entity<MotorEventLog>().HasIndex(u => new { u.ProductionLineId, u.MotorId });
             modelBuilder.Entity<MotorEventLog>().Property(u => u.ProductionLineId).HasMaxLength(15).IsRequired();
             modelBuilder.Entity<MotorEventLog>().Property(u => u.MotorId).HasMaxLength(20).IsRequired();
+            modelBuilder.Entity<MotorEventLog>().Property(u =>u.EventCode ).HasMaxLength(12);
+            modelBuilder.Entity<MotorEventLog>().Property(u => u.Description).HasMaxLength(200);
+            modelBuilder.Entity<MotorEventLog>().Property(u => u.MotorName).HasMaxLength(20);
             #endregion
 
 

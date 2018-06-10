@@ -7,7 +7,7 @@ using ProtoBuf;
 namespace Yunt.Analysis.Domain.Model
 {
     /// <summary>
-    /// 模拟量10min实时记录
+    /// 实时记录
     /// </summary>
     [DataContract]
     [Serializable]
@@ -31,7 +31,7 @@ namespace Yunt.Analysis.Domain.Model
         /// </summary>
         [DataMember]
         [ProtoMember(3)]
-        public int ProductionLineId { get; set; }
+        public string ProductionLineId { get; set; }
         /// <summary>
         /// 参数名称
         /// </summary>
@@ -50,6 +50,13 @@ namespace Yunt.Analysis.Domain.Model
         [DataMember]
         [ProtoMember(6)]
         public long Time { get; set; }
+
+        /// <summary>
+        /// 电机类型编码
+        /// </summary>
+        [DataMember]
+        [ProtoMember(7)]
+        public string MotorTypeId { get; set; }
 
     }
 }

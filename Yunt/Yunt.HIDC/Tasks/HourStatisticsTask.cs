@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Quartz;
 using Yunt.Common;
 using Yunt.Device.Domain.IRepository;
 using Yunt.Device.Domain.Services;
@@ -13,10 +14,11 @@ using Yunt.MQ;
 using Yunt.Xml.Domain.IRepository;
 using Yunt.Xml.Domain.Model;
 
-namespace Yunt.HIDC.Task
+namespace Yunt.HIDC.Tasks
 {
-   public class HourStatisticsTask
+   public class HourStatisticsTask : IJob
     {
+        #region fields && ctor
         internal static Messagequeue WddQueue;
         private static readonly IMaterialFeederByHourRepository MfByHourRepository;
         private static readonly IConveyorByHourRepository CyByHourRepository;
@@ -49,44 +51,52 @@ namespace Yunt.HIDC.Task
             HvibByHourRepository = ServiceProviderServiceExtensions.GetService<IHVibByHourRepository>(Program.Providers["Device"]);
             MessagequeueRepository = ServiceProviderServiceExtensions.GetService<IMessagequeueRepository>(Program.Providers["Xml"]);
         }
-        public static void Start()
+
+        #endregion
+        /// <summary>
+        /// 定时任务执行
+        /// </summary>
+        /// <param name="context"></param>
+        public Task Execute(IJobExecutionContext context)
         {
             var w_r = (int)WriteOrRead.Read;
             //var where = " Write_Read = '" + w_r + "' and  Route_Key != 'STATUS'";
             WddQueue =
                  MessagequeueRepository.GetEntities(e => e.Write_Read.Equals(w_r) && !e.Route_Key.Equals("STATUS")).FirstOrDefault();
-            if (WddQueue == null)
-                return;
-            var queueHost = WddQueue.Host;
-            var queuePort = WddQueue.Port;
-            var queueUserName = WddQueue.Username;
-            var queuePassword = WddQueue.Pwd;
-
-            var ccuri = "amqp://" + queueHost + ":" + queuePort;
-            var queue = "WUDD";//"FailedData";
-            var route = WddQueue.Route_Key; 
-            var exchange = "amq.topic";
-            var errorQueue = queue + "Error"; //faileddata
-            var rabbitHelper = new RabbitMqHelper();
-            //等待队列消息消费完后再执行统计
-            var messageCount = rabbitHelper.GetMessageCount(ccuri, queue, route, exchange, queueHost, queuePort, queueUserName,
-                queuePassword) + rabbitHelper.GetMessageCount(ccuri, errorQueue, errorQueue, exchange, queueHost, queuePort, queueUserName,
-                queuePassword);
-            if (messageCount >= 1)
+            if (WddQueue != null)
             {
-                while (true)
+                var queueHost = WddQueue.Host;
+                var queuePort = WddQueue.Port;
+                var queueUserName = WddQueue.Username;
+                var queuePassword = WddQueue.Pwd;
+
+                var ccuri = "amqp://" + queueHost + ":" + queuePort;
+                var queue = WddQueue.Route_Key;//"FailedData";
+                var route = WddQueue.Route_Key;
+                var exchange = "amq.topic";
+                var errorQueue = queue + "Error"; //faileddata
+                var rabbitHelper = new RabbitMqHelper();
+                //等待队列消息消费完后再执行统计
+                var messageCount = rabbitHelper.GetMessageCount(ccuri, queue, route, exchange, queueHost, queuePort, queueUserName,
+                    queuePassword) + rabbitHelper.GetMessageCount(ccuri, errorQueue, errorQueue, exchange, queueHost, queuePort, queueUserName,
+                    queuePassword);
+                if (messageCount >= 1)
                 {
-                    Thread.Sleep(5000);
-                    messageCount = rabbitHelper.GetMessageCount(ccuri, queue, route, exchange, queueHost, queuePort, queueUserName,
-                queuePassword) + rabbitHelper.GetMessageCount(ccuri, errorQueue, errorQueue, exchange, queueHost, queuePort, queueUserName,
-                queuePassword);
-                    if(messageCount<1)break;
+                    while (true)
+                    {
+                        Thread.Sleep(5000);
+                        messageCount = rabbitHelper.GetMessageCount(ccuri, queue, route, exchange, queueHost, queuePort, queueUserName,
+                    queuePassword) + rabbitHelper.GetMessageCount(ccuri, errorQueue, errorQueue, exchange, queueHost, queuePort, queueUserName,
+                    queuePassword);
+                        if (messageCount < 1) break;
 #if DEBUG
-                    Logger.Info($"[HourStatisticsTask]:当前队列还有{messageCount}个数据位解析，请等待");
+                        Logger.Info($"[HourStatisticsTask]:当前队列还有{messageCount}个数据位解析，请等待");
 #endif
 
-                }
-            };
+                    }
+                };
+            }
+ 
           
             var dt = DateTime.Now.AddHours(-1);
             CyByHourRepository.InsertHourStatistics(dt, "CY");
@@ -107,9 +117,10 @@ namespace Yunt.HIDC.Task
 
 #if DEBUG
             Logger.Info("[HourStatisticsTask]Hour Statistics");
-            Logger.Info($"耗时{Program._timerX.Cost}ms");
+            Logger.Info($"耗时{context.JobRunTime.TotalMilliseconds}ms");
 #endif
             //GC.Collect();
+            return Task.CompletedTask;
         }
 
 

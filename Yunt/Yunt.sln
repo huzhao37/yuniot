@@ -129,11 +129,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.DIDC", "Yunt.DIDC\Yunt
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analysis【分析】", "Analysis【分析】", "{965CA4A1-BA6C-4759-B634-9D4FD7593D22}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.Analysis.Domain", "Yunt.Analysis.Domain\Yunt.Analysis.Domain.csproj", "{41A50367-42D6-4D2F-9D12-622D05E6C1A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Analysis.Domain", "Yunt.Analysis.Domain\Yunt.Analysis.Domain.csproj", "{41A50367-42D6-4D2F-9D12-622D05E6C1A3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analysis【分析】", "Analysis【分析】", "{3C63E963-B091-4AAD-A546-872770BB4312}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.Analysis.Repository.EF", "Yunt.Analysis.Repository.EF\Yunt.Analysis.Repository.EF.csproj", "{C3B6CDB0-2488-4074-8663-E1E2C71C3E0D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Analysis.Repository.EF", "Yunt.Analysis.Repository.EF\Yunt.Analysis.Repository.EF.csproj", "{C3B6CDB0-2488-4074-8663-E1E2C71C3E0D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

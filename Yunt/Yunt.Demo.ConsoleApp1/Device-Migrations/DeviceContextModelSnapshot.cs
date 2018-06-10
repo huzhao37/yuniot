@@ -1099,15 +1099,19 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                         .IsRequired()
                         .HasMaxLength(4);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(20);
 
                     b.Property<float>("OffSet");
 
-                    b.Property<string>("ProductSpecification");
+                    b.Property<string>("ProductSpecification")
+                        .HasMaxLength(20);
 
-                    b.Property<string>("ProductionLineId");
+                    b.Property<string>("ProductionLineId")
+                        .HasMaxLength(15);
 
-                    b.Property<string>("SerialNumber");
+                    b.Property<string>("SerialNumber")
+                        .HasMaxLength(20);
 
                     b.Property<float>("Slope");
 
@@ -1159,7 +1163,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                         .IsRequired()
                         .HasMaxLength(4);
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(20);
 
                     b.Property<long>("Time");
 
@@ -1175,7 +1180,8 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Bytes");
+                    b.Property<string>("Bytes")
+                        .HasMaxLength(10000);
 
                     b.Property<int>("EmbeddedDeviceId")
                         .HasMaxLength(10);
@@ -1198,9 +1204,11 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("Name");
+                    b.Property<string>("Name")
+                        .HasMaxLength(20);
 
-                    b.Property<string>("ProductionLineId");
+                    b.Property<string>("ProductionLineId")
+                        .HasMaxLength(15);
 
                     b.Property<long>("Time");
 

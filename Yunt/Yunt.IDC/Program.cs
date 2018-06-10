@@ -36,7 +36,7 @@ namespace Yunt.IDC
 
                 var services = new ServiceCollection();
                 Init(services);
-               
+
                 services.AddAutoMapper(typeof(Program).Assembly);
 
 

@@ -29,7 +29,10 @@
           "System.Reflection.Emit": "4.3.0"
         },
         "runtime": {
-          "lib/netstandard2.0/AutoMapper.dll": {}
+          "lib/netstandard2.0/AutoMapper.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.0.0"
+          }
         }
       },
       "AutoMapper.Extensions/1.0.0": {
@@ -37,7 +40,10 @@
           "AutoMapper": "7.0.0-alpha-0001"
         },
         "runtime": {
-          "lib/netstandard1.3/AutoMapper.Extensions.dll": {}
+          "lib/netstandard1.3/AutoMapper.Extensions.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
         }
       },
       "Microsoft.CSharp/4.4.1": {},
@@ -53,7 +59,10 @@
           "System.Interactive.Async": "3.1.1"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.EntityFrameworkCore.dll": {}
+          "lib/netstandard2.0/Microsoft.EntityFrameworkCore.dll": {
+            "assemblyVersion": "2.0.3.0",
+            "fileVersion": "2.0.3.18114"
+          }
         }
       },
       "Microsoft.EntityFrameworkCore.Design/2.0.1": {
@@ -61,7 +70,10 @@
           "Microsoft.EntityFrameworkCore.Relational": "2.0.1"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.EntityFrameworkCore.Design.dll": {}
+          "lib/netstandard2.0/Microsoft.EntityFrameworkCore.Design.dll": {
+            "assemblyVersion": "2.0.1.0",
+            "fileVersion": "2.0.1.17303"
+          }
         }
       },
       "Microsoft.EntityFrameworkCore.Relational/2.0.1": {
@@ -71,7 +83,10 @@
           "Microsoft.Extensions.Configuration.Abstractions": "2.0.2"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.EntityFrameworkCore.Relational.dll": {}
+          "lib/netstandard2.0/Microsoft.EntityFrameworkCore.Relational.dll": {
+            "assemblyVersion": "2.0.1.0",
+            "fileVersion": "2.0.1.17303"
+          }
         }
       },
       "Microsoft.EntityFrameworkCore.Relational.Design/1.1.1": {
@@ -79,7 +94,10 @@
           "Microsoft.EntityFrameworkCore.Relational": "2.0.1"
         },
         "runtime": {
-          "lib/netstandard1.3/Microsoft.EntityFrameworkCore.Relational.Design.dll": {}
+          "lib/netstandard1.3/Microsoft.EntityFrameworkCore.Relational.Design.dll": {
+            "assemblyVersion": "1.1.1.0",
+            "fileVersion": "1.1.1.30217"
+          }
         }
       },
       "Microsoft.Extensions.Caching.Abstractions/2.0.2": {
@@ -87,7 +105,10 @@
           "Microsoft.Extensions.Primitives": "2.0.0"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Caching.Abstractions.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Caching.Abstractions.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.Caching.Memory/2.0.2": {
@@ -97,7 +118,10 @@
           "Microsoft.Extensions.Options": "2.0.2"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Caching.Memory.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.Configuration/2.0.2": {
@@ -105,7 +129,10 @@
           "Microsoft.Extensions.Configuration.Abstractions": "2.0.2"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.Configuration.Abstractions/2.0.2": {
@@ -113,7 +140,10 @@
           "Microsoft.Extensions.Primitives": "2.0.0"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.Abstractions.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.Configuration.Binder/2.0.2": {
@@ -121,7 +151,10 @@
           "Microsoft.Extensions.Configuration": "2.0.2"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Configuration.Binder.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.Binder.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.Configuration.FileExtensions/2.0.2": {
@@ -130,7 +163,10 @@
           "Microsoft.Extensions.FileProviders.Physical": "2.0.1"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Configuration.FileExtensions.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.FileExtensions.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.Configuration.Json/2.0.2": {
@@ -140,7 +176,10 @@
           "Newtonsoft.Json": "11.0.1"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Configuration.Json.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Configuration.Json.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.DependencyInjection/2.0.0": {
@@ -148,12 +187,18 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "2.0.0"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
         }
       },
       "Microsoft.Extensions.DependencyInjection.Abstractions/2.0.0": {
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
         }
       },
       "Microsoft.Extensions.FileProviders.Abstractions/2.0.1": {
@@ -161,7 +206,10 @@
           "Microsoft.Extensions.Primitives": "2.0.0"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Abstractions.dll": {
+            "assemblyVersion": "2.0.1.0",
+            "fileVersion": "2.0.1.18051"
+          }
         }
       },
       "Microsoft.Extensions.FileProviders.Physical/2.0.1": {
@@ -170,12 +218,18 @@
           "Microsoft.Extensions.FileSystemGlobbing": "2.0.1"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Physical.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.FileProviders.Physical.dll": {
+            "assemblyVersion": "2.0.1.0",
+            "fileVersion": "2.0.1.18051"
+          }
         }
       },
       "Microsoft.Extensions.FileSystemGlobbing/2.0.1": {
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.FileSystemGlobbing.dll": {
+            "assemblyVersion": "2.0.1.0",
+            "fileVersion": "2.0.1.18051"
+          }
         }
       },
       "Microsoft.Extensions.Logging/2.0.2": {
@@ -185,12 +239,18 @@
           "Microsoft.Extensions.Options": "2.0.2"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Logging.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.Logging.Abstractions/2.0.2": {
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.Abstractions.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.Logging.Console/2.0.2": {
@@ -199,7 +259,10 @@
           "Microsoft.Extensions.Logging": "2.0.2"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Logging.Console.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.Console.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.Logging.Debug/2.0.2": {
@@ -207,7 +270,10 @@
           "Microsoft.Extensions.Logging": "2.0.2"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Logging.Debug.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.Debug.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.Logging.EventSource/2.0.2": {
@@ -216,7 +282,10 @@
           "Newtonsoft.Json": "11.0.1"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Logging.EventSource.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Logging.EventSource.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.Options/2.0.2": {
@@ -225,7 +294,10 @@
           "Microsoft.Extensions.Primitives": "2.0.0"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Options.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Options.dll": {
+            "assemblyVersion": "2.0.2.0",
+            "fileVersion": "2.0.2.18114"
+          }
         }
       },
       "Microsoft.Extensions.Primitives/2.0.0": {
@@ -233,7 +305,10 @@
           "System.Runtime.CompilerServices.Unsafe": "4.4.0"
         },
         "runtime": {
-          "lib/netstandard2.0/Microsoft.Extensions.Primitives.dll": {}
+          "lib/netstandard2.0/Microsoft.Extensions.Primitives.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.17205"
+          }
         }
       },
       "Microsoft.NETCore.Targets/1.1.0": {},
@@ -275,17 +350,26 @@
           "System.Threading.Tasks.Extensions": "4.3.0"
         },
         "runtime": {
-          "lib/netstandard2.0/MySqlConnector.dll": {}
+          "lib/netstandard2.0/MySqlConnector.dll": {
+            "assemblyVersion": "0.32.0.0",
+            "fileVersion": "0.32.0.0"
+          }
         }
       },
       "NewLife.Core/7.0.6712.2419": {
         "runtime": {
-          "lib/netstandard2.0/NewLife.Core.dll": {}
+          "lib/netstandard2.0/NewLife.Core.dll": {
+            "assemblyVersion": "7.0.2018.512",
+            "fileVersion": "7.0.2018.512"
+          }
         }
       },
       "Newtonsoft.Json/11.0.1": {
         "runtime": {
-          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.0.1.21818"
+          }
         }
       },
       "Pomelo.EntityFrameworkCore.Extensions.ToSql/2.0.0-rtm-10002": {
@@ -293,7 +377,10 @@
           "Microsoft.EntityFrameworkCore.Relational": "2.0.1"
         },
         "runtime": {
-          "lib/netstandard2.0/Pomelo.EntityFrameworkCore.Extensions.ToSql.dll": {}
+          "lib/netstandard2.0/Pomelo.EntityFrameworkCore.Extensions.ToSql.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
         }
       },
       "Pomelo.EntityFrameworkCore.MySql/2.0.1": {
@@ -305,7 +392,10 @@
           "Pomelo.JsonObject": "1.1.1"
         },
         "runtime": {
-          "lib/netstandard2.0/Pomelo.EntityFrameworkCore.MySql.dll": {}
+          "lib/netstandard2.0/Pomelo.EntityFrameworkCore.MySql.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
         }
       },
       "Pomelo.EntityFrameworkCore.MySql.Design/1.1.2": {
@@ -317,7 +407,10 @@
           "Pomelo.EntityFrameworkCore.MySql": "2.0.1"
         },
         "runtime": {
-          "lib/netstandard1.3/Pomelo.EntityFrameworkCore.MySql.Design.dll": {}
+          "lib/netstandard1.3/Pomelo.EntityFrameworkCore.MySql.Design.dll": {
+            "assemblyVersion": "1.1.1.0",
+            "fileVersion": "1.1.1.0"
+          }
         }
       },
       "Pomelo.JsonObject/1.1.1": {
@@ -325,7 +418,10 @@
           "Newtonsoft.Json": "11.0.1"
         },
         "runtime": {
-          "lib/netstandard1.3/Pomelo.JsonObject.dll": {}
+          "lib/netstandard1.3/Pomelo.JsonObject.dll": {
+            "assemblyVersion": "1.1.1.0",
+            "fileVersion": "1.1.1.0"
+          }
         }
       },
       "protobuf-net/2.3.7": {
@@ -338,7 +434,10 @@
           "System.Xml.XmlSerializer": "4.3.0"
         },
         "runtime": {
-          "lib/netstandard2.0/protobuf-net.dll": {}
+          "lib/netstandard2.0/protobuf-net.dll": {
+            "assemblyVersion": "2.3.7.0",
+            "fileVersion": "2.3.7.0"
+          }
         }
       },
       "Remotion.Linq/2.1.1": {
@@ -356,7 +455,10 @@
           "System.Threading": "4.3.0"
         },
         "runtime": {
-          "lib/netstandard1.0/Remotion.Linq.dll": {}
+          "lib/netstandard1.0/Remotion.Linq.dll": {
+            "assemblyVersion": "2.1.0.0",
+            "fileVersion": "2.1.1.30000"
+          }
         }
       },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.0": {
@@ -483,7 +585,10 @@
       },
       "SharpCompress/0.20.0": {
         "runtime": {
-          "lib/netstandard2.0/SharpCompress.dll": {}
+          "lib/netstandard2.0/SharpCompress.dll": {
+            "assemblyVersion": "0.20.0.0",
+            "fileVersion": "0.20.0.0"
+          }
         }
       },
       "System.Buffers/4.3.0": {
@@ -614,7 +719,10 @@
       },
       "System.Interactive.Async/3.1.1": {
         "runtime": {
-          "lib/netstandard1.3/System.Interactive.Async.dll": {}
+          "lib/netstandard1.3/System.Interactive.Async.dll": {
+            "assemblyVersion": "3.0.3000.0",
+            "fileVersion": "3.1.1.0"
+          }
         }
       },
       "System.IO/4.3.0": {
@@ -833,7 +941,10 @@
       },
       "System.Runtime.CompilerServices.Unsafe/4.4.0": {
         "runtime": {
-          "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {}
+          "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {
+            "assemblyVersion": "4.0.3.0",
+            "fileVersion": "0.0.0.0"
+          }
         }
       },
       "System.Runtime.Extensions/4.3.0": {
@@ -1217,7 +1328,8 @@
           "Microsoft.Extensions.Options": "2.0.2",
           "Newtonsoft.Json": "11.0.1",
           "Yunt.Common": "1.0.0",
-          "protobuf-net": "2.3.7"
+          "protobuf-net": "2.3.7",
+          "Microsoft.Extensions.DependencyModel": "2.0.0.0"
         },
         "runtime": {
           "Yunt.Redis.dll": {}
@@ -1230,6 +1342,14 @@
         },
         "runtime": {
           "Yunt.Xml.Domain.dll": {}
+        }
+      },
+      "Microsoft.Extensions.DependencyModel.Reference/2.0.0.0": {
+        "runtime": {
+          "Microsoft.Extensions.DependencyModel.dll": {
+            "assemblyVersion": "2.0.0.0",
+            "fileVersion": "2.0.0.0"
+          }
         }
       }
     }
@@ -2057,6 +2177,11 @@
     },
     "Yunt.Xml.Domain/1.0.0": {
       "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.Extensions.DependencyModel.Reference/2.0.0.0": {
+      "type": "reference",
       "serviceable": false,
       "sha512": ""
     }

@@ -69,5 +69,15 @@ namespace Yunt.Common
         {
             return Convert.ToInt64(Math.Abs(time.Time().Date.AddMonths(3).Subtract(DateTime.Now.Date).TotalSeconds));
         }
+
+        /// <summary>
+        /// redis key 过期时长（1天）
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public static long ExpireOneDay(this long time)
+        {
+            return Convert.ToInt64(Math.Abs(time.Time().Date.AddDays(1).Subtract(DateTime.Now.Date).TotalSeconds));
+        }
     }
 }

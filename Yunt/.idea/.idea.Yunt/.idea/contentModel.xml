@@ -1,0 +1,1303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\Users\zhaoh\.Rider2018.1\system\resharper-host\local\Transient\ReSharperHost\v12\SolutionCaches\_Yunt.186513898.00" t="ExcludeRecursive" />
+    <e p="G:\2018\Yunt\Yunt" t="IncludeFlat">
+      <e p="Application【应用接口】" t="Include">
+        <e p="Service" t="Include">
+          <e p="DataService" t="Include" />
+          <e p="Dtsc" t="Include" />
+          <e p="Unitoon" t="Include" />
+          <e p="Xml" t="Include" />
+        </e>
+        <e p="WinApp【桌面应用程序】" t="Include" />
+      </e>
+      <e p="commondll\netcoreapp2.0" t="ExcludeRecursive" />
+      <e p="Consumer\Consumer.csproj" t="IncludeRecursive" />
+      <e p="Demo" t="Include">
+        <e p="CAPDemo" t="Include" />
+        <e p="QuartzDemo" t="Include" />
+        <e p="Test" t="Include" />
+        <e p="WebApi【Web应用接口】" t="Include" />
+      </e>
+      <e p="DeviceManager" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Core" t="Include">
+          <e p="ClassHelper.cs" t="Include" />
+          <e p="FileEx.cs" t="Include" />
+          <e p="RegularEx.cs" t="Include" />
+          <e p="TableType.cs" t="Include" />
+          <e p="Translate.cs" t="Include" />
+        </e>
+        <e p="DeviceManager.csproj" t="IncludeRecursive" />
+        <e p="DeviceManager_TemporaryKey.pfx" t="Include" />
+        <e p="Dll" t="Include">
+          <e p="CabinetParamter.xls" t="Include" />
+          <e p="cc.txt" t="Include" />
+          <e p="cy.txt" t="Include" />
+          <e p="hvb.txt" t="Include" />
+          <e p="ic.txt" t="Include" />
+          <e p="IWshRuntimeLibrary.dll" t="Include" />
+          <e p="jc.txt" t="Include" />
+          <e p="mf.txt" t="Include" />
+          <e p="params.txt" t="Include" />
+          <e p="pul.txt" t="Include" />
+          <e p="vb.txt" t="Include" />
+          <e p="vc.txt" t="Include" />
+        </e>
+        <e p="File" t="Include">
+          <e p="configure.json" t="Include" />
+          <e p="configure.v0.2.1.json" t="Include" />
+          <e p="configure.v0.2.json" t="Include" />
+        </e>
+        <e p="Form1.cs" t="Include" />
+        <e p="Form1.Designer.cs" t="Include" />
+        <e p="Form1.resx" t="Include" />
+        <e p="Mapping" t="Include">
+          <e p="ConfigureJsonInfo.cs" t="Include" />
+        </e>
+        <e p="modbus.ico" t="Include" />
+        <e p="Model" t="Include">
+          <e p="DataType.Biz.cs" t="Include" />
+          <e p="DataType.cs" t="Include" />
+          <e p="Messagequeue.Biz.cs" t="Include" />
+          <e p="Messagequeue.cs" t="Include" />
+          <e p="Motorparams.Biz.cs" t="Include" />
+          <e p="MotorParams.cs" t="Include" />
+          <e p="Motortype.Biz.cs" t="Include" />
+          <e p="Motortype.cs" t="Include" />
+          <e p="Physicfeature.Biz.cs" t="Include" />
+          <e p="Physicfeature.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
+          <e p="Settings.Designer.cs" t="Include" />
+          <e p="Settings.settings" t="Include" />
+        </e>
+        <e p="TranslateForm.cs" t="Include" />
+        <e p="TranslateForm.Designer.cs" t="Include" />
+        <e p="TranslateForm.resx" t="Include" />
+        <e p="生成实体类.log" t="Include" />
+        <e p="生成实体类.tt" t="Include" />
+      </e>
+      <e p="Domain【服务组件】" t="Include">
+        <e p="Analysis【分析】" t="Include" />
+        <e p="Auth【权限】" t="Include" />
+        <e p="Device【设备】" t="Include" />
+        <e p="Inventory【库存】" t="Include" />
+        <e p="XmlProtocol【Xml协议】" t="Include" />
+      </e>
+      <e p="Dtsc.MailPush" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Dtsc.MailPush.csproj" t="IncludeRecursive" />
+        <e p="EmailPushJob.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Dtsc.MailPush.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include">
+          <e p="PublishProfiles" t="Include">
+            <e p="FolderProfile.pubxml" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="Dtsc.NodeService" t="IncludeRecursive">
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Dtsc.NodeService.csproj" t="IncludeRecursive" />
+        <e p="MainService.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Dtsc.NodeService.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="PublishProfiles" t="Include">
+            <e p="FolderProfile.pubxml" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="FrameWork【云统框架】" t="Include">
+        <e p="Core【核心组件】" t="Include">
+          <e p="Standard" t="Include" />
+        </e>
+        <e p="DTSC【分布式任务调度中心】" t="Include">
+          <e p="Standard" t="Include" />
+        </e>
+        <e p="KeyPlugin【关键插件】" t="Include" />
+      </e>
+      <e p="Infrastructure【基础设施】" t="Include">
+        <e p="Analysis【分析】" t="Include" />
+        <e p="Auth【权限】" t="Include" />
+        <e p="Device【设备】" t="Include" />
+        <e p="Inventory【库存】" t="Include" />
+        <e p="XmlProtocol【Xml协议】" t="Include" />
+      </e>
+      <e p="MailTest" t="IncludeRecursive">
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="EmailHelper.cs" t="Include" />
+        <e p="MailTest.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="MailTest.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="PublishProfiles" t="Include">
+            <e p="FolderProfile.pubxml" t="Include" />
+          </e>
+        </e>
+      </e>
+      <e p="MotorEvent.EmailPush" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="EmailPushJob.cs" t="Include" />
+        <e p="Models" t="Include">
+          <e p="Eventkind.Biz.cs" t="Include" />
+          <e p="EventKind.cs" t="Include" />
+          <e p="Motor.Biz.cs" t="Include" />
+          <e p="Motor.cs" t="Include" />
+          <e p="Motoreventlog.Biz.cs" t="Include" />
+          <e p="MotorEventLog.cs" t="Include" />
+          <e p="ProductionLine.Biz.cs" t="Include" />
+          <e p="ProductionLine.cs" t="Include" />
+        </e>
+        <e p="MotorEvent.EmailPush.csproj" t="IncludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="MotorEvent.EmailPush.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include" />
+      </e>
+      <e p="MotorInfo" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="File" t="Include">
+          <e p="motorinfo.txt" t="Include" />
+          <e p="【2018.06.04】电机功率等参数.xls" t="Include" />
+        </e>
+        <e p="Form1.cs" t="Include" />
+        <e p="Form1.Designer.cs" t="Include" />
+        <e p="Form1.resx" t="Include" />
+        <e p="modbus.ico" t="Include" />
+        <e p="Models" t="Include">
+          <e p="Collectdevice.Biz.cs" t="Include" />
+          <e p="Collectdevice.cs" t="Include" />
+          <e p="DataConfig.Biz.cs" t="Include" />
+          <e p="DataConfig.cs" t="Include" />
+          <e p="DataFormModel.Biz.cs" t="Include" />
+          <e p="DataFormModel.cs" t="Include" />
+          <e p="DataType.Biz.cs" t="Include" />
+          <e p="DataType.cs" t="Include" />
+          <e p="Messagequeue.Biz.cs" t="Include" />
+          <e p="Messagequeue.cs" t="Include" />
+          <e p="Motor.Biz.cs" t="Include" />
+          <e p="Motor.cs" t="Include" />
+          <e p="Motoridfactories.Biz.cs" t="Include" />
+          <e p="MotorIdFactories.cs" t="Include" />
+          <e p="Motorparams.Biz.cs" t="Include" />
+          <e p="MotorParams.cs" t="Include" />
+          <e p="Motortype.Biz.cs" t="Include" />
+          <e p="Motortype.cs" t="Include" />
+          <e p="Physicfeature.Biz.cs" t="Include" />
+          <e p="Physicfeature.cs" t="Include" />
+          <e p="ProductionPlans.Biz.cs" t="Include" />
+          <e p="ProductionPlans.cs" t="Include" />
+          <e p="WriteOrRead.cs" t="Include" />
+        </e>
+        <e p="MotorInfo.csproj" t="IncludeRecursive" />
+        <e p="MotorInfo_TemporaryKey.pfx" t="Include" />
+        <e p="obj" t="ExcludeRecursive" />
+        <e p="packages.config" t="Include" />
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="AssemblyInfo.cs" t="Include" />
+          <e p="Resources.Designer.cs" t="Include" />
+          <e p="Resources.resx" t="Include" />
+          <e p="Settings.Designer.cs" t="Include" />
+          <e p="Settings.settings" t="Include" />
+        </e>
+      </e>
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Publisher\Publisher.csproj" t="IncludeRecursive" />
+      <e p="Yunt.Analysis.Domain" t="IncludeRecursive">
+        <e p="BaseModel" t="Include">
+          <e p="AggregateRoot.cs" t="Include" />
+          <e p="IAggregateRoot.cs" t="Include" />
+          <e p="IEntity.cs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="IRepository" t="Include">
+          <e p="IAnalysisRepositoryBase.cs" t="Include" />
+          <e p="IEventKindRepository.cs" t="Include" />
+          <e p="IMotorEventLogRepository.cs" t="Include" />
+        </e>
+        <e p="Model" t="Include">
+          <e p="AiLog.cs" t="Include" />
+          <e p="EventKind.cs" t="Include" />
+          <e p="MotorEventLog.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Analysis.Domain.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Services" t="Include" />
+        <e p="Yunt.Analysis.Domain.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Analysis.Repository.EF" t="IncludeRecursive">
+        <e p="AutoMapperProfileConfiguration.cs" t="Include" />
+        <e p="BootStrap.cs" t="Include" />
+        <e p="Mappings" t="Include">
+          <e p="EventKindMapping.cs" t="Include" />
+          <e p="MotorEventLogMapping.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="BaseModel.cs" t="Include" />
+          <e p="EventKind.cs" t="Include" />
+          <e p="MotorEventLog.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Analysis.Repository.EF.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Repositories" t="Include">
+          <e p="AnalysisContext.cs" t="Include" />
+          <e p="AnalysisRepositoryBase.cs" t="Include" />
+          <e p="ContextFactory.cs" t="Include" />
+          <e p="EventKindRepository.cs" t="Include" />
+          <e p="MotorEventLogRepository.cs" t="Include" />
+        </e>
+        <e p="Yunt.Analysis.Repository.EF.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Auth.Domain" t="IncludeRecursive">
+        <e p="BaseModel" t="Include">
+          <e p="AggregateRoot.cs" t="Include" />
+          <e p="IAggregateRoot.cs" t="Include" />
+          <e p="IEntity.cs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="IRepository" t="Include">
+          <e p="IAuthRepositoryBase.cs" t="Include" />
+          <e p="IUserIdFactoriesRepository.cs" t="Include" />
+          <e p="IUserRepository.cs" t="Include" />
+          <e p="IUserRoleRepository.cs" t="Include" />
+        </e>
+        <e p="Model" t="Include">
+          <e p="IdModel" t="Include">
+            <e p="UserIdFactories.cs" t="Include" />
+          </e>
+          <e p="User.cs" t="Include" />
+          <e p="UserRole.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Auth.Domain.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Services" t="Include" />
+        <e p="Yunt.Auth.Domain.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Auth.Repository.EF" t="IncludeRecursive">
+        <e p="AutoMapperProfileConfiguration.cs" t="Include" />
+        <e p="BootStrap.cs" t="Include" />
+        <e p="Mappings" t="Include">
+          <e p="UserIdFactoriesMapping.cs" t="Include" />
+          <e p="UserMapping.cs" t="Include" />
+          <e p="UserRoleMapping.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="BaseModel.cs" t="Include" />
+          <e p="IdModel" t="Include">
+            <e p="UserIdFactories.cs" t="Include" />
+          </e>
+          <e p="User.cs" t="Include" />
+          <e p="UserRole.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Auth.Repository.EF.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Repositories" t="Include">
+          <e p="AuthContext.cs" t="Include" />
+          <e p="AuthRepositoryBase.cs" t="Include" />
+          <e p="ContextFactory.cs" t="Include" />
+          <e p="UserIdFactoriesRepository.cs" t="Include" />
+          <e p="UserRepository.cs" t="Include" />
+          <e p="UserRoleRepository.cs" t="Include" />
+        </e>
+        <e p="Yunt.Auth.Repository.EF.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Common" t="IncludeRecursive">
+        <e p="Assemblies" t="Include">
+          <e p="AssemblyEx.cs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Bytes" t="Include">
+          <e p="Extention.cs" t="Include" />
+        </e>
+        <e p="EFCore" t="Include">
+          <e p="EFConfigurationEx.cs" t="Include" />
+        </e>
+        <e p="Email" t="Include">
+          <e p="EmailHelper.cs" t="Include" />
+        </e>
+        <e p="Enum" t="Include">
+          <e p="MotorStatus.cs" t="Include" />
+          <e p="ServiceName.cs" t="Include" />
+          <e p="SparePartsStatus.cs" t="Include" />
+        </e>
+        <e p="Enviroment" t="Include">
+          <e p="Ip.cs" t="Include" />
+        </e>
+        <e p="File" t="Include">
+          <e p="CompressHelper.cs" t="Include" />
+          <e p="FileEx.cs" t="Include" />
+        </e>
+        <e p="ICollection" t="Include">
+          <e p="IEnumerableEx.cs" t="Include" />
+          <e p="PaginatedList.cs" t="Include" />
+        </e>
+        <e p="Id" t="Include">
+          <e p="IdFactory.cs" t="Include" />
+        </e>
+        <e p="Ioc" t="Include">
+          <e p="ServiceEx.cs" t="Include" />
+        </e>
+        <e p="Json" t="Include">
+          <e p="JsonHelper.cs" t="Include" />
+        </e>
+        <e p="log" t="Include">
+          <e p="FileLogger.cs" t="Include" />
+          <e p="FileLoggerExtensions.cs" t="Include" />
+          <e p="FileLoggerProvider.cs" t="Include" />
+          <e p="FileLoggerSettings.cs" t="Include" />
+          <e p="Logger.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Common.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Time" t="Include">
+          <e p="TimeEx.cs" t="Include" />
+          <e p="Unix.cs" t="Include" />
+        </e>
+        <e p="Validate" t="Include">
+          <e p="ArgumentCheck.cs" t="Include" />
+        </e>
+        <e p="Xml" t="Include">
+          <e p="XmlHelper.cs" t="Include" />
+        </e>
+        <e p="Yunt.Common.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.CommonST" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Bytes" t="Include">
+          <e p="Extention.cs" t="Include" />
+        </e>
+        <e p="EFCore" t="Include">
+          <e p="EFConfigurationEx.cs" t="Include" />
+        </e>
+        <e p="Email" t="Include">
+          <e p="EmailHelper.cs" t="Include" />
+        </e>
+        <e p="Enum" t="Include">
+          <e p="MotorStatus.cs" t="Include" />
+          <e p="ServiceName.cs" t="Include" />
+          <e p="SparePartsStatus.cs" t="Include" />
+        </e>
+        <e p="Enviroment" t="Include">
+          <e p="Ip.cs" t="Include" />
+        </e>
+        <e p="File" t="Include">
+          <e p="CompressHelper.cs" t="Include" />
+          <e p="FileEx.cs" t="Include" />
+        </e>
+        <e p="ICollection" t="Include">
+          <e p="IEnumerableEx.cs" t="Include" />
+          <e p="PaginatedList.cs" t="Include" />
+        </e>
+        <e p="Id" t="Include">
+          <e p="IdFactory.cs" t="Include" />
+        </e>
+        <e p="Ioc" t="Include">
+          <e p="ServiceEx.cs" t="Include" />
+        </e>
+        <e p="Json" t="Include">
+          <e p="JsonHelper.cs" t="Include" />
+        </e>
+        <e p="log" t="Include">
+          <e p="Logger.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.0" t="Include">
+              <e p="Yunt.CommonST.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Time" t="Include">
+          <e p="TimeEx.cs" t="Include" />
+          <e p="Unix.cs" t="Include" />
+        </e>
+        <e p="Validate" t="Include">
+          <e p="ArgumentCheck.cs" t="Include" />
+        </e>
+        <e p="Xml" t="Include">
+          <e p="XmlHelper.cs" t="Include" />
+        </e>
+        <e p="Yunt.CommonST.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Demo.ConsoleApp1" t="IncludeRecursive">
+        <e p="Analysis-Migrations" t="Include">
+          <e p="AnalysisContext.cs" t="Include" />
+        </e>
+        <e p="AppSetting.cs" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Migrations" t="Include">
+          <e p="20180609060919_1.cs" t="Include" />
+          <e p="20180609060919_1.Designer.cs" t="Include" />
+          <e p="20180609065448_2.cs" t="Include" />
+          <e p="20180609065448_2.Designer.cs" t="Include" />
+          <e p="AnalysisContextModelSnapshot.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Demo.ConsoleApp1.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="PublishProfiles" t="Include">
+            <e p="FolderProfile.pubxml" t="Include" />
+          </e>
+        </e>
+        <e p="Yunt.Demo.ConsoleApp1.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Demo.Core" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ISchedulingJob.cs" t="Include" />
+        <e p="JobBase.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Demo.Core.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Yunt.Demo.Core.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Demo.SendEmail" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Demo.SendEmail.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="SendEmailJob.cs" t="Include" />
+        <e p="Yunt.Demo.SendEmail.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Device.Domain" t="IncludeRecursive">
+        <e p="BaseModel" t="Include">
+          <e p="AggregateRoot.cs" t="Include" />
+          <e p="IAggregateRoot.cs" t="Include" />
+          <e p="IEntity.cs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="IRepository" t="Include">
+          <e p="IConeCrusherByDayRepository.cs" t="Include" />
+          <e p="IConeCrusherByHourRepository.cs" t="Include" />
+          <e p="IConeCrusherRepository.cs" t="Include" />
+          <e p="IConveyorByDayRepository.cs" t="Include" />
+          <e p="IConveyorByHourRepository.cs" t="Include" />
+          <e p="IConveyorRepository.cs" t="Include" />
+          <e p="IDeviceRepositoryBase.cs" t="Include" />
+          <e p="IDoubleToothRollCrusherByDayRepository.cs" t="Include" />
+          <e p="IDoubleToothRollCrusherByHourRepository.cs" t="Include" />
+          <e p="IDoubleToothRollCrusherRepository.cs" t="Include" />
+          <e p="IHVibByDayRepository.cs" t="Include" />
+          <e p="IHVibByHourRepository.cs" t="Include" />
+          <e p="IHVibRepository.cs" t="Include" />
+          <e p="IImpactCrusherByDayRepository.cs" t="Include" />
+          <e p="IImpactCrusherByHourRepository.cs" t="Include" />
+          <e p="IImpactCrusherRepository.cs" t="Include" />
+          <e p="IJawCrusherByDayRepository.cs" t="Include" />
+          <e p="IJawCrusherByHourRepository.cs" t="Include" />
+          <e p="IJawCrusherRepository.cs" t="Include" />
+          <e p="IMaterialFeederByDayRepository .cs" t="Include" />
+          <e p="IMaterialFeederByHourRepository.cs" t="Include" />
+          <e p="IMaterialFeederRepository.cs" t="Include" />
+          <e p="IMotorIdFactoriesRepository.cs" t="Include" />
+          <e p="IMotorRepository.cs" t="Include" />
+          <e p="IMotorTypeRepository.cs" t="Include" />
+          <e p="IOriginalBytesRepository.cs" t="Include" />
+          <e p="IPulverizerByDayRepository.cs" t="Include" />
+          <e p="IPulverizerByHourRepository.cs" t="Include" />
+          <e p="IPulverizerRepository.cs" t="Include" />
+          <e p="IReverHammerCrusherByDayRepository.cs" t="Include" />
+          <e p="IReverHammerCrusherByHourRepository.cs" t="Include" />
+          <e p="IReverHammerCrusherRepository.cs" t="Include" />
+          <e p="ISimonsConeCrusherByDayRepository.cs" t="Include" />
+          <e p="ISimonsConeCrusherByHourRepository.cs" t="Include" />
+          <e p="ISimonsConeCrusherRepository.cs" t="Include" />
+          <e p="IVerticalCrusherByDayRepository.cs" t="Include" />
+          <e p="IVerticalCrusherByHourRepository.cs" t="Include" />
+          <e p="IVerticalCrusherRepository.cs" t="Include" />
+          <e p="IVibrosieveByDayRepository.cs" t="Include" />
+          <e p="IVibrosieveByHourRepository.cs" t="Include" />
+          <e p="IVibrosieveRepository.cs" t="Include" />
+        </e>
+        <e p="Model" t="Include">
+          <e p="Conecrusher.cs" t="Include" />
+          <e p="ConeCrusherByDay.cs" t="Include" />
+          <e p="ConeCrusherByHour.cs" t="Include" />
+          <e p="Conveyor.cs" t="Include" />
+          <e p="ConveyorByDay.cs" t="Include" />
+          <e p="ConveyorByHour.cs" t="Include" />
+          <e p="Doubletoothrollcrusher.cs" t="Include" />
+          <e p="DoubleToothRollCrusherByDay.cs" t="Include" />
+          <e p="DoubleToothRollCrusherByHour.cs" t="Include" />
+          <e p="HVib.cs" t="Include" />
+          <e p="HVibByDay.cs" t="Include" />
+          <e p="HVibByHour.cs" t="Include" />
+          <e p="IdModel" t="Include">
+            <e p="MotorIdFactories.cs" t="Include" />
+          </e>
+          <e p="ImpactCrusher.cs" t="Include" />
+          <e p="ImpactCrusherByDay.cs" t="Include" />
+          <e p="ImpactCrusherByHour.cs" t="Include" />
+          <e p="JawCrusher.cs" t="Include" />
+          <e p="JawCrusherByDay.cs" t="Include" />
+          <e p="JawCrusherByHour.cs" t="Include" />
+          <e p="MaterialFeeder.cs" t="Include" />
+          <e p="MaterialFeederByDay.cs" t="Include" />
+          <e p="MaterialFeederByHour.cs" t="Include" />
+          <e p="Motor.cs" t="Include" />
+          <e p="MotorParams.cs" t="Include" />
+          <e p="Motortype.cs" t="Include" />
+          <e p="OriginalBytes.cs" t="Include" />
+          <e p="ProductionLine.cs" t="Include" />
+          <e p="Pulverizer.cs" t="Include" />
+          <e p="PulverizerByDay.cs" t="Include" />
+          <e p="PulverizerByHour.cs" t="Include" />
+          <e p="ReverHammerCrusher.cs" t="Include" />
+          <e p="ReverHammerCrusherByDay.cs" t="Include" />
+          <e p="ReverHammerCrusherByHour.cs" t="Include" />
+          <e p="SimonsConeCrusher.cs" t="Include" />
+          <e p="SimonsConeCrusherByDay.cs" t="Include" />
+          <e p="SimonsConeCrusherByHour.cs" t="Include" />
+          <e p="VerticalCrusher.cs" t="Include" />
+          <e p="VerticalCrusherByDay.cs" t="Include" />
+          <e p="VerticalCrusherByHour.cs" t="Include" />
+          <e p="Vibrosieve.cs" t="Include" />
+          <e p="VibrosieveByDay.cs" t="Include" />
+          <e p="VibrosieveByHour.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Device.Domain.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Services" t="Include">
+          <e p="IProductionLineRepository.cs" t="Include" />
+        </e>
+        <e p="Yunt.Device.Domain.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Device.Repository.EF" t="IncludeRecursive">
+        <e p="AutoMapperProfileConfiguration.cs" t="Include" />
+        <e p="BootStrap.cs" t="Include" />
+        <e p="Mappings" t="Include">
+          <e p="ConeCrusherByDayMapping.cs" t="Include" />
+          <e p="ConeCrusherByHourMapping.cs" t="Include" />
+          <e p="ConeCrusherMapping.cs" t="Include" />
+          <e p="ConveyorByDayMapping.cs" t="Include" />
+          <e p="ConveyorByHourMapping.cs" t="Include" />
+          <e p="ConveyorMapping.cs" t="Include" />
+          <e p="DoubleToothRollCrusherByDayMapping.cs" t="Include" />
+          <e p="DoubleToothRollCrusherByHourMapping.cs" t="Include" />
+          <e p="DoubleToothRollCrusherMapping.cs" t="Include" />
+          <e p="ImpactCrusherByDayMapping.cs" t="Include" />
+          <e p="ImpactCrusherByHourMapping.cs" t="Include" />
+          <e p="ImpactCrusherMapping.cs" t="Include" />
+          <e p="JawCrusherByDayMapping.cs" t="Include" />
+          <e p="JawCrusherByHourMapping.cs" t="Include" />
+          <e p="JawCrusherMapping.cs" t="Include" />
+          <e p="MaterialFeederByDayMapping.cs" t="Include" />
+          <e p="MaterialFeederByHourMapping.cs" t="Include" />
+          <e p="MaterialFeederMapping.cs" t="Include" />
+          <e p="MotorIdFactoriesMapping.cs" t="Include" />
+          <e p="MotorMapping.cs" t="Include" />
+          <e p="MotorParamsMapping.cs" t="Include" />
+          <e p="MotorTypeMapping.cs" t="Include" />
+          <e p="OriginalBytesMapping.cs" t="Include" />
+          <e p="ProductionLineMapping.cs" t="Include" />
+          <e p="PulverizerByDayMapping.cs" t="Include" />
+          <e p="PulverizerByHourMapping.cs" t="Include" />
+          <e p="PulverizerMapping.cs" t="Include" />
+          <e p="ReverHammerCrusherByDayMapping.cs" t="Include" />
+          <e p="ReverHammerCrusherByHourMapping.cs" t="Include" />
+          <e p="ReverHammerCrusherMapping.cs" t="Include" />
+          <e p="SimonsConeCrusherByDayMapping.cs" t="Include" />
+          <e p="SimonsConeCrusherByHourMapping.cs" t="Include" />
+          <e p="SimonsConeCrusherMapping.cs" t="Include" />
+          <e p="VerticalCrusherByDayMapping.cs" t="Include" />
+          <e p="VerticalCrusherByHourMapping.cs" t="Include" />
+          <e p="VerticalCrusherMapping.cs" t="Include" />
+          <e p="VibrosieveByDayMapping.cs" t="Include" />
+          <e p="VibrosieveByHourMapping.cs" t="Include" />
+          <e p="VibrosieveMapping.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="BaseModel.cs" t="Include" />
+          <e p="Conecrusher.cs" t="Include" />
+          <e p="ConeCrusherByDay.cs" t="Include" />
+          <e p="ConeCrusherByHour.cs" t="Include" />
+          <e p="Conveyor.cs" t="Include" />
+          <e p="ConveyorByDay.cs" t="Include" />
+          <e p="ConveyorByHour.cs" t="Include" />
+          <e p="Doubletoothrollcrusher.cs" t="Include" />
+          <e p="DoubleToothRollCrusherByDay.cs" t="Include" />
+          <e p="DoubleToothRollCrusherByHour.cs" t="Include" />
+          <e p="HVib.cs" t="Include" />
+          <e p="HVibByDay.cs" t="Include" />
+          <e p="HVibByHour.cs" t="Include" />
+          <e p="IdModel" t="Include">
+            <e p="MotorIdFactories.cs" t="Include" />
+          </e>
+          <e p="ImpactCrusher.cs" t="Include" />
+          <e p="ImpactCrusherByDay.cs" t="Include" />
+          <e p="ImpactCrusherByHour.cs" t="Include" />
+          <e p="JawCrusher.cs" t="Include" />
+          <e p="JawCrusherByDay.cs" t="Include" />
+          <e p="JawCrusherByHour.cs" t="Include" />
+          <e p="MaterialFeeder.cs" t="Include" />
+          <e p="MaterialFeederByDay.cs" t="Include" />
+          <e p="MaterialFeederByHour.cs" t="Include" />
+          <e p="Motor.cs" t="Include" />
+          <e p="MotorParams.cs" t="Include" />
+          <e p="Motortype.cs" t="Include" />
+          <e p="OriginalBytes.cs" t="Include" />
+          <e p="ProductionLine.cs" t="Include" />
+          <e p="Pulverizer.cs" t="Include" />
+          <e p="PulverizerByDay.cs" t="Include" />
+          <e p="PulverizerByHour.cs" t="Include" />
+          <e p="ReverHammerCrusher.cs" t="Include" />
+          <e p="ReverHammerCrusherByDay.cs" t="Include" />
+          <e p="ReverHammerCrusherByHour.cs" t="Include" />
+          <e p="SimonsConeCrusher.cs" t="Include" />
+          <e p="SimonsConeCrusherByDay.cs" t="Include" />
+          <e p="SimonsConeCrusherByHour.cs" t="Include" />
+          <e p="VerticalCrusher.cs" t="Include" />
+          <e p="VerticalCrusherByDay.cs" t="Include" />
+          <e p="VerticalCrusherByHour.cs" t="Include" />
+          <e p="Vibrosieve.cs" t="Include" />
+          <e p="VibrosieveByDay.cs" t="Include" />
+          <e p="VibrosieveByHour.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Device.Repository.EF.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="readme.txt" t="Include" />
+        <e p="Repositories" t="Include">
+          <e p="ConeCrusherByDayRepository.cs" t="Include" />
+          <e p="ConeCrusherByHourRepository.cs" t="Include" />
+          <e p="ConeCrusherRepository.cs" t="Include" />
+          <e p="ContextFactory.cs" t="Include" />
+          <e p="ConveyorByDayRepository.cs" t="Include" />
+          <e p="ConveyorByHourRepository.cs" t="Include" />
+          <e p="ConveyorRepository.cs" t="Include" />
+          <e p="DeviceContext.cs" t="Include" />
+          <e p="DeviceRepositoryBase.cs" t="Include" />
+          <e p="DoubleToothRollCrusherByDayRepository.cs" t="Include" />
+          <e p="DoubleToothRollCrusherByHourRepository.cs" t="Include" />
+          <e p="DoubleToothRollCrusherRepository.cs" t="Include" />
+          <e p="HVibByDayRepository.cs" t="Include" />
+          <e p="HVibByHourRepository.cs" t="Include" />
+          <e p="HVibRepository.cs" t="Include" />
+          <e p="ImpactCrusherByDayRepository.cs" t="Include" />
+          <e p="ImpactCrusherByHourRepository.cs" t="Include" />
+          <e p="ImpactCrusherRepository.cs" t="Include" />
+          <e p="JawCrusherByDayRepository.cs" t="Include" />
+          <e p="JawCrusherByHourRepository.cs" t="Include" />
+          <e p="JawCrusherRepository.cs" t="Include" />
+          <e p="MaterialFeederByDayRepository.cs" t="Include" />
+          <e p="MaterialFeederByHourRepository.cs" t="Include" />
+          <e p="MaterialFeederRepository.cs" t="Include" />
+          <e p="MotorIdFactoriesRepository.cs" t="Include" />
+          <e p="MotorRepository.cs" t="Include" />
+          <e p="MotorTypeRepository.cs" t="Include" />
+          <e p="OriginalBytesRepository.cs" t="Include" />
+          <e p="PulverizerByDayRepository.cs" t="Include" />
+          <e p="PulverizerByHourRepository.cs" t="Include" />
+          <e p="PulverizerRepository.cs" t="Include" />
+          <e p="ReverHammerCrusherByDayRepository.cs" t="Include" />
+          <e p="ReverHammerCrusherByHourRepository.cs" t="Include" />
+          <e p="ReverHammerCrusherRepository.cs" t="Include" />
+          <e p="SimonsConeCrusherByDayRepository.cs" t="Include" />
+          <e p="SimonsConeCrusherByHourRepository.cs" t="Include" />
+          <e p="SimonsConeCrusherRepository.cs" t="Include" />
+          <e p="VerticalCrusherByDayRepository.cs" t="Include" />
+          <e p="VerticalCrusherByHourRepository.cs" t="Include" />
+          <e p="VerticalCrusherRepository.cs" t="Include" />
+          <e p="VibrosieveByDayRepository.cs" t="Include" />
+          <e p="VibrosieveByHourRepository.cs" t="Include" />
+          <e p="VibrosieveRepository.cs" t="Include" />
+        </e>
+        <e p="Services" t="Include">
+          <e p="ProductionLineRepository.cs" t="Include" />
+        </e>
+        <e p="Yunt.Device.Repository.EF.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.DIDC" t="IncludeRecursive">
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.DIDC.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Tasks" t="Include">
+          <e p="DayStatisticsTask.cs" t="Include" />
+        </e>
+        <e p="Yunt.DIDC.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Dtsc.Core" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ISchedulingJob.cs" t="Include" />
+        <e p="JobBase.cs" t="Include" />
+        <e p="JobHelper.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Dtsc.Core.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Yunt.Dtsc.Core.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Dtsc.CoreST" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ISchedulingJob.cs" t="Include" />
+        <e p="JobBase.cs" t="Include" />
+        <e p="JobHelper.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.0" t="Include">
+              <e p="Yunt.Dtsc.CoreST.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Yunt.Dtsc.CoreST.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Dtsc.Domain" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Model" t="Include">
+          <e p="CommandType.cs" t="Include" />
+          <e p="TbCategory.Biz.cs" t="Include" />
+          <e p="TbCategory.cs" t="Include" />
+          <e p="TbCommand.Biz.cs" t="Include" />
+          <e p="TbCommand.cs" t="Include" />
+          <e p="TbError.Biz.cs" t="Include" />
+          <e p="TbError.cs" t="Include" />
+          <e p="TbJob.Biz.cs" t="Include" />
+          <e p="TbJob.cs" t="Include" />
+          <e p="TbNode.Biz.cs" t="Include" />
+          <e p="TbNode.cs" t="Include" />
+          <e p="TbPerformance.Biz.cs" t="Include" />
+          <e p="TbPerformance.cs" t="Include" />
+          <e p="TbUser.Biz.cs" t="Include" />
+          <e p="TbUser.cs" t="Include" />
+          <e p="TbZip.Biz.cs" t="Include" />
+          <e p="TbZip.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Dtsc.Domain.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Yunt.Dtsc.Domain.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Dtsc.DomainST" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Model" t="Include">
+          <e p="CommandType.cs" t="Include" />
+          <e p="TbCategory.Biz.cs" t="Include" />
+          <e p="TbCategory.cs" t="Include" />
+          <e p="TbCommand.Biz.cs" t="Include" />
+          <e p="TbCommand.cs" t="Include" />
+          <e p="TbError.Biz.cs" t="Include" />
+          <e p="TbError.cs" t="Include" />
+          <e p="TbJob.Biz.cs" t="Include" />
+          <e p="TbJob.cs" t="Include" />
+          <e p="TbNode.Biz.cs" t="Include" />
+          <e p="TbNode.cs" t="Include" />
+          <e p="TbPerformance.Biz.cs" t="Include" />
+          <e p="TbPerformance.cs" t="Include" />
+          <e p="TbUser.Biz.cs" t="Include" />
+          <e p="TbUser.cs" t="Include" />
+          <e p="TbZip.Biz.cs" t="Include" />
+          <e p="TbZip.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.0" t="Include">
+              <e p="Yunt.Dtsc.DomainST.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Yunt.Dtsc.DomainST.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.HIDC" t="IncludeRecursive">
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.HIDC.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="PublishProfiles" t="Include">
+            <e p="FolderProfile.pubxml" t="Include" />
+          </e>
+        </e>
+        <e p="Tasks" t="Include">
+          <e p="HourStatisticsTask.cs" t="Include" />
+        </e>
+        <e p="Yunt.HIDC.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.IDC" t="IncludeRecursive">
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Helper" t="Include">
+          <e p="BytesToDb.cs" t="Include" />
+          <e p="Normalize.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.IDC.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="PublishProfiles" t="Include">
+            <e p="FolderProfile.pubxml" t="Include" />
+          </e>
+        </e>
+        <e p="Task" t="Include">
+          <e p="MqDealTask.cs" t="Include" />
+        </e>
+        <e p="Yunt.IDC.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Inventory.Domain" t="IncludeRecursive">
+        <e p="BaseModel" t="Include">
+          <e p="AggregateRoot.cs" t="Include" />
+          <e p="IAggregateRoot.cs" t="Include" />
+          <e p="IEntity.cs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="IRepository" t="Include">
+          <e p="IInventoryAlarmInfoRepository.cs" t="Include" />
+          <e p="IInventoryRepositoryBase.cs" t="Include" />
+          <e p="ISparePartsIdFactoriesRepository.cs" t="Include" />
+          <e p="ISparePartsRepository.cs" t="Include" />
+          <e p="ISparePartsTypeRepository.cs" t="Include" />
+          <e p="IWareHousesRepository.cs" t="Include" />
+        </e>
+        <e p="Model" t="Include">
+          <e p="IdModel" t="Include">
+            <e p="SparePartsIdFactories.cs" t="Include" />
+          </e>
+          <e p="InventoryAlarmInfo.cs" t="Include" />
+          <e p="SpareParts.cs" t="Include" />
+          <e p="SparePartsType.cs" t="Include" />
+          <e p="WareHouses.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Inventory.Domain.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Services" t="Include" />
+        <e p="Yunt.Inventory.Domain.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Inventory.Repository.EF" t="IncludeRecursive">
+        <e p="AutoMapperProfileConfiguration.cs" t="Include" />
+        <e p="BootStrap.cs" t="Include" />
+        <e p="Mappings" t="Include">
+          <e p="InventoryAlarmInfoMapping.cs" t="Include" />
+          <e p="SparePartsIdFactoriesMapping.cs" t="Include" />
+          <e p="SparePartsMapping.cs" t="Include" />
+          <e p="SparePartsTypeMapping.cs" t="Include" />
+          <e p="WareHousesMapping.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="BaseModel.cs" t="Include" />
+          <e p="IdModel" t="Include">
+            <e p="SparePartsIdFactories.cs" t="Include" />
+          </e>
+          <e p="InventoryAlarmInfo.cs" t="Include" />
+          <e p="SpareParts.cs" t="Include" />
+          <e p="SparePartsType.cs" t="Include" />
+          <e p="WareHouses.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Inventory.Repository.EF.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Repositories" t="Include">
+          <e p="ContextFactory.cs" t="Include" />
+          <e p="InventoryAlarmInfoRepository.cs" t="Include" />
+          <e p="InventoryContext.cs" t="Include" />
+          <e p="InventoryRepositoryBase.cs" t="Include" />
+          <e p="SparePartsIdFactoriesRepository.cs" t="Include" />
+          <e p="SparePartsRepository.cs" t="Include" />
+          <e p="SparePartsTypeRepository.cs" t="Include" />
+          <e p="WareHousesRepository.cs" t="Include" />
+        </e>
+        <e p="Yunt.Inventory.Repository.EF.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.MQ" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="DataType.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.MQ.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="RabbitMqExtention" t="Include">
+          <e p="BufferConverter.cs" t="Include" />
+          <e p="RabbitMQClient" t="Include">
+            <e p="ChannelPool.cs" t="Include" />
+            <e p="ConnectionPool.cs" t="Include" />
+            <e p="ConnectionWrapper.cs" t="Include" />
+            <e p="IModelWrapper.cs" t="Include" />
+            <e p="QueueModel.cs" t="Include" />
+            <e p="RabbitMQClientHelper.cs" t="Include" />
+            <e p="SessionModel.cs" t="Include" />
+            <e p="TimeHelper.cs" t="Include" />
+          </e>
+        </e>
+        <e p="RabbitMqHelper.cs" t="Include" />
+        <e p="Yunt.MQ.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.NetcoreTest" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.NetcoreTest.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Yunt.NetcoreTest.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Redis" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="BufferPool.cs" t="Include" />
+        <e p="CacheStatistics" t="Include">
+          <e p="IStatistics.cs" t="Include" />
+          <e p="Statistics.cs" t="Include" />
+        </e>
+        <e p="Command.cs" t="Include" />
+        <e p="Config" t="Include">
+          <e p="BaseRedisOptions.cs" t="Include" />
+          <e p="HostItem.cs" t="Include" />
+          <e p="RedisCacheOptions.cs" t="Include" />
+          <e p="ServerEndPoint.cs" t="Include" />
+        </e>
+        <e p="ConstValues.cs" t="Include" />
+        <e p="DataType.cs" t="Include" />
+        <e p="ExtensionsMethod.cs" t="Include" />
+        <e p="Field.cs" t="Include" />
+        <e p="InitRedis.cs" t="Include" />
+        <e p="IRedisCachingProvider.cs" t="Include" />
+        <e p="Keys.cs" t="Include" />
+        <e p="LineBuffer.cs" t="Include" />
+        <e p="MapSet.cs" t="Include" />
+        <e p="NameType.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Redis.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="RedisCachingProvider.cs" t="Include" />
+        <e p="RedisHost.cs" t="Include" />
+        <e p="RedisList.cs" t="Include" />
+        <e p="RedisSet.cs" t="Include" />
+        <e p="RedisType.cs" t="Include" />
+        <e p="Result.cs" t="Include" />
+        <e p="SortEntity.cs" t="Include" />
+        <e p="SortField.cs" t="Include" />
+        <e p="SortOrderType.cs" t="Include" />
+        <e p="StringEncoding.cs" t="Include" />
+        <e p="TcpClient.cs" t="Include" />
+        <e p="TcpReceiveArgs.cs" t="Include" />
+        <e p="utils.cs" t="Include" />
+        <e p="Yunt.Redis.csproj" t="IncludeRecursive" />
+        <e p="YuntRedisServiceExtensions.cs" t="Include" />
+      </e>
+      <e p="Yunt.sln" t="IncludeFlat" />
+      <e p="Yunt.WebApi\Yunt.WebApi.csproj" t="IncludeRecursive" />
+      <e p="Yunt.Xml.Domain" t="IncludeRecursive">
+        <e p="BaseModel" t="Include">
+          <e p="AggregateRoot.cs" t="Include" />
+          <e p="IAggregateRoot.cs" t="Include" />
+          <e p="IEntity.cs" t="Include" />
+        </e>
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="IRepository" t="Include">
+          <e p="ICollectdeviceRepository.cs" t="Include" />
+          <e p="IDataconfigRepository.cs" t="Include" />
+          <e p="IDataformmodelRepository.cs" t="Include" />
+          <e p="IDatatypeRepository.cs" t="Include" />
+          <e p="IMessagequeueRepository.cs" t="Include" />
+          <e p="IMotorparamsRepository.cs" t="Include" />
+          <e p="IMotorTypeRepository.cs" t="Include" />
+          <e p="IPhysicfeatureRepository.cs" t="Include" />
+          <e p="IProductionPlansRepository.cs" t="Include" />
+          <e p="IXmlRepositoryBase.cs" t="Include" />
+        </e>
+        <e p="MiddleMap" t="Include">
+          <e p="ControlGramModel.cs" t="Include" />
+          <e p="ControlMotorModel.cs" t="Include" />
+          <e p="DataGramModel.cs" t="Include" />
+          <e p="DataModel.cs" t="Include" />
+          <e p="IndexModel.cs" t="Include" />
+          <e p="MachineModel.cs" t="Include" />
+        </e>
+        <e p="Model" t="Include">
+          <e p="Collectdevice.cs" t="Include" />
+          <e p="DataConfig.cs" t="Include" />
+          <e p="DataFormModel.cs" t="Include" />
+          <e p="DataType.cs" t="Include" />
+          <e p="IdModel" t="Include" />
+          <e p="Messagequeue.cs" t="Include" />
+          <e p="MotorParams.cs" t="Include" />
+          <e p="Motortype.cs" t="Include" />
+          <e p="Physicfeature.cs" t="Include" />
+          <e p="ProductionPlans.cs" t="Include" />
+          <e p="WriteOrRead.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Xml.Domain.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Services" t="Include">
+          <e p="IBytesParseRepository.cs" t="Include" />
+        </e>
+        <e p="XmlMap" t="Include">
+          <e p="DataConfigModel.cs" t="Include" />
+          <e p="DataTypeModel.cs" t="Include" />
+          <e p="XmlInfo.cs" t="Include" />
+        </e>
+        <e p="Yunt.Xml.Domain.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.Xml.Repository.EF" t="IncludeRecursive">
+        <e p="AutoMapperProfileConfiguration.cs" t="Include" />
+        <e p="BootStrap.cs" t="Include" />
+        <e p="Mappings" t="Include">
+          <e p="CollectdeviceMapping.cs" t="Include" />
+          <e p="DataconfigMapping.cs" t="Include" />
+          <e p="DataformmodelMapping.cs" t="Include" />
+          <e p="DatatypeMapping.cs" t="Include" />
+          <e p="MessagequeueMapping.cs" t="Include" />
+          <e p="MotorParamsMapping.cs" t="Include" />
+          <e p="MotorTypeMapping.cs" t="Include" />
+          <e p="PhysicfeatureMapping.cs" t="Include" />
+          <e p="ProductionPlansMapping.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="BaseModel.cs" t="Include" />
+          <e p="Collectdevice.cs" t="Include" />
+          <e p="DataConfig.cs" t="Include" />
+          <e p="DataFormModel.cs" t="Include" />
+          <e p="DataType.cs" t="Include" />
+          <e p="IdModel" t="Include" />
+          <e p="Messagequeue.cs" t="Include" />
+          <e p="MotorParams.cs" t="Include" />
+          <e p="Motortype.cs" t="Include" />
+          <e p="Physicfeature.cs" t="Include" />
+          <e p="ProductionPlans.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.Xml.Repository.EF.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Repositories" t="Include">
+          <e p="CollectdeviceRepository.cs" t="Include" />
+          <e p="ContextFactory.cs" t="Include" />
+          <e p="DataconfigRepository.cs" t="Include" />
+          <e p="DataformmodelRepository.cs" t="Include" />
+          <e p="DatatypeRepository.cs" t="Include" />
+          <e p="MessagequeueRepository.cs" t="Include" />
+          <e p="MotorparamsRepository.cs" t="Include" />
+          <e p="MotorTypeRepository.cs" t="Include" />
+          <e p="PhysicfeatureRepository.cs" t="Include" />
+          <e p="ProductionPlansRepository.cs" t="Include" />
+          <e p="XmlContext.cs" t="Include" />
+          <e p="XmlRepositoryBase.cs" t="Include" />
+        </e>
+        <e p="Services" t="Include">
+          <e p="BytesParseRepository.cs" t="Include" />
+        </e>
+        <e p="Yunt.Xml.Repository.EF.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.XmlCheck" t="IncludeRecursive">
+        <e p="App.config" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="log" t="Include">
+          <e p="20180526_0.log" t="Include" />
+          <e p="20180526_1.log" t="Include" />
+          <e p="20180526_2.log" t="Include" />
+          <e p="20180526_3.log" t="Include" />
+          <e p="20180526_4.log" t="Include" />
+          <e p="20180526_5.log" t="Include" />
+          <e p="20180526_6.log" t="Include" />
+        </e>
+        <e p="Main" t="Include">
+          <e p="XmlParse.cs" t="Include" />
+          <e p="XmlParse1.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.XmlCheck.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="XmlFile" t="Include">
+          <e p="DataConfig.xml" t="Include" />
+          <e p="DataType.xml" t="Include" />
+          <e p="mini_cfg.xml" t="Include" />
+          <e p="wdd.v0.6.3.3.xml" t="Include" />
+          <e p="wdd.xml" t="Include" />
+          <e p="wudd.xml" t="Include" />
+        </e>
+        <e p="Yunt.XmlCheck.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Yunt.XmlProtocol.Domain" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="MiddleMap" t="Include">
+          <e p="ControlGramModel.cs" t="Include" />
+          <e p="ControlMotorModel.cs" t="Include" />
+          <e p="DataGramModel.cs" t="Include" />
+          <e p="DataModel.cs" t="Include" />
+          <e p="IndexModel.cs" t="Include" />
+          <e p="MachineModel.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="Collectdevice.Biz.cs" t="Include" />
+          <e p="Collectdevice.cs" t="Include" />
+          <e p="DataConfig.Biz.cs" t="Include" />
+          <e p="DataConfig.cs" t="Include" />
+          <e p="DataFormModel.Biz.cs" t="Include" />
+          <e p="DataFormModel.cs" t="Include" />
+          <e p="DataType.Biz.cs" t="Include" />
+          <e p="DataType.cs" t="Include" />
+          <e p="Messagequeue.Biz.cs" t="Include" />
+          <e p="Messagequeue.cs" t="Include" />
+          <e p="Motorparams.Biz.cs" t="Include" />
+          <e p="MotorParams.cs" t="Include" />
+          <e p="Motortype.Biz.cs" t="Include" />
+          <e p="Motortype.cs" t="Include" />
+          <e p="Physicfeature.Biz.cs" t="Include" />
+          <e p="Physicfeature.cs" t="Include" />
+          <e p="ProductionPlans.Biz.cs" t="Include" />
+          <e p="ProductionPlans.cs" t="Include" />
+          <e p="WriteOrRead.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp2.0" t="Include">
+              <e p="Yunt.XmlProtocol.Domain.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Service" t="Include">
+          <e p="ByteParse.cs" t="Include" />
+          <e p="MqHandler.cs" t="Include" />
+          <e p="XmlProtocolHelper.cs" t="Include" />
+        </e>
+        <e p="XmlMap" t="Include">
+          <e p="DataConfigModel.cs" t="Include" />
+          <e p="DataTypeModel.cs" t="Include" />
+          <e p="XmlInfo.cs" t="Include" />
+        </e>
+        <e p="Yunt.XmlProtocol.Domain.csproj" t="IncludeRecursive" />
+      </e>
+    </e>
+  </component>
+</project>

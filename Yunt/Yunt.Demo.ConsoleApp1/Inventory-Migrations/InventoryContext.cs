@@ -32,6 +32,25 @@ namespace Yunt.Demo.ConsoleApp1
 
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<InventoryAlarmInfo>().Property(u => u.SparePartsId).HasMaxLength(20);
+
+            modelBuilder.Entity<SpareParts>().Property(u => u.Description).HasMaxLength(50);
+            modelBuilder.Entity<SpareParts>().Property(u => u.FactoryInfo).HasMaxLength(50);
+            modelBuilder.Entity<SpareParts>().Property(u => u.InOperator).HasMaxLength(10);
+            modelBuilder.Entity<SpareParts>().Property(u => u.MotorId).HasMaxLength(20);
+            modelBuilder.Entity<SpareParts>().Property(u => u.OutOperator).HasMaxLength(10);
+            modelBuilder.Entity<SpareParts>().Property(u => u.SparePartsId).HasMaxLength(20);
+            modelBuilder.Entity<SpareParts>().Property(u => u.SparePartsName).HasMaxLength(20);
+            modelBuilder.Entity<SpareParts>().Property(u => u.SparePartsTypeId).HasMaxLength(10);
+            modelBuilder.Entity<SpareParts>().Property(u => u.WareHousesId).HasMaxLength(20);
+            modelBuilder.Entity<SparePartsIdFactories>().Property(u => u.SparePartsTypeId).HasMaxLength(10);
+            modelBuilder.Entity<SparePartsType>().Property(u => u.SparePartsTypeId).HasMaxLength(10);
+            modelBuilder.Entity<SparePartsType>().Property(u => u.Name).HasMaxLength(10);
+            modelBuilder.Entity<WareHouses>().Property(u => u.Keeper).HasMaxLength(10);
+            modelBuilder.Entity<WareHouses>().Property(u => u.MotorTypeId).HasMaxLength(4);
+            modelBuilder.Entity<WareHouses>().Property(u => u.Name).HasMaxLength(20);
+            modelBuilder.Entity<WareHouses>().Property(u => u.Remark).HasMaxLength(50);
+            modelBuilder.Entity<WareHouses>().Property(u => u.WareHousesId).HasMaxLength(20);
         }
 
 

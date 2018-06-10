@@ -166,6 +166,20 @@ namespace Yunt.Demo.ConsoleApp1
             modelBuilder.Entity<OriginalBytes>().HasIndex(u => new { u.EmbeddedDeviceId, u.ProductionLineId,u.Time});
             modelBuilder.Entity<OriginalBytes>().Property(u => u.ProductionLineId).HasMaxLength(15).IsRequired();
             modelBuilder.Entity<OriginalBytes>().Property(u => u.EmbeddedDeviceId).HasMaxLength(10).IsRequired();
+
+            modelBuilder.Entity<Motor>().Property(u => u.Name).HasMaxLength(20);
+            modelBuilder.Entity<Motor>().Property(u => u.ProductSpecification).HasMaxLength(20);
+            modelBuilder.Entity<Motor>().Property(u => u.ProductionLineId).HasMaxLength(15);
+            modelBuilder.Entity<Motor>().Property(u => u.SerialNumber).HasMaxLength(20);
+            modelBuilder.Entity<Motor>().Property(u => u.Name).HasMaxLength(20);
+            modelBuilder.Entity<Motor>().Property(u => u.Name).HasMaxLength(20);
+            modelBuilder.Entity<Motor>().Property(u => u.Name).HasMaxLength(20);
+            modelBuilder.Entity<Motor>().Property(u => u.Name).HasMaxLength(20);
+
+            modelBuilder.Entity<ProductionLine>().Property(u => u.ProductionLineId).HasMaxLength(15);
+            modelBuilder.Entity<ProductionLine>().Property(u => u.Name).HasMaxLength(20);
+            modelBuilder.Entity<OriginalBytes>().Property(u => u.Bytes).HasMaxLength(10000);
+            modelBuilder.Entity<MotorType>().Property(u => u.Name).HasMaxLength(20);
             #endregion
 
             // var namespaces = MethodBase.GetCurrentMethod().DeclaringType.Namespace;

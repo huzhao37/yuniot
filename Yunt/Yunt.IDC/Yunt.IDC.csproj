@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
   <ItemGroup>
@@ -29,7 +29,6 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.0.2" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Xml" Version="2.0.2" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="2.0.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.Extensions.ToSql" Version="2.0.0-rtm-10002" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
@@ -40,10 +39,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Yunt.Analysis.Domain\Yunt.Analysis.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.Analysis.Repository.EF\Yunt.Analysis.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
     <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.Device.Repository.EF\Yunt.Device.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.MQ\Yunt.MQ.csproj" />
     <ProjectReference Include="..\Yunt.Xml.Domain\Yunt.Xml.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.Xml.Repository.EF\Yunt.Xml.Repository.EF.csproj" />
   </ItemGroup>
 
 </Project>

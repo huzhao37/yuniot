@@ -18,7 +18,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
-                .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
+                .HasAnnotation("ProductVersion", "2.0.3-rtm-10026");
 
             modelBuilder.Entity("Yunt.Auth.Repository.EF.Models.IdModel.UserIdFactories", b =>
                 {
@@ -40,16 +40,21 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("LoginAccount")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(10);
 
                     b.Property<string>("LoginPwd")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(20);
 
-                    b.Property<string>("Mail");
+                    b.Property<string>("Mail")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("MobileNo");
+                    b.Property<string>("MobileNo")
+                        .HasMaxLength(20);
 
-                    b.Property<string>("Remark");
+                    b.Property<string>("Remark")
+                        .HasMaxLength(100);
 
                     b.Property<long>("Time");
 
@@ -58,10 +63,10 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                         .HasMaxLength(15);
 
                     b.Property<string>("UserName")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(10);
 
-                    b.Property<string>("UserRoleId")
-                        .IsRequired();
+                    b.Property<int>("UserRoleId");
 
                     b.HasKey("Id");
 
@@ -74,9 +79,11 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Desc")
-                        .IsRequired();
+                        .IsRequired()
+                        .HasMaxLength(20);
 
-                    b.Property<string>("Remark");
+                    b.Property<string>("Remark")
+                        .HasMaxLength(100);
 
                     b.Property<long>("Time");
 

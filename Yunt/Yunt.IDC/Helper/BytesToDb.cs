@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
+using Yunt.Analysis.Domain.IRepository;
+using Yunt.Analysis.Domain.Model;
 using Yunt.Common;
 using Yunt.Device.Domain.BaseModel;
 using Yunt.Device.Domain.IRepository;
@@ -49,6 +52,7 @@ namespace Yunt.IDC.Helper
         private static IOriginalBytesRepository bytesRepository;
         private static readonly ICollectdeviceRepository CollectdeviceRepository;
         public static readonly IDataformmodelRepository DataformmodelRepository;
+        public static readonly IMotorEventLogRepository MotorEventLogRepository;
         static BytesToDb()
         {
             var wddQueue = MqDealTask.WddQueue;
@@ -79,6 +83,7 @@ namespace Yunt.IDC.Helper
             bytesRepository= ServiceProviderServiceExtensions.GetService<IOriginalBytesRepository>(Program.Providers["Device"]);
             CollectdeviceRepository = ServiceProviderServiceExtensions.GetService<ICollectdeviceRepository>(Program.Providers["Xml"]);
             DataformmodelRepository = ServiceProviderServiceExtensions.GetService<IDataformmodelRepository>(Program.Providers["Xml"]);
+            MotorEventLogRepository= ServiceProviderServiceExtensions.GetService<IMotorEventLogRepository>(Program.Providers["Analysis"]);
         }
 
         public static bool Saving(DataGramModel model, string buffer)
@@ -137,7 +142,7 @@ namespace Yunt.IDC.Helper
                                     {
                                         //给料机
                                         var mf=new MaterialFeeder();
-                                        var obj = MotorObj(pvalue, motor.MotorId, mf);
+                                        var obj = MotorObj(pvalue, motor, mf);
                                         if (obj != null)
                                             mfRepository.InsertAsync(obj as MaterialFeeder);
                                         break;
@@ -146,7 +151,7 @@ namespace Yunt.IDC.Helper
                                     {
                                         //粗鄂破
                                         var jc = new JawCrusher();
-                                        var obj = MotorObj(pvalue, motor.MotorId, jc);
+                                        var obj = MotorObj(pvalue, motor, jc);
                                         if (obj != null)
                                             jcRepository.InsertAsync(obj as JawCrusher);
                                         break;
@@ -155,7 +160,7 @@ namespace Yunt.IDC.Helper
                                     {
                                         //单杠圆锥破碎机
                                         var mf = new ConeCrusher();
-                                        var obj = MotorObj(pvalue, motor.MotorId, mf);
+                                        var obj = MotorObj(pvalue, motor, mf);
                                         if (obj != null)
                                             ccRepository.InsertAsync(obj as ConeCrusher);
                                         break;
@@ -164,7 +169,7 @@ namespace Yunt.IDC.Helper
                                     {
                                         //立轴破
                                         var mf = new VerticalCrusher();
-                                        var obj = MotorObj(pvalue, motor.MotorId, mf);
+                                        var obj = MotorObj(pvalue, motor, mf);
                                         if (obj != null)
                                             vcRepository.InsertAsync(obj as VerticalCrusher);
                                         break;
@@ -173,7 +178,7 @@ namespace Yunt.IDC.Helper
                                     {
                                         //振动筛
                                         var mf = new Vibrosieve();
-                                        var obj = MotorObj(pvalue, motor.MotorId, mf);
+                                        var obj = MotorObj(pvalue, motor, mf);
                                         if (obj != null)
                                             vibRepository.InsertAsync(obj as Vibrosieve);
                                         break;
@@ -182,7 +187,7 @@ namespace Yunt.IDC.Helper
                                     {
                                         //皮带机
                                         var mf = new Conveyor();
-                                        var obj = MotorObj(pvalue, motor.MotorId, mf);
+                                        var obj = MotorObj(pvalue, motor, mf);
                                         if (obj != null)
                                             cyRepository.InsertAsync(obj as Conveyor);
                                         break;
@@ -191,7 +196,7 @@ namespace Yunt.IDC.Helper
                                     {
                                         //西蒙斯圆锥破碎机
                                         var mf = new SimonsConeCrusher();
-                                        var obj = MotorObj(pvalue, motor.MotorId, mf);
+                                        var obj = MotorObj(pvalue, motor, mf);
                                         if (obj != null)
                                             sccRepository.InsertAsync(obj as SimonsConeCrusher);
                                         break;
@@ -200,7 +205,7 @@ namespace Yunt.IDC.Helper
                                     {
                                         //磨粉机
                                         var mf = new Pulverizer();
-                                        var obj = MotorObj(pvalue, motor.MotorId, mf);
+                                        var obj = MotorObj(pvalue, motor, mf);
                                         if (obj != null)
                                             pulRepository.InsertAsync(obj as Pulverizer);
                                         break;
@@ -209,7 +214,7 @@ namespace Yunt.IDC.Helper
                                     {
                                         //反击破
                                         var mf = new ImpactCrusher();
-                                        var obj = MotorObj(pvalue, motor.MotorId, mf);
+                                        var obj = MotorObj(pvalue, motor, mf);
                                         if (obj != null)
                                             icRepository.InsertAsync(obj as ImpactCrusher);
                                         break;
@@ -217,7 +222,7 @@ namespace Yunt.IDC.Helper
                                 case "HVB":
                                     {
                                         var mf = new HVib();
-                                        var obj = MotorObj(pvalue, motor.MotorId, mf);
+                                        var obj = MotorObj(pvalue, motor, mf);
                                         if (obj != null)
                                             hvibRepository.InsertAsync(obj as HVib);
                                         break;
@@ -226,7 +231,7 @@ namespace Yunt.IDC.Helper
                                     {
                                         //可逆锤破碎机
                                         var mf = new ReverHammerCrusher();
-                                        var obj = MotorObj(pvalue, motor.MotorId, mf);
+                                        var obj = MotorObj(pvalue, motor, mf);
                                         if (obj != null)
                                             rhcRepository.InsertAsync(obj as ReverHammerCrusher);
                                         break;
@@ -236,7 +241,7 @@ namespace Yunt.IDC.Helper
                                     {
                                         //双齿辊破碎机
                                         var mf = new DoubleToothRollCrusher();
-                                        var obj = MotorObj(pvalue, motor.MotorId, mf);
+                                        var obj = MotorObj(pvalue, motor, mf);
                                         if (obj != null)
                                             dtrRepository.InsertAsync(obj as DoubleToothRollCrusher);
                                         break;
@@ -275,14 +280,14 @@ namespace Yunt.IDC.Helper
         }
 
         #region private methods
-        private static dynamic MotorObj(KeyValuePair<DateTime, List<int>> pvalue, string motorId, dynamic obj)
+        private static dynamic MotorObj(KeyValuePair<DateTime, List<int>> pvalue, Motor motor, dynamic obj)
         {
             var time = pvalue.Key.TimeSpan();
             var values = pvalue.Value;
             var type = obj.GetType();
             //var where = " MotorId = '"+motorId + "' and  BitDesc = '整型模拟量'";
 
-            var forms = DataformmodelRepository.GetEntities(e=>e.MotorId.Equals(motorId)&&e.BitDesc.EqualIgnoreCase("整型模拟量")).ToList();
+            var forms = DataformmodelRepository.GetEntities(e=>e.MotorId.Equals(motor.MotorId) &&e.BitDesc.EqualIgnoreCase("整型模拟量")).ToList();
             if (!forms.Any())
                 return null;
             for (var i = 0; i < forms.Count(); i++)
@@ -290,6 +295,18 @@ namespace Yunt.IDC.Helper
                 var form = forms[i];
                 form.Value = Normalize.ConvertToNormal(form, values);
                 DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
+                //添加AI分析记录
+                MotorEventLogRepository.AddAiLogAsync(new AiLog()
+                {
+                    MotorId = motor.MotorId,
+                    MotorName = motor.Name,
+                    ProductionLineId = motor.ProductionLineId,
+                    Param = form.FieldParam,
+                    Value = (float)form.Value,
+                    MotorTypeId = motor.MotorTypeId,
+                    Time = time
+                });         
+
                 if (string.IsNullOrWhiteSpace(form.FieldParamEn))
                     continue;
                 var info = type.GetProperty(form.FieldParamEn);
@@ -298,7 +315,7 @@ namespace Yunt.IDC.Helper
                 info?.SetValue(obj, Convert.ToSingle(Math.Round((decimal)form.Value, 2)));//保留两位小数
             }
             var idInfo = type.GetProperty("MotorId");
-            idInfo.SetValue(obj, motorId);
+            idInfo.SetValue(obj, motor.MotorId);
             var timeInfo = type.GetProperty("Time");
             timeInfo.SetValue(obj, time);
 

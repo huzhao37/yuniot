@@ -34,7 +34,16 @@ namespace Yunt.Demo.ConsoleApp1
             modelBuilder.Entity<User>().Property(u => u.UserName).IsRequired();
             modelBuilder.Entity<User>().Property(u => u.UserRoleId).IsRequired();
             modelBuilder.Entity<User>().Property(u =>  u.UserId).HasMaxLength(15).IsRequired();
+            modelBuilder.Entity<User>().Property(u => u.LoginAccount).HasMaxLength(10);
+            modelBuilder.Entity<User>().Property(u => u.LoginPwd).HasMaxLength(20);
+            modelBuilder.Entity<User>().Property(u => u.Mail).HasMaxLength(50);
+            modelBuilder.Entity<User>().Property(u => u.MobileNo).HasMaxLength(20);
+            modelBuilder.Entity<User>().Property(u => u.Remark).HasMaxLength(100);
+            modelBuilder.Entity<User>().Property(u => u.UserName).HasMaxLength(10);
+
             modelBuilder.Entity<UserRole>().Property(u => u.Desc).IsRequired();
+            modelBuilder.Entity<UserRole>().Property(u => u.Remark).HasMaxLength(100);
+            modelBuilder.Entity<UserRole>().Property(u => u.Desc).HasMaxLength(20);
             modelBuilder.Entity<UserIdFactories>().Property(u => u.UserIndex).IsRequired();
         }
 

@@ -1,21 +1,25 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>G:\2018\Yunt\Yunt\commondll\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.0-alpha-0001" />
     <PackageReference Include="AutoMapper.Extensions" Version="1.0.0" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="2.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.3" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.Extensions.ToSql" Version="2.0.0-rtm-10002" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
-    <PackageReference Include="protobuf-net" Version="2.3.8-alpha2" />
-    <PackageReference Include="SyrianBallaS.AutoMapper.Extensions.Microsoft.DependencyInjection.Signed" Version="3.2.0" />
+    <PackageReference Include="protobuf-net" Version="2.3.7" />
   </ItemGroup>
 
   <ItemGroup>

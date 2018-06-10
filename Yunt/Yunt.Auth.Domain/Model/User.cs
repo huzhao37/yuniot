@@ -30,7 +30,7 @@ namespace Yunt.Auth.Domain.Model
         [DataMember]
         [DisplayName("角色编号")]
         [ProtoMember(2)]
-        public string UserRoleId { get; set; }
+        public int UserRoleId { get; set; }
         /// <summary>
         /// 用户名称
         /// </summary>

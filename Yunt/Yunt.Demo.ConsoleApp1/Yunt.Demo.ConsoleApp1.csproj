@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Analysis-Migrations\**" />
     <Compile Remove="Auth-Migrations\**" />
     <Compile Remove="conecrusher2\**" />
     <Compile Remove="cone\**" />
@@ -17,7 +18,6 @@
     <Compile Remove="doubletoothrollcrusher\**" />
     <Compile Remove="impactcrusher2\**" />
     <Compile Remove="impactcrusher\**" />
-    <Compile Remove="Inventory-Migrations\**" />
     <Compile Remove="jawcrusher2\**" />
     <Compile Remove="jawcrusher\**" />
     <Compile Remove="materialfeeder2\**" />
@@ -33,6 +33,7 @@
     <Compile Remove="verticalcrusher\**" />
     <Compile Remove="vibrosieve2\**" />
     <Compile Remove="vibrosieve\**" />
+    <EmbeddedResource Remove="Analysis-Migrations\**" />
     <EmbeddedResource Remove="Auth-Migrations\**" />
     <EmbeddedResource Remove="conecrusher2\**" />
     <EmbeddedResource Remove="cone\**" />
@@ -44,7 +45,6 @@
     <EmbeddedResource Remove="doubletoothrollcrusher\**" />
     <EmbeddedResource Remove="impactcrusher2\**" />
     <EmbeddedResource Remove="impactcrusher\**" />
-    <EmbeddedResource Remove="Inventory-Migrations\**" />
     <EmbeddedResource Remove="jawcrusher2\**" />
     <EmbeddedResource Remove="jawcrusher\**" />
     <EmbeddedResource Remove="materialfeeder2\**" />
@@ -60,6 +60,7 @@
     <EmbeddedResource Remove="verticalcrusher\**" />
     <EmbeddedResource Remove="vibrosieve2\**" />
     <EmbeddedResource Remove="vibrosieve\**" />
+    <None Remove="Analysis-Migrations\**" />
     <None Remove="Auth-Migrations\**" />
     <None Remove="conecrusher2\**" />
     <None Remove="cone\**" />
@@ -71,7 +72,6 @@
     <None Remove="doubletoothrollcrusher\**" />
     <None Remove="impactcrusher2\**" />
     <None Remove="impactcrusher\**" />
-    <None Remove="Inventory-Migrations\**" />
     <None Remove="jawcrusher2\**" />
     <None Remove="jawcrusher\**" />
     <None Remove="materialfeeder2\**" />
@@ -122,10 +122,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Yunt.Analysis.Repository.EF\Yunt.Analysis.Repository.EF.csproj" />
+    <ProjectReference Include="..\Yunt.Auth.Repository.EF\Yunt.Auth.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
     <ProjectReference Include="..\Yunt.Device.Repository.EF\Yunt.Device.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.Dtsc.Core\Yunt.Dtsc.Core.csproj" />
     <ProjectReference Include="..\Yunt.Dtsc.Domain\Yunt.Dtsc.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.Inventory.Repository.EF\Yunt.Inventory.Repository.EF.csproj" />
+    <ProjectReference Include="..\Yunt.Xml.Repository.EF\Yunt.Xml.Repository.EF.csproj" />
   </ItemGroup>
 
 </Project>

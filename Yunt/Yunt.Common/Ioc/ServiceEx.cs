@@ -4,10 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.Loader;
-using System.Text;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Yunt.Common.Assemblies;
+
 
 namespace Yunt.Common
 {
@@ -32,36 +31,37 @@ namespace Yunt.Common
                 var files = new DirectoryInfo(path).GetFiles();
                 foreach (var f in files)
                 {
-                    if (f.Name.Contains(".dll") && f.Name.Contains("Repository"))
-                    {                     
-                        var dll = AssemblyLoadContext.Default.LoadFromAssemblyPath(f.FullName);
-                        // Assembly.LoadFrom(f.FullName);
-                        AssemblyEx.GetReferencingAssemblies(f.FullName);
-                        AssemblyLoadContext.Default.LoadFromAssemblyPath(path+"\\Yunt.Redis.dll");
-                        if(dll==null) continue;
-                        var types = dll.GetTypes().Where(a => a.IsClass && a.Name.Equals("BootStrap"));
-                        types.ToList().ForEach(d =>
-                        {                          
-                            var method = d.GetMethod("Start", BindingFlags.Instance | BindingFlags.Public);
+                    if (!f.Name.Contains(".dll") || !f.Name.Contains("Repository")) continue;
+                    var dll = AssemblyLoadContext.Default.LoadFromAssemblyPath(f.FullName);
+                 
+                    //AssemblyEx.GetReferencingAssemblies(f.FullName);
+                   // AssemblyLoadContext.Default.LoadFromAssemblyPath(path+"\\Yunt.Redis.dll");
+                    if(dll==null) continue;
+                    //Logger.Info(dll?.FullName??"null");
+                    //Logger.Info(dll?.Location??"null");
+                    var types = dll.GetTypes()?.Where(a => a.IsClass && a.Name.Equals("BootStrap"));
+                    if(!types?.Any()??false)
+                        continue;
+                    types.ToList().ForEach(d =>
+                    {                          
+                        var method = d.GetMethod("Start", BindingFlags.Instance | BindingFlags.Public);
 
-                            var method2 = d.GetMethod("ContextInit", BindingFlags.Instance | BindingFlags.Public);
-                            var obj = Activator.CreateInstance(d);
+                        var method2 = d.GetMethod("ContextInit", BindingFlags.Instance | BindingFlags.Public);
+                        var obj = Activator.CreateInstance(d);
 
                            
-                            method.Invoke(obj, new object[] { services, configuration });
-                            var serviceProvider = services.BuildServiceProvider();
-                            method2.Invoke(obj, new object[] { serviceProvider });
+                        method.Invoke(obj, new object[] { services, configuration });
+                        var serviceProvider = services.BuildServiceProvider();
+                        method2.Invoke(obj, new object[] { serviceProvider });
 
-                            var attribute = d.GetCustomAttributes(typeof(ServiceAttribute), false).FirstOrDefault();
+                        var attribute = d.GetCustomAttributes(typeof(ServiceAttribute), false).FirstOrDefault();
 
-                            if (attribute != null)
-                            {
-                                providers.Add(((ServiceAttribute)attribute).Name.ToString(), serviceProvider); ;
-                            }
+                        if (attribute != null)
+                        {
+                            providers.Add(((ServiceAttribute)attribute).Name.ToString(), serviceProvider); ;
+                        }
 
-                        });
-
-                    }
+                    });
                 }
 
             }

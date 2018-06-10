@@ -1,13 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NewLife.Log;
 using NewLife.Threading;
+using Quartz;
+using Quartz.Impl;
 using Yunt.Common;
-using Yunt.DIDC.Task;
+using Yunt.DIDC.Tasks;
 using Yunt.Xml.Domain.Model;
 
 namespace Yunt.DIDC
@@ -17,9 +22,11 @@ namespace Yunt.DIDC
         public static IConfigurationRoot Configuration;
         public static Dictionary<string, IServiceProvider> Providers;
 
-        public static TimerX _timerX;
-        static void Main(string[] args)
+        public static IScheduler Sched;
+        //public static TimerX _timerX;
+        static  void Main(string[] args)
         {
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-us");
             #region init
             XTrace.UseConsole(true, true);
             XTrace.Log.Level = LogLevel.Info;//打印错误级别的日志
@@ -29,23 +36,57 @@ namespace Yunt.DIDC
 
             services.AddAutoMapper(typeof(Program).Assembly);
 
-
+            //var day=new DayStatisticsTask();
+            //day.ExcuteAnalysis();
 
             #endregion
 
             while (true)
             {
-                if (_timerX == null)
-                    _timerX = new TimerX(obj =>
-                    {
-                        DayStatisticsTask.Start();
-
-                    }, null, 1000, 24*60 * 60 * 1000);
-
-                System.Threading.Thread.Sleep(10000);
+                if(Sched?.IsShutdown??false)
+                    break;
+                if(Sched==null)
+                    Start();
+                Thread.Sleep(60*1000);
             }
+        }
+        public static async Task Start()
+        {
+            var sf = new StdSchedulerFactory();
+            Sched = await sf.GetScheduler();
+            var job = JobBuilder.Create<DayStatisticsTask>()
+                .WithIdentity("dayJob", "group1")
+                .Build();
+
+            var trigger = TriggerBuilder.Create()
+                    .WithIdentity("dayTrigger", "group1")
+                    .StartNow()
+                    .WithCronSchedule("0 2 0 * * ? *")
+                    .Build();
+
+            await Sched.ScheduleJob(job, trigger);
+
+            await Sched.Start();
 
 
+
+            //while (true)
+            //{
+            //    if (_timerX == null)
+            //        _timerX = new TimerX(obj =>
+            //        {
+            //            task.Start();
+
+            //        }, null, 1000, 24*60 * 60 * 1000);
+
+            //    System.Threading.Thread.Sleep(10000);
+            //}
+
+        }
+
+        public static async Task Stop()
+        {
+            await Sched.Shutdown(true);
 
         }
         /// <summary>
@@ -71,4 +112,6 @@ namespace Yunt.DIDC
             Providers = providers;
         }
     }
+
+
 }
