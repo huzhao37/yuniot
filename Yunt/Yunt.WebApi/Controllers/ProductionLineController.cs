@@ -85,8 +85,16 @@ namespace Yunt.WebApi.Controllers
         [Route("MainConveyorReal")]
         public MainConveyorReal MainConveyorReal(string motorId)
         {
+            var motor = _motorRepository.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId))?.FirstOrDefault();
+            if(motor==null) return new MainConveyorReal
+            {
+                AccumulativeWeight = 0,
+                InstantWeight = 0,
+                LoadStall = 0,
+                RunningTime = 0
+            };
             // var motorId= _motorRepository.GetEntities(e=>e.ProductionLineId.Equals(productionlineId)&&e.MotorId).SingleOrDefault().MotorId
-            var data = _conveyorByHourRepository.GetRealData(motorId);
+            var data = _conveyorByHourRepository.GetRealData(motor);
             return new MainConveyorReal
             {
                 AccumulativeWeight = data.AccumulativeWeight,
