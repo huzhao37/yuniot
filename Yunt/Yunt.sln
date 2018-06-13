@@ -135,6 +135,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analysis【分析】", "Ana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Analysis.Repository.EF", "Yunt.Analysis.Repository.EF\Yunt.Analysis.Repository.EF.csproj", "{C3B6CDB0-2488-4074-8663-E1E2C71C3E0D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.IDA", "Yunt.IDA\Yunt.IDA.csproj", "{C327B97A-2D84-4878-AD98-19F6D3D6CD95}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -285,6 +287,10 @@ Global
 		{C3B6CDB0-2488-4074-8663-E1E2C71C3E0D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3B6CDB0-2488-4074-8663-E1E2C71C3E0D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3B6CDB0-2488-4074-8663-E1E2C71C3E0D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C327B97A-2D84-4878-AD98-19F6D3D6CD95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C327B97A-2D84-4878-AD98-19F6D3D6CD95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C327B97A-2D84-4878-AD98-19F6D3D6CD95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C327B97A-2D84-4878-AD98-19F6D3D6CD95}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -351,6 +357,7 @@ Global
 		{41A50367-42D6-4D2F-9D12-622D05E6C1A3} = {965CA4A1-BA6C-4759-B634-9D4FD7593D22}
 		{3C63E963-B091-4AAD-A546-872770BB4312} = {E3B2BA8E-8321-4F3C-B26F-086B884BACB1}
 		{C3B6CDB0-2488-4074-8663-E1E2C71C3E0D} = {3C63E963-B091-4AAD-A546-872770BB4312}
+		{C327B97A-2D84-4878-AD98-19F6D3D6CD95} = {73DFB34D-E68B-4743-99F1-62F1ACF4615B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {21291A92-566E-4900-A78D-61F038214566}

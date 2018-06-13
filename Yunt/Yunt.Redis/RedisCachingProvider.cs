@@ -96,7 +96,7 @@ namespace Yunt.Redis
                     cmd.Add(pwd);
                     using (var result = TcpClient.Send(cmd, c.Client))
                     {
-                        return result.ResultData.ToString().Equals("OK\r\n");
+                        return result?.ResultData.ToString().Equals("OK\r\n")??false;
                     }
                 }         
         }

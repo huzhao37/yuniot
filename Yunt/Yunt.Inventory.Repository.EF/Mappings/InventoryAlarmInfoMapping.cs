@@ -16,7 +16,7 @@ namespace Yunt.Inventory.Repository.EF.Mappings
         {
             entity.ToTable("InventoryAlarmInfo");
             entity.HasKey(m => m.Id);
-            entity.Property(m => m.SparePartsId).IsRequired();
+            entity.Property(m => m.SparePartsTypeId).IsRequired();
             entity.Property(m => m.InventoryBalance).IsRequired();
             entity.Property(m => m.CreateTime).IsRequired();
 

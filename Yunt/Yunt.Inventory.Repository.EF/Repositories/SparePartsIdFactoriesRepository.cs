@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Yunt.Common;
 using Yunt.Inventory.Domain.IRepository;
-using Yunt.Inventory.Domain.Model;
-using Yunt.Inventory.Domain.Model.IdModel;
+using Yunt.Inventory.Repository.EF.Models;
+using Yunt.Inventory.Repository.EF.Models.IdModel;
 using Yunt.Redis;
 
 namespace Yunt.Inventory.Repository.EF.Repositories

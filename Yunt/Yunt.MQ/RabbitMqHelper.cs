@@ -43,7 +43,7 @@ namespace Yunt.MQ
         ///  <param name="errorQueueName">错误数据队列名称</param>
         /// <param name="operation">匿名委托方法</param>
         /// <param name="type">数据类型</param>
-        public void Read<T>(string brokerUri, string queueName,string routKey,string exchange,
+        public void Read<T>(string brokerUri, string queueName, string routKey, string exchange,
             string hostName, int port, string username, string password, int rabbitMqResolveInterval,
             string errorQueueName, Func<byte[], T, bool> operation, T type)
         {
@@ -83,7 +83,7 @@ namespace Yunt.MQ
 
                         _channel = _connection.CreateModel();
                         var declare = _channel.QueueDeclare(queueName, true, false, false, null);
-                        _channel.QueueBind(queue: queueName, exchange: exchange,routingKey: routKey);
+                        _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
                         var messageCount = declare.MessageCount;//获取当前队列中的未读消息数
 #if DEBUG
                         if (messageCount > 2)
@@ -107,7 +107,7 @@ namespace Yunt.MQ
                         var bytes = args.Body;
                         _subscription.Ack(args);
 
-                        Write(brokerUri, args.Body, queueName + "BK", queueName + "BK",exchange, username, password);
+                        Write(brokerUri, args.Body, queueName + "BK", queueName + "BK", exchange, username, password);
                         try
                         {
 #if DEBUG
@@ -223,7 +223,7 @@ namespace Yunt.MQ
                 if (_factory == null)
                     _factory = new ConnectionFactory()
                     {
-                        Uri = new Uri(brokerUri) ,
+                        Uri = new Uri(brokerUri),
                         RequestedHeartbeat = 30,
                         HostName = hostName,
                         Port = port,
@@ -250,6 +250,52 @@ namespace Yunt.MQ
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// 队列写入;
+        /// </summary>
+        /// <param name="uri">连接字符串</param>
+        /// <param name="buffer">数据</param>
+        /// <param name="queueName">队列名(默认与路由关键字一致)</param>
+        /// <param name="routKey">队列关键字</param>
+        ///  <param name="exchange">交换机</param>
+        /// <param name="userName">用户名</param>
+        /// <param name="pwd">密码</param>
+        public bool WriteCmd(string uri, byte[] buffer, string queueName, string routKey, string exchange, string userName, string pwd)
+        {
+            try
+            {
+                if (_factory == null)
+                    _factory = new ConnectionFactory()
+                    {
+                        Uri = new Uri(uri),
+                        //RequestedHeartbeat = 30,
+                        UserName = userName,
+                        Password = pwd,
+                        Endpoint = new AmqpTcpEndpoint(new Uri(uri))
+                    };
+                if (_connection == null)
+                    _connection = _factory.CreateConnection();
+                if (_channel == null)
+                    _channel = _connection.CreateModel();
+
+                //定义一个持久化队列;
+                _channel.QueueDeclare(queueName, true, false, false, null);
+                _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
+                var properties = _channel.CreateBasicProperties();
+                properties.DeliveryMode = 2;
+
+                _channel.BasicPublish(exchange, routKey, properties, buffer);
+                return true;
+
+            }
+            catch (Exception e)
+            {
+                Logger.Exception(e);
+                return false;
+            }
+
         }
         /// <summary>
         /// 获取队列中数据数量
@@ -284,7 +330,7 @@ namespace Yunt.MQ
                 {
                     try
                     {
-                        if(_connection==null)
+                        if (_connection == null)
                             _connection = _factory.CreateConnection();
                     }
                     catch (BrokerUnreachableException ex)
@@ -357,8 +403,8 @@ namespace Yunt.MQ
                 foreach (var session in _rabbitMqClientHelper._sessionModels)
                 {
                     Thread.Sleep(50);
-                    Task.Factory.StartNew(() => ReadMessage(session, operation,type));
-               
+                    Task.Factory.StartNew(() => ReadMessage(session, operation, type));
+
                 }
 
                 Logger.Info("[RabbitMq]No message in the queue(s) at this time.");

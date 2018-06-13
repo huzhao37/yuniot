@@ -4,7 +4,6 @@ using System.Runtime.Serialization;
 using System.Text;
 using ProtoBuf;
 using Yunt.Inventory.Domain.Model;
-using Yunt.Inventory.Domain.Model.IdModel;
 
 namespace Yunt.Inventory.Domain.BaseModel
 {
@@ -14,12 +13,12 @@ namespace Yunt.Inventory.Domain.BaseModel
     [DataContract]
     [Serializable]
     [ProtoContract(ImplicitFields = ImplicitFields.AllPublic)]
-    [ProtoInclude(11, typeof(SpareParts))]
+    [ProtoInclude(11, typeof(InHouse))]
     [ProtoInclude(12, typeof(SparePartsType))]
     [ProtoInclude(13, typeof(WareHouses))]
-    [ProtoInclude(14, typeof(SparePartsIdFactories))]
-    [ProtoInclude(15, typeof(InventoryAlarmInfo))]
-
+    //[ProtoInclude(14, typeof(SparePartsIdFactories))]
+    [ProtoInclude(14, typeof(InventoryAlarmInfo))]
+    [ProtoInclude(15, typeof(OutHouse))]
     public abstract class AggregateRoot : IAggregateRoot
     {
         [DataMember]

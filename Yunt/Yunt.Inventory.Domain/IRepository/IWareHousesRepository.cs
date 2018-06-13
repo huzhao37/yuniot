@@ -11,6 +11,6 @@ namespace Yunt.Inventory.Domain.IRepository
     public interface IWareHousesRepository : IInventoryRepositoryBase<WareHouses>
     {
 
-        PaginatedList<WareHouses> GetPage(int pageIndex, int pageSize, string wareHouseId);
+      
     }
 }

@@ -18,6 +18,7 @@
     <Compile Remove="doubletoothrollcrusher\**" />
     <Compile Remove="impactcrusher2\**" />
     <Compile Remove="impactcrusher\**" />
+    <Compile Remove="Inventory-Migrations\**" />
     <Compile Remove="jawcrusher2\**" />
     <Compile Remove="jawcrusher\**" />
     <Compile Remove="materialfeeder2\**" />
@@ -45,6 +46,7 @@
     <EmbeddedResource Remove="doubletoothrollcrusher\**" />
     <EmbeddedResource Remove="impactcrusher2\**" />
     <EmbeddedResource Remove="impactcrusher\**" />
+    <EmbeddedResource Remove="Inventory-Migrations\**" />
     <EmbeddedResource Remove="jawcrusher2\**" />
     <EmbeddedResource Remove="jawcrusher\**" />
     <EmbeddedResource Remove="materialfeeder2\**" />
@@ -72,6 +74,7 @@
     <None Remove="doubletoothrollcrusher\**" />
     <None Remove="impactcrusher2\**" />
     <None Remove="impactcrusher\**" />
+    <None Remove="Inventory-Migrations\**" />
     <None Remove="jawcrusher2\**" />
     <None Remove="jawcrusher\**" />
     <None Remove="materialfeeder2\**" />

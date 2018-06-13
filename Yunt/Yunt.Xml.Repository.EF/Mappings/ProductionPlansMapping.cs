@@ -14,7 +14,7 @@ namespace Yunt.Xml.Repository.EF.Mappings
     {
         public void Configure(EntityTypeBuilder<ProductionPlans> entity)
         {
-            entity.ToTable("production_plans");
+            entity.ToTable("productionplans");
 
             entity.Property(e => e.Id)
                 .HasColumnName("id")
@@ -24,29 +24,29 @@ namespace Yunt.Xml.Repository.EF.Mappings
                 .HasColumnName("end")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.Finish_Cy1)
-                .HasColumnName("finish_cy1")
+            entity.Property(e => e.FinishCy1)
+                .HasColumnName("finishcy1")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.Finish_Cy2)
+            entity.Property(e => e.FinishCy2)
                 .HasColumnName("finish_cy2")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.Finish_Cy3)
-                .HasColumnName("finish_cy3")
+            entity.Property(e => e.FinishCy3)
+                .HasColumnName("finishcy3")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.Finish_Cy4)
-                .HasColumnName("finish_cy4")
+            entity.Property(e => e.FinishCy4)
+                .HasColumnName("finishcy4")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.Main_Cy)
-                .HasColumnName("main_cy")
+            entity.Property(e => e.MainCy)
+                .HasColumnName("maincy")
                 .HasColumnType("int(11)");
 
-            entity.Property(e => e.Productionline_Id)
+            entity.Property(e => e.ProductionlineId)
                 .IsRequired()
-                .HasColumnName("productionline_id")
+                .HasColumnName("productionlineid")
                 .HasMaxLength(50);
 
             entity.Property(e => e.Remark)

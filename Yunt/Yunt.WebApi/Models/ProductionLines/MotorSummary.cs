@@ -26,7 +26,7 @@ namespace Yunt.WebApi.Models.ProductionLines
         ///// <summary>
         ///// 电机 设备负荷
         ///// </summary>
-        //public float LoadStall { get; set; }
+        public float LoadStall { get; set; }
         /// <summary>
         ///电机 设备状态
         /// </summary>
@@ -34,7 +34,7 @@ namespace Yunt.WebApi.Models.ProductionLines
         ///// <summary>
         ///// 运行时间
         ///// </summary>
-        //public float RunningTime { get; set; }
+       public float RunningTime { get; set; }
 
         ///// <summary>
         ///// 瞬时值

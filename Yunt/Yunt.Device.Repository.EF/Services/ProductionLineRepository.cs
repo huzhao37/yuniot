@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using AutoMapper;
@@ -105,63 +106,63 @@ namespace Yunt.Device.Repository.EF.Services
                 {
                     case "CY":
                         status = _cyRep.GetCurrentStatus(motor.MotorId);
-                        lose = status.Equals(MotorStatus.Lose) ? lose + 0 : lose + 1;
-                        stop = status.Equals(MotorStatus.Stop) ? stop + 0 : stop + 1;
-                        run = status.Equals(MotorStatus.Run) ? run + 0 : run + 1;
+                        lose = status.Equals(MotorStatus.Lose) ? lose + 1 : lose + 0;
+                        stop = status.Equals(MotorStatus.Stop) ? stop + 1 : stop + 0;
+                        run = status.Equals(MotorStatus.Run) ? run + 1: run + 0;
                         break;
                     case "MF":
                         status = _mfRep.GetCurrentStatus(motor.MotorId) ;
-                        lose = status.Equals(MotorStatus.Lose) ? lose + 0 : lose + 1;
-                        stop = status.Equals(MotorStatus.Stop) ? stop + 0 : stop + 1;
-                        run = status.Equals(MotorStatus.Run) ? run + 0 : run + 1;
+                        lose = status.Equals(MotorStatus.Lose) ? lose + 1 : lose + 0;
+                        stop = status.Equals(MotorStatus.Stop) ? stop + 1 : stop + 0;
+                        run = status.Equals(MotorStatus.Run) ? run + 1: run + 0;
                         break;
                     case "JC":
                         status = _jcRep.GetCurrentStatus(motor.MotorId) ;
-                        lose = status.Equals(MotorStatus.Lose) ? lose + 0 : lose + 1;
-                        stop = status.Equals(MotorStatus.Stop) ? stop + 0 : stop + 1;
-                        run = status.Equals(MotorStatus.Run) ? run + 0 : run + 1;
+                        lose = status.Equals(MotorStatus.Lose) ? lose + 1 : lose + 0;
+                        stop = status.Equals(MotorStatus.Stop) ? stop + 1 : stop + 0;
+                        run = status.Equals(MotorStatus.Run) ? run + 1: run + 0;
                         break;
                     case "CC":
                         status = _ccRep.GetCurrentStatus(motor.MotorId) ;
-                        lose = status.Equals(MotorStatus.Lose) ? lose + 0 : lose + 1;
-                        stop = status.Equals(MotorStatus.Stop) ? stop + 0 : stop + 1;
-                        run = status.Equals(MotorStatus.Run) ? run + 0 : run + 1;
+                        lose = status.Equals(MotorStatus.Lose) ? lose + 1 : lose + 0;
+                        stop = status.Equals(MotorStatus.Stop) ? stop + 1 : stop + 0;
+                        run = status.Equals(MotorStatus.Run) ? run + 1: run + 0;
                         break;
                     case "VC":
                         status = _vcRep.GetCurrentStatus(motor.MotorId) ;
-                        lose = status.Equals(MotorStatus.Lose) ? lose + 0 : lose + 1;
-                        stop = status.Equals(MotorStatus.Stop) ? stop + 0 : stop + 1;
-                        run = status.Equals(MotorStatus.Run) ? run + 0 : run + 1;
+                        lose = status.Equals(MotorStatus.Lose) ? lose + 1 : lose + 0;
+                        stop = status.Equals(MotorStatus.Stop) ? stop + 1 : stop + 0;
+                        run = status.Equals(MotorStatus.Run) ? run + 1: run + 0;
                         break;
                     case "VB":
                         status = _vbRep.GetCurrentStatus(motor.MotorId) ;
-                        lose = status.Equals(MotorStatus.Lose) ? lose + 0 : lose + 1;
-                        stop = status.Equals(MotorStatus.Stop) ? stop + 0 : stop + 1;
-                        run = status.Equals(MotorStatus.Run) ? run + 0 : run + 1;
+                        lose = status.Equals(MotorStatus.Lose) ? lose + 1 : lose + 0;
+                        stop = status.Equals(MotorStatus.Stop) ? stop + 1 : stop + 0;
+                        run = status.Equals(MotorStatus.Run) ? run + 1: run + 0;
                         break;
                     case "SCC":
                         status = _sccRep.GetCurrentStatus(motor.MotorId) ;
-                        lose = status.Equals(MotorStatus.Lose) ? lose + 0 : lose + 1;
-                        stop = status.Equals(MotorStatus.Stop) ? stop + 0 : stop + 1;
-                        run = status.Equals(MotorStatus.Run) ? run + 0 : run + 1;
+                        lose = status.Equals(MotorStatus.Lose) ? lose + 1 : lose + 0;
+                        stop = status.Equals(MotorStatus.Stop) ? stop + 1 : stop + 0;
+                        run = status.Equals(MotorStatus.Run) ? run + 1: run + 0;
                         break;
                     case "PUL":
                         status = _pulRep.GetCurrentStatus(motor.MotorId) ;
-                        lose = status.Equals(MotorStatus.Lose) ? lose + 0 : lose + 1;
-                        stop = status.Equals(MotorStatus.Stop) ? stop + 0 : stop + 1;
-                        run = status.Equals(MotorStatus.Run) ? run + 0 : run + 1;
+                        lose = status.Equals(MotorStatus.Lose) ? lose + 1 : lose + 0;
+                        stop = status.Equals(MotorStatus.Stop) ? stop + 1 : stop + 0;
+                        run = status.Equals(MotorStatus.Run) ? run + 1: run + 0;
                         break;
                     case "IC":
                         status = _icRep.GetCurrentStatus(motor.MotorId) ;
-                        lose = status.Equals(MotorStatus.Lose) ? lose + 0 : lose + 1;
-                        stop = status.Equals(MotorStatus.Stop) ? stop + 0 : stop + 1;
-                        run = status.Equals(MotorStatus.Run) ? run + 0 : run + 1;
+                        lose = status.Equals(MotorStatus.Lose) ? lose + 1 : lose + 0;
+                        stop = status.Equals(MotorStatus.Stop) ? stop + 1 : stop + 0;
+                        run = status.Equals(MotorStatus.Run) ? run + 1: run + 0;
                         break;
                     case "HVB":
                         status = _hvbRep.GetCurrentStatus(motor.MotorId) ;
-                        lose = status.Equals(MotorStatus.Lose) ? lose + 0 : lose + 1;
-                        stop = status.Equals(MotorStatus.Stop) ? stop + 0 : stop + 1;
-                        run = status.Equals(MotorStatus.Run) ? run + 0 : run + 1;
+                        lose = status.Equals(MotorStatus.Lose) ? lose + 1 : lose + 0;
+                        stop = status.Equals(MotorStatus.Stop) ? stop + 1 : stop + 0;
+                        run = status.Equals(MotorStatus.Run) ? run + 1: run + 0;
                         break;
                     default:
                         break;
@@ -229,7 +230,50 @@ namespace Yunt.Device.Repository.EF.Services
                     return MotorStatus.Lose;
             }          
         }
+        /// <summary>
+        /// 根据电机设备ID获取当日电机设备详情
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+        public virtual dynamic MotorDetails(Motor motor)
+        {
+           // var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motor.motorId)).SingleOrDefault();
+            if (motor == null) return new List<dynamic>();
+            dynamic list = new List<dynamic>();
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    return _cyByHourRep.GetRealData(motor);
+                case "MF":
+                    return _mfByHourRep.GetRealData(motor);
+                case "JC":
+                    return _jcByHourRep.GetRealData(motor);
 
+                case "CC":
+                    return _ccByHourRep.GetRealData(motor);
+
+                case "VC":
+                    return _vcByHourRep.GetRealData(motor);
+
+                case "VB":
+                    return _vbByHourRep.GetRealData(motor);
+
+                case "SCC":
+                    return _sccByHourRep.GetRealData(motor);
+
+                case "PUL":
+                    return _pulByHourRep.GetRealData(motor);
+
+                case "IC":
+                    return _icByHourRep.GetRealData(motor);
+
+                case "HVB":
+                    return _hvbByHourRep.GetRealData(motor);
+
+                default:
+                    return list;
+            }
+        }
         /// <summary>
         /// 根据电机设备ID和时间节点获取电机设备详情
         /// </summary>
@@ -240,7 +284,7 @@ namespace Yunt.Device.Repository.EF.Services
         public virtual IEnumerable<dynamic> MotorDetails(DateTime startTime, DateTime endTime, string motorId)
         {
             long start = startTime.TimeSpan(), end = endTime.TimeSpan();
-            var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId)).SingleOrDefault();
+            var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId)).FirstOrDefault();
             if (motor == null) return new List<dynamic>();
             dynamic list=new List<dynamic>();
             switch (motor.MotorTypeId)
@@ -336,7 +380,295 @@ namespace Yunt.Device.Repository.EF.Services
             }
         }
 
+        /// <summary>
+        /// 根据电机设备ID和时间节点获取电机设备详情(不包括今天)
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+        public virtual IEnumerable<dynamic> MotorDays(long start, long end, Motor motor)
+        {
+           // long start = startTime.TimeSpan(), end = endTime.TimeSpan();
+            //var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId)).FirstOrDefault();
+            if (motor == null) return new List<dynamic>();
+            dynamic list = new List<dynamic>();
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    list = _cyByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                    e.Time <= end).ToList();//?.ToList()??new List<ConveyorByDay>();
+                    return list;
+                case "MF":
+                    list = _mfByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();//?.ToList() ?? new List<MaterialFeederByDay>();                   
 
+                    return list;
+
+                case "JC":
+                    list = _jcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();//?.ToList() ?? new List<JawCrusherByDay>();
+ 
+                    return list;
+
+                case "CC":
+                    list = _ccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();//?.ToList() ?? new List<ConeCrusherByDay>();
+         
+                    return list;
+
+                case "VC":
+                    list = _vcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                      e.Time <= end).ToList();//?.ToList() ?? new List<VerticalCrusherByDay>();
+       
+                    return list;
+
+                case "VB":
+                    list = _vbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();//?.ToList() ?? new List<VibrosieveByDay>();
+ 
+                    return list;
+
+                case "SCC":
+                    list = _sccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();
+   
+                    return list;
+
+                case "PUL":
+                    list = _pulByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();//?.ToList() ?? new List<PulverizerByDay>();
+  
+                    return list;
+
+                case "IC":
+                    list = _icByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();//?.ToList() ?? new List<ImpactCrusherByDay>();
+       
+                    return list;
+
+                case "HVB":
+                    list = _hvbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();//?.ToList() ?? new List<HVibByDay>();
+   
+                    return list;
+
+                default:
+                    return list;
+            }
+        }
+        /// <summary>
+        /// 根据动态数据获取设备详情
+        /// </summary>
+        /// <param name="datas"></param>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+        public dynamic GetMotorDetails(IEnumerable<dynamic> datas,Motor motor)
+        {
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    return new
+                    {
+                        AvgInstantWeight = (float)Math.Round((double)datas.Average(e => (float)e.AvgInstantWeight), 2),
+                        AccumulativeWeight = (float)Math.Round((double)(datas.Sum(e => (float)e.AccumulativeWeight)), 2),
+                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
+                        RunningTime = (float)Math.Round(datas.Average(e => (float)e.RunningTime), 2),
+                        SeriesData = datas.Select(e => new {
+                            Output = e.AccumulativeWeight,
+                            Current = e.AvgCurrent_B,
+                            e.RunningTime,
+                            UnixTime = e.Time
+                        })
+                    };
+                case "MF":
+                    return new
+                    {
+                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        AvgFrequency = (float)Math.Round((datas.Average(e => (float)e.AvgFrequency)), 2),
+                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
+                        RunningTime = (float)Math.Round(datas.Average(e => (float)e.RunningTime), 2),
+                        SeriesData = datas.Select(e => new { e.AvgFrequency, Current = e.AvgCurrent_B, e.RunningTime, UnixTime = e.Time })
+                    };
+                case "JC":
+                    return new
+                    {
+                        AvgMotiveSpindleTemperature1 = (float)Math.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature1), 2),
+                        AvgMotiveSpindleTemperature2 = (float)Math.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature2), 2),
+                        AvgRackSpindleTemperature1 = (float)Math.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature1), 2),
+                        AvgRackSpindleTemperature2 = (float)Math.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature2), 2),
+                        AvgVibrate1 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                        WearValue1 = (float)Math.Round(datas.Average(e => (float)e.WearValue1), 2),
+                        AvgVibrate2 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
+                        WearValue2 = (float)Math.Round(datas.Average(e => (float)e.WearValue2), 2),
+                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
+                        RunningTime = (float)Math.Round(datas.Average(e => (float)e.RunningTime), 2),
+                        SeriesData = datas.Select(e => new {
+                            e.AvgMotiveSpindleTemperature1,
+                            e.AvgMotiveSpindleTemperature2,
+                            e.AvgRackSpindleTemperature1,
+                            e.AvgRackSpindleTemperature2,
+                            e.AvgVibrate1,
+                            e.AvgVibrate2,
+                            e.WearValue2,
+                            e.WearValue1,
+                            Current = e.AvgCurrent_B,
+                            e.RunningTime,
+                            UnixTime = e.Time
+                        })
+                    };
+                case "CC":
+                    return new
+                    {
+                        AvgMovaStress = (float)Math.Round(datas.Average(e => (float)e.AvgMovaStress), 2),
+                        AvgOilReturnTempreatur = (float)Math.Round((double)(datas.Average(e => (float)e.AvgOilReturnTempreatur)), 2),
+                        AvgOilFeedTempreature = (float)Math.Round(datas.Average(e => (float)e.AvgOilFeedTempreature), 2),
+                        AvgTankTemperature = (float)Math.Round((double)(datas.Average(e => (float)e.AvgTankTemperature)), 2),
+                        AvgSpindleTravel = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTravel), 2),
+                        AvgVibrate1 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgVibrate1)), 2),
+                        AvgVibrate2 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgVibrate2)), 2),
+                        WearValue1 = (float)Math.Round(datas.Average(e => (float)e.WearValue1), 2),
+                        WearValue2 = (float)Math.Round((double)(datas.Average(e => (float)e.WearValue2)), 2),
+                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
+                        RunningTime = (float)Math.Round(datas.Average(e => (float)e.RunningTime), 2),
+                        SeriesData = datas.Select(e => new {
+                            e.AvgMovaStress,
+                            e.AvgOilReturnTempreatur,
+                            e.AvgOilFeedTempreature,
+                            e.AvgTankTemperature,
+                            e.AvgSpindleTravel,
+                            e.AvgVibrate1,
+                            e.AvgVibrate2,
+                            e.WearValue1,
+                            e.WearValue2,
+                            Current = e.AvgCurrent_B,
+                            e.RunningTime,
+                            UnixTime = e.Time
+                        })
+                    };
+
+                case "VC":
+                    return new
+                    {
+                        WearValue1 = (float)Math.Round(datas.Average(e => (float)e.WearValue1), 2),
+                        WearValue2 = (float)Math.Round(datas.Average(e => (float)e.WearValue2), 2),
+                        AvgVibrate1 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                        AvgVibrate2 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgVibrate2)), 2),
+                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
+                        RunningTime = (float)Math.Round(datas.Average(e => (float)e.RunningTime), 2),
+                        SeriesData = datas.Select(e => new { e.WearValue2, e.WearValue1, e.AvgVibrate1, e.AvgVibrate2, Current = e.AvgCurrent_B, e.RunningTime, UnixTime = e.Time })
+                    };
+                case "VB":
+                    return new
+                    {
+                        AvgSpindleTemperature4 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature4), 2),
+                        AvgSpindleTemperature2 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgSpindleTemperature2)), 2),
+                        AvgSpindleTemperature1 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
+                        AvgSpindleTemperature3 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgSpindleTemperature3)), 2),
+                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
+                        RunningTime = (float)Math.Round(datas.Average(e => (float)e.RunningTime), 2),
+                        SeriesData = datas.Select(e => new {
+                            e.AvgSpindleTemperature1,
+                            e.AvgSpindleTemperature4,
+                            e.AvgSpindleTemperature2,
+                            e.AvgSpindleTemperature3,
+                            Current = e.AvgCurrent_B,
+                            e.RunningTime,
+                            UnixTime = e.Time
+                        })
+                    };
+
+                case "SCC":
+                    return new
+                    {
+                        AvgInstantWeight = (float)Math.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
+                        AccumulativeWeight = (float)Math.Round((double)(datas.Sum(e => (float)e.AccumulativeWeight)), 2),
+                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
+                        RunningTime = (float)Math.Round(datas.Average(e => (float)e.RunningTime), 2),
+                        SeriesData = datas.Select(e => new { Output = e.AccumulativeWeight, Current = e.AvgCurrent_B, e.RunningTime, UnixTime = e.Time })
+                    };
+
+                case "PUL":
+                    return new
+                    {
+                        AvgVibrate1 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                        AvgVibrate2 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgVibrate2)), 2),
+                        WearValue1 = (float)Math.Round(datas.Average(e => (float)e.WearValue1), 2),
+                        WearValue2 = (float)Math.Round((double)(datas.Average(e => (float)e.WearValue2)), 2),
+                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
+                        RunningTime = (float)Math.Round(datas.Average(e => (float)e.RunningTime), 2),
+                        SeriesData = datas.Select(e => new { e.WearValue2, e.WearValue1, e.AvgVibrate1, e.AvgVibrate2, Current = e.AvgCurrent_B, e.RunningTime, UnixTime = e.Time })
+                    };
+
+                case "IC":
+                    return new
+                    {
+                        AvgMotor2Voltage_B = (float)Math.Round(datas.Average(e => (float)e.AvgMotor2Voltage_B), 2),
+                        AvgMotor1Voltage_B = (float)Math.Round((double)(datas.Average(e => (float)e.AvgMotor1Voltage_B)), 2),
+                        AvgSpindleTemperature1 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
+                        AvgSpindleTemperature2 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature2), 2),
+                        AvgVibrate1 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                        AvgVibrate2 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgVibrate2)), 2),
+                        WearValue1 = (float)Math.Round(datas.Average(e => (float)e.WearValue1), 2),
+                        WearValue2 = (float)Math.Round((double)(datas.Average(e => (float)e.WearValue2)), 2),
+                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
+                        RunningTime = (float)Math.Round(datas.Average(e => (float)e.RunningTime), 2),
+                        SeriesData = datas.Select(e => new {
+                            e.WearValue2,
+                            e.WearValue1,
+                            e.AvgVibrate1,
+                            e.AvgVibrate2,
+                            e.AvgMotor2Voltage_B,
+                            e.AvgMotor1Voltage_B,
+                            e.AvgSpindleTemperature1,
+                            e.AvgSpindleTemperature2,
+                            Current = e.AvgCurrent_B,
+                            e.RunningTime,
+                            UnixTime = e.Time
+                        })
+                    };
+                case "HVB":
+                    return new
+                    {
+                        AvgSpindleTemperature4 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature4), 2),
+                        AvgSpindleTemperature2 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgSpindleTemperature2)), 2),
+                        AvgSpindleTemperature3 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature3), 2),
+                        AvgSpindleTemperature1 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgSpindleTemperature1)), 2),
+                        AvgOilReturnStress = (float)Math.Round(datas.Average(e => (float)e.AvgOilReturnStress), 2),
+                        AvgOilFeedStress = (float)Math.Round((double)(datas.Average(e => (float)e.AvgOilFeedStress)), 2),
+                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
+                        RunningTime = (float)Math.Round(datas.Average(e => (float)e.RunningTime), 2),
+                        SeriesData = datas.Select(e => new {
+                            e.AvgSpindleTemperature4,
+                            e.AvgSpindleTemperature2,
+                            e.AvgSpindleTemperature3,
+                            e.AvgSpindleTemperature1,
+                            e.AvgOilFeedStress,
+                            e.AvgOilReturnStress,
+                            Current = e.AvgCurrent_B,
+                            e.RunningTime,
+                            UnixTime = e.Time
+                        })
+                    };
+                default:
+                    return  new
+                    {
+                        AvgInstantWeight = (float)Math.Round((double)datas.Average(e => (float)e.AvgInstantWeight), 2),
+                        AccumulativeWeight = (float)Math.Round((double)(datas.Sum(e => (float)e.AccumulativeWeight)), 2),
+                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
+                        RunningTime = (float)Math.Round(datas.Average(e => (float)e.RunningTime), 2),                    
+                    };
+            }
+        }
         /// <summary>
         /// 根据电机设备ID获取当日电机设备详情
         /// </summary>
@@ -348,93 +680,185 @@ namespace Yunt.Device.Repository.EF.Services
             dynamic list = new List<dynamic>();
             switch (motor.MotorTypeId)
             {
-                //case "CY":
-                //    list = _cyByHourRep.GetRealDatas(motor);                  
-                //    return list;
-                //case "MF":
-                //    list = _mfByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
-                //     e.Time <= end).ToList();//?.ToList() ?? new List<MaterialFeederByDay>();                   
-                //    var mf = _mfByHourRep.GetRealData(motor);
-                //    if (mf != null)
-                //        list.Add(mf);
-                //    return list;
+                case "CY":
+                    return _cyByHourRep.GetRealDatas(motor);
+                case "MF":
+                    return _mfByHourRep.GetRealDatas(motor);
+                case "JC":
+                    return _jcByHourRep.GetRealDatas(motor);
 
-                //case "JC":
-                //    list = _jcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
-                //     e.Time <= end).ToList();//?.ToList() ?? new List<JawCrusherByDay>();
-                //    var jc = _jcByHourRep.GetRealData(motor);
-                //    if (jc != null)
-                //        list.Add(jc);
-                //    return list;
+                case "CC":
+                    return _ccByHourRep.GetRealDatas(motor);
 
-                //case "CC":
-                //    list = _ccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
-                //     e.Time <= end).ToList();//?.ToList() ?? new List<ConeCrusherByDay>();
-                //    //list.Add(_ccByHourRep.GetRealData(motor.MotorId));
-                //    var cc = _ccByHourRep.GetRealData(motor);
-                //    if (cc != null)
-                //        list.Add(cc);
-                //    return list;
+                case "VC":
+                    return _vcByHourRep.GetRealDatas(motor);
 
-                //case "VC":
-                //    list = _vcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
-                //      e.Time <= end).ToList();//?.ToList() ?? new List<VerticalCrusherByDay>();
-                //                              //list.Add(_vcByHourRep.GetRealData(motor.MotorId));
-                //    var vc = _vcByHourRep.GetRealData(motor);
-                //    if (vc != null)
-                //        list.Add(vc);
-                //    return list;
+                case "VB":
+                    return _vbByHourRep.GetRealDatas(motor);
 
-                //case "VB":
-                //    list = _vbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
-                //     e.Time <= end).ToList();//?.ToList() ?? new List<VibrosieveByDay>();
-                //                             //list.Add(_vbByHourRep.GetRealData(motor.MotorId));
-                //    var vb = _vbByHourRep.GetRealData(motor);
-                //    if (vb != null)
-                //        list.Add(vb);
-                //    return list;
+                case "SCC":
+                    return _sccByHourRep.GetRealDatas(motor);
 
-                //case "SCC":
-                //    list = _sccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
-                //     e.Time <= end).ToList();
-                //    //list.Add(_sccByHourRep.GetRealData(motor.MotorId));
-                //    var scc = _sccByHourRep.GetRealData(motor);
-                //    if (scc != null)
-                //        list.Add(scc);
-                //    return list;
+                case "PUL":
+                    return _pulByHourRep.GetRealDatas(motor);
 
-                //case "PUL":
-                //    list = _pulByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
-                //     e.Time <= end).ToList();//?.ToList() ?? new List<PulverizerByDay>();
-                //    //list.Add(_pulByHourRep.GetRealData(motor.MotorId));
-                //    var pul = _pulByHourRep.GetRealData(motor);
-                //    if (pul != null)
-                //        list.Add(pul);
-                //    return list;
+                case "IC":
+                    return _icByHourRep.GetRealDatas(motor);
 
-                //case "IC":
-                //    list = _icByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
-                //     e.Time <= end).ToList();//?.ToList() ?? new List<ImpactCrusherByDay>();
-                //                             //list.Add(_icByHourRep.GetRealData(motor.MotorId));
-                //    var ic = _icByHourRep.GetRealData(motor);
-                //    if (ic != null)
-                //        list.Add(ic);
-                //    return list;
-
-                //case "HVB":
-                //    list = _hvbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
-                //     e.Time <= end).ToList();//?.ToList() ?? new List<HVibByDay>();
-                //                             //list.Add(_hvbByHourRep.GetRealData(motor.MotorId));
-                //    var hvb = _hvbByHourRep.GetRealData(motor);
-                //    if (hvb != null)
-                //        list.Add(hvb);
-                //    return list;
+                case "HVB":
+                    return _hvbByHourRep.GetRealDatas(motor);
 
                 default:
                     return list;
             }
         }
+
        
+
+        /// <summary>
+        /// 缓存中是否存在该产线下的设备原始数据库
+        /// </summary>
+        /// <param name="productionLineId"></param>
+        /// <returns></returns>
+        public bool GetInstanceFromRedis(string productionLineId)
+        {
+            RedisProvider.DB = 15;
+            var motors = _motorRep.GetEntities(e=>e.ProductionLineId.EqualIgnoreCase(productionLineId));
+            if (motors==null||!motors.Any()) return true;
+            var redisKeys = RedisProvider.Keys("*");
+            if (redisKeys.Select(e => e.Split("_")[1]).Contains(motors.Select(e => e.MotorId).FirstOrDefault()))
+                return true;
+            return false;
+        }
+
+        /// <summary>
+        /// 读取缓存预热原始数据(慎用！！！)
+        /// </summary>
+        /// <param name="motorId"></param>
+        ///  <param name="dt">日期</param>
+        /// <returns></returns>
+        [Obsolete]
+        public IEnumerable<dynamic> PreCache(string motorId,DateTime dt)
+        {
+            var end = dt.Date.AddDays(1).TimeSpan();
+            var start = dt.Date.TimeSpan();
+            var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId)).SingleOrDefault();
+            if (motor == null) return null;
+            dynamic list = new List<dynamic>();
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    return _cyRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();                
+                case "MF":
+                    return _mfRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+
+                case "JC":
+                    return _jcRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+
+                case "CC":
+                    return _ccRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+
+                case "VC":
+                    return _vcRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+
+                case "VB":
+                    return _vbRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+
+                case "SCC":
+                    return _sccRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+
+                case "PUL":
+                    return _pulRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+
+                case "IC":
+                    return _icRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+                case "HVB":
+                    return _hvbRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+
+                default:
+                    return list;
+            }
+        }
+
+        /// <summary>
+        /// 获取设备原始数据
+        /// </summary>
+        /// <param name="motor">设备</param>
+        /// <param name="date">日期</param>
+        /// <param name="cache">缓存</param>
+        /// <returns></returns>
+        public IEnumerable<dynamic> GetMotorHistoryByDate(Motor motor, DateTime date, bool cache)
+        {
+            var datas=new List<dynamic>();
+            if (cache)
+            {
+                switch (motor.MotorTypeId)
+                {
+                    case "CY":
+                        return _cyRep.GetEntities(motor.MotorId,date,false,null,e=>e.Time);
+                    case "MF":
+                        return _mfRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+                    case "JC":
+                        return _jcRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    case "CC":
+                        return _ccRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    case "VC":
+                        return _vcRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+                    case "VB":
+                        return _vbRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    case "SCC":
+                        return _sccRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    case "PUL":
+                        return _pulRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    case "IC":
+                        return _icRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    case "HVB":
+                        return _hvbRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    default:
+                        return datas;
+                }
+            }
+            long start = date.TimeSpan(), end = date.AddDays(1).TimeSpan();
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    return _cyRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                case "MF":
+                    return _mfRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                case "JC":
+                    return _jcRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+
+                case "CC":
+                    return _ccRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+
+                case "VC":
+                    return _vcRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                case "VB":
+                    return _vbRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+
+                case "SCC":
+                    return _sccRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+
+                case "PUL":
+                    return _pulRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+
+                case "IC":
+                    return _icRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+
+                case "HVB":
+                    return _hvbRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+
+                default:
+                    return datas;
+            }
+        }
         #endregion
 
     }

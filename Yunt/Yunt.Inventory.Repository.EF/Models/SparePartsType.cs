@@ -18,10 +18,10 @@ namespace Yunt.Inventory.Repository.EF.Models
         /// <summary>
         /// 备件类型ID
         /// </summary>
-        [DataMember]
-        [DisplayName("备件类型ID")]
-        [ProtoMember(1)]
-        public string SparePartsTypeId { get; set; }
+        //[DataMember]
+        //[DisplayName("备件类型ID")]
+        //[ProtoMember(1)]
+       // public string SparePartsTypeId { get; set; }
         /// <summary>
         /// 备件类型名称
         /// </summary>

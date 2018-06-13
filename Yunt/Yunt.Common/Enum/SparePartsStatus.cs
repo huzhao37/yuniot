@@ -7,16 +7,8 @@ namespace Yunt.Common
     /// <summary>
     /// 备件状态
     /// </summary>
-    public enum SparePartsStatus
-    {
-        /// <summary>
-        /// 在库
-        /// </summary>
-        On=0,
-        /// <summary>
-        /// 出库
-        /// </summary>
-        Out,
+    public enum SparePartsTypeStatus
+    {   
         /// <summary>
         /// 在使用
         /// </summary>

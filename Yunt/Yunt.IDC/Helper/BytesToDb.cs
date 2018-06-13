@@ -286,33 +286,51 @@ namespace Yunt.IDC.Helper
             var values = pvalue.Value;
             var type = obj.GetType();
             //var where = " MotorId = '"+motorId + "' and  BitDesc = '整型模拟量'";
-
-            var forms = DataformmodelRepository.GetEntities(e=>e.MotorId.Equals(motor.MotorId) &&e.BitDesc.EqualIgnoreCase("整型模拟量")).ToList();
+        
+            var forms = DataformmodelRepository.GetEntities(e=>e.MotorId.Equals(motor.MotorId) //&&e.BitDesc.EqualIgnoreCase("整型模拟量")
+                        ).ToList();
             if (!forms.Any())
                 return null;
             for (var i = 0; i < forms.Count(); i++)
             {
                 var form = forms[i];
-                form.Value = Normalize.ConvertToNormal(form, values);
-                DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
-                //添加AI分析记录
-                MotorEventLogRepository.AddAiLogAsync(new AiLog()
+                if (form.BitDesc.EqualIgnoreCase("整型模拟量"))
                 {
-                    MotorId = motor.MotorId,
-                    MotorName = motor.Name,
-                    ProductionLineId = motor.ProductionLineId,
-                    Param = form.FieldParam,
-                    Value = (float)form.Value,
-                    MotorTypeId = motor.MotorTypeId,
-                    Time = time
-                });         
+                    form.Value = Normalize.ConvertToNormal(form, values);
+                    DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
+                                                                    //添加AI分析记录
+                    MotorEventLogRepository.AddAiLogAsync(new AiLog()
+                    {
+                        MotorId = motor.MotorId,
+                        MotorName = motor.Name,
+                        ProductionLineId = motor.ProductionLineId,
+                        Param = form.FieldParam,
+                        Value = (float)form.Value,
+                        MotorTypeId = motor.MotorTypeId,
+                        Time = time
+                    });
 
-                if (string.IsNullOrWhiteSpace(form.FieldParamEn))
-                    continue;
-                var info = type.GetProperty(form.FieldParamEn);
-                if (info == null || info?.Name == "")
-                    continue;
-                info?.SetValue(obj, Convert.ToSingle(Math.Round((decimal)form.Value, 2)));//保留两位小数
+                    if (string.IsNullOrWhiteSpace(form.FieldParamEn))
+                        continue;
+                    var info = type.GetProperty(form.FieldParamEn);
+                    if (info == null || info?.Name == "")
+                        continue;
+                    info?.SetValue(obj, Convert.ToSingle(Math.Round((decimal)form.Value, 2)));//保留两位小数
+                }
+                //数字量存储redis-3个月
+                if (form.BitDesc.EqualIgnoreCase("数字量"))
+                {
+                    MotorEventLogRepository.AddDiLogAsync(new DiHistory()
+                    {
+                        MotorId = motor.MotorId,
+                        MotorName = motor.Name,                     
+                        Param = form.FieldParam,
+                        Value = (float)form.Value,
+                        MotorTypeId = motor.MotorTypeId,
+                        Time = time
+                    });
+                }
+               
             }
             var idInfo = type.GetProperty("MotorId");
             idInfo.SetValue(obj, motor.MotorId);

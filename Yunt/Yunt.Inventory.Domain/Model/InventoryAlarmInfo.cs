@@ -21,9 +21,9 @@ namespace Yunt.Inventory.Domain.Model
         /// 备件编号
         /// </summary> 
         [DataMember]
-        [DisplayName("备件编号")]
+        [DisplayName("备件类型编号")]
         [ProtoMember(1)]
-        public string SparePartsId { get; set; }
+        public int SparePartsTypeId { get; set; }
 
         /// <summary>
         /// 仓库余量

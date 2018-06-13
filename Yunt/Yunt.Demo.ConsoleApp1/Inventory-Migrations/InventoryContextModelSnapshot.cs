@@ -21,44 +21,15 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                 .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
                 .HasAnnotation("ProductVersion", "2.0.3-rtm-10026");
 
-            modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.IdModel.SparePartsIdFactories", b =>
+            modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.InHouse", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("SparePartsIndex");
-
-                    b.Property<string>("SparePartsTypeId")
-                        .HasMaxLength(10);
-
-                    b.Property<int>("Time");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("SparePartsIdFactories");
-                });
-
-            modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.InventoryAlarmInfo", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<long>("CreateTime");
-
-                    b.Property<int>("InventoryBalance");
-
-                    b.Property<string>("SparePartsId")
+                    b.Property<string>("BatchNo")
                         .HasMaxLength(20);
 
-                    b.HasKey("Id");
-
-                    b.ToTable("InventoryAlarmInfo");
-                });
-
-            modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.SpareParts", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd();
+                    b.Property<int>("Count");
 
                     b.Property<string>("Description")
                         .HasMaxLength(50);
@@ -73,6 +44,43 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<bool>("IsDelete");
 
+                    b.Property<int>("SparePartsTypeId");
+
+                    b.Property<float>("UnitPrice");
+
+                    b.Property<int>("WareHousesId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InHouse");
+                });
+
+            modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.InventoryAlarmInfo", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<long>("CreateTime");
+
+                    b.Property<int>("InventoryBalance");
+
+                    b.Property<int>("SparePartsTypeId");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InventoryAlarmInfo");
+                });
+
+            modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.OutHouse", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("BatchNo")
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsDelete");
+
                     b.Property<string>("MotorId")
                         .HasMaxLength(20);
 
@@ -81,25 +89,17 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<long>("OutTime");
 
-                    b.Property<string>("SparePartsId")
-                        .HasMaxLength(20);
-
-                    b.Property<string>("SparePartsName")
-                        .HasMaxLength(20);
-
                     b.Property<int>("SparePartsStatus");
 
-                    b.Property<string>("SparePartsTypeId")
-                        .HasMaxLength(10);
+                    b.Property<int>("SparePartsTypeId");
+
+                    b.Property<float>("UnitPrice");
 
                     b.Property<long>("UselessTime");
 
-                    b.Property<string>("WareHousesId")
-                        .HasMaxLength(20);
-
                     b.HasKey("Id");
 
-                    b.ToTable("SpareParts");
+                    b.ToTable("OutHouse");
                 });
 
             modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.SparePartsType", b =>
@@ -112,9 +112,6 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<int>("InventoryAlarmLimits");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(10);
-
-                    b.Property<string>("SparePartsTypeId")
                         .HasMaxLength(10);
 
                     b.HasKey("Id");
@@ -140,9 +137,6 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("Remark")
                         .HasMaxLength(50);
-
-                    b.Property<string>("WareHousesId")
-                        .HasMaxLength(20);
 
                     b.HasKey("Id");
 

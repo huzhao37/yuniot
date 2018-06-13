@@ -17,6 +17,14 @@ namespace Yunt.Device.Domain.IRepository
 
         T GetEntityById(int id);
         Task<PaginatedList<T>> GetPage(int pageIndex, int pageSize);
+
+        /// <summary>
+        /// （跳过缓存从数据库中获取数据）慎用！！！
+        /// </summary>
+        /// <param name="where"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        IQueryable<T> GetFromSqlDb(Expression<Func<T, bool>> where = null, Expression<Func<T, object>> order = null);
         int Insert(T t);
         Task InsertAsync(T t);
         int Insert(IEnumerable<T> ts);

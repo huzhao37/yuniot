@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="IRepository\ISparePartsIdFactoriesRepository.cs" />
+    <Compile Remove="Model\IdModel\SparePartsIdFactories.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Model\IdModel\" />
     <Folder Include="Services\" />
   </ItemGroup>
 

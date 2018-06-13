@@ -172,9 +172,9 @@ namespace Yunt.Demo.ConsoleApp1
             modelBuilder.Entity<Motor>().Property(u => u.ProductionLineId).HasMaxLength(15);
             modelBuilder.Entity<Motor>().Property(u => u.SerialNumber).HasMaxLength(20);
             modelBuilder.Entity<Motor>().Property(u => u.Name).HasMaxLength(20);
-            modelBuilder.Entity<Motor>().Property(u => u.Name).HasMaxLength(20);
-            modelBuilder.Entity<Motor>().Property(u => u.Name).HasMaxLength(20);
-            modelBuilder.Entity<Motor>().Property(u => u.Name).HasMaxLength(20);
+            //modelBuilder.Entity<Motor>().Property(u => u.Name).HasMaxLength(20);
+            //modelBuilder.Entity<Motor>().Property(u => u.Name).HasMaxLength(20);
+            //modelBuilder.Entity<Motor>().Property(u => u.Name).HasMaxLength(20);
 
             modelBuilder.Entity<ProductionLine>().Property(u => u.ProductionLineId).HasMaxLength(15);
             modelBuilder.Entity<ProductionLine>().Property(u => u.Name).HasMaxLength(20);

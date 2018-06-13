@@ -19,19 +19,19 @@ namespace Yunt.Xml.Domain.Model
         public int End { get; set; }
         [DataMember]
         [ProtoMember(3)]
-        public int Main_Cy { get; set; }
+        public int MainCy { get; set; }
         [DataMember]
         [ProtoMember(4)]
-        public int Finish_Cy1 { get; set; }
+        public int FinishCy1 { get; set; }
         [DataMember]
         [ProtoMember(5)]
-        public int Finish_Cy2 { get; set; }
+        public int FinishCy2 { get; set; }
         [DataMember]
         [ProtoMember(6)]
-        public int Finish_Cy3 { get; set; }
+        public int FinishCy3 { get; set; }
         [DataMember]
         [ProtoMember(7)]
-        public int Finish_Cy4 { get; set; }
+        public int FinishCy4 { get; set; }
         [DataMember]
         [ProtoMember(8)]
         public DateTime Time { get; set; }
@@ -40,6 +40,6 @@ namespace Yunt.Xml.Domain.Model
         public string Remark { get; set; }
         [DataMember]
         [ProtoMember(10)]
-        public string Productionline_Id { get; set; }
+        public string ProductionlineId { get; set; }
     }
 }

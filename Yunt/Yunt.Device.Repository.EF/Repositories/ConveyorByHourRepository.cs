@@ -55,7 +55,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan(), dt3Unix=dt3.TimeSpan();
             //上一个小时的最后一条记录;
             var lastRecord = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e=>e.Time>= dt3Unix &&
-            e.Time< endUnix, e=>e.Time).LastOrDefault();
+            e.Time< endUnix, e=>e.Time)?.LastOrDefault();
             var originalDatas = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
                                                                        e.Time < endUnix &&
                                                                        e.AccumulativeWeight > -1, e => e.Time)?.ToList();         

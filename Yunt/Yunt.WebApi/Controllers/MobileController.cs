@@ -10,6 +10,7 @@ using Yunt.Common;
 using Yunt.Device.Domain.IRepository;
 using Yunt.Device.Domain.Model;
 using Yunt.Device.Domain.Services;
+using Yunt.WebApi.Models.Mobile;
 using Yunt.WebApi.Models.ProductionLines;
 
 
@@ -37,8 +38,6 @@ namespace Yunt.WebApi.Controllers
             _productionLineRepository = productionLineRepository;
             _motorEventLogRepository = motorEventLogRepository;
         }
-
-
 
         #region Productionline 
         [HttpPost("[action]")]
@@ -191,7 +190,6 @@ namespace Yunt.WebApi.Controllers
         }
         #endregion
 
-
         #region MotorList 
         [HttpPost("[action]")]
         public List<MotorItemModel> MotorsOutline([FromBody]RequestModel value)
@@ -229,7 +227,6 @@ namespace Yunt.WebApi.Controllers
 
         }
         #endregion
-
 
         #region Motor 
         [HttpPost("[action]")]
@@ -407,10 +404,10 @@ namespace Yunt.WebApi.Controllers
                         resData.Add(new EventModel()
                         {
                             time = d.Time.ToString(),
-                            title = "Archery Training",
+                            //title = "Archery Training",
                             motorname = d.MotorName,
                             desc = d.Description,
-                            isalarm = true,
+                            //isalarm = true,
                             lineColor = "darkturquoise",
                             circleSize = 20,
                             circleColor = "darkturquoise"
@@ -418,6 +415,25 @@ namespace Yunt.WebApi.Controllers
                     });
                     return resData;
                 }
+                var list = _motorEventLogRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase(lineId) &&
+                                                                          e.Time >= start && e.Time <= end);
+                if (list == null || !list.Any())
+                    return resData;
+                Parallel.ForEach(list, d =>
+                {
+                    resData.Add(new EventModel()
+                    {
+                        time = d.Time.ToString(),
+                        //title = "Archery Training",
+                        motorname = d.MotorName,
+                        desc = d.Description,
+                        //isalarm = true,
+                        lineColor = "darkturquoise",
+                        circleSize = 20,
+                        circleColor = "darkturquoise"
+                    });
+                });
+                return resData;
             }
             catch (Exception e)
             {
@@ -427,164 +443,11 @@ namespace Yunt.WebApi.Controllers
 
 
             #endregion
-
-            //Business
-
-
-            //输入
-            //DateTime DateTimeHelper(value.startDatetime)
-            //DateTime DateTimeHelper(value.endDatetime)
-
-            //业务
-            //传入的开始时间==结束时间 也返回今日event数据
-            //传入的开始时间!=结束时间 返回范围内所有event数据
-            //注意返回的数据结构已确定
-            //[
-            //    {
-            //        "time": "2018-03-01 09:00",
-            //        "title": "Archery Training",
-            //        "motorname": "C7 主皮带",
-            //        "desc": "皮带机启动",
-            //        "status": "已处理",
-            //        "suspend": true,
-            //        "isalarm": false,
-            //        "lineColor": "darkturquoise",
-            //        "circleSize": 20,
-            //        "circleColor": "darkturquoise"
-            //    },
-            //    {
-            //        "time": "2018-03-01 10:45",
-            //        "title": "Archery Training",
-            //        "motorname": "振动筛",
-            //        "desc": "给料电机故障",
-            //        "status": "已处理",
-            //        "suspend": true,
-            //        "isalarm": false,
-            //        "lineColor": "darkturquoise",
-            //        "circleSize": 20,
-            //        "circleColor": "darkturquoise"
-            //    }
-            //]
-
-
-            //Eg.
-            EventModel event1 = new EventModel { time = "2018-03-01 09:00", title = "Archery Training", motorname = "C7 主皮带", desc = "皮带机启动", status = "已处理", suspend = true, isalarm = false, lineColor = "darkturquoise", circleSize = 20, circleColor = "darkturquoise" };
-            EventModel event2 = new EventModel { time = "2018-03-01 10:45", title = "Archery Training", motorname = "振动筛", desc = "给料电机故障", status = "已处理", suspend = true, isalarm = false, lineColor = "darkturquoise", circleSize = 20, circleColor = "darkturquoise" };
-            EventModel event3 = new EventModel { time = "2018-03-01 19:00", title = "Archery Training", motorname = "C27皮带", desc = "皮带机停止", status = "未处理", suspend = false, isalarm = true, lineColor = "orange", circleSize = 20, circleColor = "orange" };
-            EventModel event4 = new EventModel { time = "2018-03-01 15:00", title = "Archery Training", motorname = "颚破1", desc = "处理机启动", status = "未处理", suspend = false, isalarm = true, lineColor = "orange", circleSize = 20, circleColor = "orange" };
-            EventModel event5 = new EventModel { time = "2018-03-01 12:00", title = "Archery Training", motorname = "C7 主皮带", desc = "皮带机启动", status = "已处理", suspend = true, isalarm = true, lineColor = "orange", circleSize = 20, circleColor = "orange" };
-
-            resData.Add(event1);
-            resData.Add(event2);
-            resData.Add(event3);
-            resData.Add(event4);
-            resData.Add(event5);
-            //End Business
-
-
-
-            return resData;
+  
         }
         #endregion
 
 
-
-        #region ViewModels
-
-        public class ConveyorOutlineModel
-        {
-            public double Output { get; set; }
-            public double RunningTime { get; set; }
-            public double Load { get; set; }
-            public double InstantOutput { get; set; }
-
-        }
-        public class ConveyorChartModel
-        {
-            public string name { get; set; }
-            public double y { get; set; }
-            public double RunningTime { get; set; }
-            public double InstantWeight { get; set; }
-            public double MotorLoad { get; set; }
-
-        }
-        public class RequestModel
-        {
-            public string lineId { get; set; }
-            public string motorId { get; set; }
-            public string startDatetime { get; set; }
-            public string endDatetime { get; set; }
-
-        }
-
-
-        public class ConveyorChartDataModel
-        {
-            public ConveyorChartDataModel()
-            {
-                series = new List<seriesModel>();
-            }
-            public xAxisModel xAxis { get; set; }
-            public IEnumerable<seriesModel> series { get; set; }
-
-        }
-        public class xAxisModel
-        {
-            public xAxisModel()
-            {
-                categories = new List<string>();
-            }
-            public IEnumerable<string> categories { get; set; }
-        }
-        public class seriesModel
-        {
-            public seriesModel()
-            {
-                data = new List<float>();
-            }
-            public string name { get; set; }
-            public IEnumerable<float> data { get; set; }
-
-        }
-
-
-        public class MotorItemModel
-        {
-            public string id { get; set; }
-            public double runningtime { get; set; }
-            public string name { get; set; }
-            public double load { get; set; }
-            public string type { get; set; }
-            public bool status { get; set; }
-        }
-
-
-
-
-        public class MotorChartDataModel
-        {
-            public ConveyorOutlineModel outline { get; set; }
-            public xAxisModel xAxis { get; set; }
-            public List<seriesModel> outputSeries { get; set; }
-            public List<seriesModel> runningtimeSeries { get; set; }
-
-        }
-
-
-        public class EventModel
-        {
-            public string time { get; set; }
-            public string title { get; set; }
-            public string motorname { get; set; }
-            public string desc { get; set; }
-            public string status { get; set; }
-            public bool suspend { get; set; }
-            public bool isalarm { get; set; }
-            public string lineColor { get; set; }
-            public int circleSize { get; set; }
-            public string circleColor { get; set; }
-        }
-        #endregion
 
     }
 }

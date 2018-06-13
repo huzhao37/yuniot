@@ -17,7 +17,7 @@ namespace Yunt.Inventory.Repository.EF.Mappings
             entity.ToTable("WareHouses");
             entity.HasKey(m => m.Id);
             entity.Property(m => m.MotorTypeId).IsRequired();
-            entity.Property(m => m.WareHousesId).IsRequired();
+            //entity.Property(m => m.WareHousesId).IsRequired();
             entity.Property(m => m.CreateTime).IsRequired();
             entity.Property(m => m.Name).IsRequired();
             entity.Property(m => m.Keeper).IsRequired();

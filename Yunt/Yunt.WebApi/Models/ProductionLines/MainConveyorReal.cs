@@ -10,6 +10,11 @@ namespace Yunt.WebApi.Models.ProductionLines
     /// </summary>
     public class MainConveyorReal
     {
+        public MainConveyorReal()
+        {
+        }
+
+        public bool ProductionLineStatus { get; set; }
         /// <summary>
         /// 瞬时称重
         /// </summary>
@@ -26,5 +31,7 @@ namespace Yunt.WebApi.Models.ProductionLines
         /// 产量
         /// </summary>
         public float AccumulativeWeight { get; set; }
+        
     }
+
 }

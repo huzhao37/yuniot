@@ -27,5 +27,19 @@ namespace Yunt.Analysis.Domain.IRepository
         /// <param name="motorId"></param>
         /// <returns></returns>
         IEnumerable<AiLog> GetAiLogs(string motorId);
+
+        /// <summary>
+        /// 添加数字量元数据
+        /// </summary>
+        /// <param name="di"></param>
+        Task AddDiLogAsync(DiHistory di);
+
+        /// <summary>
+        /// 获取数字量元数据
+        /// </summary>
+        /// <param name="motorId">设备编码</param>
+        /// <param name="dt">某一天</param>
+        /// <returns></returns>
+        IEnumerable<DiHistory> GetDis(string motorId,DateTime dt);
     }
 }

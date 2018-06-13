@@ -16,7 +16,7 @@ namespace Yunt.Inventory.Repository.EF.Mappings
         {
             entity.ToTable("SparePartsType");
             entity.HasKey(m => m.Id);
-            entity.Property(m => m.SparePartsTypeId).IsRequired();
+            //entity.Property(m => m.SparePartsTypeId).IsRequired();
             entity.Property(m => m.CreateTime).IsRequired();
         }
     }

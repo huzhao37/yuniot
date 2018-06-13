@@ -13,6 +13,7 @@ using Quartz;
 using Quartz.Impl;
 using Yunt.Common;
 using Yunt.DIDC.Tasks;
+using Yunt.Redis;
 using Yunt.Xml.Domain.Model;
 
 namespace Yunt.DIDC
@@ -35,8 +36,8 @@ namespace Yunt.DIDC
             Init(services);
 
             services.AddAutoMapper(typeof(Program).Assembly);
-
-            //var day=new DayStatisticsTask();
+           // BufferPool.DEFAULT_BUFFERLENGTH = 2000 * 1024;//2M缓冲区
+            //var day = new DayStatisticsTask();
             //day.ExcuteAnalysis();
 
             #endregion
@@ -110,6 +111,19 @@ namespace Yunt.DIDC
             Configuration = configuration;
             var providers = ServiceEx.StartServices(services, configuration);
             Providers = providers;
+        }
+
+        /// <summary>
+        /// 删除配置文件
+        /// </summary>
+        private static void DeleteConfigFile()
+        {
+            //var file = AppDomain.CurrentDomain.BaseDirectory + @"Config/Redis.config";
+            //if (File.Exists(file))//判断文件是不是存在
+            //{
+            //    File.Delete(file);//如果存在则删除
+            //}
+
         }
     }
 

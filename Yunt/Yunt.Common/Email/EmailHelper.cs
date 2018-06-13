@@ -61,9 +61,9 @@ namespace Yunt.Common.Email
         public bool Send()
         {
             //使用指定的邮件地址初始化MailAddress实例
-            MailAddress maddr = new MailAddress(mailFrom);
+            var maddr = new MailAddress(mailFrom);
             //初始化MailMessage实例
-            MailMessage myMail = new MailMessage();
+            var myMail = new MailMessage();
 
 
             //向收件人地址集合添加邮件地址
@@ -71,7 +71,7 @@ namespace Yunt.Common.Email
             {
                 for (int i = 0; i < mailToArray.Length; i++)
                 {
-                    myMail.To.Add(mailToArray[i].ToString());
+                    myMail.To.Add(mailToArray[i]);
                 }
             }
 
@@ -80,7 +80,7 @@ namespace Yunt.Common.Email
             {
                 for (int i = 0; i < mailCcArray.Length; i++)
                 {
-                    myMail.CC.Add(mailCcArray[i].ToString());
+                    myMail.CC.Add(mailCcArray[i]);
                 }
             }
             //发件人地址
@@ -122,14 +122,16 @@ namespace Yunt.Common.Email
                 //throw new Exception("在添加附件时有错误:" + err);
             }
 
-            var smtp = new SmtpClient(host,587);
+            var smtp = new SmtpClient(host, 587)
+            {
+                Credentials = new System.Net.NetworkCredential(mailFrom, mailPwd),
+                EnableSsl = true
+            };
             //指定发件人的邮件地址和密码以验证发件人身份
-            smtp.Credentials = new System.Net.NetworkCredential(mailFrom, mailPwd);
 
 
             //设置SMTP邮件服务器
-           // smtp.Host = host;
-            smtp.EnableSsl = true;
+            // smtp.Host = host;
             try
             {
                 //将邮件发送到SMTP邮件服务器

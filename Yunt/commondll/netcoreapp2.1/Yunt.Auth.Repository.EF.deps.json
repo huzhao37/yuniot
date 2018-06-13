@@ -1385,7 +1385,8 @@
           "Microsoft.Extensions.Logging.Debug": "2.0.2",
           "Microsoft.Extensions.Logging.EventSource": "2.0.2",
           "NewLife.Core": "7.0.6712.2419",
-          "SharpCompress": "0.20.0"
+          "SharpCompress": "0.20.0",
+          "protobuf-net": "2.3.7"
         },
         "runtime": {
           "Yunt.Common.dll": {}

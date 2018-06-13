@@ -10,6 +10,9 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using Yunt.Common;
+using Yunt.Device.Domain.IRepository;
+using Yunt.Device.Domain.Services;
+using Yunt.Device.Repository.EF.Repositories;
 using Yunt.IDC.Helper;
 using Yunt.MQ;
 using Yunt.Xml.Domain.IRepository;
@@ -25,10 +28,14 @@ namespace Yunt.IDC.Task
     {
         private static readonly IMessagequeueRepository MessagequeueRepository;
         private static readonly IBytesParseRepository BytesParseRepository;
+        private static readonly IProductionLineRepository ProductionLineRepository;
+        private static readonly IMotorRepository MotorRepository;
         static MqDealTask()
        {
             MessagequeueRepository = ServiceProviderServiceExtensions.GetService<IMessagequeueRepository>(Program.Providers["Xml"]);
             BytesParseRepository = ServiceProviderServiceExtensions.GetService<IBytesParseRepository>(Program.Providers["Xml"]);
+            ProductionLineRepository = ServiceProviderServiceExtensions.GetService<IProductionLineRepository>(Program.Providers["Device"]);
+            MotorRepository = ServiceProviderServiceExtensions.GetService<IMotorRepository>(Program.Providers["Device"]);
         }
        /// <summary>
        /// 所有队列集合
@@ -40,6 +47,23 @@ namespace Yunt.IDC.Task
         /// </summary>
         public static void Start()
         {
+            #region 预热instancedata-3个月数据
+
+            //if (!ProductionLineRepository.GetInstanceFromRedis("WDD-P001"))
+            //{
+            //    var motors = MotorRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase("WDD-P001"))?.ToList();
+            //    if (motors?.Any() ?? true)
+            //    {
+            //        motors.ForEach(e=>
+            //        {
+            //            var list = ProductionLineRepository.PreCache(e.MotorId, DateTime.Today.Date);
+
+            //        });
+            //    }
+            //}
+            
+
+            #endregion
             var w_r =(int) WriteOrRead.Read;
             //var where = " Write_Read = '" + w_r + "' and  Route_Key != 'STATUS'";
             WddQueue =

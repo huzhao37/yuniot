@@ -9,6 +9,12 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <Compile Remove="Mappings\SparePartsIdFactoriesMapping.cs" />
+    <Compile Remove="Models\IdModel\SparePartsIdFactories.cs" />
+    <Compile Remove="Repositories\SparePartsIdFactoriesRepository.cs" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="7.0.0-alpha-0001" />
     <PackageReference Include="AutoMapper.Extensions" Version="1.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.3" />
@@ -24,6 +30,10 @@
     <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
     <ProjectReference Include="..\Yunt.Inventory.Domain\Yunt.Inventory.Domain.csproj" />
     <ProjectReference Include="..\Yunt.Redis\Yunt.Redis.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\IdModel\" />
   </ItemGroup>
 
 </Project>

@@ -487,6 +487,23 @@
           "lib/netstandard1.3/Newtonsoft.Json.dll": {}
         }
       },
+      "protobuf-net/2.3.7": {
+        "type": "package",
+        "dependencies": {
+          "System.Reflection.Emit": "4.3.0",
+          "System.Reflection.Emit.ILGeneration": "4.3.0",
+          "System.Reflection.Emit.Lightweight": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0",
+          "System.Xml.XmlSerializer": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/protobuf-net.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/protobuf-net.dll": {}
+        }
+      },
       "Quartz/3.0.4": {
         "type": "package",
         "dependencies": {
@@ -1119,7 +1136,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.1/_._": {}
+          "ref/netstandard1.1/System.Reflection.Emit.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.dll": {}
@@ -1133,7 +1150,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.ILGeneration.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.ILGeneration.dll": {}
@@ -1148,7 +1165,7 @@
           "System.Runtime": "4.3.0"
         },
         "compile": {
-          "ref/netstandard1.0/_._": {}
+          "ref/netstandard1.0/System.Reflection.Emit.Lightweight.dll": {}
         },
         "runtime": {
           "lib/netstandard1.3/System.Reflection.Emit.Lightweight.dll": {}
@@ -1587,7 +1604,8 @@
           "Microsoft.Extensions.Logging.Debug": "2.0.2",
           "Microsoft.Extensions.Logging.EventSource": "2.0.2",
           "NewLife.Core": "7.0.6712.2419",
-          "SharpCompress": "0.20.0"
+          "SharpCompress": "0.20.0",
+          "protobuf-net": "2.3.7"
         },
         "compile": {
           "bin/placeholder/Yunt.Common.dll": {}
@@ -2437,6 +2455,27 @@
         "newtonsoft.json.10.0.1.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "tools/install.ps1"
+      ]
+    },
+    "protobuf-net/2.3.7": {
+      "sha512": "JG5ZUd42w4osBaDrFpJoEOelyRsuxV+EzY4c8J5o/Qhm+lqhm2iYWUl/T3zf7vhONBD968K190d7co1I2lucOQ==",
+      "type": "package",
+      "path": "protobuf-net/2.3.7",
+      "files": [
+        "lib/net20/protobuf-net.dll",
+        "lib/net20/protobuf-net.xml",
+        "lib/net35/protobuf-net.dll",
+        "lib/net35/protobuf-net.xml",
+        "lib/net40/protobuf-net.dll",
+        "lib/net40/protobuf-net.xml",
+        "lib/netstandard1.0/protobuf-net.dll",
+        "lib/netstandard1.0/protobuf-net.xml",
+        "lib/netstandard1.3/protobuf-net.dll",
+        "lib/netstandard1.3/protobuf-net.xml",
+        "lib/netstandard2.0/protobuf-net.dll",
+        "lib/netstandard2.0/protobuf-net.xml",
+        "protobuf-net.2.3.7.nupkg.sha512",
+        "protobuf-net.nuspec"
       ]
     },
     "Quartz/3.0.4": {

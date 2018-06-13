@@ -324,6 +324,60 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             return new PaginatedList<DT>(pageIndex, pageSize, count, dailys ?? new List<DT>());
         }
+
+        /// <summary>
+        /// （跳过缓存从数据库中获取数据）慎用！！！
+        /// </summary>
+        /// <param name="where"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public virtual IQueryable<DT> GetFromSqlDb(Expression<Func<DT, bool>> where = null, Expression<Func<DT, object>> order = null)
+        {
+
+            Expression<Func<ST, bool>> wheres;
+            Expression<Func<ST, object>> orderby;
+            IQueryable<DT> sql = null;
+            if (where != null && order != null)
+            {
+                wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
+                orderby = Mapper.MapExpression<Expression<Func<DT, object>>, Expression<Func<ST, object>>>(order);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).OrderBy(orderby).ProjectTo<DT>(Mapper);
+#if DEBUG
+                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                Logger.Warn(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+                return sql;
+            }
+
+            if (order != null)
+            {
+                orderby = Mapper.MapExpression<Expression<Func<DT, object>>, Expression<Func<ST, object>>>(order);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().OrderBy(orderby).ProjectTo<DT>(Mapper);
+#if DEBUG
+                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+                return sql;
+            }
+            if (where != null)
+            {
+                wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).ProjectTo<DT>(Mapper);
+#if DEBUG
+                //Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                // Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+                return sql;
+            }
+            sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().ProjectTo<DT>(Mapper);
+#if DEBUG
+            Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+            Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+            return sql;
+
+
+        }
         #endregion
 
         #region update

@@ -42,7 +42,7 @@ namespace MotorEvent.EmailPush
         {
             XTrace.Log.Info("mail push start ...");
             
-            #region MyRegion
+            #region mail push
 
             var now = DateTime.Now;
             //if (!(now.Hour == 8 && now.Minute == 55))

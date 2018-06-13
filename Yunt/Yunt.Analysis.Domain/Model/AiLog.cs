@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.Serialization;
 using System.Text;
 using ProtoBuf;
@@ -7,7 +8,7 @@ using ProtoBuf;
 namespace Yunt.Analysis.Domain.Model
 {
     /// <summary>
-    /// 实时记录
+    /// Ai实时记录
     /// </summary>
     [DataContract]
     [Serializable]
@@ -19,24 +20,28 @@ namespace Yunt.Analysis.Domain.Model
         /// </summary>
         [DataMember]
         [ProtoMember(1)]
+        [MaxLength(20)]
         public string MotorId { get; set; }
         /// <summary>
         /// 电机名称
         /// </summary>
         [DataMember]
         [ProtoMember(2)]
+        [MaxLength(20)]
         public string MotorName { get; set; }
         /// <summary>
         /// 产线ID
         /// </summary>
         [DataMember]
         [ProtoMember(3)]
+        [MaxLength(15)]
         public string ProductionLineId { get; set; }
         /// <summary>
         /// 参数名称
         /// </summary>
         [DataMember]
         [ProtoMember(4)]
+        [MaxLength(20)]
         public string Param { get; set; }
         /// <summary>
         /// 参数值
@@ -56,6 +61,7 @@ namespace Yunt.Analysis.Domain.Model
         /// </summary>
         [DataMember]
         [ProtoMember(7)]
+        [MaxLength(4)]
         public string MotorTypeId { get; set; }
 
     }
