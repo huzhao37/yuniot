@@ -232,152 +232,303 @@ namespace Yunt.WebApi.Controllers
         [HttpPost("[action]")]
         public MotorChartDataModel MotorDetail([FromBody]RequestModel value)
         {
-            var resData = new MotorChartDataModel();
+            MotorChartDataModel resData = new MotorChartDataModel(); 
+            switch(value.motorId)
+            {
+                case "1":
+                resData = genCY();
+                break;
+                case "2":
+                resData = genJC();
+                break;
+                case "3":
+                resData = genIC();
+                break;
+                case "4":
+                resData = genVB();
+                break;
+                case "5":
+                resData = genHFV();
+                break;
+                case "6":
+                resData = genSCC();
+                break;
+                case "7":
+                resData = genVC();
+                break;
+                case "8":
+                resData = genPUL();
+                break;
+                case "9":
+                resData = genMF();
+                break;
+            }
+            return resData;
+        }
+ 
+        public MotorChartDataModel genCY()
+        {
+            MotorChartDataModel resData = new MotorChartDataModel();
+            OutlineModel outline = new OutlineModel { Output = 28470.1, RunningTime = 33.8, Load = 105.29, Current = 230.2};
+ 
+            resData.outline = outline;
+            resData.xAxis = genTime();
+            resData.outputSeries = genSeries("主皮带");
+            resData.runningtimeSeries = genSeries("主皮带");
+            resData.currentSeries = genSeries("主皮带");
 
-            #region bus
+            return resData;
+        }
+        public MotorChartDataModel genJC()
+        {
+            MotorChartDataModel resData = new MotorChartDataModel();  
+            OutlineModel outline = new OutlineModel 
+            {
+                RunningTime = 33.8, 
+                Load = 105.29, 
+                MST = 105.29,
+                MST2 = 105.29,
+                RST = 105.29,
+                RST2 = 105.29,
+                VIB = 105.29,
+                VIB2 = 105.29,
+                WR = 105.29,
+                WR2 = 105.29, 
+                Current = 230.2
+            };
+ 
+            resData.outline = outline;
+            resData.xAxis = genTime();
+            resData.runningtimeSeries = genSeries("颚破");
+            resData.mstSeries = genSeries("颚破");
+            resData.mst2Series = genSeries("颚破");
+            resData.rstSeries = genSeries("颚破");
+            resData.rst2Series = genSeries("颚破");
+            resData.vibSeries = genSeries("颚破");
+            resData.vib2Series = genSeries("颚破");
+            resData.wrSeries = genSeries("颚破");
+            resData.wr2Series = genSeries("颚破");
+            resData.currentSeries = genSeries("颚破");
 
-            //try
-            //{
-            //    var motor =
-            //     _motorRepository.GetEntities(e => e.MotorId.Equals(value.motorId))?.FirstOrDefault();
-            //    if (motor == null) return resData;
-            //    var end = value.startDatetime.ToDateTime();
-            //    var start = value.endDatetime.ToDateTime();
-            //    //当日数据（24hours）
-            //    if (start == end)
-            //    {
-            //        var data = _conveyorByHourRepository.GetRealData(motor.MotorId);
-            //        return new MotorChartDataModel
-            //        {
-            //            Output = data.AccumulativeWeight,
-            //            InstantOutput = data.AvgInstantWeight,
-            //            Load = data.LoadStall,
-            //            RunningTime = data.RunningTime
-            //        };
-            //    }
-            //    //历史数据(阶段日期单位作为x轴)
-
-            //    var datas = _conveyorByDayRepository.GetEntities(e => e.Time.CompareTo(start) >= 0 &&
-            //                                                          e.Time.CompareTo(end) <= 0 && e.MotorId.Equals(motor.MotorId))?.ToList();
-            //    if (datas == null || !datas.Any()) return resData;
-            //}
-            //catch (Exception e)
-            //{
-            //    Logger.Exception(e);
-            //    return resData;
-            //}
-
-
-            #endregion
-            //Business
-
-
-            //输入
-            //int value.motorId
-            //DateTime DateTimeHelper(value.startDatetime)
-            //DateTime DateTimeHelper(value.endDatetime)
-
-            //业务
-            //返回固定设备的今日或历史数据
-            //传入的开始时间==结束时间 也返回今日统计数据，最多24条，categories与data长度一致
-            //传入的开始时间!=结束时间 返回范围内历史数据
-            //注意返回的数据结构已确定
-
-            //{
-            //    "outline": {
-            //        "output": 28470.1,
-            //        "runningTime": 33.8,
-            //        "load": 105.29,
-            //        "instantOutput": 0
-            //    },
-            //    "xAxis": {
-            //                "categories": [
-            //                    "2018-4-1",
-            //                    "2018-4-2"
-            //                ]
-            //    },
-            //    "outputSeries": [
-            //        {
-            //                    "name": "主皮带",
-            //                    "data": [
-            //                        11,
-            //                        17
-            //                    ]
-            //        }
-            //    ],
-            //    "runningtimeSeries": [
-            //        {
-            //            "name": "主皮带",
-            //            "data": [
-            //                11,
-            //                17
-            //            ]
-            //        }
-            //    ]
-            //}
-
-            //Eg.
-            //
-            ConveyorOutlineModel outline = new ConveyorOutlineModel { Output = 28470.1, RunningTime = 33.8, Load = 105.29, InstantOutput = 0 };
-
-            //
+            return resData;
+        }
+        public MotorChartDataModel genIC()
+        {
+             MotorChartDataModel resData = new MotorChartDataModel();
+            OutlineModel outline = new OutlineModel 
+            {
+                RunningTime = 33.8, 
+                Load = 105.29, 
+                ST = 105.29,
+                ST2 = 105.29,
+                VIB = 105.29,
+                VIB2 = 105.29,
+                WR = 105.29,
+                WR2 = 105.29, 
+                Current = 230.2,
+                Current2 = 230.2
+            };
+ 
+            resData.outline = outline;
+            resData.xAxis = genTime();
+            resData.runningtimeSeries = genSeries("反击破");
+            resData.stSeries = genSeries("反击破");
+            resData.st2Series = genSeries("反击破");
+            resData.vibSeries = genSeries("反击破");
+            resData.vib2Series = genSeries("反击破");
+            resData.wrSeries = genSeries("反击破");
+            resData.wr2Series = genSeries("反击破");
+            resData.currentSeries = genSeries("反击破");    
+            resData.current2Series = genSeries("反击破");          
+            return resData;
+        }
+        public MotorChartDataModel genVB()
+        {
+             MotorChartDataModel resData = new MotorChartDataModel();
+            OutlineModel outline = new OutlineModel 
+            {
+                RunningTime = 33.8, 
+                Load = 105.29, 
+                ST = 105.29,
+                ST2 = 105.29,
+                ST3 = 105.29,
+                ST4 = 105.29,
+                Current = 230.2
+            };
+ 
+            resData.outline = outline;
+            resData.xAxis = genTime();
+            resData.runningtimeSeries = genSeries("振动筛");
+            resData.stSeries = genSeries("振动筛");
+            resData.st2Series = genSeries("振动筛");
+            resData.st3Series = genSeries("振动筛");
+            resData.st4Series = genSeries("振动筛");
+            resData.currentSeries = genSeries("振动筛");  
+            return resData;
+        }
+        public MotorChartDataModel genHFV()
+        {
+             MotorChartDataModel resData = new MotorChartDataModel();
+            OutlineModel outline = new OutlineModel 
+            {
+                RunningTime = 33.8, 
+                Load = 105.29, 
+                ST = 105.29,
+                ST2 = 105.29,
+                ST3 = 105.29,
+                ST4 = 105.29,
+                OFS = 105.29,
+                ORS = 105.29,
+                Current = 230.2
+            };
+ 
+            resData.outline = outline;
+            resData.xAxis = genTime();
+            resData.runningtimeSeries = genSeries("高频筛");
+            resData.stSeries = genSeries("高频筛");
+            resData.st2Series = genSeries("高频筛");
+            resData.st3Series = genSeries("高频筛");
+            resData.st4Series = genSeries("高频筛");
+            resData.ofsSeries = genSeries("高频筛");
+            resData.orsSeries = genSeries("高频筛");
+            resData.currentSeries = genSeries("高频筛");  
+            return resData;
+        }
+        public MotorChartDataModel genSCC()
+        {
+             MotorChartDataModel resData = new MotorChartDataModel();
+            OutlineModel outline = new OutlineModel 
+            {
+                RunningTime = 33.8, 
+                Load = 105.29, 
+                TT = 105.29,
+                OFT = 105.29,
+                ORT = 105.29,
+                STV = 105.29,
+                MS = 105.29,
+                VIB = 105.29,
+                VIB2 = 105.29,
+                WR = 105.29,
+                WR2 = 105.29, 
+                Current = 230.2
+            };
+ 
+            resData.outline = outline;
+            resData.xAxis = genTime();
+            resData.runningtimeSeries = genSeries("圆锥破");
+            resData.ttSeries = genSeries("圆锥破");
+            resData.oftSeries = genSeries("圆锥破");
+            resData.ortSeries = genSeries("圆锥破");
+            resData.stvSeries = genSeries("圆锥破");
+            resData.msSeries = genSeries("圆锥破");
+            resData.vibSeries = genSeries("圆锥破");
+            resData.vib2Series = genSeries("圆锥破");
+            resData.wrSeries = genSeries("圆锥破");
+            resData.wr2Series = genSeries("圆锥破");
+            resData.currentSeries = genSeries("圆锥破");  
+            return resData;
+        }
+        public MotorChartDataModel genVC()
+        {
+             MotorChartDataModel resData = new MotorChartDataModel();
+            OutlineModel outline = new OutlineModel 
+            {
+                RunningTime = 33.8, 
+                Load = 105.29, 
+                VIB = 105.29,
+                VIB2 = 105.29,
+                WR = 105.29,
+                WR2 = 105.29, 
+                Current = 230.2
+            };
+ 
+            resData.outline = outline;
+            resData.xAxis = genTime();
+            resData.runningtimeSeries = genSeries("立轴破");
+            resData.vibSeries = genSeries("立轴破");
+            resData.vib2Series = genSeries("立轴破");
+            resData.wrSeries = genSeries("立轴破");
+            resData.wr2Series = genSeries("立轴破");
+            resData.currentSeries = genSeries("立轴破");  
+            return resData;
+        }
+        public MotorChartDataModel genPUL()
+        {
+             MotorChartDataModel resData = new MotorChartDataModel();
+            OutlineModel outline = new OutlineModel 
+            {
+                RunningTime = 33.8, 
+                Load = 105.29, 
+                VIB = 105.29,
+                VIB2 = 105.29,
+                WR = 105.29,
+                WR2 = 105.29, 
+                Current = 230.2
+            };
+ 
+            resData.outline = outline;
+            resData.xAxis = genTime();
+            resData.runningtimeSeries = genSeries("磨粉机");
+            resData.vibSeries = genSeries("磨粉机");
+            resData.vib2Series = genSeries("磨粉机");
+            resData.wrSeries = genSeries("磨粉机");
+            resData.wr2Series = genSeries("磨粉机");
+            resData.currentSeries = genSeries("磨粉机");   
+            return resData;
+        }
+        public MotorChartDataModel genMF()
+        {
+             MotorChartDataModel resData = new MotorChartDataModel();
+            OutlineModel outline = new OutlineModel 
+            {
+                RunningTime = 33.8, 
+                Load = 105.29, 
+                Frequency = 105.29,
+                Current = 230.2
+            };
+ 
+            resData.outline = outline;
+            resData.xAxis = genTime();
+            resData.runningtimeSeries = genSeries("给料机");
+            resData.freqSeries = genSeries("给料机");
+            resData.currentSeries = genSeries("给料机");  
+            return resData;
+        }
+        public xAxisModel genTime()
+        {
             xAxisModel xAxis = new xAxisModel();
             List<string> categories = new List<string>();
-
+ 
             for (int i = 1; i < 16; i++)
             {
                 string str = "2018-4-" + i;
                 categories.Add(str);
             }
             xAxis.categories = categories;
+            return xAxis;
+        }
 
-            //
+        public List<seriesModel> genSeries(string name)
+        {
             List<seriesModel> serieses = new List<seriesModel>();
             seriesModel series = new seriesModel();
-            List<float> data = new List<float>();
-
+            List<double> data = new List<double>();
+ 
             for (int i = 1; i < 16; i++)
             {
                 Random random = new Random();
                 int _value = random.Next(10, 20);
                 data.Add(_value);
             }
-            series.name = "主皮带";
+            series.name = name;
             series.data = data;
-
+ 
             serieses.Add(series);
 
-            //
-            List<seriesModel> rtserieses = new List<seriesModel>();
-            seriesModel rtseries = new seriesModel();
-            List<double> rtdata = new List<double>();
-
-            for (int i = 1; i < 16; i++)
-            {
-                Random random = new Random();
-                int _value = random.Next(10, 20);
-                rtdata.Add(_value);
-            }
-            rtseries.name = "主皮带";
-            rtseries.data = data;
-
-            rtserieses.Add(rtseries);
-
-            //
-            resData.outline = outline;
-            resData.xAxis = xAxis;
-            resData.outputSeries = serieses;
-            resData.runningtimeSeries = rtserieses;
-            //End Business
-
-
-
-            return resData;
-
+            return serieses;
         }
 
         #endregion
-
 
         #region Event 
         [HttpPost("[action]")]
@@ -408,9 +559,9 @@ namespace Yunt.WebApi.Controllers
                             motorname = d.MotorName,
                             desc = d.Description,
                             //isalarm = true,
-                            lineColor = "darkturquoise",
-                            circleSize = 20,
-                            circleColor = "darkturquoise"
+                            // lineColor = "darkturquoise",
+                            // circleSize = 20,
+                            // circleColor = "darkturquoise"
                         });
                     });
                     return resData;
@@ -428,9 +579,9 @@ namespace Yunt.WebApi.Controllers
                         motorname = d.MotorName,
                         desc = d.Description,
                         //isalarm = true,
-                        lineColor = "darkturquoise",
-                        circleSize = 20,
-                        circleColor = "darkturquoise"
+                        // lineColor = "darkturquoise",
+                        // circleSize = 20,
+                        // circleColor = "darkturquoise"
                     });
                 });
                 return resData;
@@ -450,5 +601,79 @@ namespace Yunt.WebApi.Controllers
 
 
     }
+
+
+
+
+
+
+
+        #region ViewModels
+        public class OutlineModel
+        {
+            public double RunningTime { get; set; }
+            public double Load { get; set; }
+
+            public double Output { get; set; }
+            public double MST { get; set; }
+            public double MST2 { get; set; }
+            public double RST { get; set; }
+            public double RST2 { get; set; }
+            public double ST { get; set; }
+            public double ST2 { get; set; }
+            public double ST3 { get; set; }
+            public double ST4 { get; set; } 
+            public double TT { get; set; }
+            public double OFT { get; set; }           
+            public double ORT { get; set; }
+            public double STV { get; set; }
+            public double MS { get; set; } 
+            public double OFS { get; set; }
+            public double ORS { get; set; }
+            public double VIB { get; set; }
+            public double VIB2 { get; set; }
+            public double WR { get; set; }
+            public double WR2 { get; set; }
+            public double Current {get;set;}
+            public double Current2 {get;set;}
+            public double Frequency {get;set;}
+
+
+        }
+        public class MotorChartDataModel
+        {
+            public OutlineModel outline { get; set; }
+            public xAxisModel xAxis { get; set; }
+            public List<seriesModel> outputSeries { get; set; }
+            public List<seriesModel> runningtimeSeries { get; set; }
+            public List<seriesModel> currentSeries { get; set; }
+            public List<seriesModel> current2Series { get; set; }
+            public List<seriesModel> freqSeries { get; set; }
+            public List<seriesModel> vibSeries { get; set; }
+            public List<seriesModel> vib2Series { get; set; }
+            public List<seriesModel> wrSeries { get; set; }
+            public List<seriesModel> wr2Series { get; set; }
+            public List<seriesModel> mstSeries { get; set; }
+            public List<seriesModel> mst2Series { get; set; }
+            public List<seriesModel> rstSeries { get; set; }
+            public List<seriesModel> rst2Series { get; set; }
+            public List<seriesModel> ttSeries { get; set; }
+            public List<seriesModel> oftSeries { get; set; }            
+            public List<seriesModel> ortSeries { get; set; }
+            public List<seriesModel> stSeries { get; set; }
+            public List<seriesModel> st2Series { get; set; }
+            public List<seriesModel> st3Series { get; set; }
+            public List<seriesModel> st4Series { get; set; }
+            public List<seriesModel> ofsSeries { get; set; }
+            public List<seriesModel> orsSeries { get; set; }
+            public List<seriesModel> stvSeries { get; set; }
+            public List<seriesModel> msSeries { get; set; }            
+        }
+ 
+        #endregion
+
+
+
+
 }
 
