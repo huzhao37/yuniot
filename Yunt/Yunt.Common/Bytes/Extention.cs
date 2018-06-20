@@ -90,6 +90,18 @@ namespace Yunt.Common
             return src;
         }
         /// <summary>
+        /// int 转 byte[1]
+        /// </summary>
+        /// <param name="value">int值</param>
+        /// <returns></returns>
+        public static byte[] IntToBytes(int value)
+        {
+            byte[] src = new byte[1];
+           // src[1] = (byte)((value >> 8) & 0xFF);
+            src[0] = (byte)(value & 0xFF);
+            return src;
+        }
+        /// <summary>
         /// int 转 byte[4]
         /// </summary>
         /// <param name="value">int值</param>
@@ -146,6 +158,24 @@ namespace Yunt.Common
             buffer[2] = BitConverter.GetBytes(value >> 8)[0];
             buffer[3] = BitConverter.GetBytes(value)[0];
 
+            return buffer;
+        }
+        /// <summary>
+        /// 时间unix转成byte[4]
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public static byte[] TimeTobyte4(this DateTime value)
+        {
+            var year =Convert.ToInt32(value.Year.ToString().Substring(2));
+            var month =value.Month;
+            var day = value.Day;
+            var hour = value.Hour;
+
+            var buffer = IntToBytes(year);
+            buffer = CombomBinaryArray(buffer, IntToBytes(month));
+            buffer = CombomBinaryArray(buffer, IntToBytes(day));
+            buffer = CombomBinaryArray(buffer, IntToBytes(hour));
             return buffer;
         }
         /// <summary>
@@ -270,7 +300,7 @@ namespace Yunt.Common
             return returnBytes;
         }
         /// <summary>
-        /// 高地位互换;字符串转16进制;
+        /// 高低位互换;字符串转16进制;
         /// </summary>
         /// <param name="hexString"></param>
         /// <returns></returns>

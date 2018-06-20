@@ -53,6 +53,7 @@ namespace Yunt.Common
             }
             else
             {
+              //  DateTime startTime = TimeZoneInfo.ConvertTime(time, TimeZoneInfo.Local);//等价的建议写法
                 DateTime startTime = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
                 return (int)(time - startTime).TotalSeconds;
             }
@@ -78,6 +79,20 @@ namespace Yunt.Common
         public static long ExpireOneDay(this long time)
         {
             return Convert.ToInt64(Math.Abs(time.Time().Date.AddDays(1).Subtract(DateTime.Now.Date).TotalSeconds));
+        }
+
+        /// <summary>
+        /// 时间戳转为C#格式时间
+        /// </summary>
+        /// <param name="timeStamp">Unix时间戳格式</param>
+        /// <returns>C#格式时间</returns>
+        public static DateTime Time(this int timeStamp)
+        {
+            DateTime dtStart = TimeZone.CurrentTimeZone.ToLocalTime(new DateTime(1970, 1, 1));
+
+            long lTime = long.Parse(timeStamp + "0000000");
+            TimeSpan toNow = new TimeSpan(lTime);
+            return dtStart.Add(toNow);
         }
     }
 }

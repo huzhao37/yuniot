@@ -241,15 +241,36 @@ namespace Yunt.WebApi.Controllers
                 _productionLineRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase(plan.ProductionlineId))?.FirstOrDefault();
             if (productionline == null)
                 return false;
-            //28B
-            var bytes = Extention.CombomBinaryArray(Extention.TimeTobyte(plan.Start), Extention.TimeTobyte(plan.End));
+            //28B+6+2+1
+            
+            var bytes = Extention.strToToHexByte("0102030405FF");
+            //Array.Reverse(configBuff);//高低位互换
+            var dataconfig = Extention.strToToHexByte("8010");
+            Array.Reverse(dataconfig);//高低位互换
+            bytes = Extention.CombomBinaryArray(bytes, dataconfig);
+
+            bytes = Extention.CombomBinaryArray(bytes,new byte[1] { 01});
+
+            var startTime = plan.Start.Time();
+            var endTime = plan.End.Time();
+            // 年月日时 高低位
+
+            var start = startTime.TimeTobyte4();
+            Array.Reverse(start);//高低位互换
+            bytes = Extention.CombomBinaryArray(bytes, start);
+            var end = endTime.TimeTobyte4();
+            Array.Reverse(end);//高低位互换
+            bytes = Extention.CombomBinaryArray(bytes, end);
             bytes = Extention.CombomBinaryArray(bytes, Extention.IntToBytes4(plan.FinishCy3));
             bytes = Extention.CombomBinaryArray(bytes, Extention.IntToBytes4(plan.FinishCy2));
             bytes = Extention.CombomBinaryArray(bytes, Extention.IntToBytes4(plan.MainCy));
             bytes = Extention.CombomBinaryArray(bytes, Extention.IntToBytes4(plan.FinishCy1));
             bytes = Extention.CombomBinaryArray(bytes, Extention.IntToBytes4(plan.FinishCy4));
 
-           var wddQueue =
+#if DEBUG
+            Logger.Error(Extention.ByteArrayToHexString(bytes));
+#endif
+            var wddQueue =
       _messagequeueRepository.GetEntities(e => e.Route_Key.Equals("WUDDOUT")).FirstOrDefault();
             if (wddQueue == null)
                 return false;
@@ -260,8 +281,8 @@ namespace Yunt.WebApi.Controllers
             var queuePassword = wddQueue.Pwd;
 
             var ccuri = "amqp://" + queueHost + ":" + queuePort;
-            var queue = "WDDOUT";//wddQueue.Route_Key;
-            var route = "WDDOUT"; //wddQueue.Route_Key; 
+            var queue = wddQueue.Route_Key;
+            var route = wddQueue.Route_Key; 
             var exchange = "amq.topic";
             plan.Time=DateTime.Now;
             var rabbitHelper = new RabbitMqHelper();

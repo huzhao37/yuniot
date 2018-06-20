@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Cors;
 using Yunt.Auth.Domain.IRepository;
 
 using Yunt.WebApi.Models.Logins;
@@ -24,6 +25,7 @@ namespace Yunt.WebApi.Controllers
         }
 
         [HttpPost("authenticate")]
+       // [EnableCors("any")]
         public IActionResult Authenticate([FromBody]LoginInfo info)
         {          
             var user = _userRepository.GetEntities(e=>e.LoginAccount.Equals(info.LoginName)&&e.LoginPwd.Equals(info.Password)).SingleOrDefault();

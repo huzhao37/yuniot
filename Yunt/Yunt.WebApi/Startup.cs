@@ -56,7 +56,17 @@ namespace Yunt.WebApi
             services.AddAutoMapper(typeof(Startup).Assembly);
 
             services.AddMvc();
-
+            //配置跨域处理
+            services.AddCors(options =>
+            {
+                options.AddPolicy("any", builder2 =>
+                {
+                    builder2.AllowAnyOrigin() //允许任何来源的主机访问
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials();//指定处理cookie
+                });
+            });
             //services.AddSingleton<UserStore>();
 
             services.AddAuthentication(x =>
@@ -150,7 +160,7 @@ namespace Yunt.WebApi
             {
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
-               // builder.WithOrigins("http://localhost:8080");//生产环境-前端地址
+                //builder.WithOrigins("http://10.1.5.:8080");//生产环境-前端地址
                 builder.AllowAnyOrigin();
             });
         }
