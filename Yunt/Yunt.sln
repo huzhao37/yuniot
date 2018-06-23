@@ -135,7 +135,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analysis【分析】", "Ana
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.Analysis.Repository.EF", "Yunt.Analysis.Repository.EF\Yunt.Analysis.Repository.EF.csproj", "{C3B6CDB0-2488-4074-8663-E1E2C71C3E0D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Yunt.IDA", "Yunt.IDA\Yunt.IDA.csproj", "{C327B97A-2D84-4878-AD98-19F6D3D6CD95}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Yunt.IDA", "Yunt.IDA\Yunt.IDA.csproj", "{C327B97A-2D84-4878-AD98-19F6D3D6CD95}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

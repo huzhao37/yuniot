@@ -11,10 +11,10 @@ using Yunt.Redis;
 
 namespace Yunt.Analysis.Repository.EF.Repositories
 {
-    public class EventKindRoleRepository : AnalysisRepositoryBase<MotorEventLog, Models.MotorEventLog>, IMotorEventLogRepository
+    public class MotorEventLogRepository : AnalysisRepositoryBase<MotorEventLog, Models.MotorEventLog>, IMotorEventLogRepository
     {
      
-        public EventKindRoleRepository(IMapper mapper, IRedisCachingProvider provider) : base(mapper, provider)
+        public MotorEventLogRepository(IMapper mapper, IRedisCachingProvider provider) : base(mapper, provider)
         {
           
         }

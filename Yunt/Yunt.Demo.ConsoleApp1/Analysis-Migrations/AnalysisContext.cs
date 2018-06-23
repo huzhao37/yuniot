@@ -39,7 +39,7 @@ namespace Yunt.Demo.ConsoleApp1
 
         public virtual DbSet<EventKind> EventKind { get; set; }
         public virtual DbSet<MotorEventLog> MotorEventLog { get; set; }
- 
+        public virtual DbSet<AlarmInfo> AlarmInfo { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -58,6 +58,10 @@ namespace Yunt.Demo.ConsoleApp1
             modelBuilder.Entity<MotorEventLog>().Property(u =>u.EventCode ).HasMaxLength(12);
             modelBuilder.Entity<MotorEventLog>().Property(u => u.Description).HasMaxLength(200);
             modelBuilder.Entity<MotorEventLog>().Property(u => u.MotorName).HasMaxLength(20);
+            modelBuilder.Entity<AlarmInfo>().Property(u => u.MotorName).HasMaxLength(20);
+            modelBuilder.Entity<AlarmInfo>().Property(u => u.MotorId).HasMaxLength(20);
+            modelBuilder.Entity<AlarmInfo>().Property(u => u.Content).HasMaxLength(50);
+            modelBuilder.Entity<AlarmInfo>().Property(u => u.Remark).HasMaxLength(50);
             #endregion
 
 

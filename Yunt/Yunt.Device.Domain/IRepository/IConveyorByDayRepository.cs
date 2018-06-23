@@ -27,5 +27,14 @@ namespace Yunt.Device.Domain.IRepository
         Task InsertDayStatistics(DateTime dt, string motorTypeId);
 
         #endregion
+
+        #region assitant method
+        /// <summary>
+        ///恢复该小时内所有的数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        Task RecoveryDayStatistics(DateTime dt, string motorTypeId);
+        #endregion
     }
 }

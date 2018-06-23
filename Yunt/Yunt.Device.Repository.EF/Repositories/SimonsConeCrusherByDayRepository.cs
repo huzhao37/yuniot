@@ -49,7 +49,11 @@ namespace Yunt.Device.Repository.EF.Repositories
             var originalDatas = _sccRep.GetEntities(e => e.Time >= startUnix &&
                                     e.Time < endUnix, e => e.Time)?.ToList();
 
-            if (!(originalDatas?.Any() ?? false)) return null;
+            if (!(originalDatas?.Any() ?? false)) return new SimonsConeCrusherByDay
+            {
+                Time = start.TimeSpan(),
+                MotorId = motor.MotorId,
+            };
 
             var average = (float)Math.Round(originalDatas.Average(o => o.AverageCurrent), 2);
             var entity = new SimonsConeCrusherByDay
@@ -92,5 +96,30 @@ namespace Yunt.Device.Repository.EF.Repositories
         }
         #endregion
 
+
+        #region assitant method
+        /// <summary>
+        ///恢复该小时内所有的数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task RecoveryDayStatistics(DateTime dt, string motorTypeId)
+        {
+            var ts = new List<SimonsConeCrusherByDay>();
+            var day = dt.Date.TimeSpan();
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
+            foreach (var motor in query)
+            {
+                var exsit = GetEntities(o => o.Time == day && o.MotorId == motor.MotorId)?.ToList();
+                if (exsit?.Any()??false)
+                    await DeleteEntityAsync(exsit);
+                var t = GetByMotor(motor, dt);
+                if (t != null)
+                    ts.Add(t);
+            }
+
+            await InsertAsync(ts);
+        }
+        #endregion
     }
 }

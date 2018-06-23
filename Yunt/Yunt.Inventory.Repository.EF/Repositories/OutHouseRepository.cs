@@ -23,7 +23,27 @@ namespace Yunt.Inventory.Repository.EF.Repositories
         {           
             
         }
-
-
+        /// <summary>
+        /// 获取所有设备相关的备件消耗明细
+        /// </summary>
+        /// <param name="motorIds"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public IEnumerable<OutHouse> GetUseless(IEnumerable<string> motorIds,long start,long end)
+        {
+            return GetEntities(e => motorIds.Contains(e.MotorId) &&
+                                e.SparePartsStatus.Equals(SparePartsTypeStatus.Useless) && 
+                                e.UselessTime>=start&&e.UselessTime<=end)?.ToList();
+        }
+        /// <summary>
+        /// 计算备件成本
+        /// </summary>
+        /// <param name="spares"></param>
+        /// <returns></returns>
+        public float CalcCost(IEnumerable<OutHouse> spares)
+        {
+           return (float)Math.Round(spares?.Sum(e => e.UnitPrice)??0,2);
+        }
     }
 }

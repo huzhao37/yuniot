@@ -77,7 +77,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             #region 计算产量
             double lastPower = 0;
             double powerSum = 0;
-            //获取上一个有效累计称重的值      
+            //获取上一个有效电能的值      
             if (lastRecord != null && lastRecord.ActivePower != -1 &&
                first.ActivePower - lastRecord.ActivePower >= 0)
             {
@@ -130,9 +130,11 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AvgCurrent_B = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2),
                 AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.Voltage_B), 2),           
                 AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.PowerFactor), 2),             
-                AccumulativeWeight = (float)Math.Round(weightSum, 2), //TODO：累计称重计算;               
+                AccumulativeWeight =motor.UseCalc? calcWeight:(float)Math.Round(weightSum, 2), //TODO：累计称重计算;               
                 RunningTime = count,
-                ActivePower = calcWeight,
+                ActivePower = (float)Math.Round(powerSum, 2),
+                AvgPulsesSecond = (float)Math.Round(originalDatas.Average(o => o.PulsesSecond), 2),
+               
                 //负荷 = 该小时内累计重量/额定产量 (单位: 吨/小时);
                 LoadStall = count* standValue == 0 ? 0 : (float)load,
             };
@@ -230,5 +232,29 @@ namespace Yunt.Device.Repository.EF.Repositories
         }
         #endregion
 
+
+        #region assitant method
+        /// <summary>
+        ///恢复该小时内所有的数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task RecoveryHourStatistics(DateTime dt, string motorTypeId)
+        {
+            var ts = new List<ConveyorByHour>();
+            var hour = dt.Date.AddHours(dt.Hour).TimeSpan();
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
+            foreach (var motor in query)
+            {
+                var exsit = GetEntities(o => o.Time == hour && o.MotorId == motor.MotorId)?.ToList();
+                if (exsit?.Any()??false)
+                    await DeleteEntityAsync(exsit);
+                var t = GetByMotor(motor, false, dt);
+                if (t != null)
+                    ts.Add(t);
+            }
+            await InsertAsync(ts);
+        }
+        #endregion
     }
 }

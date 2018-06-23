@@ -59,6 +59,7 @@ namespace Yunt.HIDC.Tasks
         /// <param name="context"></param>
         public Task Execute(IJobExecutionContext context)
         {
+            var startTime = DateTime.Now.AddHours(-1);
             var w_r = (int)WriteOrRead.Read;
             //var where = " Write_Read = '" + w_r + "' and  Route_Key != 'STATUS'";
             WddQueue =
@@ -80,8 +81,11 @@ namespace Yunt.HIDC.Tasks
                 var messageCount = rabbitHelper.GetMessageCount(ccuri, queue, route, exchange, queueHost, queuePort, queueUserName,
                     queuePassword) + rabbitHelper.GetMessageCount(ccuri, errorQueue, errorQueue, exchange, queueHost, queuePort, queueUserName,
                     queuePassword);
+           
                 if (messageCount >= 1)
                 {
+                    //自动恢复统计数据-起始时间
+                    startTime = DateTime.Now.AddHours(-1);
                     while (true)
                     {
                         Thread.Sleep(5000);
@@ -96,9 +100,35 @@ namespace Yunt.HIDC.Tasks
                     }
                 };
             }
- 
+             
           
             var dt = DateTime.Now.AddHours(-1);
+            if (dt.CompareTo(startTime) == 0)
+            {
+                MainTask(dt);
+                return Task.CompletedTask;
+            }
+            //自动恢复
+            var hours = dt.Subtract(startTime).TotalHours;
+            for (int i = 0; i < hours; i++)
+            {
+                var time = startTime.AddHours(i);
+                MainTask(time);
+            }
+
+#if DEBUG
+            Logger.Info("[HourStatisticsTask]Hour Statistics");
+            Logger.Info($"耗时{context.JobRunTime.TotalMilliseconds}ms");
+#endif
+            //GC.Collect();
+            return Task.CompletedTask;
+        }
+        /// <summary>
+        /// 主任务
+        /// </summary>
+        /// <param name="dt"></param>
+        private void MainTask(DateTime dt)
+        {
             CyByHourRepository.InsertHourStatistics(dt, "CY");
             SccByHourRepository.InsertHourStatistics(dt, "SCC");
             CcByHourRepository.InsertHourStatistics(dt, "CC");
@@ -109,20 +139,31 @@ namespace Yunt.HIDC.Tasks
             PulByHourRepository.InsertHourStatistics(dt, "PUL");
             IcByHourRepository.InsertHourStatistics(dt, "IC");
             HvibByHourRepository.InsertHourStatistics(dt, "HVB");
-
             HvibByHourRepository.Batch();
             //rhcByHourRepository.Insert(dt);
             //dtrByHourRepository.InsertAsync(t);
 
-
-#if DEBUG
-            Logger.Info("[HourStatisticsTask]Hour Statistics");
-            Logger.Info($"耗时{context.JobRunTime.TotalMilliseconds}ms");
-#endif
-            //GC.Collect();
-            return Task.CompletedTask;
         }
 
 
+        /// <summary>
+        /// 统计恢复任务
+        /// </summary>
+        /// <param name="dt"></param>
+        public static void RecoveryTask(DateTime dt)
+        {
+            CyByHourRepository.RecoveryHourStatistics(dt, "CY");
+            SccByHourRepository.RecoveryHourStatistics(dt, "SCC");
+            CcByHourRepository.RecoveryHourStatistics(dt, "CC");
+            JcByHourRepository.RecoveryHourStatistics(dt, "JC");
+            MfByHourRepository.RecoveryHourStatistics(dt, "MF");
+            VcByHourRepository.RecoveryHourStatistics(dt, "VC");
+            VibByHourRepository.RecoveryHourStatistics(dt, "VB");
+            PulByHourRepository.RecoveryHourStatistics(dt, "PUL");
+            IcByHourRepository.RecoveryHourStatistics(dt, "IC");
+            HvibByHourRepository.RecoveryHourStatistics(dt, "HVB");
+            HvibByHourRepository.Batch();
+
+        }
     }
 }

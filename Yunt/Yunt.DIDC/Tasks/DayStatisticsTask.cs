@@ -69,6 +69,7 @@ namespace Yunt.DIDC.Tasks
         /// <param name="context"></param>
         public Task Execute(IJobExecutionContext context)
         {
+            var startTime = DateTime.Now.AddDays(-1);
             var w_r = (int)WriteOrRead.Read;
             //var where = " Write_Read = '" + w_r + "' and  Route_Key != 'STATUS'";
             WddQueue =
@@ -91,7 +92,9 @@ namespace Yunt.DIDC.Tasks
                     queuePassword) + rabbitHelper.GetMessageCount(ccuri, errorQueue, errorQueue, exchange, queueHost, queuePort, queueUserName,
                     queuePassword);
                 if (messageCount >= 1)
-                {
+                { 
+                    //自动恢复统计数据-起始时间
+                    startTime = DateTime.Now.AddDays(-1);
                     while (true)
                     {
                         Thread.Sleep(5000);
@@ -102,13 +105,39 @@ namespace Yunt.DIDC.Tasks
 #if DEBUG
                         Common.Logger.Info($"[DayStatisticsTask]:当前队列还有{messageCount}个数据位解析，请等待");
 #endif
-
                     }
                 };
-
            
             }
             var dt = DateTime.Now.AddDays(-1);
+
+            if (dt.CompareTo(startTime) == 0)
+            {
+                MainTask(dt);
+                return Task.CompletedTask;
+            }
+            //自动恢复
+            var days = dt.Subtract(startTime).TotalDays;
+            for (int i = 0; i < days; i++)
+            {
+                var time = startTime.AddDays(i);
+                MainTask(time);
+            }
+
+#if DEBUG
+            Common.Logger.Info("[DayStatisticsTask]Day Statistics");
+            Common.Logger.Info($"耗时{context.JobRunTime.TotalMilliseconds}ms");
+#endif
+            return Task.CompletedTask;
+            //GC.Collect();
+        }
+
+        /// <summary>
+        /// 主任务
+        /// </summary>
+        /// <param name="dt"></param>
+        private void MainTask(DateTime dt)
+        {
             CyByDayRepository.InsertDayStatistics(dt, "CY");
             SccByDayRepository.InsertDayStatistics(dt, "SCC");
             CcByDayRepository.InsertDayStatistics(dt, "CC");
@@ -125,14 +154,26 @@ namespace Yunt.DIDC.Tasks
             //dtrByDayRepository.InsertAsync(t);
             //ExcuteAnalysis();
 
-#if DEBUG
-            Common.Logger.Info("[DayStatisticsTask]Day Statistics");
-            Common.Logger.Info($"耗时{context.JobRunTime.TotalMilliseconds}ms");
-#endif
-            return Task.CompletedTask;
-            //GC.Collect();
         }
 
+        /// <summary>
+        /// 统计恢复任务
+        /// </summary>
+        /// <param name="dt"></param>
+        public static void RecoveryTask(DateTime dt)
+        {
+            CyByDayRepository.RecoveryDayStatistics(dt, "CY");
+            SccByDayRepository.RecoveryDayStatistics(dt, "SCC");
+            CcByDayRepository.RecoveryDayStatistics(dt, "CC");
+            JcByDayRepository.RecoveryDayStatistics(dt, "JC");
+            MfByDayRepository.RecoveryDayStatistics(dt, "MF");
+            VcByDayRepository.RecoveryDayStatistics(dt, "VC");
+            VibByDayRepository.RecoveryDayStatistics(dt, "VB");
+            PulByDayRepository.RecoveryDayStatistics(dt, "PUL");
+            IcByDayRepository.RecoveryDayStatistics(dt, "IC");
+            HvibByDayRepository.RecoveryDayStatistics(dt, "HVB");
 
+            HvibByDayRepository.Batch();
+        }
     }
 }

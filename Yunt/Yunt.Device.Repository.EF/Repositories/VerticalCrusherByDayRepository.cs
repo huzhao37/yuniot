@@ -49,15 +49,24 @@ namespace Yunt.Device.Repository.EF.Repositories
             var originalDatas = _vcRep.GetEntities(e => e.Time >= startUnix &&
                                     e.Time < endUnix, e => e.Time)?.ToList();
 
-            if (!(originalDatas?.Any() ?? false)) return null;
+            if (!(originalDatas?.Any() ?? false)) return new VerticalCrusherByDay
+            {
+                Time = start.TimeSpan(),
+                MotorId = motor.MotorId,
+            };
 
             var average = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_B), 2);
             var entity = new VerticalCrusherByDay
             {
+                ActivePower = (float)Math.Round(originalDatas.Sum(c => c.ActivePower), 2),
                 Time = start.TimeSpan(),
                 MotorId = motor.MotorId,
                 AvgCurrent_B = average,
-
+                AvgVoltage_B= (float)Math.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
+                AvgVibrate1 = (float)Math.Round(originalDatas.Average(o => o.AvgVibrate1), 2),
+                AvgVibrate2 = (float)Math.Round(originalDatas.Average(o => o.AvgVibrate2), 2),
+                WearValue1=(float)Math.Round(originalDatas.Average(o => o.WearValue1), 2),
+                WearValue2 = (float)Math.Round(originalDatas.Average(o => o.WearValue2), 2),
                 RunningTime = originalDatas.Sum(c => c.RunningTime),
                 LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
             };
@@ -89,6 +98,29 @@ namespace Yunt.Device.Repository.EF.Repositories
         }
         #endregion
 
+        #region assitant method
+        /// <summary>
+        ///恢复该小时内所有的数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task RecoveryDayStatistics(DateTime dt, string motorTypeId)
+        {
+            var ts = new List<VerticalCrusherByDay>();
+            var day = dt.Date.TimeSpan();
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
+            foreach (var motor in query)
+            {
+                var exsit = GetEntities(o => o.Time == day && o.MotorId == motor.MotorId)?.ToList();
+                if (exsit?.Any()??false)
+                    await DeleteEntityAsync(exsit);
+                var t = GetByMotor(motor, dt);
+                if (t != null)
+                    ts.Add(t);
+            }
 
+            await InsertAsync(ts);
+        }
+        #endregion
     }
 }

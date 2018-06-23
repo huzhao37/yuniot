@@ -24,6 +24,7 @@ namespace Yunt.IDC.Helper
 {
     public class BytesToDb
     {
+        #region ctor & fields
         private static DataGramModel _model;
         private readonly static RabbitMqHelper rabbitHelper;
         private readonly static string queueHost;
@@ -53,6 +54,7 @@ namespace Yunt.IDC.Helper
         private static readonly ICollectdeviceRepository CollectdeviceRepository;
         public static readonly IDataformmodelRepository DataformmodelRepository;
         public static readonly IMotorEventLogRepository MotorEventLogRepository;
+        public static readonly IAlarmInfoRepository alarmInfoRepository;
         static BytesToDb()
         {
             var wddQueue = MqDealTask.WddQueue;
@@ -84,8 +86,9 @@ namespace Yunt.IDC.Helper
             CollectdeviceRepository = ServiceProviderServiceExtensions.GetService<ICollectdeviceRepository>(Program.Providers["Xml"]);
             DataformmodelRepository = ServiceProviderServiceExtensions.GetService<IDataformmodelRepository>(Program.Providers["Xml"]);
             MotorEventLogRepository= ServiceProviderServiceExtensions.GetService<IMotorEventLogRepository>(Program.Providers["Analysis"]);
+            alarmInfoRepository = ServiceProviderServiceExtensions.GetService<IAlarmInfoRepository>(Program.Providers["Analysis"]);
         }
-
+        #endregion
         public static bool Saving(DataGramModel model, string buffer)
         {
 
@@ -256,7 +259,8 @@ namespace Yunt.IDC.Helper
 
                             #endregion
                         }
-                       
+                        //产线级别报警
+                        LineAlarms(pvalue);
                     }
                 
                 }
@@ -268,8 +272,9 @@ namespace Yunt.IDC.Helper
                 if (line != null)
                     line.Time = current.TimeSpan();
                 lineRepository.UpdateEntityAsync(line);
-                lineRepository.Batch();
-                DataformmodelRepository.Batch();
+                lineRepository.Batch();//device
+                DataformmodelRepository.Batch();//xml
+                alarmInfoRepository.Batch();//analysis
                 return true;
             }
             catch (Exception ex)
@@ -294,11 +299,11 @@ namespace Yunt.IDC.Helper
             for (var i = 0; i < forms.Count(); i++)
             {
                 var form = forms[i];
+                form.Value = Normalize.ConvertToNormal(form, values);
+                DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
                 if (form.BitDesc.EqualIgnoreCase("整型模拟量"))
-                {
-                    form.Value = Normalize.ConvertToNormal(form, values);
-                    DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
-                                                                    //添加AI分析记录
+                {  
+                    //添加AI分析记录
                     MotorEventLogRepository.AddAiLogAsync(new AiLog()
                     {
                         MotorId = motor.MotorId,
@@ -329,6 +334,18 @@ namespace Yunt.IDC.Helper
                         MotorTypeId = motor.MotorTypeId,
                         Time = time
                     });
+
+                    //add-alarminfo   motor级别
+                    if (form.DataPhysicalId == 21&&form.Value==1)
+                    {
+                        alarmInfoRepository.InsertAsync(new AlarmInfo()
+                        {
+                            Content = form.FieldParam,
+                            MotorName = form.MachineName,
+                            MotorId=motor.MotorId,
+                            Time = time
+                        });
+                    }
                 }
                
             }
@@ -340,7 +357,34 @@ namespace Yunt.IDC.Helper
             return obj;
         }
 
-
+        private static void LineAlarms(KeyValuePair<DateTime, List<int>> pvalue)
+        {
+            var time = pvalue.Key.TimeSpan();
+            var values = pvalue.Value;
+            var forms = DataformmodelRepository.GetEntities(e => e.MotorId.IsNullOrWhiteSpace()||e.MotorId=="0")?.ToList();
+            if (forms==null||!forms.Any())
+                return;
+            for (var i = 0; i < forms.Count(); i++)
+            {
+                var form = forms[i];
+                form.Value = Normalize.ConvertToNormal(form, values);
+                DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
+                //数字量存储redis-3个月
+                if (form.BitDesc.EqualIgnoreCase("数字量"))
+                {               
+                    //add-alarminfo   line级别
+                    if (form.DataPhysicalId == 21 && form.Value == 1)
+                    {
+                        alarmInfoRepository.InsertAsync(new AlarmInfo()
+                        {
+                            Content = form.FieldParam,
+                            MotorName=form.MachineName,
+                            Time=time
+                        });
+                    }
+                }
+            }
+        }
         #endregion
 
     }

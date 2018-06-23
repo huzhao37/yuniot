@@ -25,7 +25,7 @@ namespace Yunt.WebApi.Controllers
         }
 
         [HttpPost("authenticate")]
-       // [EnableCors("any")]
+        [EnableCors("any")]
         public IActionResult Authenticate([FromBody]LoginInfo info)
         {          
             var user = _userRepository.GetEntities(e=>e.LoginAccount.Equals(info.LoginName)&&e.LoginPwd.Equals(info.Password)).SingleOrDefault();

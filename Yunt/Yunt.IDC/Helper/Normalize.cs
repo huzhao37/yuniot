@@ -29,8 +29,8 @@ namespace Yunt.IDC.Helper
         /// <returns></returns>
         public static double ConvertToNormal(Dataformmodel form, List<int> values)
         {
-            if (string.IsNullOrWhiteSpace(form?.MotorId))
-                return 0;
+            //if (string.IsNullOrWhiteSpace(form?.MotorId))
+            //    return 0;
             if (form.Index >= values.Count)
             {
                 Logger.Error($"[Normalize]excite values index");

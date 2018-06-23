@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Yunt.Common;
 using Yunt.Device.Domain.IRepository;
+using Yunt.Device.Domain.MapModel;
 using Yunt.Device.Domain.Model;
 
 namespace Yunt.Device.Domain.Services
@@ -71,6 +72,12 @@ namespace Yunt.Device.Domain.Services
         /// <returns></returns>
         IEnumerable<dynamic> MotorHours( Motor motor);
         /// <summary>
+        /// 根据电机设备ID获取历史某一天电机设备详情
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+        IEnumerable<dynamic> MotorHours(Motor motor, long date);
+        /// <summary>
         /// 缓存中是否存在该产线下的设备原始数据库
         /// </summary>
         /// <param name="productionLineId"></param>
@@ -95,6 +102,34 @@ namespace Yunt.Device.Domain.Services
         /// <returns></returns>
         IEnumerable<dynamic> GetMotorHistoryByDate(Motor motor, DateTime date, bool cache);
 
+
+        /// <summary>
+        /// 计算当日产线耗电量明细
+        /// </summary>
+        /// <param name="motors"></param>
+        /// <returns></returns>
+        List<PowerCal> CalcMotorPowers(List<Motor> motors);
+        /// <summary>
+        /// 计算历史区间内产线耗电量明细
+        /// </summary>
+        /// <param name="motors"></param>
+        /// <returns></returns>
+        List<PowerCal> CalcMotorPowers(List<Motor> motors, long start, long end);
+
+        /// <summary>
+        /// 计算历史某一天产线耗电量明细
+        /// </summary>
+        /// <param name="motors"></param>
+        /// <returns></returns>
+        List<PowerCal> CalcMotorPowers(List<Motor> motors, long date);
+
+        /// <summary>
+        /// 根据动态数据获取移动端设备详情
+        /// </summary>
+        /// <param name="datas">需要先排序</param>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+       dynamic GetMobileMotorDetails(IEnumerable<dynamic> datas, Motor motor);
         #endregion
     }
 }

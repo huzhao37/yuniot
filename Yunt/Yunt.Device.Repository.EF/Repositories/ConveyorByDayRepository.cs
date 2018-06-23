@@ -56,7 +56,12 @@ namespace Yunt.Device.Repository.EF.Repositories
                         o.Time >= startUnix && o.Time < endUnix && o.MotorId.Equals(motor.MotorId) &&
                         o.AccumulativeWeight > -1, o => o.Time)?.ToList();
 
-            if (originalDatas == null || !originalDatas.Any()) return null;
+            if (originalDatas == null || !originalDatas.Any())
+                return new ConveyorByDay
+                {
+                    Time = start.TimeSpan(),
+                    MotorId = motor.MotorId,
+                };
 
             var count = originalDatas.Sum(e => e.RunningTime);
             var weightSum = (float) Math.Round(originalDatas.Sum(o => o.AccumulativeWeight), 2);
@@ -74,7 +79,8 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AvgCurrent_B = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_B), 2),
                 AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
                 AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.AvgPowerFactor), 2),
-                AccumulativeWeight = weightSum, //TODO：累计称重计算;
+                AvgPulsesSecond = (float)Math.Round(originalDatas.Average(o => o.AvgPulsesSecond), 2),
+                AccumulativeWeight =  weightSum, //TODO：累计称重计算;
                 ActivePower =powerSum,
                 RunningTime = count,
                 //负荷 = 累计重量/额定产量 (单位: 吨/小时);
@@ -111,5 +117,29 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         #endregion
 
+        #region assitant method
+        /// <summary>
+        ///恢复该小时内所有的数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task RecoveryDayStatistics(DateTime dt, string motorTypeId)
+        {
+            var ts = new List<ConveyorByDay>();
+            var day = dt.Date.TimeSpan();
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
+            foreach (var motor in query)
+            {
+                var exsit = GetEntities(o => o.Time == day && o.MotorId == motor.MotorId)?.ToList();
+                if (exsit?.Any()??false)
+                    await DeleteEntityAsync(exsit);
+                var t = GetByMotor(motor, dt);
+                if (t != null)
+                    ts.Add(t);
+            }
+
+            await InsertAsync(ts);
+        }
+        #endregion
     }
 }

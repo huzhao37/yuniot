@@ -5,13 +5,19 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Yunt.Analysis.Domain.IRepository;
+using Yunt.Analysis.Domain.Model;
 using Yunt.Common;
 using Yunt.Device.Domain.IRepository;
 using Yunt.Device.Domain.Services;
+using Yunt.Inventory.Domain.IRepository;
 using Yunt.MQ;
 using Yunt.WebApi.Models.ProductionLines;
 using Yunt.Xml.Domain.IRepository;
 using Yunt.Xml.Domain.Model;
+using System.Dynamic;
+using Yunt.Device.Domain.MapModel;
+using Microsoft.AspNetCore.Cors;
 
 namespace Yunt.WebApi.Controllers
 {
@@ -20,6 +26,7 @@ namespace Yunt.WebApi.Controllers
     [Authorize]
     public class ProductionLineController : Controller
     {
+        #region ctor & fields
 
         private readonly IConveyorByHourRepository _conveyorByHourRepository;
         private readonly IConveyorByDayRepository _conveyorByDayRepository;
@@ -28,13 +35,21 @@ namespace Yunt.WebApi.Controllers
         private readonly IProductionLineRepository _productionLineRepository;
         private readonly IProductionPlansRepository _productionPlansRepository;
         private readonly IMessagequeueRepository _messagequeueRepository;
+        private readonly IMotorEventLogRepository _motorEventLogRepository;
+        private readonly IOutHouseRepository _outHouseRepository;
+        private readonly ISparePartsTypeRepository _sparePartsTypeRepository;
+        private readonly IAlarmInfoRepository _alarmInfoRepository;
         public ProductionLineController(IConveyorByHourRepository conveyorByHourRepository
             , IConveyorByDayRepository conveyorByDayRepository,
             IMotorRepository motorRepository,
             IProductionLineRepository productionLineRepository,
              IMotortypeRepository motortypeRepository,
               IProductionPlansRepository productionPlansRepository,
-              IMessagequeueRepository messagequeueRepository
+              IMessagequeueRepository messagequeueRepository,
+              IMotorEventLogRepository motorEventLogRepository,
+              IOutHouseRepository outHouseRepository,
+              ISparePartsTypeRepository sparePartsTypeRepository,
+              IAlarmInfoRepository alarmInfoRepository
             )
         {
             _conveyorByHourRepository = conveyorByHourRepository;
@@ -44,7 +59,15 @@ namespace Yunt.WebApi.Controllers
             _motortypeRepository = motortypeRepository;
             _productionPlansRepository = productionPlansRepository;
             _messagequeueRepository = messagequeueRepository;
+            _motorEventLogRepository = motorEventLogRepository;
+            _outHouseRepository = outHouseRepository;
+            _sparePartsTypeRepository = sparePartsTypeRepository;
+            _alarmInfoRepository = alarmInfoRepository;
         }
+        #endregion
+
+        #region obselete
+
         // GET: api/ProductionLine
         [HttpGet]
         public IEnumerable<string> Get()
@@ -77,9 +100,12 @@ namespace Yunt.WebApi.Controllers
         {
         }
 
+        #endregion
+
         #region ProductionLine_Ex
         // GET: api/ProductionLine
         [HttpGet]
+        [EnableCors("any")]
         [Route("ProductionLineSummary")]
         public ProductionLineStatus ProductionLineSummary(string productionlineId)
         {
@@ -96,6 +122,7 @@ namespace Yunt.WebApi.Controllers
 
         // GET: api/ProductionLine
         [HttpGet]
+        [EnableCors("any")]
         [Route("MainConveyorReal")]
         public MainConveyorReal MainConveyorReal(string productionlineId)
         {
@@ -116,27 +143,45 @@ namespace Yunt.WebApi.Controllers
         }
 
         // GET: api/ProductionLine
+        [EnableCors("any")]
         [HttpGet]
-        public int AlarmMotors()
+        [Route("Alarms")]
+        public dynamic Alarms(string productionlineId, int pageindex, int pagesize)
         {
-            return 0;
+            var data = new
+            {
+                Count = 0,
+                Alarms = new PaginatedList<AlarmInfo>(0, 0, 0, new List<AlarmInfo>() { })
+            };        
+            var alarmCount = 0;
+            long start = DateTime.Now.Date.TimeSpan(), end = DateTime.Now.Date.AddDays(1).TimeSpan();
+            var alarmInfo = _alarmInfoRepository.GetEntities(e =>e.Time >= start && e.Time < end)
+                            ?.ToList()?.OrderByDescending(e => e.Time);
+            if (alarmInfo != null && alarmInfo.Any())
+                alarmCount = alarmInfo.GroupBy(e => e.MotorName).Count();
+            else
+                return data;
+            var list = new PaginatedList<AlarmInfo>(pageindex, pagesize, alarmInfo.Count(), alarmInfo.Skip((pageindex - 1) * pagesize).Take(pagesize));
+            return new {Count=alarmCount,Alarms= list};
         }
 
         // GET: api/ProductionLine
         [HttpGet]
+        [EnableCors("any")]
         [Route("MainConveyorHistory")]
-        public MainConveyorHository MainConveyorHistory(string productionlineId)
+        public MainConveyorHository MainConveyorHistory(string productionlineId,DateTime start,DateTime end)
         {
+            long startT = start.TimeSpan(), endT = end.TimeSpan();
             var resp = new MainConveyorHository();
           
             var motor = _motorRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase(productionlineId) && e.IsMainBeltWeight)?.FirstOrDefault();
             
             if (motor == null) return resp;
             var finishCys = _motorRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase(productionlineId) && e.IsBeltWeight&&!e.IsMainBeltWeight).ToList();
-            var end = DateTime.Now.Date.TimeSpan();
-            var start = DateTime.Now.Date.AddDays(-15).TimeSpan();
-            var datas = _conveyorByDayRepository.GetEntities(e => e.Time>=start &&
-                        e.Time<end && e.MotorId.Equals(motor.MotorId))?.ToList();
+            //var end = DateTime.Now.Date.TimeSpan();
+            //var start = DateTime.Now.Date.AddDays(-15).TimeSpan();
+            var datas = _conveyorByDayRepository.GetEntities(e => e.Time>= startT &&
+                        e.Time<=endT && e.MotorId.Equals(motor.MotorId))?.ToList();
             if (datas==null||!datas.Any()) return resp;
             resp.AvgInstantWeight =(float)Math.Round(datas.Average(e => e.AvgInstantWeight),2);
             resp.AvgLoadStall = (float)Math.Round(datas.Average(e => e.LoadStall), 2);
@@ -156,8 +201,8 @@ namespace Yunt.WebApi.Controllers
                 return resp;
             Parallel.ForEach(finishCys, cy =>
             {
-                var list = _conveyorByDayRepository.GetEntities(e => e.Time >= start &&
-                          e.Time < end && e.MotorId.Equals(cy.MotorId))?.ToList();
+                var list = _conveyorByDayRepository.GetEntities(e => e.Time >= startT &&
+                          e.Time <= endT && e.MotorId.Equals(cy.MotorId))?.ToList();
                 float outPut = 0;
                 if (list != null&& list.Any())
                 {
@@ -176,6 +221,7 @@ namespace Yunt.WebApi.Controllers
 
         // GET: api/ProductionLine
         [HttpGet]
+        [EnableCors("any")]
         [Route("Motors")]
         public IEnumerable<MotorSummary> Motors(string productionlineId)
         {
@@ -206,6 +252,7 @@ namespace Yunt.WebApi.Controllers
 
         // GET: api/ProductionLine
         [HttpGet]
+        [EnableCors("any")]
         [Route("MotorDetails")]
         public dynamic MotorDetails(DateTime start,DateTime end,string motorId)
         {
@@ -214,17 +261,19 @@ namespace Yunt.WebApi.Controllers
             if (motor == null) return new CyDetail();
             List<dynamic> datas;
             //当天
+            var now = DateTime.Now.Date.TimeSpan();
+            if ((startT == endT)&&(startT==now))
+            {
+                datas = _productionLineRepository.MotorHours(motor)?.ToList();
+                return _productionLineRepository.GetMotorDetails(datas, motor);
+            }
+            //历史某一天
             if (startT == endT)
             {
-                datas = _productionLineRepository.MotorHours(motor).ToList();
-                if (!datas?.Any() ?? true)
-                    return new CyDetail();
+                datas = _productionLineRepository.MotorHours(motor,startT)?.ToList();
                 return _productionLineRepository.GetMotorDetails(datas, motor);
-
             }
-            datas = _productionLineRepository.MotorDays(startT, endT, motor).ToList();
-            if (!datas?.Any() ?? true)
-                return new CyDetail();
+            datas = _productionLineRepository.MotorDays(startT, endT, motor)?.ToList();          
             return _productionLineRepository.GetMotorDetails(datas, motor);
         }
 
@@ -232,17 +281,16 @@ namespace Yunt.WebApi.Controllers
 
         #region schedule
 
-
         [HttpPost]
         [Route("Plans")]
+        [EnableCors("any")]
         public bool Schedule([FromBody]ProductionPlans plan)
         {
             var productionline =
                 _productionLineRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase(plan.ProductionlineId))?.FirstOrDefault();
             if (productionline == null)
                 return false;
-            //28B+6+2+1
-            
+            //28B+6+2+1=37B          
             var bytes = Extention.strToToHexByte("0102030405FF");
             //Array.Reverse(configBuff);//高低位互换
             var dataconfig = Extention.strToToHexByte("8010");
@@ -254,7 +302,6 @@ namespace Yunt.WebApi.Controllers
             var startTime = plan.Start.Time();
             var endTime = plan.End.Time();
             // 年月日时 高低位
-
             var start = startTime.TimeTobyte4();
             Array.Reverse(start);//高低位互换
             bytes = Extention.CombomBinaryArray(bytes, start);
@@ -303,7 +350,7 @@ namespace Yunt.WebApi.Controllers
         /// <returns></returns>
         [HttpGet]
         [Route("MotorHistory")]
-        
+        [EnableCors("any")]
         public IEnumerable<dynamic> GetDateHistory( string motorId, DateTime dt,bool cache)
         {
             var datas=new List<dynamic>();
@@ -313,6 +360,119 @@ namespace Yunt.WebApi.Controllers
             return _productionLineRepository.GetMotorHistoryByDate(motor, dt, cache);
         }
 
+
+        #endregion
+
+        #region motor_event
+        [HttpGet]
+        [Route("MotorEvent")]
+        [EnableCors("any")]
+        public PaginatedList<MotorEventLog> EventLogs(string motorId,int pageindex, int pagesize,DateTime start,DateTime end)
+        {
+            long startT = start.TimeSpan(), endT = end.TimeSpan();
+            var motor = _motorRepository.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId))?.FirstOrDefault();
+            if (motor == null)
+                return new PaginatedList<MotorEventLog>(0, 0, 0, new List<MotorEventLog>() { });
+            var datas = _motorEventLogRepository.GetEntities(e=>e.MotorId.EqualIgnoreCase(motorId)&&
+                        e.Time>=startT&&e.Time<=endT)?.ToList();
+            if (datas==null||!datas.Any())
+                return new PaginatedList<MotorEventLog>(0, 0, 0, new List<MotorEventLog>() {});
+            var list = datas.OrderByDescending(x => x.Time).Skip((pageindex - 1) * pagesize).Take(pagesize);
+            return new PaginatedList<MotorEventLog>(pageindex, pagesize, datas.Count(), list);
+        }
+        #endregion
+
+        #region CostAccount
+        [HttpGet]
+        [EnableCors("any")]
+        [Route("SpareCost")]
+        public dynamic SpareAccounting(string productionLineId, DateTime start, DateTime end)
+        {
+            long startT = start.TimeSpan(), endT = end.TimeSpan();
+            var line = _productionLineRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase(productionLineId))?.FirstOrDefault();
+            if (line == null)return new
+            {
+                SpareCount = 0,
+                SpareCost = 0,
+                SpareDetails = new { }
+            }; 
+
+            var allMotors = _motorRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase(productionLineId))?.ToList();
+            if (allMotors == null||!allMotors.Any()) return new
+            {
+                SpareCount = 0,
+                SpareCost = 0,
+                SpareDetails = new { }
+            }; 
+            var allMotorIds = allMotors.Select(e => e.MotorId);
+                var endTime = startT.Time().Date.AddDays(1).AddMilliseconds(-1).TimeSpan();                
+                var useLessSpares = _outHouseRepository.GetUseless(allMotorIds, startT, endTime);
+                var spareCount = useLessSpares?.Count() ?? 0;
+                var spareCost = _outHouseRepository.CalcCost(useLessSpares);
+                var spareDetails = new List<dynamic>();
+                if (useLessSpares == null || !useLessSpares.Any())
+                    return new
+                    {
+                        SpareCount = spareCount,
+                        SpareCost = spareCount,
+                        SpareDetails = new { }
+                    };
+                useLessSpares.ToList().ForEach(s =>
+                {
+                    var motorName = _motorRepository.GetEntities(e => e.MotorId.EqualIgnoreCase(s.MotorId))?.
+                                    FirstOrDefault()?.Name??"";
+                    var spareName= _sparePartsTypeRepository.GetEntities(e => e.Id==s.SparePartsTypeId)?.
+                                    FirstOrDefault()?.Name ?? "";
+                    spareDetails.Add(new { MotorName =motorName,SpareName=spareName,Start=s.OutTime.Time(),End= s.UselessTime.Time() });
+                });
+                return new
+                {
+                    SpareCount = spareCount,
+                    SpareCost = spareCount,
+                    SpareDetails = spareDetails
+                };
+    
+        
+        }
+        [HttpGet]
+        [EnableCors("any")]
+        [Route("PowersCost")]
+        public dynamic PowerAccounting(string productionLineId, DateTime start, DateTime end)
+        {
+            long startT = start.TimeSpan(), endT = end.TimeSpan();
+            var line = _productionLineRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase(productionLineId))?.FirstOrDefault();
+            if (line == null) return null;       
+
+            var allMotors = _motorRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase(productionLineId))?.ToList();
+            if (allMotors == null || !allMotors.Any()) return null;
+            var allMotorIds = allMotors.Select(e => e.MotorId);
+            List<PowerCal> powers;
+            float totalPower = 0, avgPower=0;
+            //当天
+            var now = DateTime.Now.Date.TimeSpan();
+            if ((startT == endT) && (startT == now))
+            {
+                powers = _productionLineRepository.CalcMotorPowers(allMotors);
+                totalPower = (float)Math.Round(powers.Sum(e =>e.ActivePower),2);
+                avgPower= totalPower;
+                return new { TotalPower=totalPower,AvgPower=avgPower,Powers=powers};
+            }
+            //历史某一天
+            if (startT == endT)
+            {
+                powers = _productionLineRepository.CalcMotorPowers(allMotors,startT);         
+                totalPower = (float)Math.Round(powers.Sum(e => e.ActivePower), 2);
+                avgPower = totalPower;
+                return new { TotalPower = totalPower, AvgPower = avgPower, Powers = powers };
+            }
+            //历史区间段
+            var endTime = startT.Time().Date.AddDays(1).AddMilliseconds(-1).TimeSpan();
+            var times =end.Subtract(start).TotalDays+1;
+            powers = _productionLineRepository.CalcMotorPowers(allMotors,startT,endTime);
+            totalPower = (float)Math.Round(powers.Sum(e =>e.ActivePower), 2);
+            avgPower = totalPower==0?(float)Math.Round(totalPower/ times,2):0;
+            return new { TotalPower = totalPower, AvgPower = avgPower, Powers = powers };
+        }
 
         #endregion
     }

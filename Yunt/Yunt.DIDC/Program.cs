@@ -36,10 +36,24 @@ namespace Yunt.DIDC
             Init(services);
 
             services.AddAutoMapper(typeof(Program).Assembly);
-           // BufferPool.DEFAULT_BUFFERLENGTH = 2000 * 1024;//2M缓冲区
+            // BufferPool.DEFAULT_BUFFERLENGTH = 2000 * 1024;//2M缓冲区
             //var day = new DayStatisticsTask();
             //day.ExcuteAnalysis();
 
+            #endregion
+
+            #region recovery
+            //DateTime start = "2018-06-19 00:00:00".ToDateTime(), end = "2018-06-22 23:00:00".ToDateTime();
+            //var startT = start;
+            //var days = end.Subtract(start).TotalDays;
+            //for (int i = 0; i < days; i++)
+            //{
+            //    var time = startT.AddDays(i);
+            //    DayStatisticsTask.RecoveryTask(time);
+            //    startT = time;
+            //}
+            //Common.Logger.Error("恢复完毕！");
+            //Console.ReadKey();
             #endregion
 
             while (true)

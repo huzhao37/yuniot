@@ -50,9 +50,12 @@ namespace Yunt.Device.Repository.EF.Repositories
             var originalDatas = _icRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Motor1Current_B > -1 && e.Time >= startUnix &&
                                     e.Time < endUnix, e => e.Time)?.ToList();
 
-            if (!originalDatas?.Any()??false) return null;
-
-      
+            if (!originalDatas?.Any()??false) return new ImpactCrusherByHour
+            {
+                Time = startUnix,
+                MotorId = motor.MotorId,
+            };
+    
             var average = (float)Math.Round(originalDatas.Average(o => o.Motor1Current_B), 2);
             var entity = new ImpactCrusherByHour
             {
@@ -62,7 +65,12 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AvgMotor2Current_B = (float)Math.Round(originalDatas.Average(o => o.Motor2Current_B), 2),
                 AvgSpindleTemperature1 = (float)Math.Round(originalDatas.Average(o => o.SpindleTemperature1), 2),
                 AvgSpindleTemperature2 = (float)Math.Round(originalDatas.Average(o => o.SpindleTemperature2), 2),
-                //OnOffCounts = offCounts,
+                AvgMotor1Voltage_B = (float)Math.Round(originalDatas.Average(o => o.Motor1Voltage_B), 2),
+                AvgMotor2Voltage_B = (float)Math.Round(originalDatas.Average(o => o.Motor2Voltage_B), 2),
+                AvgVibrate1 = (float)Math.Round(originalDatas.Average(o => o.Vibrate1), 2),
+                AvgVibrate2 = (float)Math.Round(originalDatas.Average(o => o.Vibrate2), 2),
+                //WearValue1 = (float)Math.Round(originalDatas.Average(o => o.WearValue1), 2),
+                //WearValue2 = (float)Math.Round(originalDatas.Average(o => o.WearValue2), 2),
                 RunningTime = originalDatas.Count(c => c.Motor1Current_B > 0),
                 LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
             };
@@ -154,6 +162,29 @@ namespace Yunt.Device.Repository.EF.Repositories
         }
         #endregion
 
+        #region assitant method
+        /// <summary>
+        ///恢复该小时内所有的数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task RecoveryHourStatistics(DateTime dt, string motorTypeId)
+        {
+            var ts = new List<ImpactCrusherByHour>();
+            var hour = dt.Date.AddHours(dt.Hour).TimeSpan();
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
+            foreach (var motor in query)
+            {
+                var exsit = GetEntities(o => o.Time == hour && o.MotorId == motor.MotorId)?.ToList();
+                if (exsit?.Any()??false)
+                    await DeleteEntityAsync(exsit);
+                var t = GetByMotor(motor, false, dt);
+                if (t != null)
+                    ts.Add(t);
+            }
+            await InsertAsync(ts);
+        }
+        #endregion
 
         #region private method
 

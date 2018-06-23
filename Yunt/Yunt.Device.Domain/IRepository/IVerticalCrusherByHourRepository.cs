@@ -40,5 +40,14 @@ namespace Yunt.Device.Domain.IRepository
         IEnumerable<VerticalCrusherByHour> GetRealDatas(Motor motor);
         #endregion
 
+        #region assitant method
+        /// <summary>
+        ///恢复该小时内所有的数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        Task RecoveryHourStatistics(DateTime dt, string motorTypeId);
+        #endregion
+
     }
 }

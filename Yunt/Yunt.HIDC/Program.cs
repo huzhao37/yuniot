@@ -40,6 +40,20 @@ namespace Yunt.HIDC
 
             #endregion
 
+            #region recovery
+            //DateTime start = "2018-06-19 00:00:00".ToDateTime(),end = "2018-06-22 23:00:00".ToDateTime();
+            //var startT = start;
+            //var hours = end.Subtract(start).TotalHours;
+            //for (int i = 0; i < hours; i++)
+            //{
+            //    var time = startT.AddHours(i);
+            //    HourStatisticsTask.RecoveryTask(time);
+            //    startT = time;
+            //}
+            //Common.Logger.Error("恢复完毕！");
+            //Console.ReadKey();
+            #endregion
+
             while (true)
             {
                 if (sched?.IsShutdown ?? false)
@@ -47,22 +61,7 @@ namespace Yunt.HIDC
                 if (sched == null)
                     Start();
                 Thread.Sleep(60 * 1000);
-            }
-
-            //while (true)
-            //{
-            //    if (_timerX == null)
-            //        _timerX = new TimerX(obj =>
-            //        {
-            //            HourStatisticsTask.Start();
-                     
-            //        }, null, 1000, 60 * 60 * 1000);
-
-            //    System.Threading.Thread.Sleep(10000);
-            //}
-           
-           
-    
+            }  
         }
         public static async Task Start()
         {

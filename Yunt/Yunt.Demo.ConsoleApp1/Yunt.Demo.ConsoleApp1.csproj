@@ -6,7 +6,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Analysis-Migrations\**" />
     <Compile Remove="Auth-Migrations\**" />
     <Compile Remove="conecrusher2\**" />
     <Compile Remove="cone\**" />
@@ -23,6 +22,7 @@
     <Compile Remove="jawcrusher\**" />
     <Compile Remove="materialfeeder2\**" />
     <Compile Remove="materialfeeder\**" />
+    <Compile Remove="Migrations\**" />
     <Compile Remove="models\**" />
     <Compile Remove="pulverizer2\**" />
     <Compile Remove="reverhammercrusher2\**" />
@@ -34,7 +34,7 @@
     <Compile Remove="verticalcrusher\**" />
     <Compile Remove="vibrosieve2\**" />
     <Compile Remove="vibrosieve\**" />
-    <EmbeddedResource Remove="Analysis-Migrations\**" />
+    <Compile Remove="Xml-migrations\**" />
     <EmbeddedResource Remove="Auth-Migrations\**" />
     <EmbeddedResource Remove="conecrusher2\**" />
     <EmbeddedResource Remove="cone\**" />
@@ -51,6 +51,7 @@
     <EmbeddedResource Remove="jawcrusher\**" />
     <EmbeddedResource Remove="materialfeeder2\**" />
     <EmbeddedResource Remove="materialfeeder\**" />
+    <EmbeddedResource Remove="Migrations\**" />
     <EmbeddedResource Remove="models\**" />
     <EmbeddedResource Remove="pulverizer2\**" />
     <EmbeddedResource Remove="reverhammercrusher2\**" />
@@ -62,7 +63,7 @@
     <EmbeddedResource Remove="verticalcrusher\**" />
     <EmbeddedResource Remove="vibrosieve2\**" />
     <EmbeddedResource Remove="vibrosieve\**" />
-    <None Remove="Analysis-Migrations\**" />
+    <EmbeddedResource Remove="Xml-migrations\**" />
     <None Remove="Auth-Migrations\**" />
     <None Remove="conecrusher2\**" />
     <None Remove="cone\**" />
@@ -79,6 +80,7 @@
     <None Remove="jawcrusher\**" />
     <None Remove="materialfeeder2\**" />
     <None Remove="materialfeeder\**" />
+    <None Remove="Migrations\**" />
     <None Remove="models\**" />
     <None Remove="pulverizer2\**" />
     <None Remove="reverhammercrusher2\**" />
@@ -90,6 +92,7 @@
     <None Remove="verticalcrusher\**" />
     <None Remove="vibrosieve2\**" />
     <None Remove="vibrosieve\**" />
+    <None Remove="Xml-migrations\**" />
   </ItemGroup>
 
   <ItemGroup>

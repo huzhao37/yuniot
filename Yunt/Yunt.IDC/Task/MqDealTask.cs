@@ -61,7 +61,7 @@ namespace Yunt.IDC.Task
             //        });
             //    }
             //}
-            
+
 
             #endregion
             var w_r =(int) WriteOrRead.Read;
