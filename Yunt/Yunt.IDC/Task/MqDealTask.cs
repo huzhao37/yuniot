@@ -81,8 +81,8 @@ namespace Yunt.IDC.Task
             var queuePassword = WddQueue.Pwd;
             
             var ccuri = "amqp://" + queueHost + ":" + queuePort;
-            var queue = WddQueue.Route_Key;//"FailedData";
-            var route = WddQueue.Route_Key; //"0102030405FE.WUDD";//
+            var queue = "WUDDBK"; //WddQueue.Route_Key;//"FailedData";
+            var route = "WUDDBK";//WddQueue.Route_Key; //"0102030405FE.WUDD";//
             var exchange = "amq.topic";
             var errorQueue = queue+"Error"; //faileddata
 #if DEBUG

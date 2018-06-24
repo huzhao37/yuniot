@@ -40,6 +40,16 @@ namespace Yunt.HIDC
 
             #endregion
 
+            #region test
+            DateTime dt = "2018-06-24 11:00:00".ToDateTime();
+           
+            var x=HourStatisticsTask.Test(dt, "WDD-P001-CY000024");
+
+
+            Common.Logger.Error("测试完毕！");
+            Console.ReadKey();
+            #endregion
+
             #region recovery
             //DateTime start = "2018-06-19 00:00:00".ToDateTime(),end = "2018-06-22 23:00:00".ToDateTime();
             //var startT = start;

@@ -47,7 +47,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             await CommitAsync();
 
             RedisProvider.DB = 15;
-            await RedisProvider.LpushAsync(dayUnix + "_" + t.MotorId, t, DataType.Protobuf);
+            RedisProvider.LPUSH(dayUnix + "_" + t.MotorId, t, DataType.Protobuf);
 
             //if (RedisProvider.Exists(dayUnix + "_" + t.MotorId)>0)
             //{
@@ -98,7 +98,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 await CommitAsync(); var single = ts.ElementAt(0);
                 long dayUnix = single.Time.Time().Date.TimeSpan();
                 RedisProvider.DB = 15;
-                await RedisProvider.LpushAsync(dayUnix + "_" + single.MotorId, ts, DataType.Protobuf);
+                RedisProvider.LPUSH(dayUnix + "_" + single.MotorId, ts, DataType.Protobuf);
                 //if (RedisProvider.Exists(dayUnix + "_" + single.MotorId) > 0)
                 //{
                 RedisProvider.Expire(dayUnix + "_" + single.MotorId, dayUnix.Expire());
@@ -514,7 +514,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public int GetTodayRunningTimeByCurrent(string motorId)
         {
             var time = DateTime.Now.Date;
-            return GetEntities(motorId, time, false, c => c.Current_B > 0).Count();
+            return GetEntities(motorId, time, false, c => c.Current_B > 0f).Count();
         }
         /// <summary>
         /// 根据瞬时称重获取当日开机时间
@@ -524,7 +524,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public int GetTodayRunningTimeByInstant(string motorId)
         {
             var time = DateTime.Now.Date;
-            return GetEntities(motorId, time, false, c => c.InstantWeight > 0).Count();
+            return GetEntities(motorId, time, false, c => c.InstantWeight > 0f).Count();
         }
         /// <summary>
         /// 获取设备实时状态

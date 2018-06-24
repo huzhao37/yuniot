@@ -41,7 +41,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <returns></returns>
         public ConveyorByDay GetByMotor(Motor motor, DateTime dt)
         {
-            //var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId))?.FirstOrDefault() ?? null;
+            //var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId))?.FirstOrDefault() ?? null;
             if (motor == null)
                 return null;
             var cap = motor?.StandValue ?? 0;
@@ -54,7 +54,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 _cyRep.GetEntities(
                     o =>
                         o.Time >= startUnix && o.Time < endUnix && o.MotorId.Equals(motor.MotorId) &&
-                        o.AccumulativeWeight > -1, o => o.Time)?.ToList();
+                        o.AccumulativeWeight > -1f, o => o.Time)?.ToList();
 
             if (originalDatas == null || !originalDatas.Any())
                 return new ConveyorByDay

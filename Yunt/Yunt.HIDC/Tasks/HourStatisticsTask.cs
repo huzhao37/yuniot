@@ -165,5 +165,10 @@ namespace Yunt.HIDC.Tasks
             HvibByHourRepository.Batch();
 
         }
+
+        public static dynamic Test(DateTime dt,string motorId)
+        {
+           return CyByHourRepository.GetHour(dt, motorId);
+        }
     }
 }

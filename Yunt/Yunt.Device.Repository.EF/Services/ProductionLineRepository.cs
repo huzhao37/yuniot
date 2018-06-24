@@ -194,7 +194,7 @@ namespace Yunt.Device.Repository.EF.Services
         /// <returns></returns>
         public virtual MotorStatus GetMotorStatusByMotorId(string motorId)
         {
-            var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId)).SingleOrDefault();
+            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
             if (motor==null) return MotorStatus.Lose;
             switch (motor.MotorTypeId)
             {
@@ -239,7 +239,7 @@ namespace Yunt.Device.Repository.EF.Services
         /// <returns></returns>
         public virtual dynamic MotorDetails(Motor motor)
         {
-           // var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motor.motorId)).SingleOrDefault();
+           // var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motor.motorId)).SingleOrDefault();
             if (motor == null) return new List<dynamic>();
             dynamic list = new List<dynamic>();
             switch (motor.MotorTypeId)
@@ -286,7 +286,7 @@ namespace Yunt.Device.Repository.EF.Services
         public virtual IEnumerable<dynamic> MotorDetails(DateTime startTime, DateTime endTime, string motorId)
         {
             long start = startTime.TimeSpan(), end = endTime.TimeSpan();
-            var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId)).FirstOrDefault();
+            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).FirstOrDefault();
             if (motor == null) return new List<dynamic>();
             dynamic list=new List<dynamic>();
             switch (motor.MotorTypeId)
@@ -392,7 +392,7 @@ namespace Yunt.Device.Repository.EF.Services
         public virtual IEnumerable<dynamic> MotorDays(long start, long end, Motor motor)
         {
            // long start = startTime.TimeSpan(), end = endTime.TimeSpan();
-            //var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId)).FirstOrDefault();
+            //var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).FirstOrDefault();
             if (motor == null) return new List<dynamic>();
             dynamic list = new List<dynamic>();
             switch (motor.MotorTypeId)
@@ -467,8 +467,8 @@ namespace Yunt.Device.Repository.EF.Services
         /// <returns></returns>
         public dynamic GetMotorDetails(IEnumerable<dynamic> datas,Motor motor)
         {
-            if (!datas?.Any() ?? true)
-                GetMotorDetails(motor.MotorTypeId);
+            if (datas == null||!datas.Any())
+                return GetMotorDetails(motor.MotorTypeId);
             switch (motor.MotorTypeId)
             {
                 case "CY":
@@ -629,8 +629,8 @@ namespace Yunt.Device.Repository.EF.Services
                             e.WearValue1,
                             e.AvgVibrate1,
                             e.AvgVibrate2,
-                            e.AvgMotor2Voltage_B,
-                            e.AvgMotor1Voltage_B,
+                            e.AvgMotor2Current_B,
+                            e.AvgMotor1Current_B,
                             e.AvgSpindleTemperature1,
                             e.AvgSpindleTemperature2,
                             Current = e.AvgCurrent_B,
@@ -859,8 +859,8 @@ namespace Yunt.Device.Repository.EF.Services
                            WearValue1 = 0,
                            AvgVibrate1 = 0,
                            AvgVibrate2 = 0,
-                           AvgMotor2Voltage_B = 0,
-                           AvgMotor1Voltage_B = 0,
+                            AvgMotor2Current_B = 0,
+                            AvgMotor1Current_B = 0,
                            AvgSpindleTemperature1 = 0,
                            AvgSpindleTemperature2 = 0,
                             Current = 0,
@@ -1019,38 +1019,38 @@ namespace Yunt.Device.Repository.EF.Services
         {
             var end = dt.Date.AddDays(1).TimeSpan();
             var start = dt.Date.TimeSpan();
-            var motor = _motorRep.GetEntities(e => e.MotorId.EqualIgnoreCase(motorId)).SingleOrDefault();
+            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
             if (motor == null) return null;
             dynamic list = new List<dynamic>();
             switch (motor.MotorTypeId)
             {
                 case "CY":
-                    return _cyRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();                
+                    return _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();                
                 case "MF":
-                    return _mfRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+                    return _mfRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
 
                 case "JC":
-                    return _jcRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+                    return _jcRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
 
                 case "CC":
-                    return _ccRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+                    return _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
 
                 case "VC":
-                    return _vcRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+                    return _vcRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
 
                 case "VB":
-                    return _vbRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+                    return _vbRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
 
                 case "SCC":
-                    return _sccRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+                    return _sccRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
 
                 case "PUL":
-                    return _pulRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+                    return _pulRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
 
                 case "IC":
-                    return _icRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+                    return _icRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
                 case "HVB":
-                    return _hvbRep.GetFromSqlDb(e => e.MotorId.EqualIgnoreCase(motorId) && e.Time >= start && e.Time < end).ToList();
+                    return _hvbRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
 
                 default:
                     return list;
@@ -1106,31 +1106,31 @@ namespace Yunt.Device.Repository.EF.Services
             switch (motor.MotorTypeId)
             {
                 case "CY":
-                    return _cyRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                    return _cyRep.GetFromSqlDb(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
                 case "MF":
-                    return _mfRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                    return _mfRep.GetFromSqlDb(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
                 case "JC":
-                    return _jcRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                    return _jcRep.GetFromSqlDb(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
 
                 case "CC":
-                    return _ccRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                    return _ccRep.GetFromSqlDb(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
 
                 case "VC":
-                    return _vcRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                    return _vcRep.GetFromSqlDb(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
                 case "VB":
-                    return _vbRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                    return _vbRep.GetFromSqlDb(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
 
                 case "SCC":
-                    return _sccRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                    return _sccRep.GetFromSqlDb(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
 
                 case "PUL":
-                    return _pulRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                    return _pulRep.GetFromSqlDb(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
 
                 case "IC":
-                    return _icRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                    return _icRep.GetFromSqlDb(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
 
                 case "HVB":
-                    return _hvbRep.GetFromSqlDb(e=>e.MotorId.EqualIgnoreCase(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
+                    return _hvbRep.GetFromSqlDb(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&e.Time<end, e => e.Time);
 
                 default:
                     return datas;
@@ -1313,8 +1313,8 @@ namespace Yunt.Device.Repository.EF.Services
         /// <returns></returns>
         public dynamic GetMobileMotorDetails(IEnumerable<dynamic> datas, Motor motor)
         {
-            if (!datas?.Any() ?? true)
-                GetMobileMotorDetails(motor.MotorTypeId);
+            if (datas==null||!datas.Any())
+                return GetMobileMotorDetails(motor.MotorTypeId);
             switch (motor.MotorTypeId)
             {
                 case "CY":

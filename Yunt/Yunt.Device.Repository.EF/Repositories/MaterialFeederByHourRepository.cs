@@ -48,9 +48,14 @@ namespace Yunt.Device.Repository.EF.Repositories
             var end = start.AddHours(1);
             var dt3 = start.AddHours(-1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan(), dt3Unix = dt3.TimeSpan();
-            var originalDatas = _mfRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Frequency > 0 && e.Time>= startUnix &&
+#if DEBUG
+            var originalDatas = _mfRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Current_B > -1f && e.Time >= startUnix &&
+                                e.Time < endUnix, e => e.Time)?.ToList();
+#else
+           
+            var originalDatas = _mfRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Frequency > 0f && e.Time>= startUnix &&
                                     e.Time < endUnix, e => e.Time)?.ToList();
-
+#endif
             if (!(originalDatas?.Any() ?? false))return new MaterialFeederByHour
             {
                 Time = startUnix,
@@ -59,8 +64,13 @@ namespace Yunt.Device.Repository.EF.Repositories
             #region 电能计算
             var first = originalDatas[0];
             //上一个小时的最后一条记录;
+#if DEBUG
+            var lastRecord = _mfRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= dt3Unix &&
+             e.Time < startUnix, e => e.Time)?.LastOrDefault();
+#else          
             var lastRecord = _mfRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= dt3Unix &&
-            e.Time < endUnix, e => e.Time)?.LastOrDefault();
+            e.Time < startUnix, e => e.Time)?.LastOrDefault();
+#endif
             var length = originalDatas?.Count() ?? 0;
             double lastPower = 0;
             double powerSum = 0;
@@ -94,11 +104,11 @@ namespace Yunt.Device.Repository.EF.Repositories
                 Time = startUnix,
                 MotorId = motor.MotorId,
                 AvgCurrent_B = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2),
-                AvgFrequency = (float)Math.Round(originalDatas.Where(c => c.Frequency > 0).Average(o => o.Frequency), 2),
+                AvgFrequency = (float)Math.Round(originalDatas.Where(c => c.Frequency > 0f).Average(o => o.Frequency), 2),
                
                 AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.Voltage_B), 2),
                 ActivePower = (float)Math.Round(powerSum, 2),
-                RunningTime = originalDatas.Count(c => c.Frequency > 0),
+                RunningTime = originalDatas.Count(c => c.Frequency > 0f),
                 LoadStall = load
             };
             return entity;

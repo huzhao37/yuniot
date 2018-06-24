@@ -49,7 +49,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             await CommitAsync();
 
             RedisProvider.DB = 15;
-            await RedisProvider.LpushAsync(dayUnix + "_" + t.MotorId, t, DataType.Protobuf);
+            RedisProvider.LPUSH(dayUnix + "_" + t.MotorId, t, DataType.Protobuf);
 
             //if (RedisProvider.Exists(dayUnix + "_" + t.MotorId)>0)
             //{
@@ -100,7 +100,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 await CommitAsync(); var single = ts.ElementAt(0);
                 long dayUnix = single.Time.Time().Date.TimeSpan();
                 RedisProvider.DB = 15;
-                await RedisProvider.LpushAsync(dayUnix + "_" + single.MotorId, ts, DataType.Protobuf);
+                RedisProvider.LPUSH(dayUnix + "_" + single.MotorId, ts, DataType.Protobuf);
                 //if (RedisProvider.Exists(dayUnix + "_" + single.MotorId) > 0)
                 //{
                 RedisProvider.Expire(dayUnix + "_" + single.MotorId, dayUnix.Expire());

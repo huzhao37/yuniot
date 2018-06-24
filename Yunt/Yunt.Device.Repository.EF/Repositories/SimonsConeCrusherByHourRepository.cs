@@ -47,7 +47,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
-            var originalDatas = _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Current > -1 && e.Time >= startUnix &&
+            var originalDatas = _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Current > -1f && e.Time >= startUnix &&
                                     e.Time < endUnix, e => e.Time)?.ToList();
 
             if (!(originalDatas?.Any()??false)) return new SimonsConeCrusherByHour
@@ -66,7 +66,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AverageOilReturnTempreature = (float)Math.Round(originalDatas.Average(o => o.OilReturnTempreature), 2),
                 AverageTankTemperature = (float)Math.Round(originalDatas.Average(o => o.TankTemperature), 2),
 
-                RunningTime = originalDatas.Count(c => c.Current > 0),
+                RunningTime = originalDatas.Count(c => c.Current > 0f),
                 LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
             };
             return entity;

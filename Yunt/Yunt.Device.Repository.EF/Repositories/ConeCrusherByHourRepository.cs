@@ -47,9 +47,13 @@ namespace Yunt.Device.Repository.EF.Repositories
             var end = start.AddHours(1);         
             var dt3 = start.AddHours(-1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan(), dt3Unix = dt3.TimeSpan();
-            var originalDatas = _ccRep.GetEntities(motor.MotorId, dt,isExceed, e => e.Current_B > -1 && e.Time >= startUnix &&
+#if DEBUG
+            var originalDatas = _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Current_B > -1f && e.Time >= startUnix &&
+                                e.Time < endUnix, e => e.Time)?.ToList();
+#else
+            var originalDatas = _ccRep.GetEntities(motor.MotorId, dt,isExceed, e => e.Current_B > -1f && e.Time >= startUnix &&
                                     e.Time < endUnix, e => e.Time)?.ToList();
-
+#endif
             if (!(originalDatas?.Any() ?? false)) return new ConeCrusherByHour
             {
                 Time = startUnix,
@@ -58,8 +62,13 @@ namespace Yunt.Device.Repository.EF.Repositories
             #region 电能计算
             var first = originalDatas[0];
             //上一个小时的最后一条记录;
+#if DEBUG
+            var lastRecord = _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= dt3Unix &&
+            e.Time < startUnix, e => e.Time)?.LastOrDefault();
+#else
             var lastRecord = _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= dt3Unix &&
-            e.Time < endUnix, e => e.Time)?.LastOrDefault();
+            e.Time < startUnix, e => e.Time)?.LastOrDefault();
+#endif
             var length = originalDatas?.Count() ?? 0;
             double lastPower = 0;
             double powerSum = 0;
@@ -83,7 +92,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 lastPower = item.ActivePower;
                 powerSum += subPower;
             }
-            #endregion
+          #endregion
 
             var average = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2);
             var entity = new ConeCrusherByHour
@@ -107,7 +116,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 WearValue2 = (float)Math.Round(originalDatas.Sum(o => o.WearValue2), 2),
                 
                 AvgAbsSpindleTravel = (float)Math.Round(originalDatas.Average(o => o.AbsSpindleTravel), 2),
-                RunningTime = originalDatas.Count(c => c.Current_B > 0),
+                RunningTime = originalDatas.Count(c => c.Current_B > 0f),
                 LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
             };
             return entity;
@@ -201,9 +210,9 @@ namespace Yunt.Device.Repository.EF.Repositories
             if (hourData == null || !hourData.Any()) return null;
             return hourData;
         }
-        #endregion
+#endregion
 
-        #region assitant method
+#region assitant method
         /// <summary>
         ///恢复该小时内所有的数据;
         /// </summary>
@@ -225,6 +234,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
             await InsertAsync(ts);
         }
-        #endregion
+
+
+#endregion
     }
 }

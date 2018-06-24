@@ -33,7 +33,7 @@ namespace Yunt.IDC.Helper
             //    return 0;
             if (form.Index >= values.Count)
             {
-                Logger.Error($"[Normalize]excite values index");
+                Logger.Warn($"[Normalize]excite values index");
                 return 0;
             }
             var oldValue = values[(int)form.Index];
@@ -68,7 +68,17 @@ namespace Yunt.IDC.Helper
                     }
                     unitForm.Value = ConvertToNormal(unitForm,values);
                     var originalValue = (oldValue == -1) ? -1 : Math.Round(oldValue * accu, 2);
-                    return ConveyorWeightConvert(Convert.ToInt32(unitForm.Value), form.FieldParam, originalValue);               
+                    return ConveyorWeightConvert(Convert.ToInt32(unitForm.Value), form.FieldParam, originalValue);
+                case "瞬时称重":
+                    var unitForm2 = DataformmodelRepository.GetEntities(e => e.MotorId.EqualIgnoreCase(form.MotorId) && e.FieldParamEn.Equals("WeightUnit"))?.ToList().FirstOrDefault();
+                    if (unitForm2 == null)
+                    {
+                        Logger.Error($"{form.MotorId}:not exist WeightUnit");
+                        return 0;
+                    }
+                    unitForm2.Value = ConvertToNormal(unitForm2, values);
+                    var originalValue2 = (oldValue == -1) ? -1 : Math.Round(oldValue * accu, 2);
+                    return ConveyorWeightConvert(Convert.ToInt32(unitForm2.Value), form.FieldParam, originalValue2);
             }
             return (oldValue == -1) ? -1
               : Math.Round(oldValue * accu, 2);
@@ -90,11 +100,11 @@ namespace Yunt.IDC.Helper
                 switch (unit)
                 {
                     case 0:
-                        if (param.Equals("瞬时称重"))
+                        if (param.Equals("瞬时产量"))
                             return (oldValue == -1) ? -1 : Math.Round(oldValue / 3600, 2);
                         break;
                     case 1:
-                        if (param.Equals("累计称重"))
+                        if (param.Equals("累计产量"))
                         {
                             oldValue = (oldValue == -1) ? -1 : Math.Round(oldValue / 1000, 2);
                             if (oldValue < -1)
@@ -104,15 +114,15 @@ namespace Yunt.IDC.Helper
                             }
                             return oldValue;
                         }
-                        if (param.Equals("瞬时称重"))
+                        if (param.Equals("瞬时产量"))
                             return (oldValue == -1) ? -1 : Math.Round(oldValue / 3.6, 2);
                         break;
                     case 2:
-                        if (param.Equals("瞬时称重"))
+                        if (param.Equals("瞬时产量"))
                             return (oldValue == -1) ? -1 : Math.Round(oldValue / 1000, 2);
                         break;
                     case 3:
-                        if (param.Equals("累计称重"))
+                        if (param.Equals("累计产量"))
                         {
                             oldValue = (oldValue == -1) ? -1 : Math.Round(oldValue / 1000, 2);
                             if (oldValue < -1)
@@ -124,11 +134,11 @@ namespace Yunt.IDC.Helper
                         }
                         break;
                     case 4:
-                        if (param.Equals("瞬时称重"))
+                        if (param.Equals("瞬时产量"))
                             return (oldValue == -1) ? -1 : Math.Round(oldValue * 60, 2);
                         break;
                     case 5:
-                        if (param.Equals("累计称重"))
+                        if (param.Equals("累计产量"))
                         {
                             oldValue = (oldValue == -1) ? -1 : Math.Round(oldValue / 1000, 2);
                             if (oldValue < -1)
@@ -138,15 +148,15 @@ namespace Yunt.IDC.Helper
                             }
                             return oldValue;
                         }
-                        if (param.Equals("瞬时称重"))
+                        if (param.Equals("瞬时产量"))
                             return (oldValue == -1) ? -1 : Math.Round(oldValue * 0.06, 2);
                         break;
                     case 6:
                         break;
                     case -1:
-                        if (param.Equals("累计称重"))
+                        if (param.Equals("累计产量"))
                             return -1;
-                        if (param.Equals("瞬时称重"))
+                        if (param.Equals("瞬时产量"))
                             return -1;
                         break;
                     default:

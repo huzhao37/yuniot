@@ -47,9 +47,14 @@ namespace Yunt.Device.Repository.EF.Repositories
             var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
-            var originalDatas = _icRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Motor1Current_B > -1 && e.Time >= startUnix &&
+#if DEBUG
+            var originalDatas = _icRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Current_B > -1f && e.Time >= startUnix &&
+                                e.Time < endUnix, e => e.Time)?.ToList();
+#else
+        
+            var originalDatas = _icRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Motor1Current_B > -1f && e.Time >= startUnix &&
                                     e.Time < endUnix, e => e.Time)?.ToList();
-
+#endif
             if (!originalDatas?.Any()??false) return new ImpactCrusherByHour
             {
                 Time = startUnix,
@@ -71,7 +76,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AvgVibrate2 = (float)Math.Round(originalDatas.Average(o => o.Vibrate2), 2),
                 //WearValue1 = (float)Math.Round(originalDatas.Average(o => o.WearValue1), 2),
                 //WearValue2 = (float)Math.Round(originalDatas.Average(o => o.WearValue2), 2),
-                RunningTime = originalDatas.Count(c => c.Motor1Current_B > 0),
+                RunningTime = originalDatas.Count(c => c.Motor1Current_B > 0f),
                 LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
             };
             return entity;

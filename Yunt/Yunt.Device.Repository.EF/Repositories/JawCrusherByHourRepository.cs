@@ -48,9 +48,13 @@ namespace Yunt.Device.Repository.EF.Repositories
             var end = start.AddHours(1);
             var dt3 = start.AddHours(-1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan(), dt3Unix = dt3.TimeSpan();
-            var originalDatas = _jcRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Current_B > -1 && e.Time>= startUnix &&
+#if DEBUG
+            var originalDatas = _jcRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Current_B > -1f && e.Time >= startUnix &&
+                                e.Time < endUnix, e => e.Time)?.ToList();
+#else           
+            var originalDatas = _jcRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Current_B > -1f && e.Time>= startUnix &&
                                     e.Time < endUnix, e => e.Time)?.ToList();
-
+#endif
             if (!(originalDatas?.Any() ?? false)) return new JawCrusherByHour
             {
                 Time = startUnix,
@@ -59,8 +63,13 @@ namespace Yunt.Device.Repository.EF.Repositories
             #region 电能计算
             var first = originalDatas[0];
             //上一个小时的最后一条记录;
+#if DEBUG
+            var lastRecord = _jcRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= dt3Unix &&
+             e.Time < startUnix, e => e.Time)?.LastOrDefault();
+#else         
             var lastRecord = _jcRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= dt3Unix &&
-            e.Time < endUnix, e => e.Time)?.LastOrDefault();
+            e.Time < startUnix, e => e.Time)?.LastOrDefault();
+#endif
             var length = originalDatas?.Count() ?? 0;
             double lastPower = 0;
             double powerSum = 0;
@@ -102,7 +111,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AvgMotiveSpindleTemperature2 = (float)Math.Round(originalDatas.Average(o => o.MotiveSpindleTemperature2), 2),
                 AvgRackSpindleTemperature2 = (float)Math.Round(originalDatas.Average(o => o.RackSpindleTemperature2), 2),
                 ActivePower = (float)Math.Round(powerSum, 2),
-                RunningTime = originalDatas.Count(c => c.Current_B > 0),
+                RunningTime = originalDatas.Count(c => c.Current_B > 0f),
                 LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
             };
             return entity;

@@ -54,14 +54,28 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan(), dt3Unix=dt3.TimeSpan();
             //上一个小时的最后一条记录;
-            var lastRecord = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e=>e.Time>= dt3Unix &&
-            e.Time< endUnix, e=>e.Time)?.LastOrDefault();
-            var originalDatas = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
+            //var x = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= dt3Unix &&
+            //  e.Time < startUnix, e => e.Time);
+#if DEBUG
+            var lastRecord = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= dt3Unix &&
+             e.Time < startUnix, e => e.Time)?.LastOrDefault();
+#else
+            var lastRecord = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= dt3Unix &&
+            e.Time < startUnix, e => e.Time)?.LastOrDefault();
+#endif
+
+#if DEBUG
+            var originalDatas = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Current_B > -1F && e.Time >= startUnix &&
+                                e.Time < endUnix, e => e.Time)?.ToList();
+#else
+           var originalDatas = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
                                                                        e.Time < endUnix &&
-                                                                       e.AccumulativeWeight > -1, e => e.Time)?.ToList();         
+                                                                       e.AccumulativeWeight > -1f, e => e.Time)?.ToList();  
+#endif
+
             var length = originalDatas?.Count() ?? 0;
-            float lastWeight = 0;
-            float weightSum = 0;
+            double lastWeight = 0;
+            double weightSum = 0;
 
             if (!(originalDatas?.Any()??false)) return null;
 
@@ -91,6 +105,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 var cy = originalDatas[i];
                 if (cy.AccumulativeWeight == -1 && cy.AccumulativeWeight < lastWeight || cy.AccumulativeWeight - lastWeight > 100) //比上次小，认作清零,或者比上次多出100t以上
                 {
+                    var x = cy.AccumulativeWeight - lastWeight;
                     lastWeight = cy.AccumulativeWeight;
                     continue;
                 }
@@ -254,6 +269,20 @@ namespace Yunt.Device.Repository.EF.Repositories
                     ts.Add(t);
             }
             await InsertAsync(ts);
+        }
+
+        /// <summary>
+        /// 统计该小时内皮带机的数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorId">设备类型</param>
+        public ConveyorByHour GetHour(DateTime dt, string motorId)
+        {
+            var ts = new List<ConveyorByHour>();
+            var hour = dt.Date.AddHours(dt.Hour).TimeSpan();
+            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).FirstOrDefault();
+   
+            return GetByMotor(motor, false, dt);  
         }
         #endregion
     }
