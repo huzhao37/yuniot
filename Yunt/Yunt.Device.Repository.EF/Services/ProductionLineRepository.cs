@@ -474,8 +474,8 @@ namespace Yunt.Device.Repository.EF.Services
                 case "CY":
                     return new
                     {
-                        AvgInstantWeight = (float)Math.Round((double)datas.Average(e => (float)e.AvgInstantWeight), 2),
-                        AccumulativeWeight = (float)Math.Round((double)(datas.Sum(e => (float)e.AccumulativeWeight)), 2),
+                        AvgInstantWeight = (float)Math.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
+                        AccumulativeWeight = (float)Math.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
                         AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
                         LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
                         RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
@@ -1199,7 +1199,8 @@ namespace Yunt.Device.Repository.EF.Services
             /// <returns></returns>
             public List<PowerCal> CalcMotorPowers(List<Motor> motors,long start,long end)
         {
-            var length = end.Time().Subtract(start.Time()).TotalDays+1;
+            var length = end.Time().Subtract(start.Time()).TotalDays/1;
+            var endT = end.Time().AddMilliseconds(-1).TimeSpan();
             var startT = start.Time().Date;
             if (motors == null || !motors.Any())
                 return null;
@@ -1209,7 +1210,7 @@ namespace Yunt.Device.Repository.EF.Services
             {
                 if (motor.MotorTypeId.EqualIgnoreCase("IC"))
                 {
-                    var datas = MotorDays(start,end,motor);
+                    var datas = MotorDays(start, endT, motor);
                     var times = new List<long>();
                     for (int i = 0; i < length; i++)
                     {
@@ -1224,7 +1225,7 @@ namespace Yunt.Device.Repository.EF.Services
                 }
                 else
                 {
-                    var datas = MotorDays(start, end, motor);
+                    var datas = MotorDays(start, endT, motor);
                     var times = new List<long>();
                     for (int i = 0; i < length; i++)
                     {

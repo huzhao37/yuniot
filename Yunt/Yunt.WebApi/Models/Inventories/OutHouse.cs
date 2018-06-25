@@ -91,7 +91,7 @@ namespace Yunt.WebApi.Models.Inventories
                 return new OutHouse();
             entity.SparePartsTypeName = sRepo.FirstOrDefault(e => e.Id == t.SparePartsTypeId)?.Name ?? "";
             entity.MotorName =
-                mRepo.FirstOrDefault(e => e.MotorId.EqualIgnoreCase(t.MotorId))?.Name ??
+                mRepo.FirstOrDefault(e => e.MotorId.Equals(t.MotorId))?.Name ??
                 "";
             return entity;
 

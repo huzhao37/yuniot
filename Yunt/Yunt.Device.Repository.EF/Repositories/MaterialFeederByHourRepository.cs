@@ -49,7 +49,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var dt3 = start.AddHours(-1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan(), dt3Unix = dt3.TimeSpan();
 #if DEBUG
-            var originalDatas = _mfRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Current_B > -1f && e.Time >= startUnix &&
+            var originalDatas = _mfRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Frequency > 0f && e.Time >= startUnix &&
                                 e.Time < endUnix, e => e.Time)?.ToList();
 #else
            

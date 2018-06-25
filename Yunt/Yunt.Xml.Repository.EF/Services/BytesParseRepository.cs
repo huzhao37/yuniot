@@ -95,6 +95,7 @@ namespace Yunt.Xml.Repository.EF.Services
                                 var temp = Extention.ByteCapture(buffer, ref bufferIndex, 0, typeModel.InByte);
                                 var value = Extention.byteToTime(temp);
                                 time = Unix.ConvertIntDateTime(value);
+                                parmValues.Add(value);
                                 //Logger.Info(time.ToString("yyyy-MM-dd HH:mm:ss"));
                                 break;
                             }
@@ -219,6 +220,8 @@ namespace Yunt.Xml.Repository.EF.Services
 #endif
 
                 var model = Parser(buffer);
+                //if (model.PValues.FirstOrDefault().Key.TimeSpan() <= 1529905440)
+                //    return true;
 #if DEBUG
                 Logger.Info("[MqHandler]Analyze End...");
 #endif

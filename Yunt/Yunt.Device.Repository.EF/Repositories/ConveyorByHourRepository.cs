@@ -65,19 +65,24 @@ namespace Yunt.Device.Repository.EF.Repositories
 #endif
 
 #if DEBUG
-            var originalDatas = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Current_B > -1F && e.Time >= startUnix &&
+            var originalDatas = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) &&
+                                                                       e.AccumulativeWeight > 0f && e.Time >= startUnix &&
                                 e.Time < endUnix, e => e.Time)?.ToList();
 #else
-           var originalDatas = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
+            var originalDatas = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
                                                                        e.Time < endUnix &&
-                                                                       e.AccumulativeWeight > -1f, e => e.Time)?.ToList();  
+                                                                       e.AccumulativeWeight > 0f, e => e.Time)?.ToList();  
 #endif
 
             var length = originalDatas?.Count() ?? 0;
-            double lastWeight = 0;
-            double weightSum = 0;
+            float lastWeight = 0;
+            float weightSum = 0;
 
-            if (!(originalDatas?.Any()??false)) return null;
+            if (!(originalDatas?.Any()??false)) return new ConveyorByHour
+            {
+                Time = startUnix,
+                MotorId = motor.MotorId,
+            };
 
             var first = originalDatas[0];
             //获取上一个有效累计称重的值      
@@ -103,9 +108,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             for (var i = 0; i < length; i++)
             {
                 var cy = originalDatas[i];
-                if (cy.AccumulativeWeight == -1 && cy.AccumulativeWeight < lastWeight || cy.AccumulativeWeight - lastWeight > 100) //比上次小，认作清零,或者比上次多出100t以上
+                if (cy.AccumulativeWeight == -1 && cy.AccumulativeWeight < lastWeight ||Math.Abs(cy.AccumulativeWeight - lastWeight) > 100) //比上次小，认作清零,或者比上次多出100t以上
                 {
-                    var x = cy.AccumulativeWeight - lastWeight;
                     lastWeight = cy.AccumulativeWeight;
                     continue;
                 }
@@ -118,7 +122,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 //瞬时重量为负数时，统计按照零计算;
                 if (cy.InstantWeight < 0)
                     cy.InstantWeight = 0;         
-                var sub = cy.AccumulativeWeight - lastWeight;
+                float sub = cy.AccumulativeWeight - lastWeight;
                 lastWeight = cy.AccumulativeWeight;
                 weightSum += sub;
                 //电能

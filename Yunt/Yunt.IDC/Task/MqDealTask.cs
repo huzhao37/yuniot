@@ -51,7 +51,7 @@ namespace Yunt.IDC.Task
 
             //if (!ProductionLineRepository.GetInstanceFromRedis("WDD-P001"))
             //{
-            //    var motors = MotorRepository.GetEntities(e => e.ProductionLineId.EqualIgnoreCase("WDD-P001"))?.ToList();
+            //    var motors = MotorRepository.GetEntities(e => e.ProductionLineId.Equals("WDD-P001"))?.ToList();
             //    if (motors?.Any() ?? true)
             //    {
             //        motors.ForEach(e=>
@@ -81,8 +81,8 @@ namespace Yunt.IDC.Task
             var queuePassword = WddQueue.Pwd;
             
             var ccuri = "amqp://" + queueHost + ":" + queuePort;
-            var queue = "WUDDBK"; //WddQueue.Route_Key;//"FailedData";
-            var route = "WUDDBK";//WddQueue.Route_Key; //"0102030405FE.WUDD";//
+            var queue =WddQueue.Route_Key;//"FailedData";"WUDDBK"; //
+            var route =WddQueue.Route_Key; //"0102030405FE.WUDD";//
             var exchange = "amq.topic";
             var errorQueue = queue+"Error"; //faileddata
 #if DEBUG

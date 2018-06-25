@@ -15,6 +15,10 @@ namespace Yunt.WebApi.Models.ProductionLines
         /// </summary>
         public bool Gprs { get; set; }
         /// <summary>
+        /// 产线开关机状态
+        /// </summary>
+        public bool LineStatus { get; set; }
+        /// <summary>
         /// 失联电机数目
         /// </summary>
         public int LoseMotors { get; set; }

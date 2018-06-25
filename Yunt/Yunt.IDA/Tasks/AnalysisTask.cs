@@ -66,7 +66,7 @@ namespace Yunt.IDA.Tasks
             if (logs?.Any() ?? false)
                 foreach (var log in logs)
                 {
-                    var lineName =ProductionLineRepository.GetEntities(e=>e.ProductionLineId.EqualIgnoreCase(
+                    var lineName =ProductionLineRepository.GetEntities(e=>e.ProductionLineId.Equals(
                                     log.ProductionLineId))?.FirstOrDefault()?.Name??"";
                     sb.AppendLine($"【产线】{log.ProductionLineId}_{lineName}【电机】{log.MotorId}_" +
                                       $"{log.MotorName}【事件内容】{log.Description}<br/>");
@@ -138,9 +138,9 @@ namespace Yunt.IDA.Tasks
                 var MotorName = single.MotorName;
                 var lineId = single.ProductionLineId;
 
-                var kinds = EventKindRepository.GetEntities(e => e.MotorTypeId.EqualIgnoreCase(single.MotorTypeId));
-                if (single.MotorTypeId.EqualIgnoreCase("HVB"))
-                    kinds = EventKindRepository.GetEntities(e => e.MotorTypeId.EqualIgnoreCase("VB"));
+                var kinds = EventKindRepository.GetEntities(e => e.MotorTypeId.Equals(single.MotorTypeId));
+                if (single.MotorTypeId.Equals("HVB"))
+                    kinds = EventKindRepository.GetEntities(e => e.MotorTypeId.Equals("VB"));
                 if (kinds != null && kinds.Any())
                 {
                     Parallel.ForEach(kinds, kind =>
@@ -307,10 +307,10 @@ namespace Yunt.IDA.Tasks
                     }
                     break;
                 case "EVT00000005":
-                    //判断累计称重
+                    //判断累计产量
                     if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
 
-                    var weighs = logs?.Where(e => e.Param.Contains("累计称重") && e.Value == -1).ToList();
+                    var weighs = logs?.Where(e => e.Param.Contains("累计产量") && e.Value == -1).ToList();
                     if (weighs != null && weighs.Any())
                     {
                         weighs.ForEach(e =>
@@ -332,8 +332,8 @@ namespace Yunt.IDA.Tasks
                     }
                     break;
                 case "EVT00000006":
-                    //判断累计称重
-                    var faccumlateWeigh = logs?.Where(e => e.Param.Contains("累计称重")).ToList();
+                    //判断累计产量
+                    var faccumlateWeigh = logs?.Where(e => e.Param.Contains("累计产量")).ToList();
                     if (faccumlateWeigh != null && faccumlateWeigh.Any())
                     {
                         var last = 0.0;
@@ -364,8 +364,8 @@ namespace Yunt.IDA.Tasks
                     }
                     break;
                 case "EVT00000007":
-                    //判断累计称重
-                    var accumlateWeigh = logs?.Where(e => e.Param.Contains("累计称重")).ToList();
+                    //判断累计产量
+                    var accumlateWeigh = logs?.Where(e => e.Param.Contains("累计产量")).ToList();
                     if (accumlateWeigh != null && accumlateWeigh.Any())
                     {
                         var last = 0.0;
@@ -1630,7 +1630,7 @@ namespace Yunt.IDA.Tasks
                     Code = GenerateEventCode(),
                     Description = "称重传感器断开",
                     MotorTypeId = "CY",
-                    Regulation = "累计称重出现-1",
+                    Regulation = "累计产量出现-1",
                     Time = DateTime.Now.TimeSpan()
                 },
                 new EventKind()
@@ -1638,7 +1638,7 @@ namespace Yunt.IDA.Tasks
                     Code = GenerateEventCode(),
                     Description = "皮带清零",
                     MotorTypeId = "CY",
-                    Regulation = "下一分钟比前一分钟“累计称重”低",
+                    Regulation = "下一分钟比前一分钟“累计产量”低",
                     Time = DateTime.Now.TimeSpan()
                 },
                 new EventKind()
@@ -1646,7 +1646,7 @@ namespace Yunt.IDA.Tasks
                     Code = GenerateEventCode(),
                     Description = "皮带跑偏或者未校准",
                     MotorTypeId = "CY",
-                    Regulation = "每分钟“累计称重”差额超过100吨，同时在数据统计中需要剔除该脏数据。",
+                    Regulation = "每分钟“累计产量”差额超过100吨，同时在数据统计中需要剔除该脏数据。",
                     Time = DateTime.Now.TimeSpan()
                 },
                 new EventKind()

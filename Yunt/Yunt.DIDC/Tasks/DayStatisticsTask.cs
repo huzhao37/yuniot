@@ -163,15 +163,15 @@ namespace Yunt.DIDC.Tasks
         public static void RecoveryTask(DateTime dt)
         {
             CyByDayRepository.RecoveryDayStatistics(dt, "CY");
-            SccByDayRepository.RecoveryDayStatistics(dt, "SCC");
-            CcByDayRepository.RecoveryDayStatistics(dt, "CC");
-            JcByDayRepository.RecoveryDayStatistics(dt, "JC");
-            MfByDayRepository.RecoveryDayStatistics(dt, "MF");
-            VcByDayRepository.RecoveryDayStatistics(dt, "VC");
-            VibByDayRepository.RecoveryDayStatistics(dt, "VB");
-            PulByDayRepository.RecoveryDayStatistics(dt, "PUL");
-            IcByDayRepository.RecoveryDayStatistics(dt, "IC");
-            HvibByDayRepository.RecoveryDayStatistics(dt, "HVB");
+            //SccByDayRepository.RecoveryDayStatistics(dt, "SCC");
+            //CcByDayRepository.RecoveryDayStatistics(dt, "CC");
+            //JcByDayRepository.RecoveryDayStatistics(dt, "JC");
+            //MfByDayRepository.RecoveryDayStatistics(dt, "MF");
+            //VcByDayRepository.RecoveryDayStatistics(dt, "VC");
+            //VibByDayRepository.RecoveryDayStatistics(dt, "VB");
+            //PulByDayRepository.RecoveryDayStatistics(dt, "PUL");
+            //IcByDayRepository.RecoveryDayStatistics(dt, "IC");
+            //HvibByDayRepository.RecoveryDayStatistics(dt, "HVB");
 
             HvibByDayRepository.Batch();
         }

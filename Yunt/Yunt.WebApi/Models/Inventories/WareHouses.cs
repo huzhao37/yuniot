@@ -61,7 +61,7 @@ namespace Yunt.WebApi.Models.Inventories
             if (!(t.Copy() is WareHouses entity))
                 return new WareHouses();
             entity.MotorTypeName =
-                mRepo.FirstOrDefault(e => e.MotorTypeId.EqualIgnoreCase(t.MotorTypeId))?.MotorTypeName ??
+                mRepo.FirstOrDefault(e => e.MotorTypeId.Equals(t.MotorTypeId))?.MotorTypeName ??
                 "";
             return entity;
 

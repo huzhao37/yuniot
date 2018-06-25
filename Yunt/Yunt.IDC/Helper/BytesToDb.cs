@@ -55,6 +55,7 @@ namespace Yunt.IDC.Helper
         public static readonly IDataformmodelRepository DataformmodelRepository;
         public static readonly IMotorEventLogRepository MotorEventLogRepository;
         public static readonly IAlarmInfoRepository alarmInfoRepository;
+        
         static BytesToDb()
         {
             var wddQueue = MqDealTask.WddQueue;
@@ -87,6 +88,7 @@ namespace Yunt.IDC.Helper
             DataformmodelRepository = ServiceProviderServiceExtensions.GetService<IDataformmodelRepository>(Program.Providers["Xml"]);
             MotorEventLogRepository= ServiceProviderServiceExtensions.GetService<IMotorEventLogRepository>(Program.Providers["Analysis"]);
             alarmInfoRepository = ServiceProviderServiceExtensions.GetService<IAlarmInfoRepository>(Program.Providers["Analysis"]);
+
         }
         #endregion
         public static bool Saving(DataGramModel model, string buffer)
@@ -102,7 +104,7 @@ namespace Yunt.IDC.Helper
                     return false;
                 }
 
-                var emDevice = CollectdeviceRepository.GetEntities(e=>e.Index.Equals(_model.CollectdeviceIndex)).FirstOrDefault();
+                var emDevice = CollectdeviceRepository.GetEntities(e => e.Index.Equals(_model.CollectdeviceIndex)).FirstOrDefault();
                 if (emDevice == null)
                 {
                     Logger.Info("[BytesToDb]No Related EmbeddedDevice!");
@@ -117,12 +119,12 @@ namespace Yunt.IDC.Helper
                     EmbeddedDeviceId = emDevice.Id
                 };
                 bytesRepository.InsertAsync(bytes);
-                //写入队列中缓冲
-                rabbitHelper.Write(ccuri, Extention.strToToHexByte(buffer), queue, queue,"amq.topic", queueUserName, queuePassword);
+               // 写入队列中缓冲
+                rabbitHelper.Write(ccuri, Extention.strToToHexByte(buffer), queue, queue, "amq.topic", queueUserName, queuePassword);
 
 
                 var motors = motorRepository.GetEntities(e => e.EmbeddedDeviceId == emDevice.Id
-                && e.ProductionLineId.EqualIgnoreCase(emDevice.Productionline_Id)).ToList();
+                && e.ProductionLineId.Equals(emDevice.Productionline_Id)).ToList();
 
                 if (motors == null || !motors.Any())
                 {
@@ -290,19 +292,17 @@ namespace Yunt.IDC.Helper
             var time = pvalue.Key.TimeSpan();
             var values = pvalue.Value;
             var type = obj.GetType();
-            //var where = " MotorId = '"+motorId + "' and  BitDesc = '整型模拟量'";
-        
-            var forms = DataformmodelRepository.GetEntities(e=>e.MotorId.Equals(motor.MotorId) //&&e.BitDesc.EqualIgnoreCase("整型模拟量")
-                        ).ToList();
-            if (!forms.Any())
+
+            var forms = DataformmodelRepository.GetEntities(e => e.MotorId.Equals(motor.MotorId)).ToList();
+            if (forms==null||!forms.Any())
                 return null;
             for (var i = 0; i < forms.Count(); i++)
             {
                 var form = forms[i];
                 form.Value = Normalize.ConvertToNormal(form, values);
                 DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
-                if (form.BitDesc.EqualIgnoreCase("整型模拟量"))
-                {  
+                if (form.BitDesc.Equals("整型模拟量"))
+                {
                     //添加AI分析记录
                     MotorEventLogRepository.AddAiLogAsync(new AiLog()
                     {
@@ -323,9 +323,9 @@ namespace Yunt.IDC.Helper
                     info?.SetValue(obj, Convert.ToSingle(Math.Round((decimal)form.Value, 2)));//保留两位小数
                 }
                 //数字量存储redis-3个月
-                if (form.BitDesc.EqualIgnoreCase("数字量"))
+                if (form.BitDesc.Equals("数字量"))
                 {
-                    MotorEventLogRepository.AddDiLogAsync(new DiHistory()
+                  MotorEventLogRepository.AddDiLogAsync(new DiHistory()
                     {
                         MotorId = motor.MotorId,
                         MotorName = motor.Name,                     
@@ -342,7 +342,7 @@ namespace Yunt.IDC.Helper
                         {
                             Content = form.FieldParam,
                             MotorName = form.MachineName,
-                            MotorId=motor.MotorId,
+                            MotorId = motor.MotorId,
                             Time = time
                         });
                     }
@@ -370,7 +370,7 @@ namespace Yunt.IDC.Helper
                 form.Value = Normalize.ConvertToNormal(form, values);
                 DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
                 //数字量存储redis-3个月
-                if (form.BitDesc.EqualIgnoreCase("数字量"))
+                if (form.BitDesc.Equals("数字量"))
                 {               
                     //add-alarminfo   line级别
                     if (form.DataPhysicalId == 21 && form.Value == 1)
@@ -378,8 +378,8 @@ namespace Yunt.IDC.Helper
                         alarmInfoRepository.InsertAsync(new AlarmInfo()
                         {
                             Content = form.FieldParam,
-                            MotorName=form.MachineName,
-                            Time=time
+                            MotorName = form.MachineName,
+                            Time = time
                         });
                     }
                 }

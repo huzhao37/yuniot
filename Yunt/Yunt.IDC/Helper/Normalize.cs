@@ -50,7 +50,7 @@ namespace Yunt.IDC.Helper
                     return (oldValue == -1) ? -1 :
                     Math.Round(oldValue * accu, 2);
                 case "配置":
-                    if (form.FieldParamEn.EqualIgnoreCase("WeightUnit"))
+                    if (form.FieldParamEn.Equals("WeightUnit"))
                     {
                         var tempInt = (oldValue == -1) ? -1 : (int)oldValue;
                         int value = tempInt;
@@ -60,7 +60,7 @@ namespace Yunt.IDC.Helper
                     }
                     break;
                 case "称重":
-                    var unitForm= DataformmodelRepository.GetEntities(e=>e.MotorId.EqualIgnoreCase(form.MotorId)&&e.FieldParamEn.Equals("WeightUnit"))?.ToList().FirstOrDefault();
+                    var unitForm= DataformmodelRepository.GetEntities(e=>e.MotorId.Equals(form.MotorId)&&e.FieldParamEn.Equals("WeightUnit"))?.ToList().FirstOrDefault();
                     if (unitForm == null)
                     {
                         Logger.Error($"{form.MotorId}:not exist WeightUnit");
@@ -70,7 +70,7 @@ namespace Yunt.IDC.Helper
                     var originalValue = (oldValue == -1) ? -1 : Math.Round(oldValue * accu, 2);
                     return ConveyorWeightConvert(Convert.ToInt32(unitForm.Value), form.FieldParam, originalValue);
                 case "瞬时称重":
-                    var unitForm2 = DataformmodelRepository.GetEntities(e => e.MotorId.EqualIgnoreCase(form.MotorId) && e.FieldParamEn.Equals("WeightUnit"))?.ToList().FirstOrDefault();
+                    var unitForm2 = DataformmodelRepository.GetEntities(e => e.MotorId.Equals(form.MotorId) && e.FieldParamEn.Equals("WeightUnit"))?.ToList().FirstOrDefault();
                     if (unitForm2 == null)
                     {
                         Logger.Error($"{form.MotorId}:not exist WeightUnit");

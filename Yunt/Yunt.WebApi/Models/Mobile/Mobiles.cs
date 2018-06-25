@@ -8,19 +8,19 @@ namespace Yunt.WebApi.Models.Mobile
 
     public class ConveyorOutlineModel
     {
-        public double Output { get; set; }
-        public double RunningTime { get; set; }
-        public double Load { get; set; }
-        public double InstantOutput { get; set; }
+        public float Output { get; set; }
+        public float RunningTime { get; set; }
+        public float Load { get; set; }
+        public float InstantOutput { get; set; }
 
     }
     public class ConveyorChartModel
     {
         public string name { get; set; }
-        public double y { get; set; }
-        public double RunningTime { get; set; }
-        public double InstantWeight { get; set; }
-        public double MotorLoad { get; set; }
+        public float y { get; set; }
+        public float RunningTime { get; set; }
+        public float InstantWeight { get; set; }
+        public float MotorLoad { get; set; }
 
     }
     public class RequestModel
@@ -66,9 +66,9 @@ namespace Yunt.WebApi.Models.Mobile
     public class MotorItemModel
     {
         public string id { get; set; }
-        public double runningtime { get; set; }
+        public float runningtime { get; set; }
         public string name { get; set; }
-        public double load { get; set; }
+        public float load { get; set; }
         public string type { get; set; }
         public bool status { get; set; }
     }

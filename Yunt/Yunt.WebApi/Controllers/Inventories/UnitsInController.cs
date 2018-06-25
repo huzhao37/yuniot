@@ -33,9 +33,9 @@ namespace webapi.Controllers
         public UnitsInResponseModel Get(int skip, int take=0)
         {
             List<UnitsInViewModel> mslist = new List<UnitsInViewModel>();
-            UnitsInViewModel ms0 = new UnitsInViewModel(){ id=0, SparePartTypeId=11, SparePartTypeName="颚破衬板", BatchNo=1002, WareHouseId=1, WareHouseName="颚破仓库", Count=50, UnitPrice=17.5, FactoryInfo="A工厂", InTime="2017/06/09", InOperator="于建峰"};
-            UnitsInViewModel ms1 = new UnitsInViewModel(){ id=1, SparePartTypeId=13, SparePartTypeName="颚破钢架", BatchNo=1004, WareHouseId=1, WareHouseName="颚破仓库", Count=60, UnitPrice=23.2, FactoryInfo="B工厂", InTime="2017/06/09", InOperator="于建峰"};
-            UnitsInViewModel ms2 = new UnitsInViewModel(){ id=2, SparePartTypeId=12, SparePartTypeName="皮带机轴承", BatchNo=1003, WareHouseId=2, WareHouseName="皮带机仓库", Count=70, UnitPrice=8.2, FactoryInfo="C工厂", InTime="2017/06/09", InOperator="于建峰"};
+            UnitsInViewModel ms0 = new UnitsInViewModel(){ id=0, SparePartTypeId=11, SparePartTypeName="颚破衬板", BatchNo=1002, WareHouseId=1, WareHouseName="颚破仓库", Count=50, UnitPrice=17.5f, FactoryInfo="A工厂", InTime="2017/06/09", InOperator="于建峰"};
+            UnitsInViewModel ms1 = new UnitsInViewModel(){ id=1, SparePartTypeId=13, SparePartTypeName="颚破钢架", BatchNo=1004, WareHouseId=1, WareHouseName="颚破仓库", Count=60, UnitPrice=23.2f, FactoryInfo="B工厂", InTime="2017/06/09", InOperator="于建峰"};
+            UnitsInViewModel ms2 = new UnitsInViewModel(){ id=2, SparePartTypeId=12, SparePartTypeName="皮带机轴承", BatchNo=1003, WareHouseId=2, WareHouseName="皮带机仓库", Count=70, UnitPrice=8.2f, FactoryInfo="C工厂", InTime="2017/06/09", InOperator="于建峰"};
             
             mslist.Add(ms0);
             mslist.Add(ms1);
@@ -81,7 +81,7 @@ namespace webapi.Controllers
         public int SparePartTypeId {get;set;}
         public int WareHouseId {get;set;}
         public int Count {get;set;}
-        public double UnitPrice {get;set;}
+        public float UnitPrice {get;set;}
         public string FactoryInfo {get;set;}
         public string InTime {get;set;}
         public string InOperator {get;set;}
@@ -97,7 +97,7 @@ namespace webapi.Controllers
         public int WareHouseId {get;set;}
         public string WareHouseName {get;set;}
         public int Count {get;set;}
-        public double UnitPrice {get;set;}
+        public float UnitPrice {get;set;}
         public string FactoryInfo {get;set;}
         public string InTime {get;set;}
         public string InOperator {get;set;}
