@@ -29,6 +29,7 @@ namespace Yunt.Device.Domain.IRepository
         Task InsertAsync(T t);
         int Insert(IEnumerable<T> ts);
         Task InsertAsync(IEnumerable<T> ts);
+       
         int DeleteEntity(T t);
         Task DeleteEntityAsync(T t);
         int DeleteEntity(int id);
@@ -49,5 +50,17 @@ namespace Yunt.Device.Domain.IRepository
         /// 批量提交
         /// </summary>
        void Batch();
+
+        #region redis_cache
+        /// <summary>
+        /// 缓存
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="motorId">设备</param>
+        /// <param name="dayUnix">日期</param>
+        /// <param name="ts">集合数据</param>
+        /// <returns></returns>
+        int Cache(string motorId, long dayUnix, List<T> ts);
+        #endregion
     }
 }

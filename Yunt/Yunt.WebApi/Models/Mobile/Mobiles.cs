@@ -98,6 +98,8 @@ namespace Yunt.WebApi.Models.Mobile
         public string lineColor { get; set; }
         public int circleSize { get; set; }
         public string circleColor { get; set; }
+
+        public string eventType { get; set; }
     }
     #endregion
 }

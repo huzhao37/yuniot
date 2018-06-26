@@ -45,12 +45,12 @@ namespace Yunt.DIDC
             #region recovery
             //try
             //{
-            //    DateTime start = "2018-06-20 00:00:00".ToDateTime(), end = "2018-06-25 00:00:00".ToDateTime();
+            //    DateTime start = "2018-06-20 00:00:00".ToDateTime(), end = "2018-06-26 00:00:00".ToDateTime();
             //    var startT = start;
             //    var days = end.Subtract(start).TotalDays;
             //    for (int i = 0; i < days; i++)
             //    {
-            //        var time =startT.AddDays(i);
+            //        var time = startT.AddDays(i);
             //        DayStatisticsTask.RecoveryTask(time);
             //    }
             //}
@@ -60,16 +60,16 @@ namespace Yunt.DIDC
             //}
 
             //Common.Logger.Error("恢复完毕！");
-            Console.ReadKey();
+            //Console.ReadKey();
             #endregion
 
             while (true)
             {
-                if(Sched?.IsShutdown??false)
+                if (Sched?.IsShutdown ?? false)
                     break;
-                if(Sched==null)
+                if (Sched == null)
                     Start();
-                Thread.Sleep(60*1000);
+                Thread.Sleep(60 * 1000);
             }
         }
         public static async Task Start()

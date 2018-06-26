@@ -485,7 +485,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         {
             var now = DateTime.Now.Date.TimeSpan();
             RedisProvider.DB = 15;
-            return RedisProvider.LPop<VerticalCrusher>(now + "_" + motorId, DataType.Protobuf);
+            return RedisProvider.GetListItem<VerticalCrusher>(now + "_" + motorId, 0, DataType.Protobuf);
         }
         /// <summary>
         /// 获取设备实时状态
@@ -502,6 +502,27 @@ namespace Yunt.Device.Repository.EF.Repositories
                 return status;
             status = lastData.Current_B > 0 ? MotorStatus.Run : MotorStatus.Stop;
             return status;
+        }
+        #endregion
+
+        #region cache
+        /// <summary>
+        /// 缓存
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="motor">设备</param>
+        /// <param name="dayUnix">日期</param>
+        /// <returns></returns>
+        public int PreCache(Motor motor, DateTime dt)
+        {
+            var result = 0;
+            var end = dt.Date.AddDays(1).TimeSpan();
+            var start = dt.Date.TimeSpan();
+            long dayUnix = start;
+            var list = GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start && e.Time < end)?.OrderBy(e => e.Time)?.ToList();
+            if (list != null && list.Any())
+                result = Cache(motor.MotorId, dayUnix, list);
+            return result;
         }
         #endregion
     }

@@ -26,7 +26,7 @@ namespace Yunt.Device.Repository.EF.Repositories
     {
         protected readonly IRedisCachingProvider RedisProvider;
         protected IMapper Mapper { get; set; }
-       // private readonly DeviceContext _context;
+        // private readonly DeviceContext _context;
         //  public IDeviceRepositoryBase<DT> Rep { get; }
         public DeviceRepositoryBase(IMapper mapper, IRedisCachingProvider redisProvider)//DeviceContext context, 
         {
@@ -41,7 +41,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             //_provider.DB = 0;
             //_provider.Set("t1", "t",DataType.Protobuf);
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Add(Mapper.Map<ST>(t));
-            return  Commit();
+            return Commit();
         }
         public virtual async Task InsertAsync(DT t)
         {
@@ -55,7 +55,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             try
             {
                 ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().AddRange(Mapper.Map<IEnumerable<ST>>(ts));
-                return  Commit();
+                return Commit();
 
                 // Commit transaction if all commands succeed, transaction will auto-rollback
                 // when disposed if either commands fails
@@ -69,7 +69,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         }
         public virtual async Task InsertAsync(IEnumerable<DT> ts)
         {
-            if(!ts?.Any()??false) return;
+            if (!ts?.Any() ?? false) return;
             //using (var transaction = _context.Database.BeginTransaction())
             //{
             try
@@ -257,7 +257,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).ProjectTo<DT>(Mapper);
 #if DEBUG
                 //Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
-               // Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+                // Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
 #endif
                 return sql;
             }
@@ -450,7 +450,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 Logger.Warn($"并发异常:{e.Message}");
 #endif
             }
-        
+
             await CommitAsync();
         }
 
@@ -553,5 +553,25 @@ namespace Yunt.Device.Repository.EF.Repositories
         }
         #endregion
 
-    }
+
+        #region redis_cache
+    
+
+        /// <summary>
+        /// 缓存
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="motorId">设备</param>
+        /// <param name="dayUnix">日期</param>
+        /// <param name="ts">集合数据</param>
+        /// <returns></returns>
+        public virtual int Cache(string motorId, long dayUnix, List<DT> ts)
+        {
+            RedisProvider.DB = 15;
+            var result = RedisProvider.Lpush(dayUnix + "_" + motorId, ts, DataType.Protobuf);
+            RedisProvider.Expire(dayUnix + "_" + motorId, dayUnix.Expire());
+            return result;
+        }
+        #endregion
+    } 
 }

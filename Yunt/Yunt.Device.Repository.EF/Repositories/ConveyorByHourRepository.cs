@@ -59,8 +59,14 @@ namespace Yunt.Device.Repository.EF.Repositories
 #if DEBUG
             var lastRecord = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= dt3Unix &&
              e.Time < startUnix, e => e.Time)?.LastOrDefault();
+
+            var lastRecord2 = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId)&&e.ActivePower>0f && e.Time >= dt3Unix &&
+            e.Time < startUnix, e => e.Time)?.LastOrDefault();
 #else
-            var lastRecord = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= dt3Unix &&
+            var lastRecord = _cyRep.GetEntities(motor.MotorId, dt3, isExceed, e => e.Time >= dt3Unix &&
+            e.Time < startUnix, e => e.Time)?.LastOrDefault();
+
+             var lastRecord2 = _cyRep.GetEntities(motor.MotorId, dt3, isExceed, e => e.ActivePower>0f &&e.Time >= dt3Unix &&
             e.Time < startUnix, e => e.Time)?.LastOrDefault();
 #endif
 
@@ -68,23 +74,42 @@ namespace Yunt.Device.Repository.EF.Repositories
             var originalDatas = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) &&
                                                                        e.AccumulativeWeight > 0f && e.Time >= startUnix &&
                                 e.Time < endUnix, e => e.Time)?.ToList();
+
+            var originalDatas2 = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) &&
+                                                                      e.ActivePower > 0f && e.Time >= startUnix &&
+                               e.Time < endUnix, e => e.Time)?.ToList();
 #else
             var originalDatas = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
                                                                        e.Time < endUnix &&
-                                                                       e.AccumulativeWeight > 0f, e => e.Time)?.ToList();  
+                                                                       e.AccumulativeWeight > 0f, e => e.Time)?.ToList(); 
+            var originalDatas2 = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
+                                                                       e.Time < endUnix &&
+                                                                       e.ActivePower > 0f, e => e.Time)?.ToList(); 
 #endif
 
             var length = originalDatas?.Count() ?? 0;
+            var length2 = originalDatas2?.Count() ?? 0;
+
             float lastWeight = 0;
             float weightSum = 0;
 
-            if (!(originalDatas?.Any()??false)) return new ConveyorByHour
+            if (!(originalDatas?.Any()??false) && !(originalDatas2?.Any() ?? false)) return new ConveyorByHour
             {
                 Time = startUnix,
                 MotorId = motor.MotorId,
             };
 
-            var first = originalDatas[0];
+            var first = !(originalDatas?.Any() ?? false) ? new Conveyor()
+            {
+                Time = startUnix,
+                MotorId = motor.MotorId,
+            } : originalDatas[0];
+
+            var first2 = !(originalDatas2?.Any() ?? false) ? new Conveyor()
+            {
+                Time = startUnix,
+                MotorId = motor.MotorId,
+            } : originalDatas2[0];
             //获取上一个有效累计称重的值      
             if (lastRecord != null && lastRecord.AccumulativeWeight != -1 &&
                 first.AccumulativeWeight - lastRecord.AccumulativeWeight <=10*600 &&
@@ -97,10 +122,10 @@ namespace Yunt.Device.Repository.EF.Repositories
             double lastPower = 0;
             double powerSum = 0;
             //获取上一个有效电能的值      
-            if (lastRecord != null && lastRecord.ActivePower != -1 &&
-               first.ActivePower - lastRecord.ActivePower >= 0)
+            if (lastRecord2 != null && lastRecord2.ActivePower >0 &&
+               first2.ActivePower - lastRecord2.ActivePower >= 0)
             {
-                lastPower = lastRecord.ActivePower;
+                lastPower = lastRecord2.ActivePower;
             }
 
             #endregion
@@ -112,19 +137,24 @@ namespace Yunt.Device.Repository.EF.Repositories
                 {
                     lastWeight = cy.AccumulativeWeight;
                     continue;
-                }
+                }     
+                //瞬时重量为负数时，统计按照零计算;
+                if (cy.InstantWeight < 0)
+                    cy.InstantWeight = 0;         
+                float sub = cy.AccumulativeWeight - lastWeight;
+                lastWeight = cy.AccumulativeWeight;
+                weightSum += sub;       
+            }
+
+            for (var i = 0; i < length2; i++)
+            {
+                var cy = originalDatas2[i];              
                 //电能
                 if (cy.ActivePower == -1 || cy.ActivePower < lastPower)
                 {
                     lastPower = cy.ActivePower;
                     continue;
                 }
-                //瞬时重量为负数时，统计按照零计算;
-                if (cy.InstantWeight < 0)
-                    cy.InstantWeight = 0;         
-                float sub = cy.AccumulativeWeight - lastWeight;
-                lastWeight = cy.AccumulativeWeight;
-                weightSum += sub;
                 //电能
                 var subPower = cy.ActivePower - lastPower;
                 lastPower = cy.ActivePower;
@@ -134,30 +164,48 @@ namespace Yunt.Device.Repository.EF.Repositories
             float k = motor.Slope, b = motor.OffSet, calcWeight = 0;
             calcWeight = (float)Math.Round((k * powerSum + b), 2);
 
-            var instantWeight = originalDatas.
+            var instantWeight = originalDatas?.
                 Where(c => c.InstantWeight >= 0);
-            var count = instantWeight.Count();
+            var count = instantWeight?.Count()??0;
 
 
             var load = motor.UseCalc ? Math.Round(((calcWeight * 60) / count) / standValue, 2) :
                   Math.Round(((weightSum * 60) / count) / standValue, 2);
-            var entity = new ConveyorByHour
-            {
-                Time = startUnix,
-                MotorId = motor.MotorId,
-                AvgInstantWeight = (float)Math.Round(instantWeight.Average(e => e.InstantWeight), 2),
-                AvgCurrent_B = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2),
-                AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.Voltage_B), 2),           
-                AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.PowerFactor), 2),             
-                AccumulativeWeight =motor.UseCalc? calcWeight:(float)Math.Round(weightSum, 2), //TODO：累计称重计算;               
-                RunningTime = count,
-                ActivePower = (float)Math.Round(powerSum, 2),
-                AvgPulsesSecond = (float)Math.Round(originalDatas.Average(o => o.PulsesSecond), 2),
-               
-                //负荷 = 该小时内累计重量/额定产量 (单位: 吨/小时);
-                LoadStall = count* standValue == 0 ? 0 : (float)load,
-            };
-            return entity;
+
+            if(originalDatas!=null&&originalDatas.Any())
+                return new ConveyorByHour
+                {
+                    Time = startUnix,
+                    MotorId = motor.MotorId,
+                    AvgInstantWeight = (float)Math.Round(instantWeight?.Average(e => e.InstantWeight) ?? 0, 2),
+                    AvgCurrent_B = (float)Math.Round(originalDatas?.Average(o => o.Current_B) ?? 0, 2),
+                    AvgVoltage_B = (float)Math.Round(originalDatas?.Average(o => o.Voltage_B) ?? 0, 2),
+                    AvgPowerFactor = (float)Math.Round(originalDatas?.Average(o => o.PowerFactor) ?? 0, 2),
+                    AccumulativeWeight = motor.UseCalc ? calcWeight : (float)Math.Round(weightSum, 2), //TODO：累计称重计算;               
+                    RunningTime = count,
+                    ActivePower = (float)Math.Round(powerSum, 2),
+                    AvgPulsesSecond = (float)Math.Round(originalDatas?.Average(o => o.PulsesSecond) ?? 0, 2),
+
+                    //负荷 = 该小时内累计重量/额定产量 (单位: 吨/小时);
+                    LoadStall = count * standValue == 0 ? 0 : (float)load,
+                };
+            else
+                return new ConveyorByHour
+                {
+                    Time = startUnix,
+                    MotorId = motor.MotorId,
+                    AvgInstantWeight = 0,
+                    AvgCurrent_B = 0,
+                    AvgVoltage_B =0,
+                    AvgPowerFactor = 0,
+                    AccumulativeWeight = motor.UseCalc ? calcWeight : (float)Math.Round(weightSum, 2), //TODO：累计称重计算;               
+                    RunningTime = count,
+                    ActivePower = (float)Math.Round(powerSum, 2),
+                    AvgPulsesSecond =0,
+
+                    //负荷 = 该小时内累计重量/额定产量 (单位: 吨/小时);
+                    LoadStall = count * standValue == 0 ? 0 : (float)load,
+                };
 
         }
         /// <summary>
@@ -267,7 +315,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 var exsit = GetEntities(o => o.Time == hour && o.MotorId == motor.MotorId)?.ToList();
                 if (exsit?.Any()??false)
-                    await DeleteEntityAsync(exsit);
+                     DeleteEntity(exsit);
                 var t = GetByMotor(motor, false, dt);
                 if (t != null)
                     ts.Add(t);

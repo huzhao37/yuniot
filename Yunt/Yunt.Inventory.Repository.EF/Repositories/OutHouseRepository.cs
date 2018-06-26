@@ -34,7 +34,7 @@ namespace Yunt.Inventory.Repository.EF.Repositories
         {
             return GetEntities(e => motorIds.Contains(e.MotorId) &&
                                 e.SparePartsStatus.Equals(SparePartsTypeStatus.Useless) && 
-                                e.UselessTime>=start&&e.UselessTime<=end)?.ToList();
+                                e.UselessTime>=start&&e.UselessTime<=end)?.OrderBy(x=>x.UselessTime)?.ToList();
         }
         /// <summary>
         /// 计算备件成本

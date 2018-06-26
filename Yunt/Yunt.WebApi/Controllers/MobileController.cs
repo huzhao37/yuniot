@@ -27,17 +27,20 @@ namespace Yunt.WebApi.Controllers
         private readonly IMotorRepository _motorRepository;
         private readonly IProductionLineRepository _productionLineRepository;
         private readonly IMotorEventLogRepository _motorEventLogRepository;
+        private readonly IAlarmInfoRepository _alarmInfoRepository;
         public MobileController(IConveyorByHourRepository conveyorByHourRepository
             , IConveyorByDayRepository conveyorByDayRepository,
             IMotorRepository motorRepository,
             IProductionLineRepository productionLineRepository,
-            IMotorEventLogRepository motorEventLogRepository)
+            IMotorEventLogRepository motorEventLogRepository,
+            IAlarmInfoRepository alarmInfoRepository)
         {
             _conveyorByHourRepository = conveyorByHourRepository;
             _conveyorByDayRepository = conveyorByDayRepository;
             _motorRepository = motorRepository;
             _productionLineRepository = productionLineRepository;
             _motorEventLogRepository = motorEventLogRepository;
+            _alarmInfoRepository = alarmInfoRepository;
         }
 
         #region Productionline 
@@ -63,22 +66,22 @@ namespace Yunt.WebApi.Controllers
                     var data = _conveyorByHourRepository.GetRealData(motor);
                     return new ConveyorOutlineModel
                     {
-                        Output = data.AccumulativeWeight,
+                        Output =(float)Math.Round(data.AccumulativeWeight,2),
                         InstantOutput = data.AvgInstantWeight,
-                        Load = data.LoadStall,
+                        Load = (float)Math.Round(data.LoadStall,3),
                         RunningTime = data.RunningTime
                     };
                 }
                 //历史数据
 
                 var datas = _conveyorByDayRepository.GetEntities(e => e.Time >= startT &&
-                                                                      e.Time<= endT && e.MotorId.Equals(motor.MotorId))?.ToList();
+                                                                      e.Time<= endT && e.MotorId.Equals(motor.MotorId))?.OrderBy(e => e.Time)?.ToList();
                 if (datas == null || !datas.Any()) return resData;
                 return new ConveyorOutlineModel
                 {
                     Output = (float)Math.Round(datas.Sum(e => e.AccumulativeWeight),2),
                     InstantOutput = (float)Math.Round(datas.Average(e => e.AvgInstantWeight),2),
-                    Load =(float)Math.Round(datas.Average(e => e.LoadStall),2),
+                    Load =(float)Math.Round(datas.Average(e => e.LoadStall),3),
                     RunningTime = (float)Math.Round(datas.Average(e => e.RunningTime),2)
                 };
             }
@@ -116,9 +119,9 @@ namespace Yunt.WebApi.Controllers
                         var data = _conveyorByHourRepository.GetRealData(motor);
                         resData.Add(new ConveyorChartModel
                         {
-                            y = data.AccumulativeWeight,
+                            y = (float)Math.Round(data.AccumulativeWeight,2),
                             InstantWeight = data.AvgInstantWeight,
-                            MotorLoad = data.LoadStall,
+                            MotorLoad = (float)Math.Round(data.LoadStall,3),
                             RunningTime = data.RunningTime,
                             name = motor.Name
                         });
@@ -130,14 +133,14 @@ namespace Yunt.WebApi.Controllers
                 {
                     //历史数据                 
                     var datas = _conveyorByDayRepository.GetEntities(e => e.Time>= startT &&
-                                    e.Time <= endT && e.MotorId.Equals(motor.MotorId))?.ToList();
+                                    e.Time <= endT && e.MotorId.Equals(motor.MotorId))?.OrderBy(e => e.Time)?.ToList();
                     if (datas != null && datas.Any())
                     {
                         resData.Add(new ConveyorChartModel
                         {
                             y = (float)Math.Round(datas.Sum(e => e.AccumulativeWeight),2),
                             InstantWeight = (float)Math.Round(datas.Average(e => e.AvgInstantWeight),2),
-                            MotorLoad = (float)Math.Round(datas.Average(e => e.LoadStall),2),
+                            MotorLoad = (float)Math.Round(datas.Average(e => e.LoadStall),3),
                             RunningTime = (float)Math.Round(datas.Average(e => e.RunningTime),2),
                             name = motor.Name
                         });
@@ -230,7 +233,7 @@ namespace Yunt.WebApi.Controllers
                         resData.Add(new MotorItemModel()
                         {
                             id = motor.MotorId,
-                            load = (float)data.LoadStall,
+                            load = (float)Math.Round(data.LoadStall,3),
                             name = motor.Name,
                             runningtime = (float)data.RunningTime,
                             type = motor.MotorTypeId,
@@ -269,16 +272,16 @@ namespace Yunt.WebApi.Controllers
             var now = DateTime.Now.Date.TimeSpan();
             if ((startT == endT) && (startT == now))
             {
-                datas = _productionLineRepository.MotorHours(motor)?.ToList();
+                datas = _productionLineRepository.MotorHours(motor)?.OrderBy(e => (long)e.Time)?.ToList();
                 return _productionLineRepository.GetMobileMotorDetails(datas, motor);
             }
             //历史某一天
             if (startT == endT)
             {
-                datas = _productionLineRepository.MotorHours(motor, startT)?.ToList();
+                datas = _productionLineRepository.MotorHours(motor, startT)?.OrderBy(e => (long)e.Time)?.ToList();
                 return _productionLineRepository.GetMobileMotorDetails(datas, motor);
             }
-            datas = _productionLineRepository.MotorDays(startT, endT, motor)?.ToList();
+            datas = _productionLineRepository.MotorDays(startT, endT, motor)?.OrderBy(e => (long)e.Time)?.ToList();
             return _productionLineRepository.GetMobileMotorDetails(datas, motor);
         }
 
@@ -300,20 +303,36 @@ namespace Yunt.WebApi.Controllers
                 var  start = value.startDatetime.ToDateTime().TimeSpan();
                 var end = value.endDatetime.ToDateTime().TimeSpan();
 
-                var datas = _motorEventLogRepository.GetEntities(e => e.ProductionLineId.Equals(lineId) &&
+                var eventLogs = _motorEventLogRepository.GetEntities(e => e.ProductionLineId.Equals(lineId) &&
                                                                       e.Time >= start && e.Time <= end);
-                if (datas == null || !datas.Any())
+
+                var alarms = _alarmInfoRepository.GetEntities(e => e.Time >= start && e.Time <= end)?.ToList();
+
+                if ((eventLogs == null || !eventLogs.Any())&&(alarms == null || !alarms.Any()))
                     return resData;
-                Parallel.ForEach(datas, d =>
-                {
-                    resData.Add(new EventModel()
+                if (eventLogs != null && eventLogs.Any())
+                    Parallel.ForEach(eventLogs, e =>
                     {
-                        time = d.Time.ToString(),
-                        motorname = d.MotorName,
-                        desc = d.Description,
+                        resData.Add(new EventModel
+                        {
+                            time = e.Time.ToString(),
+                            motorname = e.MotorName,
+                            desc = e.Description,
+                            eventType = "Event"
+                        });
                     });
-                });
-                return resData;
+                if (alarms != null && alarms.Any())
+                    Parallel.ForEach(alarms, a =>
+                    {
+                        resData.Add(new EventModel
+                        {
+                            time = a.Time.ToString(),
+                            motorname = a.MotorName,
+                            desc = a.Content,
+                            eventType = "Alarm"
+                        });
+                    });
+                return resData?.OrderByDescending(e=>e.time)?.ToList();
             }
             catch (Exception e)
             {

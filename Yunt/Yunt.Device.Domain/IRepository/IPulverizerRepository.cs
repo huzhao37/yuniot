@@ -55,5 +55,16 @@ namespace Yunt.Device.Domain.IRepository
         MotorStatus GetCurrentStatus(string motorId);
 
         #endregion
+
+        #region cache
+        /// <summary>
+        /// 缓存
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="motor">设备</param>
+        /// <param name="dayUnix">日期</param>
+        /// <returns></returns>
+        int PreCache(Motor motor, DateTime dt);
+        #endregion
     }
 }

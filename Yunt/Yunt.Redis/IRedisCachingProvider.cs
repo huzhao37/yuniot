@@ -108,7 +108,15 @@ namespace Yunt.Redis
         /// <param name="dtype"></param>
         /// <returns>执行LPUSH命令后，列表的长度</returns>
         int LPUSH(string key, object value, DataType dtype);
-
+        /// <summary>
+        ///      将一个或多个值value插入到列表key的表头
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key"></param>
+        /// <param name="members"></param>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        int Lpush<T>(string key, List<T> members, DataType type);
         /// <summary>
         ///     将列表key下标为index的元素的值设置为value。
         /// </summary>

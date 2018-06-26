@@ -51,38 +51,47 @@ namespace Yunt.Device.Repository.EF.Repositories
 #if DEBUG
             var originalDatas = _mfRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Frequency > 0f && e.Time >= startUnix &&
                                 e.Time < endUnix, e => e.Time)?.ToList();
+            var originalDatas2 = _mfRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.ActivePower > 0f && e.Time >= startUnix &&
+                                e.Time < endUnix, e => e.Time)?.ToList();
 #else
            
             var originalDatas = _mfRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Frequency > 0f && e.Time>= startUnix &&
                                     e.Time < endUnix, e => e.Time)?.ToList();
+
+            var originalDatas2 = _mfRep.GetEntities(motor.MotorId, dt, isExceed, e => e.ActivePower > 0f && e.Time>= startUnix &&
+                                    e.Time < endUnix, e => e.Time)?.ToList();
 #endif
-            if (!(originalDatas?.Any() ?? false))return new MaterialFeederByHour
+            if (!(originalDatas?.Any() ?? false) && !(originalDatas2?.Any() ?? false)) return new MaterialFeederByHour
             {
                 Time = startUnix,
                 MotorId = motor.MotorId,
             };
             #region 电能计算
-            var first = originalDatas[0];
+            var first = !(originalDatas2?.Any() ?? false) ? new MaterialFeeder()
+            {
+                Time = startUnix,
+                MotorId = motor.MotorId,
+            } : originalDatas2[0];
             //上一个小时的最后一条记录;
 #if DEBUG
-            var lastRecord = _mfRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= dt3Unix &&
+            var lastRecord = _mfRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.ActivePower > 0f && e.Time >= dt3Unix &&
              e.Time < startUnix, e => e.Time)?.LastOrDefault();
 #else          
-            var lastRecord = _mfRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= dt3Unix &&
+            var lastRecord = _mfRep.GetEntities(motor.MotorId, dt3, isExceed, e => e.ActivePower > 0f&&e.Time >= dt3Unix &&
             e.Time < startUnix, e => e.Time)?.LastOrDefault();
 #endif
-            var length = originalDatas?.Count() ?? 0;
+            var length = originalDatas2?.Count() ?? 0;
             double lastPower = 0;
             double powerSum = 0;
             //获取上一个有效电能的值      
-            if (lastRecord != null && lastRecord.ActivePower != -1 &&
+            if (lastRecord != null && lastRecord.ActivePower>0 &&
                first.ActivePower - lastRecord.ActivePower >= 0)
             {
                 lastPower = lastRecord.ActivePower;
             }
             for (var i = 0; i < length; i++)
             {
-                var item = originalDatas[i];
+                var item = originalDatas2[i];
                 //电能
                 if (item.ActivePower == -1 || item.ActivePower < lastPower)
                 {
@@ -219,7 +228,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 var exsit = GetEntities(o => o.Time == hour && o.MotorId == motor.MotorId)?.ToList();
                 if (exsit?.Any()??false)
-                    await DeleteEntityAsync(exsit);
+                     DeleteEntity(exsit);
                 var t = GetByMotor(motor, false, dt);
                 if (t != null)
                     ts.Add(t);

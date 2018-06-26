@@ -48,20 +48,34 @@ namespace Yunt.IDC.Task
         public static void Start()
         {
             #region 预热instancedata-3个月数据
-
-            //if (!ProductionLineRepository.GetInstanceFromRedis("WDD-P001"))
+            //DateTime start = "2018-06-26 00:00:00".ToDateTime(), end = "2018-06-26 13:30:00".ToDateTime();
+            //var motors = MotorRepository.GetEntities(e => e.ProductionLineId.Equals("WDD-P001"))?.ToList();
+            //if (motors?.Any() ?? true)
             //{
+            //    motors.ForEach(e =>
+            //    {
+            //        var results = ProductionLineRepository.PreCache2(e, DateTime.Now.Date.TimeSpan(), start.TimeSpan(),end.TimeSpan());
+            //        Logger.Info($"[{DateTime.Now.Date}]{e.MotorId}:初始化{results}个记录...");
+            //    });
+            //}
+
+            //var startT = start;
+            //var days = end.Subtract(start).TotalDays;
+            //for (int i = 0; i < days; i++)
+            //{
+            //    var time = startT.AddDays(i);       
             //    var motors = MotorRepository.GetEntities(e => e.ProductionLineId.Equals("WDD-P001"))?.ToList();
             //    if (motors?.Any() ?? true)
             //    {
-            //        motors.ForEach(e=>
+            //        motors.ForEach(e =>
             //        {
-            //            var list = ProductionLineRepository.PreCache(e.MotorId, DateTime.Today.Date);
-
+            //            var results = ProductionLineRepository.PreCache(e, time);
+            //            Logger.Info($"{e.MotorId}:初始化{results}个记录...");
             //        });
             //    }
             //}
-
+            //Logger.Warn("缓存完毕！");
+            //Console.ReadKey();
 
             #endregion
             var w_r =(int) WriteOrRead.Read;

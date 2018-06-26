@@ -31,5 +31,10 @@ namespace Yunt.WebApi.Models.ProductionLines
         /// </summary>
         public int RunMotors { get; set; }
 
+        /// <summary>
+        /// 报警电机数目
+        /// </summary>
+        public int AlarmMotors { get; set; }
+
     }
 }

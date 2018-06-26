@@ -107,6 +107,7 @@ namespace Yunt.Device.Repository.EF.Services
                 switch (motor.MotorTypeId)
                 {
                     case "CY":
+                        //var x = _cyRep.GetEntities("WDD-P001-CY000047", DateTime.Now, false).ToList().OrderByDescending(e => e.Time);
                         status = _cyRep.GetCurrentStatus(motor.MotorId);
                         lose = status.Equals(MotorStatus.Lose) ? lose + 1 : lose + 0;
                         stop = status.Equals(MotorStatus.Stop) ? stop + 1 : stop + 0;
@@ -126,6 +127,7 @@ namespace Yunt.Device.Repository.EF.Services
                         break;
                     case "CC":
                         status = _ccRep.GetCurrentStatus(motor.MotorId) ;
+                        //var x = _ccRep.GetEntities("WDD-P001-CC000001", DateTime.Now, false).ToList().OrderByDescending(e => e.Time);
                         lose = status.Equals(MotorStatus.Lose) ? lose + 1 : lose + 0;
                         stop = status.Equals(MotorStatus.Stop) ? stop + 1 : stop + 0;
                         run = status.Equals(MotorStatus.Run) ? run + 1: run + 0;
@@ -1008,55 +1010,128 @@ namespace Yunt.Device.Repository.EF.Services
             return false;
         }
 
+ 
         /// <summary>
-        /// 读取缓存预热原始数据(慎用！！！)
+        /// 缓存预热（慎用！）
         /// </summary>
-        /// <param name="motorId"></param>
-        ///  <param name="dt">日期</param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="motor">设备</param>
+        /// <param name="dayUnix">日期</param>
+        /// <param name="ts">集合数据</param>
         /// <returns></returns>
         [Obsolete]
-        public IEnumerable<dynamic> PreCache(string motorId,DateTime dt)
+        public int PreCache(Motor motor, DateTime dt)
         {
-            var end = dt.Date.AddDays(1).TimeSpan();
-            var start = dt.Date.TimeSpan();
-            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
-            if (motor == null) return null;
-            dynamic list = new List<dynamic>();
+            var result = 0;      
             switch (motor.MotorTypeId)
             {
                 case "CY":
-                    return _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();                
+                     result =_cyRep.PreCache(motor,dt);
+                     break;
                 case "MF":
-                    return _mfRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
-
+                    result = _mfRep.PreCache(motor, dt);
+                    break;
                 case "JC":
-                    return _jcRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
-
+                    result = _jcRep.PreCache(motor, dt);
+                    break;
                 case "CC":
-                    return _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
-
+                    result = _ccRep.PreCache(motor, dt);
+                    break;
                 case "VC":
-                    return _vcRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
-
+                    result = _vcRep.PreCache(motor, dt);
+                    break;
                 case "VB":
-                    return _vbRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
-
+                    result = _vbRep.PreCache(motor, dt);
+                    break;
                 case "SCC":
-                    return _sccRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
-
+                    result = _sccRep.PreCache(motor, dt);
+                    break;
                 case "PUL":
-                    return _pulRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
-
+                    result = _pulRep.PreCache(motor, dt);
+                    break;
                 case "IC":
-                    return _icRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
+                    result = _icRep.PreCache(motor, dt);
+                    break;
                 case "HVB":
-                    return _hvbRep.GetFromSqlDb(e => e.MotorId.Equals(motorId) && e.Time >= start && e.Time < end).ToList();
-
+                    result = _hvbRep.PreCache(motor, dt);
+                    break;
                 default:
-                    return list;
-            }
+                    break;
+                    
+            }            
+            return result;
         }
 
+        /// <summary>
+        ///  缓存预热（慎用！）同一天内的某段时间数据
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="dayUnix"></param>
+        /// <param name="start"></param>
+        /// <param name="end">不包括</param>
+        /// <returns></returns>
+        [Obsolete]
+        public int PreCache2(Motor motor,long dayUnix, long start,long end)
+        {
+            var result = 0;
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    var list = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start && e.Time < end)?.OrderBy(e => e.Time)?.ToList();
+                    if(list!=null&&list.Any())
+                        result = _cyRep.Cache(motor.MotorId, dayUnix,list);
+                    break;
+                case "MF":
+                    var list2 = _mfRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start && e.Time < end)?.OrderBy(e => e.Time)?.ToList();
+                    if (list2 != null && list2.Any())
+                        result = _mfRep.Cache(motor.MotorId, dayUnix, list2);
+                    break;
+                case "JC":
+                    var list3 = _jcRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start && e.Time < end)?.OrderBy(e => e.Time)?.ToList();
+                    if (list3 != null && list3.Any())
+                        result = _jcRep.Cache(motor.MotorId, dayUnix, list3);
+                    break;
+                case "CC":
+                    var list4 = _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start && e.Time < end)?.OrderBy(e => e.Time)?.ToList();
+                    if (list4 != null && list4.Any())
+                        result = _ccRep.Cache(motor.MotorId, dayUnix, list4);
+                    break;
+                case "VC":
+                    var list5 = _vcRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start && e.Time < end)?.OrderBy(e => e.Time)?.ToList();
+                    if (list5 != null && list5.Any())
+                        result = _vcRep.Cache(motor.MotorId, dayUnix, list5);
+                    break;
+                case "VB":
+                    var list6 = _vbRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start && e.Time < end)?.OrderBy(e => e.Time)?.ToList();
+                    if (list6 != null && list6.Any())
+                        result = _vbRep.Cache(motor.MotorId, dayUnix, list6);
+                    break;
+                case "SCC":
+                    var list7 = _sccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start && e.Time < end)?.OrderBy(e => e.Time)?.ToList();
+                    if (list7 != null && list7.Any())
+                        result = _sccRep.Cache(motor.MotorId, dayUnix, list7);
+                    break;
+                case "PUL":
+                    var list8 = _pulRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start && e.Time < end)?.OrderBy(e => e.Time)?.ToList();
+                    if (list8 != null && list8.Any())
+                        result = _pulRep.Cache(motor.MotorId, dayUnix, list8);
+                    break;
+                case "IC":
+                    var list9 = _icRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start && e.Time < end)?.OrderBy(e => e.Time)?.ToList();
+                    if (list9 != null && list9.Any())
+                        result = _icRep.Cache(motor.MotorId, dayUnix, list9);
+                    break;
+                case "HVB":
+                    var list10 = _hvbRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start && e.Time < end)?.OrderBy(e => e.Time)?.ToList();
+                    if (list10 != null && list10.Any())
+                        result = _hvbRep.Cache(motor.MotorId, dayUnix, list10);
+                    break;
+                default:
+                    break;
+
+            }
+            return result;
+        }
         /// <summary>
         /// 获取设备原始数据
         /// </summary>
@@ -1186,7 +1261,7 @@ namespace Yunt.Device.Repository.EF.Services
             foreach (var item in groups)
             {
                 var time = item.Key;
-                var powerSum = (float)Math.Round(item?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
+                var powerSum = (float)Math.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
                 resp.Add(new PowerCal { ActivePower = powerSum, Time = (long)time });
             }
             return resp;
@@ -1244,7 +1319,7 @@ namespace Yunt.Device.Repository.EF.Services
             foreach (var item in groups)
             {
                 var time = item.Key;
-                var powerSum = (float)Math.Round(item?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
+                var powerSum = (float)Math.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
                 resp.Add(new PowerCal { ActivePower = powerSum, Time = (long)time });
             }
             return resp;
@@ -1300,7 +1375,7 @@ namespace Yunt.Device.Repository.EF.Services
             foreach (var item in groups)
             {
                 var time = item.Key;
-                var powerSum = (float)Math.Round(item?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
+                var powerSum = (float)Math.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
                 resp.Add(new PowerCal{ ActivePower = powerSum, Time = (long)time });
             }
             return resp;

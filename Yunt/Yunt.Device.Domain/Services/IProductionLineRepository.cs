@@ -85,14 +85,25 @@ namespace Yunt.Device.Domain.Services
         bool  GetInstanceFromRedis(string productionLineId);
 
         /// <summary>
-        /// 读取缓存预热原始数据(慎用！！！)
+        /// 缓存预热（慎用！）
         /// </summary>
-        /// <param name="motorId"></param>
-        ///  <param name="dt">日期</param>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="motor">设备</param>
+        /// <param name="dayUnix">日期</param>
+        /// <param name="ts">集合数据</param>
         /// <returns></returns>
         [Obsolete]
-        IEnumerable<dynamic> PreCache(string motorId, DateTime dt);
-
+        int PreCache(Motor motor, DateTime dt);
+        /// <summary>
+        ///  缓存预热（慎用！）同一天内的某段时间数据
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="dayUnix"></param>
+        /// <param name="start"></param>
+        /// <param name="end">不包括</param>
+        /// <returns></returns>
+        [Obsolete]
+        int PreCache2(Motor motor, long dayUnix, long start, long end);
         /// <summary>
         /// 获取设备原始数据
         /// </summary>

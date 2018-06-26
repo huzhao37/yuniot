@@ -41,33 +41,33 @@ namespace Yunt.HIDC
             #endregion
 
             #region test
-            //DateTime dt = "2018-06-20 12:00:00".ToDateTime();
+            DateTime dt = "2018-06-25 13:00:00".ToDateTime();
 
-            //var x = HourStatisticsTask.Test(dt, "WDD-P001-CY000024");
+            var x = HourStatisticsTask.Test(dt, "WDD-P001-CY000021");
 
 
-            //Common.Logger.Error("测试完毕！");
-            //Console.ReadKey();
+            Common.Logger.Error("测试完毕！");
+            Console.ReadKey();
             #endregion
 
             #region recovery
-            //try
-            //{
-            //    //DateTime start = "2018-06-25 15:00:00".ToDateTime(), end = "2018-06-25 09:00:00".ToDateTime();
-            //    //var startT = start;
-            //    //var hours = end.Subtract(start).TotalHours;
-            //    //for (int i = 0; i < hours; i++)
-            //    //{
-            //        var time = "2018-06-25 15:00:00".ToDateTime();// startT.AddHours(i);
-            //        HourStatisticsTask.RecoveryTask(time);
-            //    //}
-            //    Common.Logger.Error("恢复完毕！");
-            //    Console.ReadKey();
+            //    try
+            //    {
+            //        DateTime start = "2018-06-20 9:00:00".ToDateTime(), end = "2018-06-26 15:00:00".ToDateTime();
+            //        var startT = start;
+            //        var hours = end.Subtract(start).TotalHours;
+            //        for (int i = 0; i < hours; i++)
+            //        {
+            //            var time = startT.AddHours(i);// "2018-06-25 06:00:00".ToDateTime();//
+            //             HourStatisticsTask.RecoveryTask(time);
+            //        }
+            //        Common.Logger.Error("恢复完毕！");
+            //        Console.ReadKey();
             //}
-            //catch (Exception ex)
-            //{
-            //    Common.Logger.Exception(ex);
-            //}
+            //    catch (Exception ex)
+            //    {
+            //        Common.Logger.Exception(ex);
+            //    }
 
             #endregion
 
@@ -78,7 +78,7 @@ namespace Yunt.HIDC
                 if (sched == null)
                     Start();
                 Thread.Sleep(60 * 1000);
-            }  
+            }
         }
         public static async Task Start()
         {

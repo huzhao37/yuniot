@@ -182,7 +182,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 var exsit = GetEntities(o => o.Time == hour && o.MotorId == motor.MotorId)?.ToList();
                 if (exsit?.Any()??false)
-                    await DeleteEntityAsync(exsit);
+                     DeleteEntity(exsit);
                 var t = GetByMotor(motor, false, dt);
                 if (t != null)
                     ts.Add(t);
