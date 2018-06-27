@@ -255,8 +255,8 @@ namespace Yunt.Analysis.Repository.EF.Repositories
                 wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
                 sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).ProjectTo<DT>(Mapper);
 #if DEBUG
-                //Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
-                // Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
 #endif
                 return sql;
             }
@@ -319,6 +319,60 @@ namespace Yunt.Analysis.Repository.EF.Repositories
             if (count > 0)
             {
                 dailys =  source.OrderBy(x => x.Time).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
+            }
+
+            return new PaginatedList<DT>(pageIndex, pageSize, count, dailys ?? new List<DT>());
+        }
+
+        public virtual PaginatedList<DT> GetPage( int pageIndex, int pageSize, Expression<Func<DT, bool>> where = null, Expression<Func<DT, object>> order = null)
+        {
+            Expression<Func<ST, bool>> wheres;
+            Expression<Func<ST, object>> orderby;
+            IQueryable<DT> sql = null;
+            if (where != null && order != null)
+            {
+                wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
+                orderby = Mapper.MapExpression<Expression<Func<DT, object>>, Expression<Func<ST, object>>>(order);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).OrderBy(orderby).ProjectTo<DT>(Mapper);
+#if DEBUG
+                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+            }
+
+            else if (order != null&& where == null)
+            {
+                orderby = Mapper.MapExpression<Expression<Func<DT, object>>, Expression<Func<ST, object>>>(order);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().OrderBy(orderby).ProjectTo<DT>(Mapper);
+#if DEBUG
+                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+            }
+            else if (where != null && order == null)
+            {
+                wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).ProjectTo<DT>(Mapper);
+#if DEBUG
+                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+            }
+            else
+            {
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().ProjectTo<DT>(Mapper);
+#if DEBUG
+                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+            }
+ 
+            var source = sql;
+            var count = source.Count();
+            List<DT> dailys = null;
+            if (count > 0)
+            {
+                dailys = source.OrderBy(x => x.Time).Skip((pageIndex - 1) * pageSize).Take(pageSize).ToList();
             }
 
             return new PaginatedList<DT>(pageIndex, pageSize, count, dailys ?? new List<DT>());

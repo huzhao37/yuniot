@@ -15,6 +15,8 @@ namespace Yunt.Analysis.Repository.EF.Models
     [ProtoContract(ImplicitFields = ImplicitFields.AllPublic)]
     [ProtoInclude(11, typeof(MotorEventLog))]
     [ProtoInclude(12, typeof(EventKind))]
+    [ProtoInclude(13, typeof(AlarmInfo))]
+    [ProtoInclude(14, typeof(Maintain))]
     public abstract class BaseModel
     {
         [DataMember]

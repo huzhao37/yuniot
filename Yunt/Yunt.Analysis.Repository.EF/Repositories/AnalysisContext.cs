@@ -20,6 +20,8 @@ namespace Yunt.Analysis.Repository.EF.Repositories
         public virtual DbSet<MotorEventLog> MotorEventLog { get; set; }
 
         public virtual DbSet<AlarmInfo> AlarmInfo { get; set; }
+
+        public virtual DbSet<Maintain> Maintain { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)

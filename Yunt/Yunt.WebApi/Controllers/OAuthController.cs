@@ -18,10 +18,13 @@ namespace Yunt.WebApi.Controllers
     public class OAuthController : Controller
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
 
-        public OAuthController(IUserRepository userRepository)
+        public OAuthController(IUserRepository userRepository,
+            IUserRoleRepository userRoleRepository)
         {
             _userRepository = userRepository;
+            _userRoleRepository = userRoleRepository;
         }
 
         [HttpPost("authenticate")]
@@ -30,6 +33,7 @@ namespace Yunt.WebApi.Controllers
         {          
             var user = _userRepository.GetEntities(e=>e.LoginAccount.Equals(info.LoginName)&&e.LoginPwd.Equals(info.Password)).SingleOrDefault();
             if (user == null) return Unauthorized();
+            var role = _userRoleRepository.GetEntityById(user.UserRoleId);
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(Consts.Secret);
             var authTime = DateTime.UtcNow;
@@ -58,6 +62,8 @@ namespace Yunt.WebApi.Controllers
                 {
                     sid = user.Id,
                     name = user.UserName,
+                    roleId=user.UserRoleId,
+                    roleName= role?.Desc??"",
                     auth_time = new DateTimeOffset(authTime).ToUnixTimeSeconds(),
                     expires_at = new DateTimeOffset(expiresAt).ToUnixTimeSeconds()
                 }

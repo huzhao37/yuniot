@@ -39,10 +39,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
     <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
-    <ProjectReference Include="..\Yunt.Device.Repository.EF\Yunt.Device.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.MQ\Yunt.MQ.csproj" />
     <ProjectReference Include="..\Yunt.Xml.Domain\Yunt.Xml.Domain.csproj" />
-    <ProjectReference Include="..\Yunt.Xml.Repository.EF\Yunt.Xml.Repository.EF.csproj" />
   </ItemGroup>
 
 </Project>

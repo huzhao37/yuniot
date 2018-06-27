@@ -17,6 +17,7 @@ namespace Yunt.Auth.Domain.IRepository
 
         T GetEntityById(int id);
         PaginatedList<T> GetPage(int pageIndex, int pageSize);
+        PaginatedList<T> GetPage(int pageIndex, int pageSize, Expression<Func<T, bool>> where = null, Expression<Func<T, object>> order = null);
         int Insert(T t);
         Task InsertAsync(T t);
         int Insert(IEnumerable<T> ts);

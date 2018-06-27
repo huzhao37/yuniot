@@ -16,6 +16,8 @@ namespace Yunt.Analysis.Domain.BaseModel
     [ProtoContract(ImplicitFields = ImplicitFields.AllPublic)]
     [ProtoInclude(11, typeof(MotorEventLog))]
     [ProtoInclude(12, typeof(EventKind))]
+    [ProtoInclude(13, typeof(AlarmInfo))]
+    [ProtoInclude(14, typeof(Maintain))]
     public abstract class AggregateRoot : IAggregateRoot
     {
         [DataMember]

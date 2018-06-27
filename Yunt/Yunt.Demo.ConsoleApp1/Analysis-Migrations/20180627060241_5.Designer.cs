@@ -11,9 +11,10 @@ using Yunt.Demo.ConsoleApp1;
 namespace Yunt.Demo.ConsoleApp1.Migrations
 {
     [DbContext(typeof(AnalysisContext))]
-    partial class AnalysisContextModelSnapshot : ModelSnapshot
+    [Migration("20180627060241_5")]
+    partial class _5
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -80,7 +81,6 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<float>("Duration");
 
                     b.Property<string>("MotorId")
-                        .IsRequired()
                         .HasMaxLength(20);
 
                     b.Property<string>("Operator")

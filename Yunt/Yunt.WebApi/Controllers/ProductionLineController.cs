@@ -216,7 +216,7 @@ namespace Yunt.WebApi.Controllers
                 });
             }
 
-            if (!finishCys?.Any() ?? true)
+            if (!(finishCys?.Any() ?? true))
                 return resp;
             Parallel.ForEach(finishCys, cy =>
             {
@@ -373,6 +373,171 @@ namespace Yunt.WebApi.Controllers
                 _productionPlansRepository.Insert(plan);
             return result;
         }
+
+        [HttpGet]
+        [Route("GetSchedules")]
+        [EnableCors("any")]
+        public PaginatedList<dynamic> GetSchedules(int pagesize,int pageindex,DateTime start,DateTime end,string productionlineId)
+        {
+            try
+            {
+                long startT = start.Date.TimeSpan(), endT = end.Date.TimeSpan();
+                var resp = new List<dynamic>();
+                var results = new PaginatedList<dynamic>(0, 0, 0, resp);
+                var mainCy = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) && e.IsMainBeltWeight)?.FirstOrDefault();
+                var finishCy1 = _motorRepository.GetEntities(e => e.MotorId.Equals("WDD-P001-CY000054") && e.IsBeltWeight && !e.IsMainBeltWeight)?.FirstOrDefault();
+                var finishCy2 = _motorRepository.GetEntities(e => e.MotorId.Equals("WDD-P001-CY000019") && e.IsBeltWeight && !e.IsMainBeltWeight)?.FirstOrDefault();
+                var finishCy3 = _motorRepository.GetEntities(e => e.MotorId.Equals("WDD-P001-CY000041") && e.IsBeltWeight && !e.IsMainBeltWeight)?.FirstOrDefault();
+                var finishCy4 = _motorRepository.GetEntities(e => e.MotorId.Equals("WDD-P001-CY000046") && e.IsBeltWeight && !e.IsMainBeltWeight)?.FirstOrDefault();
+                //var finishCys = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) && e.IsBeltWeight && !e.IsMainBeltWeight).ToList();
+                List<dynamic> mainCyList = null;
+                List<dynamic> cy1List = null;
+                List<dynamic> cy2List = null;
+                List<dynamic> cy3List = null;
+                List<dynamic> cy4List = null;
+                //当天
+                var now = DateTime.Now.Date.TimeSpan();
+                var datas = _productionPlansRepository.GetEntities(e => e.ProductionlineId.EqualIgnoreCase(productionlineId)
+                              && e.Start >= startT && e.End <= endT)?.ToList();
+                if (datas != null && datas.Any())
+                    Parallel.ForEach(datas, x =>
+                    {
+                        long startTime = x.Start, endTime = x.End;
+                        if (startTime == endTime)
+                        {
+                            mainCyList = _productionLineRepository.MotorHours(mainCy, startTime)?.ToList();
+                            cy1List = _productionLineRepository.MotorHours(finishCy1, startTime)?.ToList();
+                            cy2List = _productionLineRepository.MotorHours(finishCy2, startTime)?.ToList();
+                            cy3List = _productionLineRepository.MotorHours(finishCy3, startTime)?.ToList();
+                            cy4List = _productionLineRepository.MotorHours(finishCy4, startTime)?.ToList();
+                        }
+                        else
+                        {
+                            mainCyList = _productionLineRepository.MotorDays(startTime, endTime, mainCy)?.ToList();
+                            cy1List = _productionLineRepository.MotorDays(startTime, endTime, finishCy1)?.ToList();
+                            cy2List = _productionLineRepository.MotorDays(startTime, endTime, finishCy2)?.ToList();
+                            cy3List = _productionLineRepository.MotorDays(startTime, endTime, finishCy3)?.ToList();
+                            cy4List = _productionLineRepository.MotorDays(startTime, endTime, finishCy4)?.ToList();
+                        }
+                        if (mainCyList != null && mainCyList.Any())
+                            resp.Add(new
+                            {
+                                RealOutput = (float)Math.Round(mainCyList.Sum(e => (float)e.AccumulativeWeight), 2),
+                                PlanOutput = datas?.Sum(e => e.MainCy) ?? 0,
+                                mainCy.MotorId,
+                                mainCy.Name,
+                                Start=startTime,
+                                End=endTime
+                            });
+                        if (cy1List != null && cy1List.Any())
+                            resp.Add(new
+                            {
+                                RealOutput = (float)Math.Round(cy1List.Sum(e => (float)e.AccumulativeWeight), 2),
+                                PlanOutput = datas?.Sum(e => e.FinishCy1) ?? 0,
+                                finishCy1.MotorId,
+                                finishCy1.Name,
+                                Start = startTime,
+                                End = endTime
+                            });
+                        if (cy2List != null && cy2List.Any())
+                            resp.Add(new
+                            {
+                                RealOutput = (float)Math.Round(cy2List.Sum(e => (float)e.AccumulativeWeight), 2),
+                                PlanOutput = datas?.Sum(e => e.FinishCy2) ?? 0,
+                                finishCy2.MotorId,
+                                finishCy2.Name,
+                                Start = startTime,
+                                End = endTime
+                            });
+                        if (cy3List != null && cy3List.Any())
+                            resp.Add(new
+                            {
+                                RealOutput = (float)Math.Round(cy3List.Sum(e => (float)e.AccumulativeWeight), 2),
+                                PlanOutput = datas?.Sum(e => e.FinishCy3) ?? 0,
+                                finishCy3.MotorId,
+                                finishCy3.Name,
+                                Start = startTime,
+                                End = endTime
+                            });
+                        if (cy4List != null && cy4List.Any())
+                            resp.Add(new
+                            {
+                                RealOutput = (float)Math.Round(cy4List.Sum(e => (float)e.AccumulativeWeight), 2),
+                                PlanOutput = datas?.Sum(e => e.FinishCy4) ?? 0,
+                                finishCy4.MotorId,
+                                finishCy4.Name,
+                                Start = startTime,
+                                End = endTime
+                            });
+
+                    });
+                var list = resp?.OrderByDescending(x => (long)(x?.Start?? 0))?.Skip((pageindex - 1) * pagesize)?.Take(pagesize) ?? new List<dynamic>();
+                return new PaginatedList<dynamic>(pageindex, pagesize, resp.Count(), list);
+            }
+            catch (Exception ex)
+            {
+                Logger.Exception(ex);
+                return new PaginatedList<dynamic>(0, 0, 0, new List<dynamic>());
+            }
+      
+            #region Obselete
+            //if (mainCy != null)
+            //{
+            //    //if ((startT == endT) && (startT == now))
+            //    //{
+            //    //    datas = _productionLineRepository.MotorHours(mainCy)?.OrderBy(e => (long)e.Time)?.ToList();
+            //    //}
+            //    ////历史某一天
+            //    //else 
+            //    if (startT == endT)
+            //    {
+            //        datas = _productionLineRepository.MotorHours(mainCy, startT)?.OrderBy(e => (long)e.Time)?.ToList();
+            //    }
+            //    else
+            //    {
+            //        datas = _productionLineRepository.MotorDays(startT, endT, mainCy)?.OrderBy(e => (long)e.Time)?.ToList();
+            //    }
+
+            //}
+
+            //if (datas!= null&&datas.Any())
+            //    resp.Add(new { RealOutput= (float)Math.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
+            //        PlanOutput= datas2?.Sum(e => e.MainCy)??0,mainCy.MotorId,mainCy.Name });      
+
+            //if (finishCys?.Any() ?? false)
+            //{
+            //    Parallel.ForEach(finishCys, cy =>
+            //    {
+            //        List<dynamic> list;
+            //        //if ((startT == endT) && (startT == now))
+            //        //{
+            //        //    list = _productionLineRepository.MotorHours(cy)?.ToList();
+            //        //}
+            //        ////历史某一天
+            //        //else 
+            //        if (startT == endT)
+            //        {
+            //            list = _productionLineRepository.MotorHours(cy, startT)?.ToList();
+            //        }
+            //        else
+            //        {
+            //            list = _productionLineRepository.MotorDays(startT, endT, cy)?.ToList();
+            //        }
+
+            //        float outPut = 0;
+            //        if (list != null && list.Any())
+            //        {
+            //            outPut = (float)Math.Round(list.Sum(e => (float)e.AccumulativeWeight), 2);
+            //        }
+            //        var planOutput = _productionPlansRepository.GetEntities(e => e.ProductionlineId.EqualIgnoreCase(productionlineId)
+            //                  && e.Start == startT && e.End == endT)?.ToList()?.Sum();
+            //        resp.Add(new { RealOutput = (float)Math.Round(outPut, 2), PlanOutput= planOutput, cy.MotorId, cy.Name });
+            //    });
+
+            //}
+            #endregion
+
+        }
         #endregion
 
         #region instant_data_plc
@@ -419,7 +584,7 @@ namespace Yunt.WebApi.Controllers
                 alarms = _alarmInfoRepository.GetEntities(e => e.MotorId.Equals(motorId)
                            && e.Time >= startT && e.Time <= endT)?.ToList();
             }
-            if (!motorType.IsNullOrWhiteSpace())
+            if (!motorType.IsNullOrWhiteSpace()&& motorId.IsNullOrWhiteSpace())
             {
                 motors = _motorRepository.GetEntities(e => e.MotorTypeId.Equals(motorType))?.ToList();
                 var motorIds = motors?.Select(e => e.MotorId);
@@ -568,5 +733,7 @@ namespace Yunt.WebApi.Controllers
         }
 
         #endregion
-    }
+
+     
+        }
 }
