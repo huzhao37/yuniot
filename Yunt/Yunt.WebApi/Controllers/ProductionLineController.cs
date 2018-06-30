@@ -553,14 +553,42 @@ namespace Yunt.WebApi.Controllers
         [EnableCors("any")]
         public IEnumerable<dynamic> GetDateHistory( string motorId, DateTime dt,bool cache)
         {
-            var datas=new List<dynamic>();
-            var motor = _motorRepository.GetEntities(e => e.MotorId.Equals(motorId))?.FirstOrDefault();
-            if (motor == null)
-                return datas;
-            return _productionLineRepository.GetMotorHistoryByDate(motor, dt, cache)?.OrderByDescending(e => (long)e.Time);
+            try
+            {
+                var datas = new List<dynamic>();
+                var motor = _motorRepository.GetEntities(e => e.MotorId.Equals(motorId))?.FirstOrDefault();
+                if (motor == null)
+                    return datas;
+                return _productionLineRepository.GetMotorHistoryByDate(motor, dt, cache)?.OrderByDescending(e => (long)e.Time);
+            }
+            catch (Exception)
+            {
+
+                return new List<dynamic>();
+            }
+         
         }
 
+        [HttpGet]
+        [Route("MotorDiHistory")]
+        [EnableCors("any")]
+        public IEnumerable<dynamic> GetOtherHistory(string motorId, DateTime dt,bool isAlarm)
+        {
+            try
+            {
+                if(isAlarm)
+                    return _motorEventLogRepository.GetDis(motorId, dt)?.Where(e=>e.DataPhysic.Equals("报警"))?
+                    .Select(e=>new { e.Param,e.Value,Tim=e.Time})?.OrderByDescending(e=>e.Tim)?.GroupBy(e=>e.Tim);
+                return _motorEventLogRepository.GetDis(motorId, dt)?.Where(e => e.DataPhysic.Equals("状态"))?
+                  .Select(e => new { e.Param, e.Value, Tim = e.Time })?.OrderByDescending(e => e.Tim)?.GroupBy(e => e.Tim);
+            }
+            catch (Exception)
+            {
 
+                return new List<dynamic>();
+            }
+
+        }
         #endregion
 
         #region motor_event

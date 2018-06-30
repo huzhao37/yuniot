@@ -27,7 +27,12 @@ namespace Yunt.Analysis.Domain.IRepository
         /// <param name="motorId"></param>
         /// <returns></returns>
         IEnumerable<AiLog> GetAiLogs(string motorId);
-
+        /// <summary>
+        /// 获取分析元数据
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <returns></returns>
+         IEnumerable<AiLog> GetAiLogsByKey(string key);
         /// <summary>
         /// 添加数字量元数据
         /// </summary>

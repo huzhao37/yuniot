@@ -35,7 +35,6 @@ namespace Yunt.IDC.Helper
         private readonly static string ccuri;
         private readonly static string queue;
         private static string _buffer;
-        private static List<int> _normalIds;
         private static IMotorRepository motorRepository;
         private static IMaterialFeederRepository mfRepository;
         private static IConveyorRepository cyRepository;
@@ -55,7 +54,7 @@ namespace Yunt.IDC.Helper
         public static readonly IDataformmodelRepository DataformmodelRepository;
         public static readonly IMotorEventLogRepository MotorEventLogRepository;
         public static readonly IAlarmInfoRepository alarmInfoRepository;
-        
+
         static BytesToDb()
         {
             var wddQueue = MqDealTask.WddQueue;
@@ -83,10 +82,10 @@ namespace Yunt.IDC.Helper
             sccRepository = ServiceProviderServiceExtensions.GetService<ISimonsConeCrusherRepository>(Program.Providers["Device"]);
             hvibRepository = ServiceProviderServiceExtensions.GetService<IHVibRepository>(Program.Providers["Device"]);
             lineRepository = ServiceProviderServiceExtensions.GetService<IProductionLineRepository>(Program.Providers["Device"]);
-            bytesRepository= ServiceProviderServiceExtensions.GetService<IOriginalBytesRepository>(Program.Providers["Device"]);
+            bytesRepository = ServiceProviderServiceExtensions.GetService<IOriginalBytesRepository>(Program.Providers["Device"]);
             CollectdeviceRepository = ServiceProviderServiceExtensions.GetService<ICollectdeviceRepository>(Program.Providers["Xml"]);
             DataformmodelRepository = ServiceProviderServiceExtensions.GetService<IDataformmodelRepository>(Program.Providers["Xml"]);
-            MotorEventLogRepository= ServiceProviderServiceExtensions.GetService<IMotorEventLogRepository>(Program.Providers["Analysis"]);
+            MotorEventLogRepository = ServiceProviderServiceExtensions.GetService<IMotorEventLogRepository>(Program.Providers["Analysis"]);
             alarmInfoRepository = ServiceProviderServiceExtensions.GetService<IAlarmInfoRepository>(Program.Providers["Analysis"]);
 
         }
@@ -119,7 +118,7 @@ namespace Yunt.IDC.Helper
                     EmbeddedDeviceId = emDevice.Id
                 };
                 bytesRepository.InsertAsync(bytes);
-               // 写入队列中缓冲
+                // 写入队列中缓冲
                 rabbitHelper.Write(ccuri, Extention.strToToHexByte(buffer), queue, queue, "amq.topic", queueUserName, queuePassword);
 
 
@@ -131,7 +130,7 @@ namespace Yunt.IDC.Helper
                     Logger.Info("[BytesToDb]No Related Motors!");
                 }
 
-              
+
                 if (motors != null && motors.Any())
                 {
                     foreach (var pvalue in _model.PValues)
@@ -146,7 +145,7 @@ namespace Yunt.IDC.Helper
 
                                     {
                                         //给料机
-                                        var mf=new MaterialFeeder();
+                                        var mf = new MaterialFeeder();
                                         var obj = MotorObj(pvalue, motor, mf);
                                         if (obj != null)
                                             mfRepository.InsertAsync(obj as MaterialFeeder);
@@ -264,7 +263,7 @@ namespace Yunt.IDC.Helper
                         //产线级别报警
                         LineAlarms(pvalue);
                     }
-                
+
                 }
                 //更新绑定产线的最新GPRS通信时间;   
                 var current = _model.PValues.First().Key;
@@ -294,7 +293,7 @@ namespace Yunt.IDC.Helper
             var type = obj.GetType();
 
             var forms = DataformmodelRepository.GetEntities(e => e.MotorId.Equals(motor.MotorId)).ToList();
-            if (forms==null||!forms.Any())
+            if (forms == null || !forms.Any())
                 return null;
             for (var i = 0; i < forms.Count(); i++)
             {
@@ -325,29 +324,30 @@ namespace Yunt.IDC.Helper
                 //数字量存储redis-3个月
                 if (form.BitDesc.Equals("数字量"))
                 {
-                  MotorEventLogRepository.AddDiLogAsync(new DiHistory()
+                    MotorEventLogRepository.AddDiLogAsync(new DiHistory()
                     {
                         MotorId = motor.MotorId,
-                        MotorName = motor.Name,                     
-                        Param = form.FieldParam,
+                        MotorName = motor.Name,
+                        Param = form.FieldParam ?? "",
                         Value = (float)form.Value,
                         MotorTypeId = motor.MotorTypeId,
-                        Time = time
+                        Time = time,
+                        DataPhysic = form.DataPhysicalFeature ?? ""
                     });
 
                     //add-alarminfo   motor级别
-                    if (form.DataPhysicalId == 21&&form.Value==1)
+                    if (form.DataPhysicalId == 21 && form.Value == 1)
                     {
                         alarmInfoRepository.InsertAsync(new AlarmInfo()
                         {
-                            Content = form.FieldParam,
-                            MotorName = form.MachineName,
+                            Content = form.FieldParam ?? "",
+                            MotorName = motor.Name ?? "",
                             MotorId = motor.MotorId,
                             Time = time
                         });
                     }
                 }
-               
+
             }
             var idInfo = type.GetProperty("MotorId");
             idInfo.SetValue(obj, motor.MotorId);
@@ -361,27 +361,23 @@ namespace Yunt.IDC.Helper
         {
             var time = pvalue.Key.TimeSpan();
             var values = pvalue.Value;
-            var forms = DataformmodelRepository.GetEntities(e => e.MotorId.IsNullOrWhiteSpace()||e.MotorId=="0")?.ToList();
-            if (forms==null||!forms.Any())
+            var forms = DataformmodelRepository.GetEntities(e => (e.MotorId.IsNullOrWhiteSpace() || e.MotorId == "0") && e.BitDesc.Equals("数字量"))?.ToList();
+            if (forms == null || !forms.Any())
                 return;
             for (var i = 0; i < forms.Count(); i++)
             {
                 var form = forms[i];
                 form.Value = Normalize.ConvertToNormal(form, values);
                 DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
-                //数字量存储redis-3个月
-                if (form.BitDesc.Equals("数字量"))
-                {               
-                    //add-alarminfo   line级别
-                    if (form.DataPhysicalId == 21 && form.Value == 1)
+                //add-alarminfo   line级别
+                if (form.DataPhysicalId == 21 && form.Value == 1)
+                {
+                    alarmInfoRepository.InsertAsync(new AlarmInfo()
                     {
-                        alarmInfoRepository.InsertAsync(new AlarmInfo()
-                        {
-                            Content = form.FieldParam,
-                            MotorName = form.MachineName,
-                            Time = time
-                        });
-                    }
+                        Content = form.FieldParam ?? "",
+                        MotorName = form.MachineName ?? "",
+                        Time = time
+                    });
                 }
             }
         }

@@ -58,5 +58,13 @@ namespace Yunt.Analysis.Domain.Model
         [MaxLength(4)]
         public string MotorTypeId { get; set; }
 
+        /// <summary>
+        /// 数据物理特性
+        /// </summary>
+        [DataMember]
+        [ProtoMember(7)]
+        [MaxLength(4)]
+        public string DataPhysic { get; set; }
+
     }
 }

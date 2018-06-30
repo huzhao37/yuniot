@@ -26,6 +26,7 @@ namespace DeviceManager
         private Motorparams exp;
         public Form1()
         {
+            
             //Init();
 
             InitializeComponent();

@@ -44,7 +44,7 @@ namespace Yunt.IDA.Tasks
         {
           
             ExcuteAnalysis();
-            Thread.Sleep(60*1000);
+            Thread.Sleep(8*60*60*1000);
             MailPush();
 #if DEBUG
             Common.Logger.Info("[AnalysisTask]Analysis Statistics");
@@ -112,7 +112,7 @@ namespace Yunt.IDA.Tasks
             var keys = MotorEventLogRepository.GetRedisAllKeys();
             keys.ForEach(key =>
             {
-                var logs = MotorEventLogRepository.GetAiLogs(key);
+                var logs = MotorEventLogRepository.GetAiLogsByKey(key);
                 //todo
                 var time = DateTime.Now.TimeSpan();
                 if (logs.Any())
@@ -219,8 +219,8 @@ namespace Yunt.IDA.Tasks
                     }
                     break;
                 case "EVT00000002":
-                    //判断开机标志位
-                    var flags = logs?.Where(e => e.Param.Contains("运行")).ToList();
+                    //判断每秒脉冲数
+                    var flags = logs?.Where(e => e.Param.Contains("每秒脉冲数")).ToList();
                     if (flags == null || !flags.Any())
                     {
                         //motorLogs.Add(new MotorEventLog()
@@ -260,7 +260,7 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000003":
                     if (logs == null || !logs.Any()) return;
-                    var allParamEx = logs.Where(e => e.Value == -1).GroupBy(e => e.Time).ToList();
+                    var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
@@ -284,8 +284,8 @@ namespace Yunt.IDA.Tasks
 
                     break;
                 case "EVT00000004":
-                    //判断开机标志位
-                    var boots = logs?.Where(e => e.Param.Contains("运行") && e.Value == -1).ToList();
+                    //判断每秒脉冲数
+                    var boots = logs?.Where(e => e.Param.Contains("每秒脉冲数") && e.Value <=0f).ToList();
                     if (boots != null && boots.Any())
                     {
                         boots.ForEach(e =>
@@ -308,9 +308,9 @@ namespace Yunt.IDA.Tasks
                     break;
                 case "EVT00000005":
                     //判断累计产量
-                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
+                    if (logs?.Any(e => e.Param.Contains("每秒脉冲数") && e.Value <= 0f) ?? false) return;//判断是否关机
 
-                    var weighs = logs?.Where(e => e.Param.Contains("累计产量") && e.Value == -1).ToList();
+                    var weighs = logs?.Where(e => e.Param.Contains("累计产量") && e.Value == -1f).ToList();
                     if (weighs != null && weighs.Any())
                     {
                         weighs.ForEach(e =>
@@ -465,7 +465,7 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000010":
                     if (logs == null || !logs.Any()) return;
-                    var allParamEx = logs.Where(e => e.Value == -1).GroupBy(e => e.Time).ToList();
+                    var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
@@ -489,8 +489,8 @@ namespace Yunt.IDA.Tasks
                     break;
                 case "EVT00000011":
                     //判断温度
-                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
-                    var weighs = logs?.Where(e => e.Param.Contains("温度") && (e.Value >= 100 || (e.Value >= -30 && e.Value <= -20))).ToList();
+                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1f) ?? false) return;//判断是否关机
+                    var weighs = logs?.Where(e => e.Param.Contains("温度") && (e.Value >= 100f || (e.Value >= -30f && e.Value <= -20f))).ToList();
                     if (weighs != null && weighs.Any())
                     {
                         weighs.ForEach(e =>
@@ -580,7 +580,7 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000014":
                     if (logs == null || !logs.Any()) return;
-                    var allParamEx = logs.Where(e => e.Value == -1).GroupBy(e => e.Time).ToList();
+                    var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
@@ -604,9 +604,9 @@ namespace Yunt.IDA.Tasks
 
                     break;
                 case "EVT00000015":
-                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
+                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1f) ?? false) return;//判断是否关机
                     //判断温度
-                    var weighs = logs?.Where(e => e.Param.Contains("温度") && (e.Value >= 100 || (e.Value >= -30 && e.Value <= -20))).ToList();
+                    var weighs = logs?.Where(e => e.Param.Contains("温度") && (e.Value >= 100f || (e.Value >= -30f && e.Value <= -20f))).ToList();
                     if (weighs != null && weighs.Any())
                     {
                         weighs.ForEach(e =>
@@ -628,9 +628,9 @@ namespace Yunt.IDA.Tasks
                     }
                     break;
                 case "EVT00000016":
-                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
+                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1f) ?? false) return;//判断是否关机
                     //判断圆锥压力
-                    var press = logs?.Where(e => e.Param.Contains("压力") && (e.Value > 10 || e.Value < 1)).ToList();
+                    var press = logs?.Where(e => e.Param.Contains("压力") && (e.Value > 10 || e.Value < 1f)).ToList();
                     if (press != null && press.Any())
                     {
                         press.ForEach(e =>
@@ -721,7 +721,7 @@ namespace Yunt.IDA.Tasks
                 case "EVT000000019":
                     if (logs == null || !logs.Any()) return;
 
-                    var allParamEx = logs.Where(e => e.Value == -1).GroupBy(e => e.Time).ToList();
+                    var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
@@ -744,9 +744,9 @@ namespace Yunt.IDA.Tasks
 
                     break;
                 case "EVT000000020":
-                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
+                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1f) ?? false) return;//判断是否关机
                     //判断温度
-                    var weighs = logs?.Where(e => e.Param.Contains("温度") && (e.Value >= 100 || (e.Value >= -30 && e.Value <= -20))).ToList();
+                    var weighs = logs?.Where(e => e.Param.Contains("温度") && (e.Value >= 100f || (e.Value >= -30f && e.Value <= -20f))).ToList();
                     if (weighs != null && weighs.Any())
                     {
                         weighs.ForEach(e =>
@@ -769,9 +769,9 @@ namespace Yunt.IDA.Tasks
                     break;
 
                 case "EVT00000021":
-                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
+                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1f) ?? false) return;//判断是否关机
                     //判断圆锥压力
-                    var press = logs?.Where(e => e.Param.Contains("压力") && (e.Value > 10 || e.Value < 1)).ToList();
+                    var press = logs?.Where(e => e.Param.Contains("压力") && (e.Value > 10f || e.Value < 1f)).ToList();
                     if (press != null && press.Any())
                     {
                         press.ForEach(e =>
@@ -952,7 +952,7 @@ namespace Yunt.IDA.Tasks
                 case "EVT00000024":
                     if (logs == null || !logs.Any()) return;
 
-                    var allParamEx = logs.Where(e => e.Value == -1).GroupBy(e => e.Time).ToList();
+                    var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
@@ -1045,7 +1045,7 @@ namespace Yunt.IDA.Tasks
                 case "EVT00000027":
                     if (logs == null || !logs.Any()) return;
 
-                    var allParamEx = logs.Where(e => e.Value == -1).GroupBy(e => e.Time).ToList();
+                    var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
@@ -1068,9 +1068,9 @@ namespace Yunt.IDA.Tasks
 
                     break;
                 case "EVT00000028":
-                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
+                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1f) ?? false) return;//判断是否关机
                     //判断温度
-                    var weighs = logs?.Where(e => e.Param.Contains("温度") && e.Value == -1).ToList();
+                    var weighs = logs?.Where(e => e.Param.Contains("温度") && e.Value == -1f).ToList();
                     if (weighs != null && weighs.Any())
                     {
                         weighs.ForEach(e =>
@@ -1161,7 +1161,7 @@ namespace Yunt.IDA.Tasks
                 case "EVT00000031":
                     if (logs == null || !logs.Any()) return;
 
-                    var allParamEx = logs.Where(e => e.Value == -1).GroupBy(e => e.Time).ToList();
+                    var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
@@ -1184,9 +1184,9 @@ namespace Yunt.IDA.Tasks
 
                     break;
                 case "EVT00000032":
-                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
+                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1f) ?? false) return;//判断是否关机
                     //判断温度
-                    var weighs = logs?.Where(e => e.Param.Contains("温度") && e.Value == -1).ToList();
+                    var weighs = logs?.Where(e => e.Param.Contains("温度") && e.Value == -1f).ToList();
                     if (weighs != null && weighs.Any())
                     {
                         weighs.ForEach(e =>
@@ -1277,7 +1277,7 @@ namespace Yunt.IDA.Tasks
                 case "EVT00000035":
                     if (logs == null || !logs.Any()) return;
 
-                    var allParamEx = logs.Where(e => e.Value == -1).GroupBy(e => e.Time).ToList();
+                    var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
@@ -1300,9 +1300,9 @@ namespace Yunt.IDA.Tasks
 
                     break;
                 case "EVT00000036":
-                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
+                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1f) ?? false) return;//判断是否关机
                     //判断温度
-                    var weighs = logs?.Where(e => e.Param.Contains("温度") && (e.Value >= 100 || (e.Value >= -30 && e.Value <= -20))).ToList();
+                    var weighs = logs?.Where(e => e.Param.Contains("温度") && (e.Value >= 100f || (e.Value >= -30f && e.Value <= -20f))).ToList();
                     if (weighs != null && weighs.Any())
                     {
                         weighs.ForEach(e =>
@@ -1393,11 +1393,11 @@ namespace Yunt.IDA.Tasks
                 case "EVT00000039":
                     if (logs == null || !logs.Any()) return;
 
-                    var allParamEx = logs.Where(e => e.Value == -1).GroupBy(e => e.Time).ToList();
+                    var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
-                        if (e.Any(item => item.Value != -1))
+                        if (e.Any(item => item.Value != -1f))
                             return;
                         var id = MotorId;
                         var exist = motorLogs.Where(x => x.MotorId == id && x.EventCode.Equals("EVT00000039"));
@@ -1416,9 +1416,9 @@ namespace Yunt.IDA.Tasks
 
                     break;
                 case "EVT00000040":
-                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
+                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1f) ?? false) return;//判断是否关机
                     //判断温度
-                    var weighs = logs?.Where(e => e.Param.Contains("温度") && e.Value == -1).ToList();
+                    var weighs = logs?.Where(e => e.Param.Contains("温度") && e.Value == -1f).ToList();
                     if (weighs != null && weighs.Any())
                     {
                         weighs.ForEach(e =>
@@ -1440,9 +1440,9 @@ namespace Yunt.IDA.Tasks
                     }
                     break;
                 case "EVT00000041":
-                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
+                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1f) ?? false) return;//判断是否关机
                     //判断轴承速度
-                    var press = logs?.Where(e => e.Param.Contains("轴承速度") && e.Value == -1).ToList();
+                    var press = logs?.Where(e => e.Param.Contains("轴承速度") && e.Value == -1f).ToList();
                     if (press != null && press.Any())
                     {
                         press.ForEach(e =>
@@ -1533,7 +1533,7 @@ namespace Yunt.IDA.Tasks
                 case "EVT00000044":
                     if (logs == null || !logs.Any()) return;
 
-                    var allParamEx = logs.Where(e => e.Value == -1).GroupBy(e => e.Time).ToList();
+                    var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
@@ -1556,9 +1556,9 @@ namespace Yunt.IDA.Tasks
 
                     break;
                 case "EVT00000045":
-                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1) ?? false) return;//判断是否关机
+                    if (logs?.Any(e => e.Param.Contains("运行") && e.Value == -1f) ?? false) return;//判断是否关机
                     //判断温度
-                    var weighs = logs?.Where(e => e.Param.Contains("温度") && (e.Value >= 100 || (e.Value >= -30 && e.Value <= -20))).ToList();
+                    var weighs = logs?.Where(e => e.Param.Contains("温度") && (e.Value >= 100f || (e.Value >= -30f && e.Value <= -20f))).ToList();
                     if (weighs != null && weighs.Any())
                     {
                         weighs.ForEach(e =>

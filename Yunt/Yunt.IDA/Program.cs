@@ -32,12 +32,14 @@ namespace Yunt.IDA
 
             services.AddAutoMapper(typeof(Program).Assembly);
             BufferPool.DEFAULT_BUFFERLENGTH = 2000 * 1024;//3M缓冲区
-            //var day = new AnalysisTask();
-            //day.ExcuteAnalysis();
-            //day.MailPush();
-        
+                                                          //var day = new AnalysisTask();
+                                                          //day.ExcuteAnalysis();
+                                                          //day.MailPush();
+
 
             #endregion
+            // var x = new AnalysisTask();
+            //x.ExcuteAnalysis();
 
             while (true)
             {

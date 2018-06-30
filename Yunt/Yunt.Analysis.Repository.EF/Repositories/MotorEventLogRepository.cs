@@ -50,6 +50,18 @@ namespace Yunt.Analysis.Repository.EF.Repositories
             return RedisProvider.ListRange<AiLog>(dayUnix + "|" + motorId, DataType.Protobuf);
           
         }
+
+        /// <summary>
+        /// 获取分析元数据
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <returns></returns>
+        public IEnumerable<AiLog> GetAiLogsByKey(string key)
+        {
+            RedisProvider.DB = 1;
+            return RedisProvider.ListRange<AiLog>(key, DataType.Protobuf);
+
+        }
         /// <summary>
         /// 添加数字量历史记录
         /// </summary>

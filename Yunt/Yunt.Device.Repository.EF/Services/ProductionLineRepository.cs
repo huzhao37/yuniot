@@ -1211,6 +1211,51 @@ namespace Yunt.Device.Repository.EF.Services
                     return datas;
             }
         }
+
+        /// <summary>
+        /// 获取设备原始数据
+        /// </summary>
+        /// <param name="motor">设备</param>
+        /// <param name="date">日期</param>
+        /// <param name="cache">缓存</param>
+        /// <returns></returns>
+        public IEnumerable<dynamic> GetMotorHistoryByDate(Motor motor, DateTime date, string dataType)
+        {
+            var datas = new List<dynamic>();
+    
+                switch (motor.MotorTypeId)
+                {
+                    case "CY":
+                        return _cyRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+                    case "MF":
+                        return _mfRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+                    case "JC":
+                        return _jcRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    case "CC":
+                        return _ccRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    case "VC":
+                        return _vcRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+                    case "VB":
+                        return _vbRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    case "SCC":
+                        return _sccRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    case "PUL":
+                        return _pulRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    case "IC":
+                        return _icRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    case "HVB":
+                        return _hvbRep.GetEntities(motor.MotorId, date, false, null, e => e.Time);
+
+                    default:
+                        return datas;
+                }
+        }
         /// <summary>
         /// 计算当日产线耗电量明细
         /// </summary>

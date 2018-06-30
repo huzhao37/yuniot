@@ -36,8 +36,11 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Yunt.Analysis.Domain\Yunt.Analysis.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.Analysis.Repository.EF\Yunt.Analysis.Repository.EF.csproj" />
     <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
     <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.Device.Repository.EF\Yunt.Device.Repository.EF.csproj" />
+    <ProjectReference Include="..\Yunt.Redis\Yunt.Redis.csproj" />
   </ItemGroup>
 
 </Project>
