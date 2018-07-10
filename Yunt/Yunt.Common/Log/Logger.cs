@@ -46,7 +46,7 @@ namespace Yunt.Common
         {
             //Console.ForegroundColor = ConsoleColor.DarkRed;
             //_log.LogCritical(ex.Message, message);
-            XTrace.Log.Fatal(ex.Message, message);
+            XTrace.Log.Fatal(ex.Message);
         }
         public static void Trace(string str, params object[] args)
         {

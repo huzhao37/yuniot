@@ -137,7 +137,8 @@ namespace Yunt.WebApi
             app.UseStaticFiles();
 
             app.UseAuthentication();
-
+           
+            //app.UseHttpsRedirection();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -160,7 +161,7 @@ namespace Yunt.WebApi
             {
                 builder.AllowAnyHeader();
                 builder.AllowAnyMethod();
-                //builder.WithOrigins("http://10.1.5.:8080");//生产环境-前端地址
+                //builder.WithOrigins("http://10.1.5.102:8087");//生产环境-前端地址
                 builder.AllowAnyOrigin();
             });
         }

@@ -82,12 +82,17 @@ namespace Yunt.WebApi.Models.Inventories
         [DataMember]
         [DisplayName("单价")]
         public float UnitPrice { get; set; }
-
+        /// <summary>
+        /// 仓库编号
+        /// </summary>
+        [DataMember]
+        [DisplayName("仓库编号")]
+        public int WareHousesId { get; set; }
         public static OutHouse From(Inventory.Domain.Model.OutHouse t, IEnumerable<SparePartsType> sRepo,
            IEnumerable<Motor> mRepo)
         {
 
-            if (!(t.Copy() is OutHouse entity))
+            if (!(t.CopySameFieldsObject<OutHouse>() is OutHouse entity))
                 return new OutHouse();
             entity.SparePartsTypeName = sRepo.FirstOrDefault(e => e.Id == t.SparePartsTypeId)?.Name ?? "";
             entity.MotorName =

@@ -235,6 +235,7 @@ namespace Yunt.Redis
             }
             catch (Exception e_)
             {
+                Logger.Exception(e_);
                 result.Dispose();
                 client.LastError = e_;
                 Logger.Error($"receive {client._host} error!", e_);

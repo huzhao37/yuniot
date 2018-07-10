@@ -85,7 +85,7 @@ namespace Yunt.Common.ObjectExtentsions
         /// <typeparam name="T"></typeparam>
         /// <param name="obj"></param>
         /// <returns></returns>
-        public static T Clone<T>(T obj)
+        public static T Clone<T>(this T obj)
         {
             //复制一份，在从redis中删除时使用
             using (var ms = new MemoryStream())
@@ -106,7 +106,7 @@ namespace Yunt.Common.ObjectExtentsions
         /// <typeparam name="T">目标对象</typeparam>
         /// <param name="source">待转换对象</param>
         /// <returns></returns>
-        public static T CopySameFieldsObject<T>(Object source)
+        public static T CopySameFieldsObject<T>(this Object source)
         {
             Type srcT = source.GetType();
             Type destT = typeof(T);

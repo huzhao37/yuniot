@@ -114,7 +114,7 @@ namespace Yunt.WebApi.Controllers
                 //当日数据
                 if (startT == endT)
                 {
-                    Parallel.ForEach(motors, body: delegate (Motor motor)
+                    motors.ForEach( motor=>
                     {
                         var data = _conveyorByHourRepository.GetRealData(motor);
                         resData.Add(new ConveyorChartModel
@@ -129,7 +129,7 @@ namespace Yunt.WebApi.Controllers
                     return resData;
                 }
 
-                Parallel.ForEach(motors, motor =>
+                motors.ForEach( motor =>
                 {
                     //历史数据                 
                     var datas = _conveyorByDayRepository.GetEntities(e => e.Time>= startT &&
@@ -216,7 +216,7 @@ namespace Yunt.WebApi.Controllers
                 var motors =
                     _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId))?.ToList();
                 if (motors == null || !motors.Any()) return resData;
-                Parallel.ForEach(motors,motor =>
+                motors.ForEach(motor =>
                 {
                     var data = _productionLineRepository.MotorDetails(motor);//_conveyorByHourRepository.GetRealData(motor);
                     if(data==null)
@@ -304,14 +304,14 @@ namespace Yunt.WebApi.Controllers
                 var end = value.endDatetime.ToDateTime().TimeSpan();
 
                 var eventLogs = _motorEventLogRepository.GetEntities(e => e.ProductionLineId.Equals(lineId) &&
-                                                                      e.Time >= start && e.Time <= end);
+                                                                      e.Time >= start && e.Time <= end)?.ToList();
 
                 var alarms = _alarmInfoRepository.GetEntities(e => e.Time >= start && e.Time <= end)?.ToList();
 
                 if ((eventLogs == null || !eventLogs.Any())&&(alarms == null || !alarms.Any()))
                     return resData;
                 if (eventLogs != null && eventLogs.Any())
-                    Parallel.ForEach(eventLogs, e =>
+                    eventLogs.ForEach(e =>
                     {
                         resData.Add(new EventModel
                         {
@@ -322,7 +322,7 @@ namespace Yunt.WebApi.Controllers
                         });
                     });
                 if (alarms != null && alarms.Any())
-                    Parallel.ForEach(alarms, a =>
+                    alarms.ForEach(a =>
                     {
                         resData.Add(new EventModel
                         {

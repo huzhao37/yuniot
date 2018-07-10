@@ -22,7 +22,7 @@ namespace Yunt.Inventory.Repository.EF.Models
         [DataMember]
         [DisplayName("批次")]
         [ProtoMember(1)]
-        public string BatchNo { get; set; }
+        public long BatchNo { get; set; }
    
         /// <summary>
         /// 出库时间
@@ -82,5 +82,19 @@ namespace Yunt.Inventory.Repository.EF.Models
         [DisplayName("单价")]
         [ProtoMember(9)]
         public float UnitPrice { get; set; }
+        /// <summary>
+        /// 仓库编号
+        /// </summary>
+        [DataMember]
+        [DisplayName("仓库编号")]
+        [ProtoMember(10)]
+        public int WareHousesId { get; set; }
+        /// <summary>
+        /// 时间
+        /// </summary>
+        [DataMember]
+        [DisplayName("时间")]
+        [ProtoMember(11)]
+        public long Time { get; set; }
     }
 }

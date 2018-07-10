@@ -26,9 +26,6 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("BatchNo")
-                        .HasMaxLength(20);
-
                     b.Property<int>("Count");
 
                     b.Property<string>("Description")
@@ -44,7 +41,11 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<bool>("IsDelete");
 
+                    b.Property<int>("Remains");
+
                     b.Property<int>("SparePartsTypeId");
+
+                    b.Property<long>("Time");
 
                     b.Property<float>("UnitPrice");
 
@@ -76,12 +77,12 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("BatchNo")
-                        .HasMaxLength(50);
+                    b.Property<long>("BatchNo");
 
                     b.Property<bool>("IsDelete");
 
                     b.Property<string>("MotorId")
+                        .IsRequired()
                         .HasMaxLength(20);
 
                     b.Property<string>("OutOperator")
@@ -93,9 +94,13 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<int>("SparePartsTypeId");
 
+                    b.Property<long>("Time");
+
                     b.Property<float>("UnitPrice");
 
                     b.Property<long>("UselessTime");
+
+                    b.Property<int>("WareHousesId");
 
                     b.HasKey("Id");
 
@@ -134,6 +139,9 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
 
                     b.Property<string>("Name")
                         .HasMaxLength(20);
+
+                    b.Property<string>("ProductionLineId")
+                        .HasMaxLength(15);
 
                     b.Property<string>("Remark")
                         .HasMaxLength(50);

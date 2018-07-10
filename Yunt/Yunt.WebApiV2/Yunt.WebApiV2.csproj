@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="7.0.0-alpha-0001" />
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
+    <PackageReference Include="IdentityModel" Version="3.3.1" />
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.Extensions.ToSql" Version="2.0.0-rtm-10002" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="2.0.1" />
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql.Design" Version="1.1.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Yunt.Analysis.Domain\Yunt.Analysis.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.Analysis.Repository.EF\Yunt.Analysis.Repository.EF.csproj" />
+    <ProjectReference Include="..\Yunt.Auth.Domain\Yunt.Auth.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.Auth.Repository.EF\Yunt.Auth.Repository.EF.csproj" />
+    <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
+    <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.Device.Repository.EF\Yunt.Device.Repository.EF.csproj" />
+    <ProjectReference Include="..\Yunt.Inventory.Domain\Yunt.Inventory.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.Inventory.Repository.EF\Yunt.Inventory.Repository.EF.csproj" />
+    <ProjectReference Include="..\Yunt.MQ\Yunt.MQ.csproj" />
+    <ProjectReference Include="..\Yunt.Xml.Domain\Yunt.Xml.Domain.csproj" />
+    <ProjectReference Include="..\Yunt.Xml.Repository.EF\Yunt.Xml.Repository.EF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

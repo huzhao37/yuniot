@@ -17,7 +17,7 @@ namespace Yunt.Inventory.Repository.EF.Mappings
             entity.ToTable("InHouse");
             entity.HasKey(m => m.Id);
             entity.Property(m => m.SparePartsTypeId).IsRequired();
-            entity.Property(m => m.BatchNo).IsRequired();
+            //entity.Property(m => m.BatchNo).IsRequired();
             entity.Property(m => m.WareHousesId).IsRequired();
         }
     }

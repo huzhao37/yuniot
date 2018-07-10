@@ -14,6 +14,7 @@ using Yunt.Device.Domain.IRepository;
 using Yunt.Device.Domain.Model;
 using Yunt.IDC.Helper;
 using Yunt.IDC.Task;
+using Yunt.Redis;
 using Yunt.Xml.Domain.IRepository;
 using Yunt.Xml.Domain.Model;
 using Yunt.Xml.Domain.Services;
@@ -40,25 +41,25 @@ namespace Yunt.IDC
 
                 services.AddAutoMapper(typeof(Program).Assembly);
 
-
+                //BufferPool.DEFAULT_BUFFERLENGTH = 5 * 1024 * 1024;//5M缓冲区
 
                 #endregion
 
                 #region di recovery
-                //long start = "2018-6-20 9:00".ToDateTime().TimeSpan(), end = "2018-6-29 17:35".ToDateTime().TimeSpan();
-                //long lastTime = "2018-6-29 17:36".ToDateTime().TimeSpan();
-                //var originBytesRepos= ServiceProviderServiceExtensions.GetService<IOriginalBytesRepository>(Providers["Device"]);
-                //var  bytesParseRepository= ServiceProviderServiceExtensions.GetService<IBytesParseRepository>(Providers["Xml"]);
-                //var buffers = originBytesRepos.GetEntities(e => e.Time >= start && 
-                //                e.Time <= end&&e.ProductionLineId.Equals("WDD-P001"))?.OrderByDescending(e=>e.Time)?.ToList();
+                //long start = "2018-06-19 10:00:00".ToDateTime().TimeSpan(), end = "2018-06-26 23:59:00".ToDateTime().TimeSpan();
+                //long lastTime = "2018-06-27 00:00:00".ToDateTime().TimeSpan();
+                //var originBytesRepos = ServiceProviderServiceExtensions.GetService<IOriginalBytesRepository>(Providers["Device"]);
+                //var bytesParseRepository = ServiceProviderServiceExtensions.GetService<IBytesParseRepository>(Providers["Xml"]);
+                //var buffers = originBytesRepos.GetEntities(e => e.Time >= start &&
+                //                e.Time <= end && e.ProductionLineId.Equals("WDD-P001"))?.OrderByDescending(e => e.Time)?.ToList();
                 //if (buffers != null && buffers.Any())
                 //    buffers.ForEach(buffer =>
                 //    {
-                //        if(lastTime == buffer.Time)                     
+                //        if (lastTime == buffer.Time)
                 //            return;
                 //        lastTime = buffer.Time;
                 //        var bytes = Extention.strToToHexByte(buffer.Bytes);
-                //        var result=bytesParseRepository.UniversalParser(bytes, "Integrate", DiToRedis.Saving);
+                //        var result = bytesParseRepository.UniversalParser(bytes, "Integrate", DiToRedis.Saving);
                 //        if (!result)
                 //            Common.Logger.Error("保存出错！");
                 //    });
@@ -66,7 +67,7 @@ namespace Yunt.IDC
                 //Common.Logger.Warn("Di recovery Finished!");
                 #endregion
 
-                MqDealTask.Start();
+               // MqDealTask.Start();
             }
             catch (Exception e)
             {

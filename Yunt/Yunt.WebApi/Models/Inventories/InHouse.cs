@@ -95,13 +95,18 @@ namespace Yunt.WebApi.Models.Inventories
         [DataMember]
         [DisplayName("单价")]
         public float UnitPrice { get; set; }
-
+        /// <summary>
+        /// 剩余数量
+        /// </summary>
+        [DataMember]
+        [DisplayName("剩余数量")]
+        public int Remains { get; set; }
 
         public static InHouse From(Inventory.Domain.Model.InHouse t, IEnumerable<SparePartsType> sRepo,
             IEnumerable<Inventory.Domain.Model.WareHouses> wRepo)
         {
 
-            if (!(t.Copy() is InHouse entity))
+            if (!(t.CopySameFieldsObject<InHouse>() is InHouse entity))
                 return new InHouse();
             entity.SparePartsTypeName = sRepo.FirstOrDefault(e => e.Id==t.SparePartsTypeId)?.Name ?? "";
                 entity.WareHousesName =

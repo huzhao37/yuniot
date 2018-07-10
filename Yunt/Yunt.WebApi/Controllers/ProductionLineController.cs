@@ -218,7 +218,7 @@ namespace Yunt.WebApi.Controllers
 
             if (!(finishCys?.Any() ?? true))
                 return resp;
-            Parallel.ForEach(finishCys, cy =>
+            finishCys.ForEach( cy =>
             {
                 List<dynamic> list;
                 //var list = _conveyorByDayRepository.GetEntities(e => e.Time >= startT &&
@@ -263,7 +263,7 @@ namespace Yunt.WebApi.Controllers
             var datas = new List<MotorSummary>();
             var motors = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId))?.ToList();
             if (motors==null||!motors.Any()) return datas;
-            Parallel.ForEach(motors, motor =>
+            motors.ForEach( motor =>
             {
                 var status = _productionLineRepository.GetMotorStatusByMotorId(motor.MotorId);
                 var detail = _productionLineRepository.MotorDetails(motor);              
@@ -400,7 +400,7 @@ namespace Yunt.WebApi.Controllers
                 var datas = _productionPlansRepository.GetEntities(e => e.ProductionlineId.EqualIgnoreCase(productionlineId)
                               && e.Start >= startT && e.End <= endT)?.ToList();
                 if (datas != null && datas.Any())
-                    Parallel.ForEach(datas, x =>
+                    datas.ForEach( x =>
                     {
                         long startTime = x.Start, endTime = x.End;
                         if (startTime == endTime)
@@ -582,9 +582,9 @@ namespace Yunt.WebApi.Controllers
                 return _motorEventLogRepository.GetDis(motorId, dt)?.Where(e => e.DataPhysic.Equals("状态"))?
                   .Select(e => new { e.Param, e.Value, Tim = e.Time })?.OrderByDescending(e => e.Tim)?.GroupBy(e => e.Tim);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-
+                Logger.Exception(e);
                 return new List<dynamic>();
             }
 
@@ -601,7 +601,7 @@ namespace Yunt.WebApi.Controllers
             var alarms=new List<AlarmInfo>();
             Motor motor=null;
             List<Motor> motors = null;
-            long startT = start.TimeSpan(), endT = end.TimeSpan();
+            long startT = start.TimeSpan(), endT = end.AddDays(1).AddMilliseconds(-1).TimeSpan();
             if(!motorId.IsNullOrWhiteSpace())
             {
                 motor = _motorRepository.GetEntities(e => e.MotorId.Equals(motorId))?.FirstOrDefault();
@@ -640,7 +640,7 @@ namespace Yunt.WebApi.Controllers
 
             var datas = new List<dynamic>();
             if (eventLogs != null && eventLogs.Any())
-                Parallel.ForEach(eventLogs, e =>
+                eventLogs.ForEach(e =>
                 {
                     datas.Add(new
                     {
@@ -652,7 +652,7 @@ namespace Yunt.WebApi.Controllers
                     });
                 });
             if (alarms != null && alarms.Any())
-                Parallel.ForEach(alarms, a =>
+                alarms.ForEach( a =>
                 {
                     datas.Add(new
                     {
@@ -759,6 +759,8 @@ namespace Yunt.WebApi.Controllers
             avgPower = totalPower!=0?(float)Math.Round(totalPower/ times,2):0;
             return new { TotalPower = totalPower, AvgPower = avgPower, Powers = powers };
         }
+
+
 
         #endregion
 

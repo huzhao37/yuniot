@@ -73,13 +73,15 @@ namespace Yunt.WebApi.Controllers
         }
 
         // PUT: api/Maintain/5
+        [EnableCors("any")]
         [HttpPut("{id}")]
         public bool Put([FromBody]Maintain value)
         {
             return _maintainRepository.UpdateEntity(value) > 0;
         }
-        
+
         // DELETE: api/ApiWithActions/5
+        [EnableCors("any")]
         [HttpDelete("{id}")]
         public bool Delete(string id)
         {

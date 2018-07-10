@@ -9,6 +9,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Inventories\StockController.cs" />
+    <Compile Remove="Controllers\Inventories\UnitOutController.cs" />
+    <Compile Remove="Controllers\Inventories\UnitsInController.cs" />
+    <Compile Remove="Controllers\Inventories\WareHouseController.cs" />
+    <Compile Remove="Models\Inventories\InHouse.cs" />
+    <Compile Remove="Models\Inventories\OutHouse.cs" />
+    <Compile Remove="Models\Inventories\WareHouses.cs" />
     <Compile Remove="Models\ProductionLines\Motors\CcDetail.cs" />
     <Compile Remove="Models\ProductionLines\Motors\HvbDetail.cs" />
     <Compile Remove="Models\ProductionLines\Motors\IcDetail.cs" />
@@ -21,6 +28,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="server.pfx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="server.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
@@ -29,6 +46,7 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="IdentityModel" Version="3.3.1" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Server.Kestrel.Https" Version="2.0.2" />
     <PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="2.0.3" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.0.2" />

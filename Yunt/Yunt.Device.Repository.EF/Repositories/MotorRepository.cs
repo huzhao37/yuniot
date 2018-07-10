@@ -41,6 +41,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 idfac=new MotorIdFactories(){MotorIndex = newIndex,MotorTypeId = t.MotorTypeId,ProductionLineId = t.ProductionLineId,Time = DateTime.Now.TimeSpan()};
 
             }
+            idfac.Time = DateTime.Now.TimeSpan();
             _idRep.InsertOrUpdate(idfac);
             t.MotorId = newIndex.NewMotor(t.ProductionLineId, t.MotorTypeId, newIndex);
 
@@ -59,6 +60,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 idfac = new MotorIdFactories() { MotorIndex = newIndex, MotorTypeId = t.MotorTypeId, ProductionLineId = t.ProductionLineId, Time = DateTime.Now.TimeSpan() };
             }
+            idfac.Time = DateTime.Now.TimeSpan();
             _idRep.InsertOrUpdate(idfac);
             t.MotorId = newIndex.NewMotor(t.ProductionLineId, t.MotorTypeId, newIndex);
 
@@ -81,6 +83,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                     {
                         idfac = new MotorIdFactories() { MotorIndex = newIndex, MotorTypeId = t.MotorTypeId, ProductionLineId = t.ProductionLineId, Time = DateTime.Now.TimeSpan() };
                     }
+                    idfac.Time = DateTime.Now.TimeSpan();
                     _idRep.InsertOrUpdate(idfac);
                     t.MotorId = newIndex.NewMotor(t.ProductionLineId, t.MotorTypeId, newIndex);
                 }
@@ -112,6 +115,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                     {
                         idfac = new MotorIdFactories() { MotorIndex = newIndex, MotorTypeId = t.MotorTypeId, ProductionLineId = t.ProductionLineId, Time = DateTime.Now.TimeSpan() };
                     }
+                    idfac.Time = DateTime.Now.TimeSpan();
                     _idRep.InsertOrUpdate(idfac);
                     t.MotorId = newIndex.NewMotor(t.ProductionLineId, t.MotorTypeId, newIndex);
                 }
@@ -255,7 +259,8 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         public override int UpdateEntity(Motor t)
         {
-
+            if (t.Id == 0)
+                return 0;
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Motor>().Update(Mapper.Map<Models.Motor>(t));
             return Commit();
         }
@@ -301,8 +306,11 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         public override async Task UpdateEntityAsync(Motor t)
         {
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Motor>().Update(Mapper.Map<Models.Motor>(t));
-            await CommitAsync();
+            if (t.Id != 0)
+            {
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.Motor>().Update(Mapper.Map<Models.Motor>(t));
+                await CommitAsync();
+            }
         }
 
         public override async Task UpdateEntityAsync(IEnumerable<Motor> ts)

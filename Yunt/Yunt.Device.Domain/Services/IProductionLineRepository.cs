@@ -83,7 +83,16 @@ namespace Yunt.Device.Domain.Services
         /// <param name="productionLineId"></param>
         /// <returns></returns>
         bool  GetInstanceFromRedis(string productionLineId);
-
+        /// <summary>
+        /// 删除缓存（慎用！）
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="motor">设备</param>
+        /// <param name="dayUnix">日期</param>
+        /// <param name="ts">集合数据</param>
+        /// <returns></returns>
+        [Obsolete]
+         int DelCache(Motor motor, DateTime dt);
         /// <summary>
         /// 缓存预热（慎用！）
         /// </summary>

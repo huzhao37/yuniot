@@ -13,7 +13,6 @@ using Quartz;
 using Quartz.Impl;
 using Yunt.Common;
 using Yunt.DIDC.Tasks;
-using Yunt.Redis;
 using Yunt.Xml.Domain.Model;
 
 namespace Yunt.DIDC
@@ -45,7 +44,7 @@ namespace Yunt.DIDC
             #region recovery
             //try
             //{
-            //    DateTime start = "2018-06-20 00:00:00".ToDateTime(), end = "2018-06-26 00:00:00".ToDateTime();
+            //    DateTime start = "2018-06-30 00:00:00".ToDateTime(), end = "2018-07-1 00:00:00".ToDateTime();
             //    var startT = start;
             //    var days = end.Subtract(start).TotalDays;
             //    for (int i = 0; i < days; i++)
@@ -63,7 +62,7 @@ namespace Yunt.DIDC
             //Console.ReadKey();
             #endregion
 
-       
+
             while (true)
             {
                 if (Sched?.IsShutdown ?? false)

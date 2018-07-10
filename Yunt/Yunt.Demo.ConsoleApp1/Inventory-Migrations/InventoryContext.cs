@@ -37,23 +37,25 @@ namespace Yunt.Demo.ConsoleApp1
             modelBuilder.Entity<InHouse>().Property(u => u.Description).HasMaxLength(50);
             modelBuilder.Entity<InHouse>().Property(u => u.FactoryInfo).HasMaxLength(50);
             modelBuilder.Entity<InHouse>().Property(u => u.InOperator).HasMaxLength(10);
-            modelBuilder.Entity<InHouse>().Property(u => u.BatchNo).HasMaxLength(20);
-            //modelBuilder.Entity<InHouse>().Property(u => u.SparePartsTypeId).HasMaxLength(10);
-           // modelBuilder.Entity<InHouse>().Property(u => u.WareHousesId).HasMaxLength(20);
+          //  modelBuilder.Entity<InHouse>().Property(u => u.BatchNo).HasMaxLength(20).IsRequired();
+            modelBuilder.Entity<OutHouse>().Property(u => u.SparePartsTypeId).IsRequired();
+            modelBuilder.Entity<OutHouse>().Property(u => u.WareHousesId).IsRequired();
 
-            modelBuilder.Entity<OutHouse>().Property(u => u.BatchNo).HasMaxLength(50);
-            modelBuilder.Entity<OutHouse>().Property(u => u.MotorId).HasMaxLength(20);
+            modelBuilder.Entity<OutHouse>().Property(u => u.BatchNo).IsRequired();
+            modelBuilder.Entity<OutHouse>().Property(u => u.MotorId).HasMaxLength(20).IsRequired();
             modelBuilder.Entity<OutHouse>().Property(u => u.OutOperator).HasMaxLength(10);
-            //modelBuilder.Entity<OutHouse>().Property(u => u.SparePartsTypeId).HasMaxLength(10);
+            modelBuilder.Entity<OutHouse>().Property(u => u.SparePartsTypeId).IsRequired();
+            modelBuilder.Entity<OutHouse>().Property(u => u.WareHousesId).IsRequired();
 
-           // modelBuilder.Entity<SparePartsIdFactories>().Property(u => u.SparePartsTypeId).HasMaxLength(10);
+            // modelBuilder.Entity<SparePartsIdFactories>().Property(u => u.SparePartsTypeId).HasMaxLength(10);
             //modelBuilder.Entity<SparePartsType>().Property(u => u.SparePartsTypeId).HasMaxLength(10);
             modelBuilder.Entity<SparePartsType>().Property(u => u.Name).HasMaxLength(10);
             modelBuilder.Entity<WareHouses>().Property(u => u.Keeper).HasMaxLength(10);
             modelBuilder.Entity<WareHouses>().Property(u => u.MotorTypeId).HasMaxLength(4);
             modelBuilder.Entity<WareHouses>().Property(u => u.Name).HasMaxLength(20);
             modelBuilder.Entity<WareHouses>().Property(u => u.Remark).HasMaxLength(50);
-            //modelBuilder.Entity<WareHouses>().Property(u => u.WareHousesId).HasMaxLength(20);
+            modelBuilder.Entity<WareHouses>().Property(u => u.MotorTypeId).HasMaxLength(4);
+            modelBuilder.Entity<WareHouses>().Property(u => u.ProductionLineId).HasMaxLength(15);
         }
 
 

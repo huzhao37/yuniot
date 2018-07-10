@@ -61,5 +61,12 @@ namespace Yunt.Inventory.Repository.EF.Models
         [DisplayName("创建时间")]
         [ProtoMember(5)]
         public long CreateTime { get; set; }
+        /// <summary>
+        /// 产线编码
+        /// </summary> 
+        [DataMember]
+        [DisplayName("产线编码")]
+        [ProtoMember(6)]
+        public string ProductionLineId { get; set; }
     }
 }

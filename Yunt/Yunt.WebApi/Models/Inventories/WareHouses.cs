@@ -56,9 +56,16 @@ namespace Yunt.WebApi.Models.Inventories
         [DisplayName("创建时间")]
         public long CreateTime { get; set; }
 
+        /// <summary>
+        /// 产线编码
+        /// </summary> 
+        [DataMember]
+        [DisplayName("产线编码")]
+        public string ProductionLineId { get; set; }
+
         public static WareHouses From(Inventory.Domain.Model.WareHouses t,IEnumerable<Motortype> mRepo)
         {
-            if (!(t.Copy() is WareHouses entity))
+            if (!(t.CopySameFieldsObject<WareHouses>() is WareHouses entity))
                 return new WareHouses();
             entity.MotorTypeName =
                 mRepo.FirstOrDefault(e => e.MotorTypeId.Equals(t.MotorTypeId))?.MotorTypeName ??

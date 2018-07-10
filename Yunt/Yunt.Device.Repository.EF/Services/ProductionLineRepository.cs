@@ -1010,7 +1010,22 @@ namespace Yunt.Device.Repository.EF.Services
             return false;
         }
 
- 
+        /// <summary>
+        /// 删除缓存（慎用！）
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="motor">设备</param>
+        /// <param name="dayUnix">日期</param>
+        /// <param name="ts">集合数据</param>
+        /// <returns></returns>
+        [Obsolete]
+        public int DelCache(Motor motor, DateTime dt)
+        {
+            var dayUnix = dt.Date.TimeSpan();
+            RedisProvider.DB = 15;
+            var result = RedisProvider.Delete(dayUnix + "_" + motor.MotorId);
+            return result;
+        }
         /// <summary>
         /// 缓存预热（慎用！）
         /// </summary>

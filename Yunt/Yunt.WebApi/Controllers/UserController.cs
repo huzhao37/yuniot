@@ -67,13 +67,13 @@ namespace Yunt.WebApi.Controllers
         }
         
         // PUT: api/User/5
-        [HttpPut("{id}")]
+        [HttpPut]
         [EnableCors("any")]
         public bool Put([FromBody]User value)
         {
             try
             {
-                if (value == null)
+                if (value.Id==0||value == null)
                     return false;
                 value.Time = DateTime.Now.TimeSpan();
                 return _userRepository.UpdateEntity(value) > 0;
@@ -84,16 +84,17 @@ namespace Yunt.WebApi.Controllers
                 return false;
             }
         }
-        
+
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public bool Delete(string id)
+        [EnableCors("any")]
+        [HttpDelete]
+        public bool Delete(string userId)
         {
             try
             {
-                if (id.IsNullOrWhiteSpace())
+                if (userId.IsNullOrWhiteSpace())
                     return false;
-                return _userRepository.DeleteEntity(e => e.UserId.Equals(id)) > 0;
+                return _userRepository.DeleteEntity(e => e.UserId.Equals(userId)) > 0;
             }
             catch (Exception ex)
             {

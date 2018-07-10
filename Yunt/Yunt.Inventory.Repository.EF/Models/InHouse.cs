@@ -15,13 +15,13 @@ namespace Yunt.Inventory.Repository.EF.Models
     [ProtoContract(SkipConstructor = true)]
     public partial class InHouse : BaseModel
     {
-        /// <summary>
-        /// 备件编号
-        /// </summary> 
-        [DataMember]
-        [DisplayName("批次")]
-        [ProtoMember(1)]
-        public string BatchNo { get; set; }     
+        ///// <summary>
+        ///// 备件编号
+        ///// </summary> 
+        //[DataMember]
+        //[DisplayName("批次")]
+        //[ProtoMember(1)]
+        //public string BatchNo { get; set; }     
 
         /// <summary>
         /// 入库时间
@@ -90,6 +90,20 @@ namespace Yunt.Inventory.Repository.EF.Models
         [DisplayName("单价")]
         [ProtoMember(9)]
         public float UnitPrice { get; set; }
-     
+        /// <summary>
+        /// 剩余数量
+        /// </summary>
+        [DataMember]
+        [DisplayName("剩余数量")]
+        [ProtoMember(10)]
+        public int Remains { get; set; }
+
+        /// <summary>
+        /// 时间
+        /// </summary>
+        [DataMember]
+        [DisplayName("时间")]
+        [ProtoMember(11)]
+        public long Time { get; set; }
     }
 }

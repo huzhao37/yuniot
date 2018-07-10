@@ -45,9 +45,9 @@ namespace Yunt.Auth.Repository.EF.Repositories
                 idfac=new UserIdFactories(){ UserIndex = newIndex, Time = DateTime.Now.TimeSpan()};
 
             }
+            idfac.Time = DateTime.Now.TimeSpan();
             _idRep.InsertOrUpdate(idfac);
             t. UserId = newIndex.NewUser(newIndex);
-
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models. User>().Add(Mapper.Map<Models. User>(t));
             return Commit();
         }
@@ -63,6 +63,7 @@ namespace Yunt.Auth.Repository.EF.Repositories
             {
                 idfac = new UserIdFactories() {  UserIndex = newIndex,  Time = DateTime.Now.TimeSpan() };
             }
+            idfac.Time = DateTime.Now.TimeSpan();
             _idRep.InsertOrUpdate(idfac);
             t. UserId = newIndex.NewUser(  newIndex);
 
@@ -85,6 +86,7 @@ namespace Yunt.Auth.Repository.EF.Repositories
                     {
                         idfac = new UserIdFactories() {  UserIndex = newIndex, Time = DateTime.Now.TimeSpan() };
                     }
+                    idfac.Time = DateTime.Now.TimeSpan();
                     _idRep.InsertOrUpdate(idfac);
                     t. UserId = newIndex.NewUser( newIndex);
                 }
@@ -115,6 +117,7 @@ namespace Yunt.Auth.Repository.EF.Repositories
                     {
                         idfac = new UserIdFactories() {  UserIndex = newIndex,  Time = DateTime.Now.TimeSpan() };
                     }
+                    idfac.Time = DateTime.Now.TimeSpan();
                     _idRep.InsertOrUpdate(idfac);
                     t. UserId = newIndex.NewUser(newIndex);
                 }
@@ -258,7 +261,8 @@ namespace Yunt.Auth.Repository.EF.Repositories
 
         public override int UpdateEntity( User t)
         {
-
+            if (t.Id == 0)
+                return 0;
             ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models. User>().Update(Mapper.Map<Models. User>(t));
             return Commit();
         }
@@ -304,8 +308,11 @@ namespace Yunt.Auth.Repository.EF.Repositories
 
         public override async Task UpdateEntityAsync( User t)
         {
-            ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models. User>().Update(Mapper.Map<Models. User>(t));
-            await CommitAsync();
+            if (t.Id != 0)
+            {
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.User>().Update(Mapper.Map<Models.User>(t));
+                await CommitAsync();
+            }
         }
 
         public override async Task UpdateEntityAsync(IEnumerable< User> ts)
