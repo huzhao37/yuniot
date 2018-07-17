@@ -80,7 +80,7 @@ namespace Yunt.IDC.Task
             //    }
             //}
             //Logger.Warn("缓存完毕！");
-            Console.ReadKey();
+           // Console.ReadKey();
 
             #endregion
             var w_r =(int) WriteOrRead.Read;

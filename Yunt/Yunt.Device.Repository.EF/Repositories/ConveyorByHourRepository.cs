@@ -177,14 +177,14 @@ namespace Yunt.Device.Repository.EF.Repositories
                 {
                     Time = startUnix,
                     MotorId = motor.MotorId,
-                    AvgInstantWeight = (float)Math.Round(instantWeight?.Average(e => e.InstantWeight) ?? 0, 2),
-                    AvgCurrent_B = (float)Math.Round(originalDatas?.Average(o => o.Current_B) ?? 0, 2),
-                    AvgVoltage_B = (float)Math.Round(originalDatas?.Average(o => o.Voltage_B) ?? 0, 2),
-                    AvgPowerFactor = (float)Math.Round(originalDatas?.Average(o => o.PowerFactor) ?? 0, 2),
-                    AccumulativeWeight = motor.UseCalc ? calcWeight : (float)Math.Round(weightSum, 2), //TODO：累计称重计算;               
+                    AvgInstantWeight = MathF.Round(instantWeight?.Average(e => e.InstantWeight) ?? 0, 2),
+                    AvgCurrent_B = MathF.Round(originalDatas?.Average(o => o.Current_B) ?? 0, 2),
+                    AvgVoltage_B = MathF.Round(originalDatas?.Average(o => o.Voltage_B) ?? 0, 2),
+                    AvgPowerFactor = MathF.Round(originalDatas?.Average(o => o.PowerFactor) ?? 0, 2),
+                    AccumulativeWeight = motor.UseCalc ? calcWeight : MathF.Round(weightSum, 2), //TODO：累计称重计算;               
                     RunningTime = count,
                     ActivePower = (float)Math.Round(powerSum, 2),
-                    AvgPulsesSecond = (float)Math.Round(originalDatas?.Average(o => o.PulsesSecond) ?? 0, 2),
+                    AvgPulsesSecond = MathF.Round(originalDatas?.Average(o => o.PulsesSecond) ?? 0, 2),
 
                     //负荷 = 该小时内累计重量/额定产量 (单位: 吨/小时);
                     LoadStall = count * standValue == 0 ? 0 : (float)load,
@@ -198,7 +198,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                     AvgCurrent_B = 0,
                     AvgVoltage_B =0,
                     AvgPowerFactor = 0,
-                    AccumulativeWeight = motor.UseCalc ? calcWeight : (float)Math.Round(weightSum, 2), //TODO：累计称重计算;               
+                    AccumulativeWeight = motor.UseCalc ? calcWeight : MathF.Round(weightSum, 2), //TODO：累计称重计算;               
                     RunningTime = count,
                     ActivePower = (float)Math.Round(powerSum, 2),
                     AvgPulsesSecond =0,
@@ -232,7 +232,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             await InsertAsync(ts);
         }
         /// <summary>
-        /// 获取当日实时数据
+        /// 获取当日实时数据(所有当日的负荷和瞬时负荷，历史为平均负荷)
         /// </summary>
         /// <param name="motor"></param>
         public ConveyorByDay GetRealData(Motor motor)
@@ -243,7 +243,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var minuteStart = hourEnd;
 
             //var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).FirstOrDefault();
-            var standValue = motor?.StandValue ?? 0;
+            //var standValue = motor?.StandValue ?? 0;
 
             long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
             var hourData =
@@ -255,20 +255,20 @@ namespace Yunt.Device.Repository.EF.Repositories
             if (minuteData != null)
                 hourData?.Add(minuteData);
             if (hourData == null || !hourData.Any()) return null;
-            var weightSum = (float)Math.Round(hourData?.Sum(e => e.AccumulativeWeight) ?? 0, 2);
-            var hours = hourData?.Count ?? 0;
+            var weightSum = MathF.Round(hourData?.Sum(e => e.AccumulativeWeight) ?? 0, 2);
+            //var hours = hourData?.Count ?? 0;         
             var data = new ConveyorByDay
             {
                 MotorId = motor.MotorId,
                 AccumulativeWeight = weightSum,
-                AvgInstantWeight = (float)Math.Round(_cyRep.GetLatestRecord(motor.MotorId)?.InstantWeight ?? 0, 2),//实时的瞬时称重
-                RunningTime = (float)Math.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
+                AvgInstantWeight = MathF.Round(_cyRep.GetLatestRecord(motor.MotorId)?.InstantWeight ?? 0, 2),//实时的瞬时称重
+                RunningTime = MathF.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
                 //负荷 = 累计重量/额定产量 (单位: 吨/小时);
-                LoadStall = hours * standValue == 0 ? 0 : (float)Math.Round(weightSum / hours / standValue, 2)
-             };
+                LoadStall = GetInstantLoadStall(motor)//hours * standValue == 0 ? 0 : MathF.Round(weightSum / hours / standValue, 2)
+            };
                     
             //data.LoadStall = data.RunningTime * standValue == 0
-            //    ? 0 : (float)Math.Round(data.AccumulativeWeight / standValue, 2);
+            //    ? 0 : MathF.Round(data.AccumulativeWeight / standValue, 2);
             return data;
         }
 
@@ -335,6 +335,20 @@ namespace Yunt.Device.Repository.EF.Repositories
             var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).FirstOrDefault();
    
             return GetByMotor(motor, false, dt);  
+        }
+        #endregion
+
+        #region version 18.07.17
+        /// <summary>
+        /// 获取瞬时负荷
+        /// </summary>
+        /// <param name="motor"></param>
+        public float GetInstantLoadStall(Motor motor)
+        {
+            var data=_cyRep.GetLatestRecord(motor.MotorId);
+            if (data != null)
+                return data.InstantWeight * motor.StandValue == 0 ? 0 :MathF.Round(data.InstantWeight / motor.StandValue,3);
+            return 0;
         }
         #endregion
     }

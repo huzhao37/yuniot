@@ -61,23 +61,23 @@ namespace Yunt.Device.Repository.EF.Repositories
                 MotorId = motor.MotorId,
             };
     
-            var average = (float)Math.Round(originalDatas.Average(o => o.Motor1Current_B), 2);
+            var average = MathF.Round(originalDatas.Average(o => o.Motor1Current_B), 2);
             var entity = new ImpactCrusherByHour
             {
                 Time = startUnix,
                 MotorId = motor.MotorId,
                 AvgMotor1Current_B = average,
-                AvgMotor2Current_B = (float)Math.Round(originalDatas.Average(o => o.Motor2Current_B), 2),
-                AvgSpindleTemperature1 = (float)Math.Round(originalDatas.Average(o => o.SpindleTemperature1), 2),
-                AvgSpindleTemperature2 = (float)Math.Round(originalDatas.Average(o => o.SpindleTemperature2), 2),
-                AvgMotor1Voltage_B = (float)Math.Round(originalDatas.Average(o => o.Motor1Voltage_B), 2),
-                AvgMotor2Voltage_B = (float)Math.Round(originalDatas.Average(o => o.Motor2Voltage_B), 2),
-                AvgVibrate1 = (float)Math.Round(originalDatas.Average(o => o.Vibrate1), 2),
-                AvgVibrate2 = (float)Math.Round(originalDatas.Average(o => o.Vibrate2), 2),
-                //WearValue1 = (float)Math.Round(originalDatas.Average(o => o.WearValue1), 2),
-                //WearValue2 = (float)Math.Round(originalDatas.Average(o => o.WearValue2), 2),
+                AvgMotor2Current_B = MathF.Round(originalDatas.Average(o => o.Motor2Current_B), 2),
+                AvgSpindleTemperature1 = MathF.Round(originalDatas.Average(o => o.SpindleTemperature1), 2),
+                AvgSpindleTemperature2 = MathF.Round(originalDatas.Average(o => o.SpindleTemperature2), 2),
+                AvgMotor1Voltage_B = MathF.Round(originalDatas.Average(o => o.Motor1Voltage_B), 2),
+                AvgMotor2Voltage_B = MathF.Round(originalDatas.Average(o => o.Motor2Voltage_B), 2),
+                AvgVibrate1 = MathF.Round(originalDatas.Average(o => o.Vibrate1), 2),
+                AvgVibrate2 = MathF.Round(originalDatas.Average(o => o.Vibrate2), 2),
+                //WearValue1 = MathF.Round(originalDatas.Average(o => o.WearValue1), 2),
+                //WearValue2 = MathF.Round(originalDatas.Average(o => o.WearValue2), 2),
                 RunningTime = originalDatas.Count(c => c.Motor1Current_B > 0f),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+                LoadStall = (standValue == 0) ? 0 : MathF.Round(average / standValue, 2)
             };
             return entity;
 
@@ -117,7 +117,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var minuteStart = hourEnd;
 
            // var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
-            var standValue = motor?.StandValue ?? 0;
+            //var standValue = motor?.StandValue ?? 0;
             long startUnix = hourStart.TimeSpan(),endUnix=hourEnd.TimeSpan();
             var hourData =
                 GetEntities(
@@ -128,14 +128,14 @@ namespace Yunt.Device.Repository.EF.Repositories
             if (minuteData != null)
                 hourData?.Add(minuteData);
             if (hourData == null || !hourData.Any()) return null;
-            var average = (float)Math.Round(hourData.Average(o => o.AvgMotor1Current_B), 2);
+            var average = MathF.Round(hourData.Average(o => o.AvgMotor1Current_B), 2);
             var data = new ImpactCrusherByDay
             {
                 MotorId = motor.MotorId,
                 AvgMotor1Current_B = average,
-                RunningTime = (float)Math.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
+                RunningTime = MathF.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
 
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+                LoadStall = GetInstantLoadStall(motor)//(standValue == 0) ? 0 : MathF.Round(average / standValue, 2)
             };
 
             return data;
@@ -228,6 +228,20 @@ namespace Yunt.Device.Repository.EF.Repositories
             return onOffs;
         }
 
+        #endregion
+
+        #region version 18.07.17
+        /// <summary>
+        /// 获取瞬时负荷
+        /// </summary>
+        /// <param name="motor"></param>
+        public float GetInstantLoadStall(Motor motor)
+        {
+            var data = _icRep.GetLatestRecord(motor.MotorId);
+            if (data != null)
+                return data.Motor1Current_B * motor.StandValue == 0 ? 0 : MathF.Round(data.Motor1Current_B / motor.StandValue, 3);
+            return 0;
+        }
         #endregion
     }
 }

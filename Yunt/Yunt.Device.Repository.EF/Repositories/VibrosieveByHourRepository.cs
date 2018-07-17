@@ -104,21 +104,21 @@ namespace Yunt.Device.Repository.EF.Repositories
                 powerSum += subPower;
             }
             #endregion
-            var Average = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2);
+            var Average = MathF.Round(originalDatas.Average(o => o.Current_B), 2);
             var entity = new VibrosieveByHour
             {
                 Time = startUnix,
                 MotorId = motor.MotorId,
-                AvgCurrent_B = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2),
-                AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.Voltage_B), 2),
-                AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.PowerFactor), 2),
-                AvgSpindleTemperature1 = (float)Math.Round(originalDatas.Average(o => o.SpindleTemperature1), 2),
-                AvgSpindleTemperature2 = (float)Math.Round(originalDatas.Average(o => o.SpindleTemperature2), 2),
-                AvgSpindleTemperature3 = (float)Math.Round(originalDatas.Average(o => o.SpindleTemperature3), 2),
-                AvgSpindleTemperature4 = (float)Math.Round(originalDatas.Average(o => o.SpindleTemperature4), 2),
+                AvgCurrent_B = MathF.Round(originalDatas.Average(o => o.Current_B), 2),
+                AvgVoltage_B = MathF.Round(originalDatas.Average(o => o.Voltage_B), 2),
+                AvgPowerFactor = MathF.Round(originalDatas.Average(o => o.PowerFactor), 2),
+                AvgSpindleTemperature1 = MathF.Round(originalDatas.Average(o => o.SpindleTemperature1), 2),
+                AvgSpindleTemperature2 = MathF.Round(originalDatas.Average(o => o.SpindleTemperature2), 2),
+                AvgSpindleTemperature3 = MathF.Round(originalDatas.Average(o => o.SpindleTemperature3), 2),
+                AvgSpindleTemperature4 = MathF.Round(originalDatas.Average(o => o.SpindleTemperature4), 2),
                 RunningTime = originalDatas.Count(c => c.Current_B > 0f),
                 ActivePower = (float)Math.Round(powerSum, 2),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(Average / standValue, 2)
+                LoadStall = (standValue == 0) ? 0 : MathF.Round(Average / standValue, 2)
             };
             return entity;
 
@@ -159,7 +159,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var minuteStart = hourEnd;
 
             //var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
-            var standValue = motor?.StandValue ?? 0;
+           // var standValue = motor?.StandValue ?? 0;
             long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
             var hourData =
                 GetEntities(
@@ -170,14 +170,14 @@ namespace Yunt.Device.Repository.EF.Repositories
             if (minuteData != null)
                 hourData?.Add(minuteData);
             if (hourData == null || !hourData.Any()) return null;
-            var average = (float)Math.Round(hourData.Average(o => o.AvgCurrent_B), 2);
+            var average = MathF.Round(hourData.Average(o => o.AvgCurrent_B), 2);
             var data = new VibrosieveByDay
             {
                 MotorId = motor.MotorId,
                 AvgCurrent_B = average,
-                RunningTime = (float)Math.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
+                RunningTime = MathF.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
 
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+                LoadStall = GetInstantLoadStall(motor)//(standValue == 0) ? 0 : MathF.Round(average / standValue, 2)
             };
 
             return data;
@@ -231,6 +231,20 @@ namespace Yunt.Device.Repository.EF.Repositories
                     ts.Add(t);
             }
             await InsertAsync(ts);
+        }
+        #endregion
+
+        #region version 18.07.17
+        /// <summary>
+        /// 获取瞬时负荷
+        /// </summary>
+        /// <param name="motor"></param>
+        public float GetInstantLoadStall(Motor motor)
+        {
+            var data = _ccRep.GetLatestRecord(motor.MotorId);
+            if (data != null)
+                return data.Current_B * motor.StandValue == 0 ? 0 : MathF.Round(data.Current_B / motor.StandValue, 3);
+            return 0;
         }
         #endregion
     }

@@ -104,7 +104,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 powerSum += subPower;
             }
             #endregion
-            var average = (float)Math.Round(originalDatas.Average(o => o.Frequency), 2);
+            var average = MathF.Round(originalDatas.Average(o => o.Frequency), 2);
 
             var load = (standValue == 0) ? 0 : (float) Math.Round(average / standValue, 2);
             load = double.IsNaN(load) ? 0 : load;
@@ -112,10 +112,10 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 Time = startUnix,
                 MotorId = motor.MotorId,
-                AvgCurrent_B = (float)Math.Round(originalDatas.Average(o => o.Current_B), 2),
-                AvgFrequency = (float)Math.Round(originalDatas.Where(c => c.Frequency > 0f).Average(o => o.Frequency), 2),
+                AvgCurrent_B = MathF.Round(originalDatas.Average(o => o.Current_B), 2),
+                AvgFrequency = MathF.Round(originalDatas.Where(c => c.Frequency > 0f).Average(o => o.Frequency), 2),
                
-                AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.Voltage_B), 2),
+                AvgVoltage_B = MathF.Round(originalDatas.Average(o => o.Voltage_B), 2),
                 ActivePower = (float)Math.Round(powerSum, 2),
                 RunningTime = originalDatas.Count(c => c.Frequency > 0f),
                 LoadStall = load
@@ -162,7 +162,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var minuteStart = hourEnd;
 
             //var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
-            var standValue = motor?.StandValue ?? 0;
+            //var standValue = motor?.StandValue ?? 0;
             long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
             var hourData =
                 GetEntities(
@@ -173,14 +173,14 @@ namespace Yunt.Device.Repository.EF.Repositories
             if (minuteData != null)
                 hourData?.Add(minuteData);
             if (hourData == null || !hourData.Any()) return null;
-            var average = (float)Math.Round(hourData.Average(o => o.AvgCurrent_B), 2);
+            var average = MathF.Round(hourData.Average(o => o.AvgCurrent_B), 2);
             var data = new MaterialFeederByDay
             {
                 MotorId = motor.MotorId,
                 AvgCurrent_B = average,
-                RunningTime = (float)Math.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
-                AvgFrequency = (float)Math.Round(hourData?.Average(e => e.AvgFrequency) ?? 0, 2),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+                RunningTime = MathF.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
+                AvgFrequency = MathF.Round(hourData?.Average(e => e.AvgFrequency) ?? 0, 2),
+                LoadStall = GetInstantLoadStall(motor)//(standValue == 0) ? 0 : MathF.Round(average / standValue, 2)
             };
 
             return data;
@@ -237,5 +237,19 @@ namespace Yunt.Device.Repository.EF.Repositories
         }
         #endregion
 
+
+        #region version 18.07.17
+        /// <summary>
+        /// 获取瞬时负荷
+        /// </summary>
+        /// <param name="motor"></param>
+        public float GetInstantLoadStall(Motor motor)
+        {
+            var data = _mfRep.GetLatestRecord(motor.MotorId);
+            if (data != null)
+                return data.Frequency * motor.StandValue == 0 ? 0 : MathF.Round(data.Frequency / motor.StandValue, 3);
+            return 0;
+        }
+        #endregion
     }
 }

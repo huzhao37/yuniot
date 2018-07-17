@@ -65,7 +65,7 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             var count = originalDatas.Sum(e => e.RunningTime);
             var weightSum = (float) Math.Round(originalDatas.Sum(o => o.AccumulativeWeight), 2);
-            var powerSum = (float)Math.Round(originalDatas.Sum(e => e.ActivePower), 2);
+            var powerSum = MathF.Round(originalDatas.Sum(e => e.ActivePower), 2);
           
             var load = count * cap == 0 ? 0 :(motor.UseCalc
              ? Math.Round(((powerSum * 60) / count) / cap, 2)
@@ -75,11 +75,11 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 Time = start.TimeSpan(),
                 MotorId = motor.MotorId,
-                AvgInstantWeight = (float)Math.Round(originalDatas.Average(e=>e.AvgInstantWeight), 2),
-                AvgCurrent_B = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_B), 2),
-                AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
-                AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.AvgPowerFactor), 2),
-                AvgPulsesSecond = (float)Math.Round(originalDatas.Average(o => o.AvgPulsesSecond), 2),
+                AvgInstantWeight = MathF.Round(originalDatas.Average(e=>e.AvgInstantWeight), 2),
+                AvgCurrent_B = MathF.Round(originalDatas.Average(o => o.AvgCurrent_B), 2),
+                AvgVoltage_B = MathF.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
+                AvgPowerFactor = MathF.Round(originalDatas.Average(o => o.AvgPowerFactor), 2),
+                AvgPulsesSecond = MathF.Round(originalDatas.Average(o => o.AvgPulsesSecond), 2),
                 AccumulativeWeight =  weightSum, //TODO：累计称重计算;
                 ActivePower =powerSum,
                 RunningTime = count,

@@ -56,18 +56,18 @@ namespace Yunt.Device.Repository.EF.Repositories
                 MotorId = motor.MotorId,
             };
 
-            var average = (float)Math.Round(originalDatas.Average(o => o.Current), 2);
+            var average = MathF.Round(originalDatas.Average(o => o.Current), 2);
             var entity = new SimonsConeCrusherByHour
             {
                 Time = startUnix,
                 MotorId = motor.MotorId,
-                AverageCurrent = (float)Math.Round(originalDatas.Average(o => o.Current), 2),
-                AverageOilFeedTempreature = (float)Math.Round(originalDatas.Average(o => o.OilFeedTempreature), 2),
-                AverageOilReturnTempreature = (float)Math.Round(originalDatas.Average(o => o.OilReturnTempreature), 2),
-                AverageTankTemperature = (float)Math.Round(originalDatas.Average(o => o.TankTemperature), 2),
+                AverageCurrent = MathF.Round(originalDatas.Average(o => o.Current), 2),
+                AverageOilFeedTempreature = MathF.Round(originalDatas.Average(o => o.OilFeedTempreature), 2),
+                AverageOilReturnTempreature = MathF.Round(originalDatas.Average(o => o.OilReturnTempreature), 2),
+                AverageTankTemperature = MathF.Round(originalDatas.Average(o => o.TankTemperature), 2),
 
                 RunningTime = originalDatas.Count(c => c.Current > 0f),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+                LoadStall = (standValue == 0) ? 0 : MathF.Round(average / standValue, 2)
             };
             return entity;
 
@@ -111,7 +111,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var minuteStart = hourEnd;
 
            // var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault();
-            var standValue = motor?.StandValue ?? 0;
+            //var standValue = motor?.StandValue ?? 0;
             long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
             var hourData =
                 GetEntities(
@@ -122,14 +122,14 @@ namespace Yunt.Device.Repository.EF.Repositories
             if (minuteData != null)
                 hourData?.Add(minuteData);
             if (hourData == null || !hourData.Any()) return null;
-            var average = (float)Math.Round(hourData.Average(o => o.AverageCurrent), 2);
+            var average = MathF.Round(hourData.Average(o => o.AverageCurrent), 2);
             var data = new SimonsConeCrusherByDay
             {
                 MotorId = motor.MotorId,
                 AverageCurrent = average,
-                RunningTime = (float)Math.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
+                RunningTime = MathF.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
 
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+                LoadStall = GetInstantLoadStall(motor)//(standValue == 0) ? 0 : MathF.Round(average / standValue, 2)
             };
 
             return data;
@@ -183,6 +183,20 @@ namespace Yunt.Device.Repository.EF.Repositories
                     ts.Add(t);
             }
             await InsertAsync(ts);
+        }
+        #endregion
+
+        #region version 18.07.17
+        /// <summary>
+        /// 获取瞬时负荷
+        /// </summary>
+        /// <param name="motor"></param>
+        public float GetInstantLoadStall(Motor motor)
+        {
+            var data = _ccRep.GetLatestRecord(motor.MotorId);
+            if (data != null)
+                return data.Current* motor.StandValue == 0 ? 0 : MathF.Round(data.Current / motor.StandValue, 3);
+            return 0;
         }
         #endregion
     }

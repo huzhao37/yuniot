@@ -66,9 +66,9 @@ namespace Yunt.WebApi.Controllers
                     var data = _conveyorByHourRepository.GetRealData(motor);
                     return new ConveyorOutlineModel
                     {
-                        Output =(float)Math.Round(data.AccumulativeWeight,2),
+                        Output =MathF.Round(data.AccumulativeWeight,2),
                         InstantOutput = data.AvgInstantWeight,
-                        Load = (float)Math.Round(data.LoadStall,3),
+                        Load =data.LoadStall,
                         RunningTime = data.RunningTime
                     };
                 }
@@ -79,10 +79,10 @@ namespace Yunt.WebApi.Controllers
                 if (datas == null || !datas.Any()) return resData;
                 return new ConveyorOutlineModel
                 {
-                    Output = (float)Math.Round(datas.Sum(e => e.AccumulativeWeight),2),
-                    InstantOutput = (float)Math.Round(datas.Average(e => e.AvgInstantWeight),2),
-                    Load =(float)Math.Round(datas.Average(e => e.LoadStall),3),
-                    RunningTime = (float)Math.Round(datas.Average(e => e.RunningTime),2)
+                    Output = MathF.Round(datas.Sum(e => e.AccumulativeWeight),2),
+                    InstantOutput = MathF.Round(datas.Average(e => e.AvgInstantWeight),2),
+                    Load =MathF.Round(datas.Average(e => e.LoadStall),3),
+                    RunningTime = MathF.Round(datas.Average(e => e.RunningTime),2)
                 };
             }
             catch (Exception e)
@@ -119,9 +119,9 @@ namespace Yunt.WebApi.Controllers
                         var data = _conveyorByHourRepository.GetRealData(motor);
                         resData.Add(new ConveyorChartModel
                         {
-                            y = (float)Math.Round(data.AccumulativeWeight,2),
+                            y = MathF.Round(data.AccumulativeWeight,2),
                             InstantWeight = data.AvgInstantWeight,
-                            MotorLoad = (float)Math.Round(data.LoadStall,3),
+                            MotorLoad = data.LoadStall,
                             RunningTime = data.RunningTime,
                             name = motor.Name
                         });
@@ -138,10 +138,10 @@ namespace Yunt.WebApi.Controllers
                     {
                         resData.Add(new ConveyorChartModel
                         {
-                            y = (float)Math.Round(datas.Sum(e => e.AccumulativeWeight),2),
-                            InstantWeight = (float)Math.Round(datas.Average(e => e.AvgInstantWeight),2),
-                            MotorLoad = (float)Math.Round(datas.Average(e => e.LoadStall),3),
-                            RunningTime = (float)Math.Round(datas.Average(e => e.RunningTime),2),
+                            y = MathF.Round(datas.Sum(e => e.AccumulativeWeight),2),
+                            InstantWeight = MathF.Round(datas.Average(e => e.AvgInstantWeight),2),
+                            MotorLoad = MathF.Round(datas.Average(e => e.LoadStall),3),
+                            RunningTime = MathF.Round(datas.Average(e => e.RunningTime),2),
                             name = motor.Name
                         });
                     }
@@ -233,7 +233,7 @@ namespace Yunt.WebApi.Controllers
                         resData.Add(new MotorItemModel()
                         {
                             id = motor.MotorId,
-                            load = (float)Math.Round(data.LoadStall,3),
+                            load =data.LoadStall,
                             name = motor.Name,
                             runningtime = (float)data.RunningTime,
                             type = motor.MotorTypeId,
@@ -273,16 +273,16 @@ namespace Yunt.WebApi.Controllers
             if ((startT == endT) && (startT == now))
             {
                 datas = _productionLineRepository.MotorHours(motor)?.OrderBy(e => (long)e.Time)?.ToList();
-                return _productionLineRepository.GetMobileMotorDetails(datas, motor);
+                return _productionLineRepository.GetMobileMotorDetails(datas, motor,true);
             }
             //历史某一天
             if (startT == endT)
             {
                 datas = _productionLineRepository.MotorHours(motor, startT)?.OrderBy(e => (long)e.Time)?.ToList();
-                return _productionLineRepository.GetMobileMotorDetails(datas, motor);
+                return _productionLineRepository.GetMobileMotorDetails(datas, motor, false);
             }
             datas = _productionLineRepository.MotorDays(startT, endT, motor)?.OrderBy(e => (long)e.Time)?.ToList();
-            return _productionLineRepository.GetMobileMotorDetails(datas, motor);
+            return _productionLineRepository.GetMobileMotorDetails(datas, motor, false);
         }
 
         #endregion

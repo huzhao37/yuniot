@@ -83,5 +83,8 @@ namespace Yunt.Xml.Repository.EF.Models
         [DataMember]
         [ProtoMember(24)]
         public int? FormatId { get; set; }
+        [DataMember]
+        [ProtoMember(25)]
+        public string Remark { get; set; }
     }
 }

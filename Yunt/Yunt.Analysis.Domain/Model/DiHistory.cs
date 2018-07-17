@@ -35,7 +35,7 @@ namespace Yunt.Analysis.Domain.Model
         /// </summary>
         [DataMember]
         [ProtoMember(3)]
-        [MaxLength(20)]
+        [MaxLength(40)]
         public string Param { get; set; }
         /// <summary>
         /// 参数值

@@ -60,13 +60,13 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 Time = start.TimeSpan(),
                 MotorId = motor.MotorId,
-                AvgCurrent_B = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_B), 2),
+                AvgCurrent_B = MathF.Round(originalDatas.Average(o => o.AvgCurrent_B), 2),
                 AvgFrequency = avgFre,
-                ActivePower = (float)Math.Round(originalDatas.Sum(c => c.ActivePower), 2),
-                AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
+                ActivePower = MathF.Round(originalDatas.Sum(c => c.ActivePower), 2),
+                AvgVoltage_B = MathF.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
 
                 RunningTime = originalDatas.Sum(c => c.AvgVoltage_B),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(avgFre / standValue, 2)
+                LoadStall = (standValue == 0) ? 0 : MathF.Round(avgFre / standValue, 2)
             };
             return entity;
 

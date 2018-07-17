@@ -118,7 +118,7 @@ namespace Yunt.XmlProtocol.Domain.Models
         /// <param name="index">Index</param>
         /// <returns></returns>
         [DataObjectMethod(DataObjectMethodType.Select, false)]
-        public static Entity<Dataformmodel> FindByIndex(Int32 index)
+        public static Dataformmodel FindByIndex(Int32 index)
         {
             if (Meta.Count >= 1000)
                 return Find(__.Index, index);

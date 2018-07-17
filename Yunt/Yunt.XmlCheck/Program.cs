@@ -36,7 +36,7 @@ namespace Yunt.XmlCheck
 
             var configuration = builder.Build();
             services.AddSingleton<IConfiguration>(configuration);
-            Logger.Create(configuration, new LoggerFactory(), "Yunt.XmlCheck");
+            //Logger.Create(configuration, new LoggerFactory(), "Yunt.XmlCheck");
             var providers = ServiceEx.StartServices(services, configuration);
             Providers = providers;
             services.AddAutoMapper();
@@ -47,7 +47,7 @@ namespace Yunt.XmlCheck
             
             //获取主xml中相关信息
             //XmlParse.GetXmlInfo(xmlPath);
-            var xmlInfo = XmlParse1.GetXmlInfo("XmlFile\\wdd.v0.6.3.3.xml");
+            var xmlInfo = XmlParse1.GetXmlInfo("XmlFile\\wudd.v0.6.3.7.1.xml");
             //保存主xml信息
             XmlParse1.SaveXmlInfo(xmlInfo);
 

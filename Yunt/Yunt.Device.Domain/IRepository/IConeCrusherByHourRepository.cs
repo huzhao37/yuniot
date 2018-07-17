@@ -50,5 +50,13 @@ namespace Yunt.Device.Domain.IRepository
         /// <param name="motorTypeId">设备类型</param>
         Task RecoveryHourStatistics(DateTime dt, string motorTypeId);
         #endregion
+
+        #region version 18.07.17
+        /// <summary>
+        /// 获取瞬时负荷
+        /// </summary>
+        /// <param name="motor"></param>
+        float GetInstantLoadStall(Motor motor);
+        #endregion
     }
 }

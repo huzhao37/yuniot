@@ -54,5 +54,13 @@ namespace Yunt.Device.Domain.IRepository
         /// <param name="motorId">设备类型</param>
         ConveyorByHour GetHour(DateTime dt, string motorId);
         #endregion
+
+        #region version 18.07.17
+        /// <summary>
+        /// 获取瞬时负荷
+        /// </summary>
+        /// <param name="motor"></param>
+        float GetInstantLoadStall(Motor motor);
+        #endregion
     }
 }

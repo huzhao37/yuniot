@@ -55,24 +55,24 @@ namespace Yunt.Device.Repository.EF.Repositories
                 MotorId = motor.MotorId,
             };
 
-            var average = (float)Math.Round(originalDatas.Average(o => o.AvgMotor1Current_B), 2);
+            var average = MathF.Round(originalDatas.Average(o => o.AvgMotor1Current_B), 2);
             var entity = new ImpactCrusherByDay
             {
                 Time = start.TimeSpan(),
                 MotorId = motor.MotorId,
                 AvgMotor1Current_B = average,
-                AvgMotor2Current_B = (float)Math.Round(originalDatas.Average(o => o.AvgMotor2Current_B), 2),
-                AvgSpindleTemperature1 = (float)Math.Round(originalDatas.Average(o => o.AvgSpindleTemperature1), 2),
-                AvgSpindleTemperature2 = (float)Math.Round(originalDatas.Average(o => o.AvgSpindleTemperature2), 2),
-                AvgMotor1Voltage_B = (float)Math.Round(originalDatas.Average(o => o.AvgMotor1Voltage_B), 2),
-                AvgMotor2Voltage_B= (float)Math.Round(originalDatas.Average(o => o.AvgMotor2Voltage_B), 2),
-                AvgVibrate1 = (float)Math.Round(originalDatas.Average(o => o.AvgVibrate1), 2),
-                AvgVibrate2 = (float)Math.Round(originalDatas.Average(o => o.AvgVibrate2), 2),
-                WearValue1 = (float)Math.Round(originalDatas.Average(o => o.WearValue1), 2),
-                WearValue2 = (float)Math.Round(originalDatas.Average(o => o.WearValue2), 2),
+                AvgMotor2Current_B = MathF.Round(originalDatas.Average(o => o.AvgMotor2Current_B), 2),
+                AvgSpindleTemperature1 = MathF.Round(originalDatas.Average(o => o.AvgSpindleTemperature1), 2),
+                AvgSpindleTemperature2 = MathF.Round(originalDatas.Average(o => o.AvgSpindleTemperature2), 2),
+                AvgMotor1Voltage_B = MathF.Round(originalDatas.Average(o => o.AvgMotor1Voltage_B), 2),
+                AvgMotor2Voltage_B= MathF.Round(originalDatas.Average(o => o.AvgMotor2Voltage_B), 2),
+                AvgVibrate1 = MathF.Round(originalDatas.Average(o => o.AvgVibrate1), 2),
+                AvgVibrate2 = MathF.Round(originalDatas.Average(o => o.AvgVibrate2), 2),
+                WearValue1 = MathF.Round(originalDatas.Average(o => o.WearValue1), 2),
+                WearValue2 = MathF.Round(originalDatas.Average(o => o.WearValue2), 2),
                 //OnOffCounts = offCounts,
                 RunningTime = originalDatas.Sum(e=>e.RunningTime),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+                LoadStall = (standValue == 0) ? 0 : MathF.Round(average / standValue, 2)
             };
             return entity;
 

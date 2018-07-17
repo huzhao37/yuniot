@@ -315,6 +315,18 @@ namespace Yunt.XmlProtocol.Domain.Models
             get { return _FormatId; }
             set { if (OnPropertyChanging(__.FormatId, value)) { _FormatId = value; OnPropertyChanged(__.FormatId); } }
         }
+
+        private string _Remark;
+        /// <summary></summary>
+        [DisplayName("Remark")]
+        [Description("")]
+        [DataObjectField(false, false, true, 40)]
+        [BindColumn("Remark", "", "vachar(40)")]
+        public virtual string Remark
+        {
+            get { return _Remark; }
+            set { if (OnPropertyChanging(__.Remark, value)) { _Remark = value; OnPropertyChanged(__.Remark); } }
+        }
         #endregion
 
         #region 获取/设置 字段值
@@ -356,6 +368,7 @@ namespace Yunt.XmlProtocol.Domain.Models
                     case __.MotorId : return _MotorId;
                     case __.DataPhysicalId : return _DataPhysicalId;
                     case __.FormatId : return _FormatId;
+                    case __.Remark: return _Remark;
                     default: return base[name];
                 }
             }
@@ -388,6 +401,7 @@ namespace Yunt.XmlProtocol.Domain.Models
                     case __.MotorId : _MotorId = Convert.ToString(value); break;
                     case __.DataPhysicalId : _DataPhysicalId = Convert.ToInt32(value); break;
                     case __.FormatId : _FormatId = Convert.ToInt32(value); break;
+                    case __.Remark: _Remark = Convert.ToString(value); break;
                     default: base[name] = value; break;
                 }
             }
@@ -473,6 +487,9 @@ namespace Yunt.XmlProtocol.Domain.Models
             ///<summary></summary>
             public static readonly Field FormatId = FindByName(__.FormatId);
 
+            ///<summary></summary>
+            public static readonly Field Remark = FindByName(__.Remark);
+
             static Field FindByName(String name) { return Meta.Table.FindByName(name); }
         }
 
@@ -553,6 +570,9 @@ namespace Yunt.XmlProtocol.Domain.Models
 
             ///<summary></summary>
             public const String FormatId = "FormatId";
+
+            ///<summary></summary>
+            public const String Remark = "Remark";
 
         }
         #endregion
@@ -636,6 +656,10 @@ namespace Yunt.XmlProtocol.Domain.Models
 
         /// <summary></summary>
         Int32 FormatId { get; set; }
+
+
+        /// <summary></summary>
+        string Remark { get; set; }
         #endregion
 
         #region 获取/设置 字段值

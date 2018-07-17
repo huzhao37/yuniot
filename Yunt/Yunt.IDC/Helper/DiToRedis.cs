@@ -95,7 +95,7 @@ namespace Yunt.IDC.Helper
                     {
                         MotorId = form.MotorId ?? "0",
                         MotorName = form.MachineName ?? "",
-                        Param = form.FieldParam ?? "",
+                        Param = form.Remark ?? "",
                         Value = (float)form.Value,
                         MotorTypeId = form.MotorTypeName ?? "",
                         Time = time,

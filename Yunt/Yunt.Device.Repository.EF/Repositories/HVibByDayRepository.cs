@@ -55,24 +55,24 @@ namespace Yunt.Device.Repository.EF.Repositories
                 MotorId = motor.MotorId,
             };
 
-            var average = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_B), 2);
+            var average = MathF.Round(originalDatas.Average(o => o.AvgCurrent_B), 2);
             
             var entity = new HVibByDay
             {
                 Time = start.TimeSpan(),
                 MotorId = motor.MotorId,
                 AvgCurrent_B = average,
-                AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
-                AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.AvgPowerFactor), 2),
-                AvgOilFeedStress = (float)Math.Round(originalDatas.Average(o => o.AvgOilFeedStress), 2),
-                AvgOilReturnStress = (float)Math.Round(originalDatas.Average(o => o.AvgOilReturnStress), 2),
-                AvgSpindleTemperature1 = (float)Math.Round(originalDatas.Average(o => o.AvgSpindleTemperature1), 2),
-                AvgSpindleTemperature2 = (float)Math.Round(originalDatas.Average(o => o.AvgSpindleTemperature2), 2),
-                AvgSpindleTemperature3 = (float)Math.Round(originalDatas.Average(o => o.AvgSpindleTemperature3), 2),
-                AvgSpindleTemperature4 = (float)Math.Round(originalDatas.Average(o => o.AvgSpindleTemperature4), 2),               
+                AvgVoltage_B = MathF.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
+                AvgPowerFactor = MathF.Round(originalDatas.Average(o => o.AvgPowerFactor), 2),
+                AvgOilFeedStress = MathF.Round(originalDatas.Average(o => o.AvgOilFeedStress), 2),
+                AvgOilReturnStress = MathF.Round(originalDatas.Average(o => o.AvgOilReturnStress), 2),
+                AvgSpindleTemperature1 = MathF.Round(originalDatas.Average(o => o.AvgSpindleTemperature1), 2),
+                AvgSpindleTemperature2 = MathF.Round(originalDatas.Average(o => o.AvgSpindleTemperature2), 2),
+                AvgSpindleTemperature3 = MathF.Round(originalDatas.Average(o => o.AvgSpindleTemperature3), 2),
+                AvgSpindleTemperature4 = MathF.Round(originalDatas.Average(o => o.AvgSpindleTemperature4), 2),               
                 RunningTime =originalDatas.Sum(c => c.RunningTime),
-                ActivePower = (float)Math.Round(originalDatas.Sum(c => c.ActivePower), 2),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+                ActivePower = MathF.Round(originalDatas.Sum(c => c.ActivePower), 2),
+                LoadStall = (standValue == 0) ? 0 : MathF.Round(average / standValue, 2)
             };
             return entity;
 

@@ -72,6 +72,8 @@ namespace Yunt.Xml.Repository.EF.Mappings
 
             entity.Property(e => e.WarnValue).HasColumnType("int(11)");
 
+            entity.Property(e => e.Remark).HasMaxLength(40);
+
         }
     }
 }

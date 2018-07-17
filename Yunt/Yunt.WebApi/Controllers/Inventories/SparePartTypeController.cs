@@ -83,37 +83,37 @@ namespace webapi.Controllers
                 return false;
             }
         }
+        //[EnableCors("any")]
+        //[HttpPut]
+        //public bool Put([FromBody]int limit)
+        //{
+        //    try
+        //    {
+        //        var sparePartTypeList = _sparePartsTypeRepository.GetEntities()?.ToList();
+        //        var updates = new List<SparePartsType>();
+        //        updates = sparePartTypeList;
+        //        if (sparePartTypeList != null && sparePartTypeList.Any())
+        //        {
+        //            sparePartTypeList.ForEach(e =>
+        //            {
+        //                var item = updates.Where(u => u.Id == e.Id).FirstOrDefault();
+        //                item.InventoryAlarmLimits = limit;
+        //                item.CreateTime = DateTime.Now.TimeSpan();
+
+        //            });
+        //        }
+        //        return _sparePartsTypeRepository.UpdateEntity(updates) > 0;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Logger.Exception(ex);
+        //        return false;
+        //    }
+
+        //}
         [EnableCors("any")]
         [HttpPut]
-        public bool Put([FromBody]int limit)
-        {
-            try
-            {
-                var sparePartTypeList = _sparePartsTypeRepository.GetEntities()?.ToList();
-                var updates = new List<SparePartsType>();
-                updates = sparePartTypeList;
-                if (sparePartTypeList != null && sparePartTypeList.Any())
-                {
-                    sparePartTypeList.ForEach(e =>
-                    {
-                        var item = updates.Where(u => u.Id == e.Id).FirstOrDefault();
-                        item.InventoryAlarmLimits = limit;
-                        item.CreateTime = DateTime.Now.TimeSpan();
-
-                    });
-                }
-                return _sparePartsTypeRepository.UpdateEntity(updates) > 0;
-            }
-            catch (Exception ex)
-            {
-                Logger.Exception(ex);
-                return false;
-            }
-
-        }
-        [EnableCors("any")]
-        [HttpPut]
-        public bool Put([FromBody]int sparePartsTypeId,int limit)
+        public bool Put(int sparePartsTypeId,int limit)
         {
             try
             {

@@ -328,7 +328,7 @@ namespace Yunt.IDC.Helper
                     {
                         MotorId = motor.MotorId,
                         MotorName = motor.Name,
-                        Param = form.FieldParam ?? "",
+                        Param = form.Remark ?? "",
                         Value = (float)form.Value,
                         MotorTypeId = motor.MotorTypeId,
                         Time = time,
@@ -340,7 +340,7 @@ namespace Yunt.IDC.Helper
                     {
                         alarmInfoRepository.InsertAsync(new AlarmInfo()
                         {
-                            Content = form.FieldParam ?? "",
+                            Content = form.Remark ?? "",
                             MotorName = motor.Name ?? "",
                             MotorId = motor.MotorId,
                             Time = time
@@ -374,7 +374,7 @@ namespace Yunt.IDC.Helper
                 {
                     alarmInfoRepository.InsertAsync(new AlarmInfo()
                     {
-                        Content = form.FieldParam ?? "",
+                        Content = form.Remark ?? "",
                         MotorName = form.MachineName ?? "",
                         Time = time
                     });

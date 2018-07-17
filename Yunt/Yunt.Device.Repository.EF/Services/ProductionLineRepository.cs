@@ -285,104 +285,104 @@ namespace Yunt.Device.Repository.EF.Services
         /// <param name="endTime"></param>
         /// <param name="motorId"></param>
         /// <returns></returns>
-        public virtual IEnumerable<dynamic> MotorDetails(DateTime startTime, DateTime endTime, string motorId)
-        {
-            long start = startTime.TimeSpan(), end = endTime.TimeSpan();
-            var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).FirstOrDefault();
-            if (motor == null) return new List<dynamic>();
-            dynamic list=new List<dynamic>();
-            switch (motor.MotorTypeId)
-            {
-                case "CY":
-                      list = _cyByDayRep.GetEntities(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&
-                      e.Time<=end).ToList();//?.ToList()??new List<ConveyorByDay>();
-                      var cy = _cyByHourRep.GetRealData(motor);
-                      if(cy!=null)
-                        list.Add(cy);
-                      return list;
-                case "MF":
-                    list = _mfByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-                     e.Time<=end).ToList();//?.ToList() ?? new List<MaterialFeederByDay>();                   
-                    var mf = _mfByHourRep.GetRealData(motor);
-                    if (mf != null)
-                        list.Add(mf);
-                    return list;
+        //public virtual IEnumerable<dynamic> MotorDetails(DateTime startTime, DateTime endTime, string motorId)
+        //{
+        //    long start = startTime.TimeSpan(), end = endTime.TimeSpan();
+        //    var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).FirstOrDefault();
+        //    if (motor == null) return new List<dynamic>();
+        //    dynamic list=new List<dynamic>();
+        //    switch (motor.MotorTypeId)
+        //    {
+        //        case "CY":
+        //              list = _cyByDayRep.GetEntities(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&
+        //              e.Time<=end).ToList();//?.ToList()??new List<ConveyorByDay>();
+        //              var cy = _cyByHourRep.GetRealData(motor);
+        //              if(cy!=null)
+        //                list.Add(cy);
+        //              return list;
+        //        case "MF":
+        //            list = _mfByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+        //             e.Time<=end).ToList();//?.ToList() ?? new List<MaterialFeederByDay>();                   
+        //            var mf = _mfByHourRep.GetRealData(motor);
+        //            if (mf != null)
+        //                list.Add(mf);
+        //            return list;
 
-                case "JC":
-                    list = _jcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-                     e.Time<=end).ToList();//?.ToList() ?? new List<JawCrusherByDay>();
-                    var jc = _jcByHourRep.GetRealData(motor);
-                    if (jc != null)
-                        list.Add(jc);
-                    return list;
+        //        case "JC":
+        //            list = _jcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+        //             e.Time<=end).ToList();//?.ToList() ?? new List<JawCrusherByDay>();
+        //            var jc = _jcByHourRep.GetRealData(motor);
+        //            if (jc != null)
+        //                list.Add(jc);
+        //            return list;
 
-                case "CC":
-                    list = _ccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-                     e.Time<=end).ToList();//?.ToList() ?? new List<ConeCrusherByDay>();
-                    //list.Add(_ccByHourRep.GetRealData(motor.MotorId));
-                    var cc = _ccByHourRep.GetRealData(motor);
-                    if (cc != null)
-                        list.Add(cc);
-                    return list;
+        //        case "CC":
+        //            list = _ccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+        //             e.Time<=end).ToList();//?.ToList() ?? new List<ConeCrusherByDay>();
+        //            //list.Add(_ccByHourRep.GetRealData(motor.MotorId));
+        //            var cc = _ccByHourRep.GetRealData(motor);
+        //            if (cc != null)
+        //                list.Add(cc);
+        //            return list;
 
-                case "VC":
-                    list = _vcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-                      e.Time<=end).ToList();//?.ToList() ?? new List<VerticalCrusherByDay>();
-                                   //list.Add(_vcByHourRep.GetRealData(motor.MotorId));
-                    var vc = _vcByHourRep.GetRealData(motor);
-                    if (vc != null)
-                        list.Add(vc);
-                    return list;
+        //        case "VC":
+        //            list = _vcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+        //              e.Time<=end).ToList();//?.ToList() ?? new List<VerticalCrusherByDay>();
+        //                           //list.Add(_vcByHourRep.GetRealData(motor.MotorId));
+        //            var vc = _vcByHourRep.GetRealData(motor);
+        //            if (vc != null)
+        //                list.Add(vc);
+        //            return list;
 
-                case "VB":
-                    list = _vbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-                     e.Time<=end).ToList();//?.ToList() ?? new List<VibrosieveByDay>();
-                                  //list.Add(_vbByHourRep.GetRealData(motor.MotorId));
-                    var vb = _vbByHourRep.GetRealData(motor);
-                    if (vb != null)
-                        list.Add(vb);
-                    return list;
+        //        case "VB":
+        //            list = _vbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+        //             e.Time<=end).ToList();//?.ToList() ?? new List<VibrosieveByDay>();
+        //                          //list.Add(_vbByHourRep.GetRealData(motor.MotorId));
+        //            var vb = _vbByHourRep.GetRealData(motor);
+        //            if (vb != null)
+        //                list.Add(vb);
+        //            return list;
 
-                case "SCC":
-                    list = _sccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-                     e.Time<=end).ToList();
-                    //list.Add(_sccByHourRep.GetRealData(motor.MotorId));
-                    var scc = _sccByHourRep.GetRealData(motor);
-                    if (scc != null)
-                        list.Add(scc);
-                    return list;
+        //        case "SCC":
+        //            list = _sccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+        //             e.Time<=end).ToList();
+        //            //list.Add(_sccByHourRep.GetRealData(motor.MotorId));
+        //            var scc = _sccByHourRep.GetRealData(motor);
+        //            if (scc != null)
+        //                list.Add(scc);
+        //            return list;
 
-                case "PUL":
-                    list = _pulByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-                     e.Time<=end).ToList();//?.ToList() ?? new List<PulverizerByDay>();
-                    //list.Add(_pulByHourRep.GetRealData(motor.MotorId));
-                    var pul = _pulByHourRep.GetRealData(motor);
-                    if (pul != null)
-                        list.Add(pul);
-                    return list;
+        //        case "PUL":
+        //            list = _pulByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+        //             e.Time<=end).ToList();//?.ToList() ?? new List<PulverizerByDay>();
+        //            //list.Add(_pulByHourRep.GetRealData(motor.MotorId));
+        //            var pul = _pulByHourRep.GetRealData(motor);
+        //            if (pul != null)
+        //                list.Add(pul);
+        //            return list;
 
-                case "IC":
-                    list = _icByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-                     e.Time<=end).ToList();//?.ToList() ?? new List<ImpactCrusherByDay>();
-                                  //list.Add(_icByHourRep.GetRealData(motor.MotorId));
-                    var ic = _icByHourRep.GetRealData(motor);
-                    if (ic != null)
-                        list.Add(ic);
-                    return list;
+        //        case "IC":
+        //            list = _icByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+        //             e.Time<=end).ToList();//?.ToList() ?? new List<ImpactCrusherByDay>();
+        //                          //list.Add(_icByHourRep.GetRealData(motor.MotorId));
+        //            var ic = _icByHourRep.GetRealData(motor);
+        //            if (ic != null)
+        //                list.Add(ic);
+        //            return list;
 
-                case "HVB":
-                    list = _hvbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-                     e.Time<=end).ToList();//?.ToList() ?? new List<HVibByDay>();
-                                  //list.Add(_hvbByHourRep.GetRealData(motor.MotorId));
-                    var hvb = _hvbByHourRep.GetRealData(motor);
-                    if (hvb != null)
-                        list.Add(hvb);
-                    return list;
+        //        case "HVB":
+        //            list = _hvbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
+        //             e.Time<=end).ToList();//?.ToList() ?? new List<HVibByDay>();
+        //                          //list.Add(_hvbByHourRep.GetRealData(motor.MotorId));
+        //            var hvb = _hvbByHourRep.GetRealData(motor);
+        //            if (hvb != null)
+        //                list.Add(hvb);
+        //            return list;
 
-                default:
-                    return list;
-            }
-        }
+        //        default:
+        //            return list;
+        //    }
+        //}
 
         /// <summary>
         /// 根据电机设备ID和时间节点获取电机设备详情(不包括今天)
@@ -466,21 +466,23 @@ namespace Yunt.Device.Repository.EF.Services
         /// </summary>
         /// <param name="datas"></param>
         /// <param name="motor"></param>
+        /// <param name="isInstant">是否瞬时</param>
         /// <returns></returns>
-        public dynamic GetMotorDetails(IEnumerable<dynamic> datas,Motor motor)
+        public dynamic GetMotorDetails(IEnumerable<dynamic> datas,Motor motor,bool isInstant)
         {
             if (datas == null||!datas.Any())
                 return GetMotorDetails(motor.MotorTypeId);
+            var loadStall= isInstant?MotorIntantLoadStall(motor):MathF.Round(datas.Average(e => (float)e.LoadStall), 2);
             switch (motor.MotorTypeId)
             {
                 case "CY":
                     return new
                     {
-                        AvgInstantWeight = (float)Math.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
-                        AccumulativeWeight = (float)Math.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
-                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                        RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                        AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
+                        AccumulativeWeight = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
+                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,
+                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new {
                             Output = e.AccumulativeWeight,
                             Current = e.AvgCurrent_B,
@@ -491,26 +493,26 @@ namespace Yunt.Device.Repository.EF.Services
                 case "MF":
                     return new
                     {
-                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        AvgFrequency = (float)Math.Round((datas.Average(e => (float)e.AvgFrequency)), 2),
-                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                        RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        AvgFrequency = MathF.Round((datas.Average(e => (float)e.AvgFrequency)), 2),
+                        LoadStall = loadStall,
+                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new { e.AvgFrequency, Current = e.AvgCurrent_B, e.RunningTime, UnixTime = e.Time })
                     };
                 case "JC":
                     return new
                     {
-                        AvgMotiveSpindleTemperature1 = (float)Math.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature1), 2),
-                        AvgMotiveSpindleTemperature2 = (float)Math.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature2), 2),
-                        AvgRackSpindleTemperature1 = (float)Math.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature1), 2),
-                        AvgRackSpindleTemperature2 = (float)Math.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature2), 2),
-                        AvgVibrate1 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                        WearValue1 = (float)Math.Round(datas.Average(e => (float)e.WearValue1), 2),
-                        AvgVibrate2 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
-                        WearValue2 = (float)Math.Round(datas.Average(e => (float)e.WearValue2), 2),
-                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                        RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                        AvgMotiveSpindleTemperature1 = MathF.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature1), 2),
+                        AvgMotiveSpindleTemperature2 = MathF.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature2), 2),
+                        AvgRackSpindleTemperature1 = MathF.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature1), 2),
+                        AvgRackSpindleTemperature2 = MathF.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature2), 2),
+                        AvgVibrate1 = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                        WearValue1 = MathF.Round(datas.Average(e => (float)e.WearValue1), 2),
+                        AvgVibrate2 = MathF.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
+                        WearValue2 = MathF.Round(datas.Average(e => (float)e.WearValue2), 2),
+                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,
+                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new {
                             e.AvgMotiveSpindleTemperature1,
                             e.AvgMotiveSpindleTemperature2,
@@ -528,18 +530,18 @@ namespace Yunt.Device.Repository.EF.Services
                 case "CC":
                     return new
                     {
-                        AvgMovaStress = (float)Math.Round(datas.Average(e => (float)e.AvgMovaStress), 2),
-                        AvgOilReturnTempreatur = (float)Math.Round((double)(datas.Average(e => (float)e.AvgOilReturnTempreatur)), 2),
-                        AvgOilFeedTempreature = (float)Math.Round(datas.Average(e => (float)e.AvgOilFeedTempreature), 2),
-                        AvgTankTemperature = (float)Math.Round((double)(datas.Average(e => (float)e.AvgTankTemperature)), 2),
-                        AvgSpindleTravel = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTravel), 2),
-                        AvgVibrate1 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgVibrate1)), 2),
-                        AvgVibrate2 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgVibrate2)), 2),
-                        WearValue1 = (float)Math.Round(datas.Average(e => (float)e.WearValue1), 2),
-                        WearValue2 = (float)Math.Round((double)(datas.Average(e => (float)e.WearValue2)), 2),
-                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                        RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                        AvgMovaStress = MathF.Round(datas.Average(e => (float)e.AvgMovaStress), 2),
+                        AvgOilReturnTempreatur = MathF.Round((datas.Average(e => (float)e.AvgOilReturnTempreatur)), 2),
+                        AvgOilFeedTempreature = MathF.Round(datas.Average(e => (float)e.AvgOilFeedTempreature), 2),
+                        AvgTankTemperature = MathF.Round((datas.Average(e => (float)e.AvgTankTemperature)), 2),
+                        AvgSpindleTravel = MathF.Round(datas.Average(e => (float)e.AvgSpindleTravel), 2),
+                        AvgVibrate1 = MathF.Round((datas.Average(e => (float)e.AvgVibrate1)), 2),
+                        AvgVibrate2 = MathF.Round((datas.Average(e => (float)e.AvgVibrate2)), 2),
+                        WearValue1 = MathF.Round(datas.Average(e => (float)e.WearValue1), 2),
+                        WearValue2 = MathF.Round((datas.Average(e => (float)e.WearValue2)), 2),
+                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,
+                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new {
                             e.AvgMovaStress,
                             e.AvgOilReturnTempreatur,
@@ -559,25 +561,25 @@ namespace Yunt.Device.Repository.EF.Services
                 case "VC":
                     return new
                     {
-                        WearValue1 = (float)Math.Round(datas.Average(e => (float)e.WearValue1), 2),
-                        WearValue2 = (float)Math.Round(datas.Average(e => (float)e.WearValue2), 2),
-                        AvgVibrate1 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                        AvgVibrate2 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgVibrate2)), 2),
-                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                        RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                        WearValue1 = MathF.Round(datas.Average(e => (float)e.WearValue1), 2),
+                        WearValue2 = MathF.Round(datas.Average(e => (float)e.WearValue2), 2),
+                        AvgVibrate1 = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                        AvgVibrate2 = MathF.Round((datas.Average(e => (float)e.AvgVibrate2)), 2),
+                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,
+                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new { e.WearValue2, e.WearValue1, e.AvgVibrate1, e.AvgVibrate2, Current = e.AvgCurrent_B, e.RunningTime, UnixTime = e.Time })
                     };
                 case "VB":
                     return new
                     {
-                        AvgSpindleTemperature4 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature4), 2),
-                        AvgSpindleTemperature2 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgSpindleTemperature2)), 2),
-                        AvgSpindleTemperature1 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
-                        AvgSpindleTemperature3 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgSpindleTemperature3)), 2),
-                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                        RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                        AvgSpindleTemperature4 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature4), 2),
+                        AvgSpindleTemperature2 = MathF.Round((datas.Average(e => (float)e.AvgSpindleTemperature2)), 2),
+                        AvgSpindleTemperature1 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
+                        AvgSpindleTemperature3 = MathF.Round((datas.Average(e => (float)e.AvgSpindleTemperature3)), 2),
+                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,
+                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new {
                             e.AvgSpindleTemperature1,
                             e.AvgSpindleTemperature4,
@@ -592,40 +594,40 @@ namespace Yunt.Device.Repository.EF.Services
                 case "SCC":
                     return new
                     {
-                        AvgInstantWeight = (float)Math.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
-                        AccumulativeWeight = (float)Math.Round((double)(datas.Sum(e => (float)e.AccumulativeWeight)), 2),
-                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                        RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                        AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
+                        AccumulativeWeight = MathF.Round((datas.Sum(e => (float)e.AccumulativeWeight)), 2),
+                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,
+                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new { Output = e.AccumulativeWeight, Current = e.AvgCurrent_B, e.RunningTime, UnixTime = e.Time })
                     };
 
                 case "PUL":
                     return new
                     {
-                        AvgVibrate1 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                        AvgVibrate2 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgVibrate2)), 2),
-                        WearValue1 = (float)Math.Round(datas.Average(e => (float)e.WearValue1), 2),
-                        WearValue2 = (float)Math.Round((double)(datas.Average(e => (float)e.WearValue2)), 2),
-                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                        RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                        AvgVibrate1 = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                        AvgVibrate2 = MathF.Round((datas.Average(e => (float)e.AvgVibrate2)), 2),
+                        WearValue1 = MathF.Round(datas.Average(e => (float)e.WearValue1), 2),
+                        WearValue2 = MathF.Round((datas.Average(e => (float)e.WearValue2)), 2),
+                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,
+                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new { e.WearValue2, e.WearValue1, e.AvgVibrate1, e.AvgVibrate2, Current = e.AvgCurrent_B, e.RunningTime, UnixTime = e.Time })
                     };
 
                 case "IC":
                     return new
                     {
-                        AvgMotor2Current_B = (float)Math.Round(datas.Average(e => (float)e.AvgMotor2Current_B), 2),
-                        AvgMotor1Current_B = (float)Math.Round((double)(datas.Average(e => (float)e.AvgMotor1Current_B)), 2),
-                        AvgSpindleTemperature1 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
-                        AvgSpindleTemperature2 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature2), 2),
-                        AvgVibrate1 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                        AvgVibrate2 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgVibrate2)), 2),
-                        WearValue1 = (float)Math.Round(datas.Average(e => (float)e.WearValue1), 2),
-                        WearValue2 = (float)Math.Round((double)(datas.Average(e => (float)e.WearValue2)), 2),
-                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                        RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                        AvgMotor2Current_B = MathF.Round(datas.Average(e => (float)e.AvgMotor2Current_B), 2),
+                        AvgMotor1Current_B = MathF.Round((datas.Average(e => (float)e.AvgMotor1Current_B)), 2),
+                        AvgSpindleTemperature1 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
+                        AvgSpindleTemperature2 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature2), 2),
+                        AvgVibrate1 = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                        AvgVibrate2 = MathF.Round((datas.Average(e => (float)e.AvgVibrate2)), 2),
+                        WearValue1 = MathF.Round(datas.Average(e => (float)e.WearValue1), 2),
+                        WearValue2 = MathF.Round((datas.Average(e => (float)e.WearValue2)), 2),
+                        LoadStall = loadStall,
+                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new {
                             e.WearValue2,
                             e.WearValue1,
@@ -643,15 +645,15 @@ namespace Yunt.Device.Repository.EF.Services
                 case "HVB":
                     return new
                     {
-                        AvgSpindleTemperature4 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature4), 2),
-                        AvgSpindleTemperature2 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgSpindleTemperature2)), 2),
-                        AvgSpindleTemperature3 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature3), 2),
-                        AvgSpindleTemperature1 = (float)Math.Round((double)(datas.Average(e => (float)e.AvgSpindleTemperature1)), 2),
-                        AvgOilReturnStress = (float)Math.Round(datas.Average(e => (float)e.AvgOilReturnStress), 2),
-                        AvgOilFeedStress = (float)Math.Round((double)(datas.Average(e => (float)e.AvgOilFeedStress)), 2),
-                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                        RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                        AvgSpindleTemperature4 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature4), 2),
+                        AvgSpindleTemperature2 = MathF.Round((datas.Average(e => (float)e.AvgSpindleTemperature2)), 2),
+                        AvgSpindleTemperature3 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature3), 2),
+                        AvgSpindleTemperature1 = MathF.Round((datas.Average(e => (float)e.AvgSpindleTemperature1)), 2),
+                        AvgOilReturnStress = MathF.Round(datas.Average(e => (float)e.AvgOilReturnStress), 2),
+                        AvgOilFeedStress = MathF.Round((datas.Average(e => (float)e.AvgOilFeedStress)), 2),
+                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,
+                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new {
                             e.AvgSpindleTemperature4,
                             e.AvgSpindleTemperature2,
@@ -667,11 +669,11 @@ namespace Yunt.Device.Repository.EF.Services
                 default:
                     return  new
                     {
-                        AvgInstantWeight = (float)Math.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
-                        AccumulativeWeight = (float)Math.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
-                        AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                        RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),                    
+                        AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
+                        AccumulativeWeight = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
+                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,
+                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),                    
                     };
             }
         }
@@ -1321,7 +1323,7 @@ namespace Yunt.Device.Repository.EF.Services
             foreach (var item in groups)
             {
                 var time = item.Key;
-                var powerSum = (float)Math.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
+                var powerSum = MathF.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
                 resp.Add(new PowerCal { ActivePower = powerSum, Time = (long)time });
             }
             return resp;
@@ -1379,7 +1381,7 @@ namespace Yunt.Device.Repository.EF.Services
             foreach (var item in groups)
             {
                 var time = item.Key;
-                var powerSum = (float)Math.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
+                var powerSum = MathF.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
                 resp.Add(new PowerCal { ActivePower = powerSum, Time = (long)time });
             }
             return resp;
@@ -1435,7 +1437,7 @@ namespace Yunt.Device.Repository.EF.Services
             foreach (var item in groups)
             {
                 var time = item.Key;
-                var powerSum = (float)Math.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
+                var powerSum = MathF.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
                 resp.Add(new PowerCal{ ActivePower = powerSum, Time = (long)time });
             }
             return resp;
@@ -1446,11 +1448,13 @@ namespace Yunt.Device.Repository.EF.Services
         /// </summary>
         /// <param name="datas">需要先排序</param>
         /// <param name="motor"></param>
+        ///  <param name="isInstant"></param>
         /// <returns></returns>
-        public dynamic GetMobileMotorDetails(IEnumerable<dynamic> datas, Motor motor)
+        public dynamic GetMobileMotorDetails(IEnumerable<dynamic> datas, Motor motor,bool isInstant)
         {
             if (datas==null||!datas.Any())
                 return GetMobileMotorDetails(motor.MotorTypeId);
+            var loadStall = isInstant ? MotorIntantLoadStall(motor) : MathF.Round(datas.Average(e => (float)e.LoadStall), 2);
             switch (motor.MotorTypeId)
             {
                 case "CY":
@@ -1458,11 +1462,11 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         outline=new
                         {
-                            // AvgInstantWeight = (float)Math.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
-                            Output = (float)Math.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
-                            Current = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                            Load = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                            RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                            // AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
+                            Output = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
+                            Current = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                            Load = loadStall,
+                            RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         },
                         xAxis=new { categories = datas.Select(e => ((long)e.Time).Time()) },
                         outputSeries=new {name=motor.Name, data =datas.Select(e=>new { e.AccumulativeWeight})},
@@ -1474,10 +1478,10 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         outline = new
                         {
-                            Frequency = (float)Math.Round(datas.Average(e => (float)e.AvgFrequency), 2),
-                            Current = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                            Load = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                            RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                            Frequency = MathF.Round(datas.Average(e => (float)e.AvgFrequency), 2),
+                            Current = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                            Load = loadStall,
+                            RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         },
                         xAxis = new { categories = datas.Select(e => ((long)e.Time).Time()) },
                         freqSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgFrequency }) },
@@ -1489,15 +1493,15 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         outline = new
                         {
-                            MST = (float)Math.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature1), 2),
-                            MST2 = (float)Math.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature2), 2),
-                            RST = (float)Math.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature1), 2),
-                            RST2 = (float)Math.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature2), 2),
-                            VIB = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                            VIB2 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
-                            Current = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                            Load = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                            RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                            MST = MathF.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature1), 2),
+                            MST2 = MathF.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature2), 2),
+                            RST = MathF.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature1), 2),
+                            RST2 = MathF.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature2), 2),
+                            VIB = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                            VIB2 = MathF.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
+                            Current = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                            Load = loadStall,
+                            RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         },
                         xAxis = new { categories = datas.Select(e => ((long)e.Time).Time()) },
                         mstSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgMotiveSpindleTemperature1 }) },
@@ -1514,16 +1518,16 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         outline = new
                         {
-                            TT = (float)Math.Round(datas.Average(e => (float)e.AvgTankTemperature), 2),
-                            OFT = (float)Math.Round(datas.Average(e => (float)e.AvgOilFeedTempreature), 2),
-                            ORT = (float)Math.Round(datas.Average(e => (float)e.AvgOilReturnTempreatur), 2),
-                            STV = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTravel), 2),
-                            MS = (float)Math.Round(datas.Average(e => (float)e.AvgMovaStress), 2),
-                            VIB = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                            VIB2 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
-                            Current = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                            Load = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                            RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                            TT = MathF.Round(datas.Average(e => (float)e.AvgTankTemperature), 2),
+                            OFT = MathF.Round(datas.Average(e => (float)e.AvgOilFeedTempreature), 2),
+                            ORT = MathF.Round(datas.Average(e => (float)e.AvgOilReturnTempreatur), 2),
+                            STV = MathF.Round(datas.Average(e => (float)e.AvgSpindleTravel), 2),
+                            MS = MathF.Round(datas.Average(e => (float)e.AvgMovaStress), 2),
+                            VIB = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                            VIB2 = MathF.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
+                            Current = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                            Load = loadStall,
+                            RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         },
                         xAxis = new { categories = datas.Select(e => ((long)e.Time).Time()) },
                         ttSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgTankTemperature }) },
@@ -1542,11 +1546,11 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         outline = new
                         {
-                            VIB = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                            VIB2 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
-                            Current = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                            Load = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                            RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                            VIB = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                            VIB2 = MathF.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
+                            Current = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                            Load = loadStall,
+                            RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         },
                         xAxis = new { categories = datas.Select(e => ((long)e.Time).Time()) },
                         vibSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgVibrate1 }) },
@@ -1559,13 +1563,13 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         outline = new
                         {
-                            ST = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
-                            ST2 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature2), 2),
-                            ST3 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature3), 2),
-                            ST4 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature4), 2),                       
-                            Current = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                            Load = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                            RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                            ST = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
+                            ST2 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature2), 2),
+                            ST3 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature3), 2),
+                            ST4 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature4), 2),                       
+                            Current = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                            Load = loadStall,
+                            RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         },
                         xAxis = new { categories = datas.Select(e => ((long)e.Time).Time()) },
                         stSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgSpindleTemperature1 }) },
@@ -1581,16 +1585,16 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         outline = new
                         {
-                            TT = (float)Math.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature1), 2),
-                            OFT = (float)Math.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature2), 2),
-                            ORT = (float)Math.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature1), 2),
-                            STV = (float)Math.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature2), 2),
-                            MS= (float)Math.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature2), 2),
-                            VIB = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                            VIB2 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
-                            Current = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                            Load = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                            RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                            TT = MathF.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature1), 2),
+                            OFT = MathF.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature2), 2),
+                            ORT = MathF.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature1), 2),
+                            STV = MathF.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature2), 2),
+                            MS= MathF.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature2), 2),
+                            VIB = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                            VIB2 = MathF.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
+                            Current = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                            Load = loadStall,
+                            RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         },
                         xAxis = new { categories = datas.Select(e => ((long)e.Time).Time()) },
                         mstSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgMotiveSpindleTemperature1 }) },
@@ -1609,11 +1613,11 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         outline = new
                         {
-                            VIB = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                            VIB2 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
-                            Current = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                            Load = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                            RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                            VIB = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                            VIB2 = MathF.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
+                            Current = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                            Load = loadStall,
+                            RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         },
                         xAxis = new { categories = datas.Select(e => ((long)e.Time).Time()) },
                         vibSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgVibrate1 }) },
@@ -1627,14 +1631,14 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         outline = new
                         {
-                            ST= (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
-                            ST2= (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature2), 2),
-                            Current2= (float)Math.Round(datas.Average(e => (float)e.AvgMotor2Current_B), 2),
-                            VIB = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                            VIB2 = (float)Math.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
-                            Current = (float)Math.Round(datas.Average(e => (float)e.AvgMotor1Current_B), 2),
-                            Load = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                            RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                            ST= MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
+                            ST2= MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature2), 2),
+                            Current2= MathF.Round(datas.Average(e => (float)e.AvgMotor2Current_B), 2),
+                            VIB = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
+                            VIB2 = MathF.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
+                            Current = MathF.Round(datas.Average(e => (float)e.AvgMotor1Current_B), 2),
+                            Load = loadStall,
+                            RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         },
                         xAxis = new { categories = datas.Select(e => ((long)e.Time).Time()) },
                         stSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgSpindleTemperature1 }) },
@@ -1651,15 +1655,15 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         outline = new
                         {
-                            ST = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
-                            ST2 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature2), 2),
-                            ST3 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature3), 2),
-                            ST4 = (float)Math.Round(datas.Average(e => (float)e.AvgSpindleTemperature4), 2),
-                            OFS = (float)Math.Round(datas.Average(e => (float)e.AvgOilFeedStress), 2),
-                            ORS = (float)Math.Round(datas.Average(e => (float)e.AvgOilReturnStress), 2),
-                            Current = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                            Load = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                            RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                            ST = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
+                            ST2 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature2), 2),
+                            ST3 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature3), 2),
+                            ST4 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature4), 2),
+                            OFS = MathF.Round(datas.Average(e => (float)e.AvgOilFeedStress), 2),
+                            ORS = MathF.Round(datas.Average(e => (float)e.AvgOilReturnStress), 2),
+                            Current = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                            Load = loadStall,
+                            RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         },
                         xAxis = new { categories = datas.Select(e => ((long)e.Time).Time()) },
                         stSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgSpindleTemperature1 }) },
@@ -1674,11 +1678,11 @@ namespace Yunt.Device.Repository.EF.Services
                 default:
                     return new
                     {
-                        //AvgInstantWeight = (float)Math.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
-                        //AccumulativeWeight = (float)Math.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
-                        //AvgCurrent = (float)Math.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        //LoadStall = (float)Math.Round(datas.Average(e => (float)e.LoadStall), 2),
-                        //RunningTime = (float)Math.Round(datas.Sum(e => (float)e.RunningTime), 2),
+                        //AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
+                        //AccumulativeWeight = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
+                        //AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
+                        //LoadStall = MathF.Round(datas.Average(e => (float)e.LoadStall), 2),
+                        //RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                     };
             }
         }
@@ -1697,7 +1701,7 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         outline = new
                         {
-                            // AvgInstantWeight = (float)Math.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
+                            // AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
                             Output =0,
                             Current = 0,
                             Load = 0,
@@ -1918,5 +1922,48 @@ namespace Yunt.Device.Repository.EF.Services
         }
         #endregion
 
+        #region version 18.07.17
+        /// <summary>
+        /// 根据电机设备获取电机设备瞬时负荷
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+        public virtual float MotorIntantLoadStall(Motor motor)
+        {        
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    return _cyByHourRep.GetInstantLoadStall(motor);
+                case "MF":
+                    return _mfByHourRep.GetInstantLoadStall(motor);
+                case "JC":
+                    return _jcByHourRep.GetInstantLoadStall(motor);
+
+                case "CC":
+                    return _ccByHourRep.GetInstantLoadStall(motor);
+
+                case "VC":
+                    return _vcByHourRep.GetInstantLoadStall(motor);
+
+                case "VB":
+                    return _vbByHourRep.GetInstantLoadStall(motor);
+
+                case "SCC":
+                    return _sccByHourRep.GetInstantLoadStall(motor);
+
+                case "PUL":
+                    return _pulByHourRep.GetInstantLoadStall(motor);
+
+                case "IC":
+                    return _icByHourRep.GetInstantLoadStall(motor);
+
+                case "HVB":
+                    return _hvbByHourRep.GetInstantLoadStall(motor);
+
+                default:
+                    return 0f;
+            }
+        }
+        #endregion
     }
 }

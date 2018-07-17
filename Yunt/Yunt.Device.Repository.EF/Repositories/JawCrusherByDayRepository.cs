@@ -54,25 +54,25 @@ namespace Yunt.Device.Repository.EF.Repositories
                 MotorId = motor.MotorId,
             };
 
-            var average = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_B), 2);
+            var average = MathF.Round(originalDatas.Average(o => o.AvgCurrent_B), 2);
             var entity = new JawCrusherByDay
             {
                 Time = start.TimeSpan(),
                 MotorId = motor.MotorId,
                 AvgCurrent_B = average,
-                AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
-                AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.AvgPowerFactor), 2),
-                ActivePower = (float)Math.Round(originalDatas.Sum(c => c.ActivePower), 2),
-                AvgRackSpindleTemperature1 = (float)Math.Round(originalDatas.Average(o => o.AvgRackSpindleTemperature1), 2),
-                AvgMotiveSpindleTemperature1 = (float)Math.Round(originalDatas.Average(o => o.AvgMotiveSpindleTemperature1), 2),
-                AvgMotiveSpindleTemperature2 = (float)Math.Round(originalDatas.Average(o => o.AvgMotiveSpindleTemperature2), 2),
-                AvgRackSpindleTemperature2 = (float)Math.Round(originalDatas.Average(o => o.AvgRackSpindleTemperature2), 2),
-                AvgVibrate1 = (float)Math.Round(originalDatas.Average(o => o.AvgVibrate1), 2),
-                AvgVibrate2 = (float)Math.Round(originalDatas.Average(o => o.AvgVibrate2), 2),
-                WearValue1 = (float)Math.Round(originalDatas.Average(o => o.WearValue1), 2),
-                WearValue2 = (float)Math.Round(originalDatas.Average(o => o.WearValue2), 2),
+                AvgVoltage_B = MathF.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
+                AvgPowerFactor = MathF.Round(originalDatas.Average(o => o.AvgPowerFactor), 2),
+                ActivePower = MathF.Round(originalDatas.Sum(c => c.ActivePower), 2),
+                AvgRackSpindleTemperature1 = MathF.Round(originalDatas.Average(o => o.AvgRackSpindleTemperature1), 2),
+                AvgMotiveSpindleTemperature1 = MathF.Round(originalDatas.Average(o => o.AvgMotiveSpindleTemperature1), 2),
+                AvgMotiveSpindleTemperature2 = MathF.Round(originalDatas.Average(o => o.AvgMotiveSpindleTemperature2), 2),
+                AvgRackSpindleTemperature2 = MathF.Round(originalDatas.Average(o => o.AvgRackSpindleTemperature2), 2),
+                AvgVibrate1 = MathF.Round(originalDatas.Average(o => o.AvgVibrate1), 2),
+                AvgVibrate2 = MathF.Round(originalDatas.Average(o => o.AvgVibrate2), 2),
+                WearValue1 = MathF.Round(originalDatas.Average(o => o.WearValue1), 2),
+                WearValue2 = MathF.Round(originalDatas.Average(o => o.WearValue2), 2),
                 RunningTime = originalDatas.Sum(c => c.RunningTime),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+                LoadStall = (standValue == 0) ? 0 : MathF.Round(average / standValue, 2)
             };
             return entity;
 

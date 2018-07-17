@@ -55,18 +55,18 @@ namespace Yunt.Device.Repository.EF.Repositories
                 MotorId = motor.MotorId,
             };
 
-            var average = (float)Math.Round(originalDatas.Average(o => o.AverageCurrent), 2);
+            var average = MathF.Round(originalDatas.Average(o => o.AverageCurrent), 2);
             var entity = new SimonsConeCrusherByDay
             {
                 Time = start.TimeSpan(),
                 MotorId = motor.MotorId,
                 AverageCurrent = average,
-                AverageOilFeedTempreature = (float)Math.Round(originalDatas.Average(o => o.AverageOilFeedTempreature), 2),
-                AverageOilReturnTempreature = (float)Math.Round(originalDatas.Average(o => o.AverageOilReturnTempreature), 2),
-                AverageTankTemperature = (float)Math.Round(originalDatas.Average(o => o.AverageTankTemperature), 2),
+                AverageOilFeedTempreature = MathF.Round(originalDatas.Average(o => o.AverageOilFeedTempreature), 2),
+                AverageOilReturnTempreature = MathF.Round(originalDatas.Average(o => o.AverageOilReturnTempreature), 2),
+                AverageTankTemperature = MathF.Round(originalDatas.Average(o => o.AverageTankTemperature), 2),
 
                 RunningTime = originalDatas.Sum(c => c.RunningTime),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+                LoadStall = (standValue == 0) ? 0 : MathF.Round(average / standValue, 2)
             };
             return entity;
 

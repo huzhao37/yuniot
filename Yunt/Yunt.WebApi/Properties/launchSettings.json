@@ -23,7 +23,7 @@
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://10.1.5.102:5200/" //http://10.1.5.102:5200/
+      "applicationUrl": "http://localhost:5200/" //http://127.0.0.1:5200/
     }
   }
   //"Yunt.WebApi": {

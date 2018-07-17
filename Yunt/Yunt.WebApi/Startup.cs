@@ -74,7 +74,8 @@ namespace Yunt.WebApi
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer(o =>
             {
-                //o.Authority = "https://oidc.faasx.com/";
+               // o.Authority = "https://wddapi.unitoon.cn/";
+                o.Authority = "https://oidc.faasx.com/";
                 o.Audience = "api";
 
                 o.Events = new JwtBearerEvents()

@@ -54,8 +54,9 @@ namespace Yunt.Device.Domain.Services
         /// </summary>
         /// <param name="datas"></param>
         /// <param name="motor"></param>
+        /// <param name="isInstant">是否瞬时</param>
         /// <returns></returns>
-        dynamic GetMotorDetails(IEnumerable<dynamic> datas, Motor motor);
+        dynamic GetMotorDetails(IEnumerable<dynamic> datas, Motor motor, bool isInstant);
         /// <summary>
         /// 根据电机设备ID和时间节点获取电机设备详情
         /// </summary>
@@ -63,7 +64,7 @@ namespace Yunt.Device.Domain.Services
         /// <param name="end"></param>
         /// <param name="motorId"></param>
         /// <returns></returns>
-        IEnumerable<dynamic> MotorDetails(DateTime start, DateTime end, string motorId);
+        //IEnumerable<dynamic> MotorDetails(DateTime start, DateTime end, string motorId);
 
         /// <summary>
         /// 根据电机设备ID获取当日电机设备详情
@@ -148,8 +149,18 @@ namespace Yunt.Device.Domain.Services
         /// </summary>
         /// <param name="datas">需要先排序</param>
         /// <param name="motor"></param>
+        ///  <param name="isInstant"></param>
         /// <returns></returns>
-       dynamic GetMobileMotorDetails(IEnumerable<dynamic> datas, Motor motor);
+         dynamic GetMobileMotorDetails(IEnumerable<dynamic> datas, Motor motor, bool isInstant);
+        #endregion
+
+        #region version 18.07.17
+        /// <summary>
+        /// 根据电机设备获取电机设备瞬时负荷
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+        float MotorIntantLoadStall(Motor motor);
         #endregion
     }
 }

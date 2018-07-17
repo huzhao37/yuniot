@@ -56,31 +56,31 @@ namespace Yunt.Device.Repository.EF.Repositories
                     MotorId = motor.MotorId
                 };
 
-            var average = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_B), 2);
+            var average = MathF.Round(originalDatas.Average(o => o.AvgCurrent_B), 2);
             var entity = new ConeCrusherByDay
             {
                 Time = startUnix,
                 MotorId = motor.MotorId,
                 AvgCurrent_B = average,
-                AvgMovaStress = (float)Math.Round(originalDatas.Average(o => o.AvgMovaStress), 2),
-                AvgOilFeedTempreature = (float)Math.Round(originalDatas.Average(o => o.AvgOilFeedTempreature), 2),
-                AvgSpindleTravel = (float)Math.Round(originalDatas.Average(o => o.AvgSpindleTravel), 2),
-                AvgAbsSpindleTravel = (float)Math.Round(originalDatas.Average(o => o.AvgAbsSpindleTravel), 2),
-                AvgTankTemperature = (float)Math.Round(originalDatas.Average(o => o.AvgTankTemperature), 2),
-                AvgCurrent_A = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_A), 2),
-                AvgCurrent_C = (float)Math.Round(originalDatas.Average(o => o.AvgCurrent_C), 2),
-                AvgOilReturnTempreatur = (float)Math.Round(originalDatas.Average(o => o.AvgOilReturnTempreatur), 2),
-                AvgPowerFactor = (float)Math.Round(originalDatas.Average(o => o.AvgPowerFactor), 2),
-                AvgVibrate1 = (float)Math.Round(originalDatas.Average(o => o.AvgVibrate1), 2),
-                AvgVibrate2 = (float)Math.Round(originalDatas.Average(o => o.AvgVibrate2), 2),
-                ActivePower = (float)Math.Round(originalDatas.Sum(o => o.ActivePower), 2),
-                AvgVoltage_A = (float)Math.Round(originalDatas.Average(o => o.AvgVoltage_A), 2),
-                AvgVoltage_B = (float)Math.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
-                AvgVoltage_C = (float)Math.Round(originalDatas.Average(o => o.AvgVoltage_C), 2),
-                WearValue1 = (float)Math.Round(originalDatas.Sum(o => o.WearValue1), 2),
-                WearValue2=(float)Math.Round(originalDatas.Sum(o => o.WearValue2), 2),
-                RunningTime = (float)Math.Round(originalDatas.Sum(o => o.RunningTime), 2),
-                LoadStall = (standValue == 0) ? 0 : (float)Math.Round(average / standValue, 2)
+                AvgMovaStress = MathF.Round(originalDatas.Average(o => o.AvgMovaStress), 2),
+                AvgOilFeedTempreature = MathF.Round(originalDatas.Average(o => o.AvgOilFeedTempreature), 2),
+                AvgSpindleTravel = MathF.Round(originalDatas.Average(o => o.AvgSpindleTravel), 2),
+                AvgAbsSpindleTravel = MathF.Round(originalDatas.Average(o => o.AvgAbsSpindleTravel), 2),
+                AvgTankTemperature = MathF.Round(originalDatas.Average(o => o.AvgTankTemperature), 2),
+                AvgCurrent_A = MathF.Round(originalDatas.Average(o => o.AvgCurrent_A), 2),
+                AvgCurrent_C = MathF.Round(originalDatas.Average(o => o.AvgCurrent_C), 2),
+                AvgOilReturnTempreatur = MathF.Round(originalDatas.Average(o => o.AvgOilReturnTempreatur), 2),
+                AvgPowerFactor = MathF.Round(originalDatas.Average(o => o.AvgPowerFactor), 2),
+                AvgVibrate1 = MathF.Round(originalDatas.Average(o => o.AvgVibrate1), 2),
+                AvgVibrate2 = MathF.Round(originalDatas.Average(o => o.AvgVibrate2), 2),
+                ActivePower = MathF.Round(originalDatas.Sum(o => o.ActivePower), 2),
+                AvgVoltage_A = MathF.Round(originalDatas.Average(o => o.AvgVoltage_A), 2),
+                AvgVoltage_B = MathF.Round(originalDatas.Average(o => o.AvgVoltage_B), 2),
+                AvgVoltage_C = MathF.Round(originalDatas.Average(o => o.AvgVoltage_C), 2),
+                WearValue1 = MathF.Round(originalDatas.Sum(o => o.WearValue1), 2),
+                WearValue2=MathF.Round(originalDatas.Sum(o => o.WearValue2), 2),
+                RunningTime = MathF.Round(originalDatas.Sum(o => o.RunningTime), 2),
+                LoadStall = (standValue == 0) ? 0 : MathF.Round(average / standValue, 2)
             };
             return entity;
 

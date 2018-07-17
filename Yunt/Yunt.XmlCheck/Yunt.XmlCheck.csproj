@@ -21,23 +21,29 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="App.config" />
     <None Remove="appsettings.json" />
+    <None Remove="appsettings1.json" />
     <None Remove="XmlFile\DataConfig.xml" />
     <None Remove="XmlFile\DataType.xml" />
     <None Remove="XmlFile\mini_cfg.xml" />
     <None Remove="XmlFile\wdd.v0.6.3.3.xml" />
     <None Remove="XmlFile\wdd.xml" />
+    <None Remove="XmlFile\wudd.v0.6.3.7.1.xml" />
     <None Remove="XmlFile\wudd.xml" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="XmlFile\wdd.v0.6.3.3.xml">
+    <Content Include="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XmlFile\wudd.v0.6.3.7.1.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="appsettings.json">
+    <Content Include="XmlFile\wdd.v0.6.3.3.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
