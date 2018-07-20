@@ -61,6 +61,11 @@ namespace Yunt.Device.Domain.IRepository
         /// </summary>
         /// <param name="motor"></param>
         float GetInstantLoadStall(Motor motor);
+        /// <summary>
+        /// 获取瞬时称重
+        /// </summary>
+        /// <param name="motor"></param>
+        float GetInstantWeight(Motor motor);
         #endregion
     }
 }

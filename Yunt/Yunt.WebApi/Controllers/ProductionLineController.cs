@@ -120,8 +120,8 @@ namespace Yunt.WebApi.Controllers
                 LoseMotors = tuple.Item1,
                 StopMotors = tuple.Item2,
                 RunMotors = tuple.Item3,
-                LineStatus= tuple.Item3>0,
-                AlarmMotors= alarmMotors
+                LineStatus = tuple.Item3 > 0,
+                AlarmMotors = alarmMotors
             };
         }
 
@@ -131,7 +131,7 @@ namespace Yunt.WebApi.Controllers
         [Route("MainConveyorReal")]
         public MainConveyorReal MainConveyorReal(string productionlineId)
         {
-            var motor = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId)&&e.IsMainBeltWeight)?.FirstOrDefault();
+            var motor = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) && e.IsMainBeltWeight)?.FirstOrDefault();
             //var finishCys = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(lineId) && e.IsBeltWeight&&!e.IsMainBeltWeight).ToList();
             if (motor == null) return new MainConveyorReal();
             // var motorId= _motorRepository.GetEntities(e=>e.ProductionLineId.Equals(productionlineId)&&e.MotorId).SingleOrDefault().MotorId
@@ -139,9 +139,9 @@ namespace Yunt.WebApi.Controllers
             var status = _productionLineRepository.GetStatus(productionlineId);
             return new MainConveyorReal
             {
-                AccumulativeWeight = data?.AccumulativeWeight??0,
-                InstantWeight = data?.AvgInstantWeight ?? 0,
-                LoadStall = MathF.Round(data?.LoadStall ?? 0,3),
+                AccumulativeWeight = data?.AccumulativeWeight ?? 0,
+                InstantWeight = _conveyorByHourRepository.GetInstantWeight(motor),//data?.AvgInstantWeight ?? 0,
+                LoadStall = MathF.Round(data?.LoadStall ?? 0, 3),
                 RunningTime = data?.RunningTime ?? 0,
                 ProductionLineStatus = status
             };
@@ -157,60 +157,65 @@ namespace Yunt.WebApi.Controllers
             {
                 Count = 0,
                 Alarms = new PaginatedList<AlarmInfo>(0, 0, 0, new List<AlarmInfo>() { })
-            };        
+            };
             var alarmCount = 0;
             long start = DateTime.Now.Date.TimeSpan(), end = DateTime.Now.Date.AddDays(1).TimeSpan();
-            var alarmInfo = _alarmInfoRepository.GetEntities(e =>e.Time >= start && e.Time < end)
+            var alarmInfo = _alarmInfoRepository.GetEntities(e => e.Time >= start && e.Time < end)
                             ?.ToList()?.OrderByDescending(e => e.Time);
             if (alarmInfo != null && alarmInfo.Any())
                 alarmCount = alarmInfo.GroupBy(e => e.MotorName).Count();
             else
                 return data;
             var list = new PaginatedList<AlarmInfo>(pageindex, pagesize, alarmInfo.Count(), alarmInfo.Skip((pageindex - 1) * pagesize).Take(pagesize));
-            return new {Count=alarmCount,Alarms= list};
+            return new { Count = alarmCount, Alarms = list };
         }
 
         // GET: api/ProductionLine
         [HttpGet]
         [EnableCors("any")]
         [Route("MainConveyorHistory")]
-        public MainConveyorHository MainConveyorHistory(string productionlineId,DateTime start,DateTime end)
+        public MainConveyorHository MainConveyorHistory(string productionlineId, DateTime start, DateTime end)
         {
             long startT = start.TimeSpan(), endT = end.TimeSpan();
             var resp = new MainConveyorHository();
-          
+
             var motor = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) && e.IsMainBeltWeight)?.FirstOrDefault();
-            
+
             if (motor == null) return resp;
-            var finishCys = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) && e.IsBeltWeight&&!e.IsMainBeltWeight).ToList();
+            var finishCys = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) && e.IsBeltWeight && !e.IsMainBeltWeight).ToList();
             List<dynamic> datas;
-           // float instantLoadStall=
+            // float instantLoadStall=
             //当天
             var now = DateTime.Now.Date.TimeSpan();
             if ((startT == endT) && (startT == now))
             {
-                datas = _productionLineRepository.MotorHours(motor)?.OrderBy(e=>(long)e.Time)?.ToList();
-                resp.AvgLoadStall = _productionLineRepository.MotorIntantLoadStall(motor);
+                datas = _productionLineRepository.MotorHours(motor)?.OrderBy(e => (long)e.Time)?.ToList();
+                //resp.AvgLoadStall = _productionLineRepository.MotorIntantLoadStall(motor);
             }
             //历史某一天
             else if (startT == endT)
             {
                 datas = _productionLineRepository.MotorHours(motor, startT)?.OrderBy(e => (long)e.Time)?.ToList();
-                var source = datas?.Where(e => e.RunningTime > 0)??null;
-                if (source == null || !source.Any()) return resp;
-                resp.AvgLoadStall = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
+                // var source = datas?.Where(e => e.RunningTime > 0)??null;
+                //if (source == null || !source.Any()) return resp;
+                //resp.AvgLoadStall = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
             }
             else
             {
                 datas = _productionLineRepository.MotorDays(startT, endT, motor)?.OrderBy(e => (long)e.Time)?.ToList();
-                var source = datas?.Where(e => e.RunningTime > 0) ?? null;
-                if (source == null || !source.Any()) return resp;
-                resp.AvgLoadStall = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
+                // var source = datas?.Where(e => e.RunningTime > 0) ?? null;
+                //if (source == null || !source.Any()) return resp;
+                // resp.AvgLoadStall = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
             }
-            if (datas==null||!datas.Any()) return resp;
-            resp.AvgInstantWeight =MathF.Round(datas.Average(e => (float)e.AvgInstantWeight),2);
+            if (datas == null || !datas.Any()) return resp;
+            resp.AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2);
+            float load = 0;
+            var source = datas?.Where(e => e.RunningTime > 0) ?? null;
+            if (source != null && source.Any())
+                load = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
+            resp.AvgLoadStall = load;
             resp.RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2);
-            resp.Output = MathF.Round(datas.Sum(e =>(float) e.AccumulativeWeight), 2);
+            resp.Output = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2);
             foreach (var d in datas)
             {
                 resp.SeriesData.Add(new SeriesData()
@@ -223,38 +228,38 @@ namespace Yunt.WebApi.Controllers
 
             if (!(finishCys?.Any() ?? true))
                 return resp;
-            finishCys.ForEach( cy =>
-            {
-                List<dynamic> list;
+            finishCys.ForEach(cy =>
+           {
+               List<dynamic> list;
                 //var list = _conveyorByDayRepository.GetEntities(e => e.Time >= startT &&
                 //          e.Time <= endT && e.MotorId.Equals(cy.MotorId))?.ToList();
 
                 if ((startT == endT) && (startT == now))
-                {
-                    list = _productionLineRepository.MotorHours(cy)?.ToList();
-                }
+               {
+                   list = _productionLineRepository.MotorHours(cy)?.ToList();
+               }
                 //历史某一天
-                else if(startT == endT)
-                {
-                    list = _productionLineRepository.MotorHours(cy, startT)?.ToList();
-                }
-                else
-                {
-                    list = _productionLineRepository.MotorDays(startT, endT, cy)?.ToList();
-                }
+                else if (startT == endT)
+               {
+                   list = _productionLineRepository.MotorHours(cy, startT)?.ToList();
+               }
+               else
+               {
+                   list = _productionLineRepository.MotorDays(startT, endT, cy)?.ToList();
+               }
 
-                float outPut = 0;
-                if (list != null&& list.Any())
-                {
-                    outPut = MathF.Round(list.Sum(e =>(float) e.AccumulativeWeight), 2);
-                }
-                resp.FinishCy.Add(new FinishCy()
-                {
-                    MotorId = cy.MotorId,
-                    MotorName = cy.Name,
-                    Output = outPut
-                });
-            });
+               float outPut = 0;
+               if (list != null && list.Any())
+               {
+                   outPut = MathF.Round(list.Sum(e => (float)e.AccumulativeWeight), 2);
+               }
+               resp.FinishCy.Add(new FinishCy()
+               {
+                   MotorId = cy.MotorId,
+                   MotorName = cy.Name,
+                   Output = outPut
+               });
+           });
 
             return resp;
         }
@@ -267,22 +272,22 @@ namespace Yunt.WebApi.Controllers
         {
             var datas = new List<MotorSummary>();
             var motors = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId))?.ToList();
-            if (motors==null||!motors.Any()) return datas;
-            motors.ForEach( motor =>
-            {
-                var status = _productionLineRepository.GetMotorStatusByMotorId(motor.MotorId);
-                var detail = _productionLineRepository.MotorDetails(motor);              
-                datas.Add(new MotorSummary()
-                {
-                    MotorId = motor.MotorId,
-                    MotorStatus = status,
-                    MotorTypeId = motor.MotorTypeId,
-                    Name = motor.Name,
-                    RunningTime = detail?.RunningTime??0,
-                    LoadStall = detail?.LoadStall??0,
-                });
-            });
-          
+            if (motors == null || !motors.Any()) return datas;
+            motors.ForEach(motor =>
+           {
+               var status = _productionLineRepository.GetMotorStatusByMotorId(motor.MotorId);
+               var detail = _productionLineRepository.MotorDetails(motor);
+               datas.Add(new MotorSummary()
+               {
+                   MotorId = motor.MotorId,
+                   MotorStatus = status,
+                   MotorTypeId = motor.MotorTypeId,
+                   Name = motor.Name,
+                   RunningTime = detail?.RunningTime ?? 0,
+                   LoadStall = detail?.LoadStall ?? 0,
+               });
+           });
+
             return datas;
         }
 
@@ -294,15 +299,15 @@ namespace Yunt.WebApi.Controllers
         [HttpGet]
         [EnableCors("any")]
         [Route("MotorDetails")]
-        public dynamic MotorDetails(DateTime start,DateTime end,string motorId)
+        public dynamic MotorDetails(DateTime start, DateTime end, string motorId)
         {
             long startT = start.TimeSpan(), endT = end.TimeSpan();
             var motor = _motorRepository.GetEntities(e => e.MotorId.Equals(motorId))?.FirstOrDefault();
             if (motor == null) return new CyDetail();
-            List<dynamic> datas;         
+            List<dynamic> datas;
             //当天
             var now = DateTime.Now.Date.TimeSpan();
-            if ((startT == endT)&&(startT==now))
+            if ((startT == endT) && (startT == now))
             {
                 datas = _productionLineRepository.MotorHours(motor)?.OrderBy(e => (long)e.Time)?.ToList();
                 return _productionLineRepository.GetMotorDetails(datas, motor, true);
@@ -310,10 +315,10 @@ namespace Yunt.WebApi.Controllers
             //历史某一天
             if (startT == endT)
             {
-                datas = _productionLineRepository.MotorHours(motor,startT)?.OrderBy(e => (long)e.Time)?.ToList();
+                datas = _productionLineRepository.MotorHours(motor, startT)?.OrderBy(e => (long)e.Time)?.ToList();
                 return _productionLineRepository.GetMotorDetails(datas, motor, false);
             }
-            datas = _productionLineRepository.MotorDays(startT, endT, motor)?.OrderBy(e => (long)e.Time)?.ToList();          
+            datas = _productionLineRepository.MotorDays(startT, endT, motor)?.OrderBy(e => (long)e.Time)?.ToList();
             return _productionLineRepository.GetMotorDetails(datas, motor, false);
         }
 
@@ -337,7 +342,7 @@ namespace Yunt.WebApi.Controllers
             Array.Reverse(dataconfig);//高低位互换
             bytes = Extention.CombomBinaryArray(bytes, dataconfig);
 
-            bytes = Extention.CombomBinaryArray(bytes,new byte[1] { 01});
+            bytes = Extention.CombomBinaryArray(bytes, new byte[1] { 01 });
 
             var startTime = plan.Start.Time();
             var endTime = plan.End.Time();
@@ -361,7 +366,7 @@ namespace Yunt.WebApi.Controllers
       _messagequeueRepository.GetEntities(e => e.Route_Key.Equals("WUDDOUT")).FirstOrDefault();
             if (wddQueue == null)
                 return false;
-          
+
             var queueHost = wddQueue.Host;
             var queuePort = wddQueue.Port;
             var queueUserName = wddQueue.Username;
@@ -369,12 +374,12 @@ namespace Yunt.WebApi.Controllers
 
             var ccuri = "amqp://" + queueHost + ":" + queuePort;
             var queue = wddQueue.Route_Key;
-            var route = wddQueue.Route_Key; 
+            var route = wddQueue.Route_Key;
             var exchange = "amq.topic";
-            plan.Time=DateTime.Now;
+            plan.Time = DateTime.Now;
             var rabbitHelper = new RabbitMqHelper();
-            var result=rabbitHelper.WriteCmd(ccuri, bytes, queue, route, exchange,queueUserName, queuePassword);
-            if(result)
+            var result = rabbitHelper.WriteCmd(ccuri, bytes, queue, route, exchange, queueUserName, queuePassword);
+            if (result)
                 _productionPlansRepository.Insert(plan);
             return result;
         }
@@ -382,7 +387,7 @@ namespace Yunt.WebApi.Controllers
         [HttpGet]
         [Route("GetSchedules")]
         [EnableCors("any")]
-        public PaginatedList<dynamic> GetSchedules(int pagesize,int pageindex,DateTime start,DateTime end,string productionlineId)
+        public PaginatedList<dynamic> GetSchedules(int pagesize, int pageindex, DateTime start, DateTime end, string productionlineId,string motorId)
         {
             try
             {
@@ -405,78 +410,80 @@ namespace Yunt.WebApi.Controllers
                 var datas = _productionPlansRepository.GetEntities(e => e.ProductionlineId.EqualIgnoreCase(productionlineId)
                               && e.Start >= startT && e.End <= endT)?.ToList();
                 if (datas != null && datas.Any())
-                    datas.ForEach( x =>
-                    {
-                        long startTime = x.Start, endTime = x.End;
-                        if (startTime == endTime)
-                        {
-                            mainCyList = _productionLineRepository.MotorHours(mainCy, startTime)?.ToList();
-                            cy1List = _productionLineRepository.MotorHours(finishCy1, startTime)?.ToList();
-                            cy2List = _productionLineRepository.MotorHours(finishCy2, startTime)?.ToList();
-                            cy3List = _productionLineRepository.MotorHours(finishCy3, startTime)?.ToList();
-                            cy4List = _productionLineRepository.MotorHours(finishCy4, startTime)?.ToList();
-                        }
-                        else
-                        {
-                            mainCyList = _productionLineRepository.MotorDays(startTime, endTime, mainCy)?.ToList();
-                            cy1List = _productionLineRepository.MotorDays(startTime, endTime, finishCy1)?.ToList();
-                            cy2List = _productionLineRepository.MotorDays(startTime, endTime, finishCy2)?.ToList();
-                            cy3List = _productionLineRepository.MotorDays(startTime, endTime, finishCy3)?.ToList();
-                            cy4List = _productionLineRepository.MotorDays(startTime, endTime, finishCy4)?.ToList();
-                        }
-                        if (mainCyList != null && mainCyList.Any())
-                            resp.Add(new
-                            {
-                                RealOutput = MathF.Round(mainCyList.Sum(e => (float)e.AccumulativeWeight), 2),
-                                PlanOutput = datas?.Sum(e => e.MainCy) ?? 0,
-                                mainCy.MotorId,
-                                mainCy.Name,
-                                Start=startTime,
-                                End=endTime
-                            });
-                        if (cy1List != null && cy1List.Any())
-                            resp.Add(new
-                            {
-                                RealOutput = MathF.Round(cy1List.Sum(e => (float)e.AccumulativeWeight), 2),
-                                PlanOutput = datas?.Sum(e => e.FinishCy1) ?? 0,
-                                finishCy1.MotorId,
-                                finishCy1.Name,
-                                Start = startTime,
-                                End = endTime
-                            });
-                        if (cy2List != null && cy2List.Any())
-                            resp.Add(new
-                            {
-                                RealOutput = MathF.Round(cy2List.Sum(e => (float)e.AccumulativeWeight), 2),
-                                PlanOutput = datas?.Sum(e => e.FinishCy2) ?? 0,
-                                finishCy2.MotorId,
-                                finishCy2.Name,
-                                Start = startTime,
-                                End = endTime
-                            });
-                        if (cy3List != null && cy3List.Any())
-                            resp.Add(new
-                            {
-                                RealOutput = MathF.Round(cy3List.Sum(e => (float)e.AccumulativeWeight), 2),
-                                PlanOutput = datas?.Sum(e => e.FinishCy3) ?? 0,
-                                finishCy3.MotorId,
-                                finishCy3.Name,
-                                Start = startTime,
-                                End = endTime
-                            });
-                        if (cy4List != null && cy4List.Any())
-                            resp.Add(new
-                            {
-                                RealOutput = MathF.Round(cy4List.Sum(e => (float)e.AccumulativeWeight), 2),
-                                PlanOutput = datas?.Sum(e => e.FinishCy4) ?? 0,
-                                finishCy4.MotorId,
-                                finishCy4.Name,
-                                Start = startTime,
-                                End = endTime
-                            });
+                    datas.ForEach(x =>
+                   {
+                       long startTime = x.Start, endTime = x.End;
+                       if (startTime == endTime)
+                       {
+                           mainCyList = _productionLineRepository.MotorHours(mainCy, startTime)?.ToList();
+                           cy1List = _productionLineRepository.MotorHours(finishCy1, startTime)?.ToList();
+                           cy2List = _productionLineRepository.MotorHours(finishCy2, startTime)?.ToList();
+                           cy3List = _productionLineRepository.MotorHours(finishCy3, startTime)?.ToList();
+                           cy4List = _productionLineRepository.MotorHours(finishCy4, startTime)?.ToList();
+                       }
+                       else
+                       {
+                           mainCyList = _productionLineRepository.MotorDays(startTime, endTime, mainCy)?.ToList();
+                           cy1List = _productionLineRepository.MotorDays(startTime, endTime, finishCy1)?.ToList();
+                           cy2List = _productionLineRepository.MotorDays(startTime, endTime, finishCy2)?.ToList();
+                           cy3List = _productionLineRepository.MotorDays(startTime, endTime, finishCy3)?.ToList();
+                           cy4List = _productionLineRepository.MotorDays(startTime, endTime, finishCy4)?.ToList();
+                       }
+                       if (mainCyList != null && mainCyList.Any())
+                           resp.Add(new
+                           {
+                               RealOutput = MathF.Round(mainCyList.Sum(e => (float)e.AccumulativeWeight), 2),
+                               PlanOutput = datas?.Sum(e => e.MainCy) ?? 0,
+                               mainCy.MotorId,
+                               mainCy.Name,
+                               Start = startTime,
+                               End = endTime
+                           });
+                       if (cy1List != null && cy1List.Any())
+                           resp.Add(new
+                           {
+                               RealOutput = MathF.Round(cy1List.Sum(e => (float)e.AccumulativeWeight), 2),
+                               PlanOutput = datas?.Sum(e => e.FinishCy1) ?? 0,
+                               finishCy1.MotorId,
+                               finishCy1.Name,
+                               Start = startTime,
+                               End = endTime
+                           });
+                       if (cy2List != null && cy2List.Any())
+                           resp.Add(new
+                           {
+                               RealOutput = MathF.Round(cy2List.Sum(e => (float)e.AccumulativeWeight), 2),
+                               PlanOutput = datas?.Sum(e => e.FinishCy2) ?? 0,
+                               finishCy2.MotorId,
+                               finishCy2.Name,
+                               Start = startTime,
+                               End = endTime
+                           });
+                       if (cy3List != null && cy3List.Any())
+                           resp.Add(new
+                           {
+                               RealOutput = MathF.Round(cy3List.Sum(e => (float)e.AccumulativeWeight), 2),
+                               PlanOutput = datas?.Sum(e => e.FinishCy3) ?? 0,
+                               finishCy3.MotorId,
+                               finishCy3.Name,
+                               Start = startTime,
+                               End = endTime
+                           });
+                       if (cy4List != null && cy4List.Any())
+                           resp.Add(new
+                           {
+                               RealOutput = MathF.Round(cy4List.Sum(e => (float)e.AccumulativeWeight), 2),
+                               PlanOutput = datas?.Sum(e => e.FinishCy4) ?? 0,
+                               finishCy4.MotorId,
+                               finishCy4.Name,
+                               Start = startTime,
+                               End = endTime
+                           });
 
-                    });
-                var list = resp?.OrderByDescending(x => (long)(x?.Start?? 0))?.Skip((pageindex - 1) * pagesize)?.Take(pagesize) ?? new List<dynamic>();
+                   });
+                if (!motorId.IsNullOrWhiteSpace())
+                    resp = resp.Where(e =>((string)e.MotorId).Equals(motorId)).ToList();
+                var list = resp?.OrderByDescending(x => (long)(x?.Start ?? 0))?.Skip((pageindex - 1) * pagesize)?.Take(pagesize) ?? new List<dynamic>();
                 return new PaginatedList<dynamic>(pageindex, pagesize, resp.Count(), list);
             }
             catch (Exception ex)
@@ -484,64 +491,20 @@ namespace Yunt.WebApi.Controllers
                 Logger.Exception(ex);
                 return new PaginatedList<dynamic>(0, 0, 0, new List<dynamic>());
             }
-      
-            #region Obselete
-            //if (mainCy != null)
-            //{
-            //    //if ((startT == endT) && (startT == now))
-            //    //{
-            //    //    datas = _productionLineRepository.MotorHours(mainCy)?.OrderBy(e => (long)e.Time)?.ToList();
-            //    //}
-            //    ////历史某一天
-            //    //else 
-            //    if (startT == endT)
-            //    {
-            //        datas = _productionLineRepository.MotorHours(mainCy, startT)?.OrderBy(e => (long)e.Time)?.ToList();
-            //    }
-            //    else
-            //    {
-            //        datas = _productionLineRepository.MotorDays(startT, endT, mainCy)?.OrderBy(e => (long)e.Time)?.ToList();
-            //    }
 
-            //}
-
-            //if (datas!= null&&datas.Any())
-            //    resp.Add(new { RealOutput= MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
-            //        PlanOutput= datas2?.Sum(e => e.MainCy)??0,mainCy.MotorId,mainCy.Name });      
-
-            //if (finishCys?.Any() ?? false)
-            //{
-            //    Parallel.ForEach(finishCys, cy =>
-            //    {
-            //        List<dynamic> list;
-            //        //if ((startT == endT) && (startT == now))
-            //        //{
-            //        //    list = _productionLineRepository.MotorHours(cy)?.ToList();
-            //        //}
-            //        ////历史某一天
-            //        //else 
-            //        if (startT == endT)
-            //        {
-            //            list = _productionLineRepository.MotorHours(cy, startT)?.ToList();
-            //        }
-            //        else
-            //        {
-            //            list = _productionLineRepository.MotorDays(startT, endT, cy)?.ToList();
-            //        }
-
-            //        float outPut = 0;
-            //        if (list != null && list.Any())
-            //        {
-            //            outPut = MathF.Round(list.Sum(e => (float)e.AccumulativeWeight), 2);
-            //        }
-            //        var planOutput = _productionPlansRepository.GetEntities(e => e.ProductionlineId.EqualIgnoreCase(productionlineId)
-            //                  && e.Start == startT && e.End == endT)?.ToList()?.Sum();
-            //        resp.Add(new { RealOutput = MathF.Round(outPut, 2), PlanOutput= planOutput, cy.MotorId, cy.Name });
-            //    });
-
-            //}
-            #endregion
-
+        }
+        [HttpGet]
+        [Route("GetScheduleCys")]
+        [EnableCors("any")]
+        public dynamic GetScheduleCys(string productionlineId)
+        {
+            var results = new List<dynamic>();
+            var cys = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) && e.IsBeltWeight)?.ToList();
+            if (cys != null && cys.Any())
+                cys.ForEach(cy => {
+                    results.Add(new {cy.MotorId, cy.Name});
+                });
+            return results;
         }
         #endregion
 
@@ -556,7 +519,7 @@ namespace Yunt.WebApi.Controllers
         [HttpGet]
         [Route("MotorHistory")]
         [EnableCors("any")]
-        public IEnumerable<dynamic> GetDateHistory( string motorId, DateTime dt,bool cache)
+        public IEnumerable<dynamic> GetDateHistory(string motorId, DateTime dt, bool cache)
         {
             try
             {
@@ -571,19 +534,19 @@ namespace Yunt.WebApi.Controllers
 
                 return new List<dynamic>();
             }
-         
+
         }
 
         [HttpGet]
         [Route("MotorDiHistory")]
         [EnableCors("any")]
-        public IEnumerable<dynamic> GetOtherHistory(string motorId, DateTime dt,bool isAlarm)
+        public IEnumerable<dynamic> GetOtherHistory(string motorId, DateTime dt, bool isAlarm)
         {
             try
             {
-                if(isAlarm)
-                    return _motorEventLogRepository.GetDis(motorId, dt)?.Where(e=>e.DataPhysic.Equals("报警"))?
-                    .Select(e=>new { e.Param,e.Value,Tim=e.Time})?.OrderByDescending(e=>e.Tim)?.GroupBy(e=>e.Tim);
+                if (isAlarm)
+                    return _motorEventLogRepository.GetDis(motorId, dt)?.Where(e => e.DataPhysic.Equals("报警"))?
+                    .Select(e => new { e.Param, e.Value, Tim = e.Time })?.OrderByDescending(e => e.Tim)?.GroupBy(e => e.Tim);
                 return _motorEventLogRepository.GetDis(motorId, dt)?.Where(e => e.DataPhysic.Equals("状态"))?
                   .Select(e => new { e.Param, e.Value, Tim = e.Time })?.OrderByDescending(e => e.Tim)?.GroupBy(e => e.Tim);
             }
@@ -600,14 +563,14 @@ namespace Yunt.WebApi.Controllers
         [HttpGet]
         [Route("MotorEvent")]
         [EnableCors("any")]
-        public PaginatedList<dynamic> EventLogs(string motorId,string motorType,int pageindex, int pagesize,DateTime start,DateTime end)
+        public PaginatedList<dynamic> EventLogs(string motorId, string motorType, int pageindex, int pagesize, DateTime start, DateTime end)
         {
-            var eventLogs=new List<MotorEventLog>();
-            var alarms=new List<AlarmInfo>();
-            Motor motor=null;
+            var eventLogs = new List<MotorEventLog>();
+            var alarms = new List<AlarmInfo>();
+            Motor motor = null;
             List<Motor> motors = null;
             long startT = start.TimeSpan(), endT = end.AddDays(1).AddMilliseconds(-1).TimeSpan();
-            if(!motorId.IsNullOrWhiteSpace())
+            if (!motorId.IsNullOrWhiteSpace())
             {
                 motor = _motorRepository.GetEntities(e => e.MotorId.Equals(motorId))?.FirstOrDefault();
 
@@ -617,31 +580,31 @@ namespace Yunt.WebApi.Controllers
                 alarms = _alarmInfoRepository.GetEntities(e => e.MotorId.Equals(motorId)
                            && e.Time >= startT && e.Time <= endT)?.ToList();
             }
-            if (!motorType.IsNullOrWhiteSpace()&& motorId.IsNullOrWhiteSpace())
+            if (!motorType.IsNullOrWhiteSpace() && motorId.IsNullOrWhiteSpace())
             {
                 motors = _motorRepository.GetEntities(e => e.MotorTypeId.Equals(motorType))?.ToList();
                 var motorIds = motors?.Select(e => e.MotorId);
-                if(motorIds!=null&&motorIds.Any())
+                if (motorIds != null && motorIds.Any())
                 {
                     eventLogs = _motorEventLogRepository.GetEntities(e => motorIds.Contains(e.MotorId) &&
                                    e.Time >= startT && e.Time <= endT)?.ToList();
 
                     alarms = _alarmInfoRepository.GetEntities(e => motorIds.Contains(e.MotorId)
                                && e.Time >= startT && e.Time <= endT)?.ToList();
-                }                  
+                }
             }
-            if(motorType.IsNullOrWhiteSpace()&& motorId.IsNullOrWhiteSpace())
+            if (motorType.IsNullOrWhiteSpace() && motorId.IsNullOrWhiteSpace())
             {
                 eventLogs = _motorEventLogRepository.GetEntities(e => e.ProductionLineId.Equals("WDD-P001") &&
                                 e.Time >= startT && e.Time <= endT)?.ToList();
                 alarms = _alarmInfoRepository.GetEntities(e => e.Time >= startT && e.Time <= endT)?.ToList();
             }
- 
+
             //if (motor == null&&motors==null)
             //    return new PaginatedList<dynamic>(0, 0, 0, new List<dynamic>() { });     
 
-            if ((eventLogs == null||!eventLogs.Any())&&(alarms==null||!alarms.Any()))
-                return new PaginatedList<dynamic>(0, 0, 0, new List<dynamic>() {});
+            if ((eventLogs == null || !eventLogs.Any()) && (alarms == null || !alarms.Any()))
+                return new PaginatedList<dynamic>(0, 0, 0, new List<dynamic>() { });
 
             var datas = new List<dynamic>();
             if (eventLogs != null && eventLogs.Any())
@@ -651,24 +614,24 @@ namespace Yunt.WebApi.Controllers
                     {
                         e.MotorId,
                         e.MotorName,
-                        Desc=e.Description,
+                        Desc = e.Description,
                         e.Time,
-                        EventType="Event"
+                        EventType = "Event"
                     });
                 });
             if (alarms != null && alarms.Any())
-                alarms.ForEach( a =>
-                {
-                    datas.Add(new
-                    {
-                        a.MotorId,
-                        a.MotorName,
-                        Desc = a.Content,
-                        a.Time,
-                        EventType = "Alarm"
-                    });
-                });
-            var list = datas?.OrderByDescending(x => (long)(x?.Time??0))?.Skip((pageindex - 1) * pagesize)?.Take(pagesize)??new List<dynamic>();
+                alarms.ForEach(a =>
+               {
+                   datas.Add(new
+                   {
+                       a.MotorId,
+                       a.MotorName,
+                       Desc = a.Content,
+                       a.Time,
+                       EventType = "Alarm"
+                   });
+               });
+            var list = datas?.OrderByDescending(x => (long)(x?.Time ?? 0))?.Skip((pageindex - 1) * pagesize)?.Take(pagesize) ?? new List<dynamic>();
             return new PaginatedList<dynamic>(pageindex, pagesize, datas.Count(), list);
         }
         #endregion
@@ -677,53 +640,60 @@ namespace Yunt.WebApi.Controllers
         [HttpGet]
         [EnableCors("any")]
         [Route("SpareCost")]
-        public dynamic SpareAccounting(string productionLineId, DateTime start, DateTime end)
+        public dynamic SpareAccounting(string productionLineId, DateTime start, DateTime end, int pageindex, int pagesize)
         {
             long startT = start.TimeSpan(), endT = end.TimeSpan();
             var line = _productionLineRepository.GetEntities(e => e.ProductionLineId.Equals(productionLineId))?.FirstOrDefault();
-            if (line == null)return new
+            if (line == null) return new
             {
                 SpareCount = 0,
                 SpareCost = 0,
                 SpareDetails = new { }
-            }; 
+            };
 
             var allMotors = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionLineId))?.ToList();
-            if (allMotors == null||!allMotors.Any()) return new
+            if (allMotors == null || !allMotors.Any()) return new
             {
                 SpareCount = 0,
                 SpareCost = 0,
                 SpareDetails = new { }
-            }; 
+            };
             var allMotorIds = allMotors.Select(e => e.MotorId);
-                var endTime = startT.Time().Date.AddDays(1).AddMilliseconds(-1).TimeSpan();                
-                var useLessSpares = _outHouseRepository.GetUseless(allMotorIds, startT, endTime);
-                var spareCount = useLessSpares?.Count() ?? 0;
-                var spareCost = _outHouseRepository.CalcCost(useLessSpares);
-                var spareDetails = new List<dynamic>();
-                if (useLessSpares == null || !useLessSpares.Any())
-                    return new
-                    {
-                        SpareCount = spareCount,
-                        SpareCost = spareCount,
-                        SpareDetails = new { }
-                    };
-                useLessSpares.ToList().ForEach(s =>
-                {
-                    var motorName = _motorRepository.GetEntities(e => e.MotorId.Equals(s.MotorId))?.
-                                    FirstOrDefault()?.Name??"";
-                    var spareName= _sparePartsTypeRepository.GetEntities(e => e.Id==s.SparePartsTypeId)?.
-                                    FirstOrDefault()?.Name ?? "";
-                    spareDetails.Add(new { MotorName =motorName,SpareName=spareName,Start=s.OutTime.Time(),End= s.UselessTime.Time() });
-                });
+            var endTime = endT.Time().Date.AddDays(1).AddMilliseconds(-1).TimeSpan();
+            var useLessSpares = _outHouseRepository.GetUseless(allMotorIds, startT, endTime);
+            var spareCount = useLessSpares?.Count() ?? 0;
+            var spareCost = _outHouseRepository.CalcCost(useLessSpares);
+            var spareDetails = new List<dynamic>();
+            if (useLessSpares == null || !useLessSpares.Any())
                 return new
                 {
                     SpareCount = spareCount,
                     SpareCost = spareCount,
-                    SpareDetails = spareDetails
+                    SpareDetails = new { }
                 };
-    
-        
+            useLessSpares.ToList().ForEach(s =>
+            {
+                var motorName = _motorRepository.GetEntities(e => e.MotorId.Equals(s.MotorId))?.
+                                FirstOrDefault()?.Name ?? "";
+                var spareName = _sparePartsTypeRepository.GetEntities(e => e.Id == s.SparePartsTypeId)?.
+                                FirstOrDefault()?.Name ?? "";
+                spareDetails.Add(new { MotorName = motorName, SpareName = spareName, Start = s.OutTime.Time(), End = s.UselessTime.Time() });
+            });
+            var results = new PaginatedList<dynamic>(0, 0, 0, new List<dynamic>());
+            if (spareDetails?.Any() ?? false)
+            {
+                var list = spareDetails.OrderBy(x => (DateTime)x.End).Skip((pageindex - 1) * pagesize).Take(pagesize);
+                results = new PaginatedList<dynamic>(pageindex, pagesize, spareDetails.Count(), list);
+            }
+
+            return new
+            {
+                SpareCount = spareCount,
+                SpareCost = spareCost,
+                SpareDetails = results//spareDetails
+            };
+
+
         }
         [HttpGet]
         [EnableCors("any")]
@@ -732,36 +702,36 @@ namespace Yunt.WebApi.Controllers
         {
             long startT = start.TimeSpan(), endT = end.TimeSpan();
             var line = _productionLineRepository.GetEntities(e => e.ProductionLineId.Equals(productionLineId))?.FirstOrDefault();
-            if (line == null) return null;       
+            if (line == null) return null;
 
             var allMotors = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionLineId))?.ToList();
             if (allMotors == null || !allMotors.Any()) return null;
             var allMotorIds = allMotors.Select(e => e.MotorId);
             List<PowerCal> powers;
-            float totalPower = 0, avgPower=0;
+            float totalPower = 0, avgPower = 0;
             //当天
             var now = DateTime.Now.Date.TimeSpan();
             if ((startT == endT) && (startT == now))
             {
                 powers = _productionLineRepository.CalcMotorPowers(allMotors);
-                totalPower = MathF.Round(powers.Sum(e =>e.ActivePower),2);
-                avgPower= totalPower;
-                return new { TotalPower=totalPower,AvgPower=avgPower,Powers=powers};
+                totalPower = MathF.Round(powers.Sum(e => e.ActivePower), 2);
+                avgPower = totalPower;
+                return new { TotalPower = totalPower, AvgPower = avgPower, Powers = powers };
             }
             //历史某一天
             if (startT == endT)
             {
-                powers = _productionLineRepository.CalcMotorPowers(allMotors,startT);         
+                powers = _productionLineRepository.CalcMotorPowers(allMotors, startT);
                 totalPower = MathF.Round(powers.Sum(e => e.ActivePower), 2);
                 avgPower = totalPower;
                 return new { TotalPower = totalPower, AvgPower = avgPower, Powers = powers };
             }
             //历史区间段
             var endTime = endT.Time().Date.AddDays(1).TimeSpan();//.AddMilliseconds(-1).TimeSpan();
-            var times =end.Subtract(start).TotalDays+1;
-            powers = _productionLineRepository.CalcMotorPowers(allMotors,startT,endTime);
-            totalPower = MathF.Round(powers.Sum(e =>e.ActivePower), 2);
-            avgPower = totalPower!=0? (float)Math.Round(totalPower/ times,2):0;
+            var times = end.Subtract(start).TotalDays + 1;
+            powers = _productionLineRepository.CalcMotorPowers(allMotors, startT, endTime);
+            totalPower = MathF.Round(powers.Sum(e => e.ActivePower), 2);
+            avgPower = totalPower != 0 ? (float)Math.Round(totalPower / times, 2) : 0;
             return new { TotalPower = totalPower, AvgPower = avgPower, Powers = powers };
         }
 
@@ -769,6 +739,6 @@ namespace Yunt.WebApi.Controllers
 
         #endregion
 
-     
-        }
+
+    }
 }

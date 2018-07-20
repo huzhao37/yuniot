@@ -22,5 +22,13 @@ namespace Yunt.Xml.Domain.Services
         ///  <param name="typeString">数据类型</param>
         /// <param name="operation">匿名委托方法</param>
        bool UniversalParser(byte[] buffer, string typeString, Func<DataGramModel, string, bool> operation);
+
+        /// <summary>
+        /// 解析原始字节
+        /// </summary>
+        /// <param name="buffer"></param>
+        /// <param name="operation"></param>
+        /// <returns></returns>
+        bool UniversalParser(byte[] buffer, Func<DataGramModel, string, bool> operation);
     }
 }

@@ -63,7 +63,24 @@ namespace webapi.Controllers
                 return false;
             }
         }
-
+        [EnableCors("any")]
+        [Route("SparePartsTypes")]
+        [HttpGet()]
+        public dynamic SparePartsTypes()
+        {
+            try
+            {
+                var data = _sparePartsTypeRepository.GetEntities()?.ToList();
+                if (data == null || !data.Any())
+                    return new List<dynamic>();
+                return data.Select(e => new { e.Id, e.Name });
+            }
+            catch (Exception ex)
+            {
+                Logger.Exception(ex);
+                return false;
+            }
+        }
         // POST: api/SparePartType
         [EnableCors("any")]
         [HttpPost]

@@ -350,6 +350,18 @@ namespace Yunt.Device.Repository.EF.Repositories
                 return data.InstantWeight * motor.StandValue == 0 ? 0 :MathF.Round(data.InstantWeight / motor.StandValue,3);
             return 0;
         }
+
+        /// <summary>
+        /// 获取瞬时称重
+        /// </summary>
+        /// <param name="motor"></param>
+        public float GetInstantWeight(Motor motor)
+        {
+            var data = _cyRep.GetLatestRecord(motor.MotorId);
+            if (data != null)
+                return data.InstantWeight;
+            return 0;
+        }
         #endregion
     }
 }

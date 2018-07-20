@@ -249,6 +249,44 @@ namespace Yunt.Xml.Repository.EF.Services
             }
         }
 
+        public bool UniversalParser(byte[] buffer,  Func<DataGramModel,string, bool> operation)
+        {
+            try
+            {
+                var data = Extention.ByteArrayToHexString(buffer);
+#if DEBUG
+                Logger.Info(data);
+#endif
+
+                var model = Parser(buffer);
+                //if (model.PValues.FirstOrDefault().Key.TimeSpan() <= 1529905440)
+                //    return true;
+#if DEBUG
+                Logger.Info("[MqHandler]Analyze End...");
+#endif
+                var result = false;
+                if (model != null)
+                {
+                    result = operation(model, data);
+                }
+
+                //回复确认;
+                //TODO: true则回复确认，false则不回复;
+                if (!result)
+                    Logger.Error("[MqHandler]Error in Write to database...");
+#if DEBUG
+                else
+                    Logger.Info("[MqHandler]wait for next buffer...");
+#endif
+
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("[MqHandler]Error in Write to database: " + ex.Message);
+                return false;
+            }
+        }
         #endregion
 
     }

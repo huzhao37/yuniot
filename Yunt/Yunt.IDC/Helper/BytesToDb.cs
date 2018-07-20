@@ -123,7 +123,7 @@ namespace Yunt.IDC.Helper
 
 
                 var motors = motorRepository.GetEntities(e => e.EmbeddedDeviceId == emDevice.Id
-                && e.ProductionLineId.Equals(emDevice.Productionline_Id)).ToList();
+                && e.ProductionLineId.Equals(emDevice.Productionline_Id))?.ToList();
 
                 if (motors == null || !motors.Any())
                 {

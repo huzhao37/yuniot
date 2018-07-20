@@ -62,5 +62,17 @@ namespace Yunt.Device.Domain.IRepository
         /// <returns></returns>
         int Cache(string motorId, long dayUnix, List<T> ts);
         #endregion
+
+        #region version 18.7.20
+        [Obsolete("forbiden:only use for recovery")]
+        Task UpdateAsync(T t);
+        /// <summary>
+        /// （跳过缓存从数据库中获取数据）慎用！！！
+        /// </summary>
+        /// <param name="where"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        List<T> GetFromDb(Expression<Func<T, bool>> where = null, Expression<Func<T, object>> order = null);
+        #endregion
     }
 }

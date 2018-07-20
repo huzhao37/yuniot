@@ -573,5 +573,78 @@ namespace Yunt.Device.Repository.EF.Repositories
             return result;
         }
         #endregion
-    } 
+
+        #region version 18.7.20
+        [Obsolete("forbiden:only use for recovery")]
+        public virtual async Task UpdateAsync(DT t)
+        {
+            try
+            {
+                ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Update(Mapper.Map<ST>(t));
+            }
+            catch (Exception e)
+            {
+#if DEBUG
+                Logger.Warn($"并发异常:{e.Message}");
+#endif
+            }
+
+            await CommitAsync();
+        }
+
+        /// <summary>
+        /// （跳过缓存从数据库中获取数据）慎用！！！
+        /// </summary>
+        /// <param name="where"></param>
+        /// <param name="order"></param>
+        /// <returns></returns>
+        public virtual List<DT> GetFromDb(Expression<Func<DT, bool>> where = null, Expression<Func<DT, object>> order = null)
+        {
+
+            Expression<Func<ST, bool>> wheres;
+            Expression<Func<ST, object>> orderby;
+            IQueryable<DT> sql = null;
+            if (where != null && order != null)
+            {
+                wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
+                orderby = Mapper.MapExpression<Expression<Func<DT, object>>, Expression<Func<ST, object>>>(order);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).OrderBy(orderby).ProjectTo<DT>(Mapper);
+#if DEBUG
+                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                Logger.Warn(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+                return sql.ToList();
+            }
+
+            if (order != null)
+            {
+                orderby = Mapper.MapExpression<Expression<Func<DT, object>>, Expression<Func<ST, object>>>(order);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().OrderBy(orderby).ProjectTo<DT>(Mapper);
+#if DEBUG
+                Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+                return sql.ToList();
+            }
+            if (where != null)
+            {
+                wheres = Mapper.MapExpression<Expression<Func<DT, bool>>, Expression<Func<ST, bool>>>(where);
+                sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().Where(wheres).ProjectTo<DT>(Mapper);
+#if DEBUG
+                //Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+                // Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+                return sql.ToList();
+            }
+            sql = ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<ST>().ProjectTo<DT>(Mapper);
+#if DEBUG
+            Logger.Info($"translate sql:{sql.ToSql()} \n untranslate sql:");
+            Logger.Info(string.Join(Environment.NewLine, sql.ToUnevaluated()));
+#endif
+            return sql.ToList();
+
+
+        }
+        #endregion
+    }
 }

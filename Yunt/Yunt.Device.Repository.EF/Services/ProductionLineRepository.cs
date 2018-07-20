@@ -472,13 +472,21 @@ namespace Yunt.Device.Repository.EF.Services
         {
             if (datas == null||!datas.Any())
                 return GetMotorDetails(motor.MotorTypeId);
-            var loadStall= isInstant?MotorIntantLoadStall(motor):MathF.Round(datas.Average(e => (float)e.LoadStall), 2);
+            float load = 0,instantWeight=0;
+            var source = datas?.Where(e => e.RunningTime > 0) ?? null;
+            if (source != null && source.Any())
+            {
+                load = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
+                if(motor.MotorTypeId.EqualIgnoreCase("CY"))
+                    instantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2);
+            }
+            var loadStall= isInstant?MotorIntantLoadStall(motor): load;      
             switch (motor.MotorTypeId)
             {
                 case "CY":
                     return new
                     {
-                        AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
+                        AvgInstantWeight =isInstant ? _cyByHourRep.GetInstantWeight(motor) : instantWeight ,
                         AccumulativeWeight = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
                         AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
                         LoadStall = loadStall,
@@ -1454,7 +1462,14 @@ namespace Yunt.Device.Repository.EF.Services
         {
             if (datas==null||!datas.Any())
                 return GetMobileMotorDetails(motor.MotorTypeId);
-            var loadStall = isInstant ? MotorIntantLoadStall(motor) : MathF.Round(datas.Average(e => (float)e.LoadStall), 2);
+            float load = 0;//, instantWeight = 0;
+            var source = datas?.Where(e => e.RunningTime > 0) ?? null;
+            if (source != null && source.Any())
+            {
+                load = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
+               // instantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2);
+            }
+            var loadStall = isInstant ? MotorIntantLoadStall(motor) : load;
             switch (motor.MotorTypeId)
             {
                 case "CY":

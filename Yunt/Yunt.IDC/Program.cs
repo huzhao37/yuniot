@@ -67,7 +67,8 @@ namespace Yunt.IDC
                 //Common.Logger.Warn("Di recovery Finished!");
                 #endregion
 
-                MqDealTask.Start();
+                RecoveryTask.Start();
+                //MqDealTask.Start();
             }
             catch (Exception e)
             {

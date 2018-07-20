@@ -171,19 +171,19 @@ namespace Yunt.XmlCheck.Main
 
 
                         ////3.machine-电机
-                        //var machineList = table.Machines;
-                        //if (machineList.Any())
-                        //{
-                        //    foreach (var machine in machineList)
-                        //    {
-                        //        machineModelList.Add(new MachineModel()
-                        //        {
-                        //            MachineId = machine.Id,
-                        //            MachineName = machine.Name,
-                        //            MachineTypeId = machine.MachineType.MachineTypeId
-                        //        });
-                        //    }
-                        //}
+                        var machineList = table.Machines;
+                        if (machineList.Any())
+                        {
+                            foreach (var machine in machineList)
+                            {
+                                machineModelList.Add(new MachineModel()
+                                {
+                                    MachineId = machine.Id,
+                                    MachineName = machine.Name,
+                                    MachineTypeId = machine.MachineType.MachineTypeId
+                                });
+                            }
+                        }
 
                         #endregion
 
@@ -280,10 +280,72 @@ namespace Yunt.XmlCheck.Main
                             Common.Logger.Error($"{d.Id}-{index}出错2");
                             Console.ReadKey();
                         }
+                                       
+
+                        #region form bind update
+
+                        var machine = machineModelList.SingleOrDefault(e => e.MachineId == d.MachineId); //电机                     
+                        var name = machine?.MachineName ?? "";
+                        var typeName = machine?.MachineTypeId ?? "";
+                        var motorId = "0";
+                        if (!name.IsNullOrWhiteSpace() && !typeName.IsNullOrWhiteSpace())
+                        {
+                            motorId = motorRepository.GetEntities(
+                          e =>
+                              e.Name.EqualIgnoreCase(name) &&
+                              e.ProductionLineId.EqualIgnoreCase(_LineId) &&
+                              e.MotorTypeId.EqualIgnoreCase(typeName))?.ToList()?.FirstOrDefault()?.MotorId;
+                        }
+                        if (!name.IsNullOrWhiteSpace() && typeName.IsNullOrWhiteSpace())
+                        {
+                            motorId = motorRepository.GetEntities(
+                          e =>
+                              e.Name.EqualIgnoreCase(name) &&
+                              e.ProductionLineId.EqualIgnoreCase(_LineId))?.ToList().FirstOrDefault()?.MotorId;
+                        }
+                        if (name.IsNullOrWhiteSpace() && !typeName.IsNullOrWhiteSpace())
+                        {
+                            motorId = motorRepository.GetEntities(
+                          e =>
+                              e.ProductionLineId.EqualIgnoreCase(_LineId) &&
+                              e.MotorTypeId.EqualIgnoreCase(typeName))?.ToList().FirstOrDefault().MotorId;
+                        }
+                        //非同种设备之间的参数绑定更换，将暂不予处理
+                        if ((d==null||dataForm.MachineId == d?.MachineId)||!dataForm.MotorTypeName.Equals(typeName))
+                            return;
                         dataForm.Remark = d.Remark;
+                        dataForm.MachineId = d?.MachineId ?? "";
+                        if (dataForm.MachineId.IsNullOrWhiteSpace())
+                            return;
+                        //dataForm.DeviceId = d?.DeviceId ?? "";
+                        //dataForm.FieldParam = d?.DescCn ?? "";
+                        //dataForm.FieldParamEn = d?.DescEn ?? "";
+                        // dataForm.DataPhysicalAccuracy = d?.Precision ?? "";
+                        //dataForm.DataPhysicalFeature = d?.PhysicName ?? "";
+                        //dataForm.DataType = d?.FormatName ?? "";
+                        //dataForm.Index = index?.DataIndex ?? 0;
+                        //dataForm.MotorTypeName = machine?.MachineTypeId ?? "",
+                        dataForm.MachineName = machine?.MachineName ?? "";
+                        if (dataForm.MachineName.IsNullOrWhiteSpace())
+                            return;
+                        //dataForm.Bit = Convert.ToInt32(bit),
+                        //dataForm.BitDesc = desc,
+                        dataForm.LineId = _LineId;
+                        if (dataForm.LineId.IsNullOrWhiteSpace())
+                            return;
+                        //dataForm.CollectdeviceIndex = _collectDeviceIndex,
+                        //dataForm.DataPhysicalId = d?.PhysicId ?? 0,
+                        //dataForm.FormatId = d?.FormatId ?? 0,
+                        //dataForm.Unit = d?.Unit ?? "",
+                        dataForm.MotorId = motorId;
+                        if (dataForm.MotorId.IsNullOrWhiteSpace())
+                            return;
                         dataForm.Time = DateTime.Now;
+
+                        #endregion
                         //var result=dataForm.Save();
                         //Common.Logger.Warn($"更新{result}");
+
                         updates.Add(dataForm);
                     });
                     updates.Update();

@@ -30,6 +30,7 @@
     <None Remove="XmlFile\wdd.v0.6.3.3.xml" />
     <None Remove="XmlFile\wdd.xml" />
     <None Remove="XmlFile\wudd.v0.6.3.7.1.xml" />
+    <None Remove="XmlFile\wudd.v0.6.3.8.xml" />
     <None Remove="XmlFile\wudd.xml" />
   </ItemGroup>
 
@@ -44,6 +45,9 @@
 
   <ItemGroup>
     <Content Include="XmlFile\wdd.v0.6.3.3.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="XmlFile\wudd.v0.6.3.8.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

@@ -44,12 +44,13 @@ namespace Yunt.WebApi.Controllers
             }
         
         }
-
-        // GET: api/Maintain/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+       
+        [HttpGet]
+        [EnableCors("any")]
+        [Route("Operators")]
+        public IEnumerable<string> Operators()
         {
-            return "value";
+            return _maintainRepository.GetEntities()?.Select(e => e.Operator)?.ToList();
         }
 
         // POST: api/Maintain

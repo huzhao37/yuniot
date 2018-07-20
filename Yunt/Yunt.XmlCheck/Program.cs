@@ -47,7 +47,7 @@ namespace Yunt.XmlCheck
             
             //获取主xml中相关信息
             //XmlParse.GetXmlInfo(xmlPath);
-            var xmlInfo = XmlParse1.GetXmlInfo("XmlFile\\wudd.v0.6.3.7.1.xml");
+            var xmlInfo = XmlParse1.GetXmlInfo("XmlFile\\wudd.v0.6.3.8.xml");
             //保存主xml信息
             XmlParse1.SaveXmlInfo(xmlInfo);
 
