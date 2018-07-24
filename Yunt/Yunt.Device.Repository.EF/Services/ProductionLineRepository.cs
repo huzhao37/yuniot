@@ -462,34 +462,277 @@ namespace Yunt.Device.Repository.EF.Services
             }
         }
         /// <summary>
-        /// 根据动态数据获取设备详情
+        /// 根据动态数据获取设备历史详情项
         /// </summary>
         /// <param name="datas"></param>
         /// <param name="motor"></param>
-        /// <param name="isInstant">是否瞬时</param>
         /// <returns></returns>
-        public dynamic GetMotorDetails(IEnumerable<dynamic> datas,Motor motor,bool isInstant)
+        public dynamic GetMotorHistoryDetails(IEnumerable<dynamic> datas,Motor motor)
         {
-            if (datas == null||!datas.Any())
-                return GetMotorDetails(motor.MotorTypeId);
-            float load = 0,instantWeight=0;
             var source = datas?.Where(e => e.RunningTime > 0) ?? null;
-            if (source != null && source.Any())
+            if (source == null||!source.Any())
+                return GetMotorDetails(motor.MotorTypeId);
+            var loadStall = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
+            switch (motor.MotorTypeId)
             {
-                load = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
-                if(motor.MotorTypeId.EqualIgnoreCase("CY"))
-                    instantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2);
+                case "CY":              
+                    return new
+                    {
+                        AvgInstantWeight =MathF.Round(source.Average(e => (float)e.AvgInstantWeight), 2),
+                        AvgCurrent =  MathF.Round(source.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,
+                    };
+                case "MF":
+                    return new
+                    {
+                        AvgCurrent = MathF.Round(source.Average(e => (float)e.AvgCurrent_B), 2),
+                        AvgFrequency = MathF.Round((source.Average(e => (float)e.AvgFrequency)), 2),
+                        LoadStall = loadStall,
+                       };
+                case "JC":
+                    return new
+                    {
+                        AvgMotiveSpindleTemperature1 = MathF.Round(source.Average(e => (float)e.AvgMotiveSpindleTemperature1), 2),
+                        AvgMotiveSpindleTemperature2 = MathF.Round(source.Average(e => (float)e.AvgMotiveSpindleTemperature2), 2),
+                        AvgRackSpindleTemperature1 = MathF.Round(source.Average(e => (float)e.AvgRackSpindleTemperature1), 2),
+                        AvgRackSpindleTemperature2 = MathF.Round(source.Average(e => (float)e.AvgRackSpindleTemperature2), 2),
+                        AvgVibrate1 = MathF.Round(source.Average(e => (float)e.AvgVibrate1), 2),
+                        AvgVibrate2 = MathF.Round(source.Average(e => (float)e.AvgVibrate2), 2),
+                        AvgCurrent = MathF.Round(source.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,                    
+                    };
+                case "CC":
+                    return new
+                    {
+                        AvgMovaStress = MathF.Round(source.Average(e => (float)e.AvgMovaStress), 2),
+                        AvgOilReturnTempreatur = MathF.Round((source.Average(e => (float)e.AvgOilReturnTempreatur)), 2),
+                        AvgOilFeedTempreature = MathF.Round(source.Average(e => (float)e.AvgOilFeedTempreature), 2),
+                        AvgTankTemperature = MathF.Round((source.Average(e => (float)e.AvgTankTemperature)), 2),
+                        AvgSpindleTravel = MathF.Round(source.Average(e => (float)e.AvgSpindleTravel), 2),
+                        AvgVibrate1 = MathF.Round((source.Average(e => (float)e.AvgVibrate1)), 2),
+                        AvgVibrate2 = MathF.Round((source.Average(e => (float)e.AvgVibrate2)), 2),
+                        AvgCurrent = MathF.Round(source.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,                     
+                    };
+
+                case "VC":
+                    return new
+                    {
+                        AvgVibrate1 = MathF.Round(source.Average(e => (float)e.AvgVibrate1), 2),
+                        AvgVibrate2 = MathF.Round((source.Average(e => (float)e.AvgVibrate2)), 2),
+                        AvgCurrent = MathF.Round(source.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,
+                       };
+                case "VB":
+                    return new
+                    {
+                        AvgSpindleTemperature4 = MathF.Round(source.Average(e => (float)e.AvgSpindleTemperature4), 2),
+                        AvgSpindleTemperature2 = MathF.Round((source.Average(e => (float)e.AvgSpindleTemperature2)), 2),
+                        AvgSpindleTemperature1 = MathF.Round(source.Average(e => (float)e.AvgSpindleTemperature1), 2),
+                        AvgSpindleTemperature3 = MathF.Round((source.Average(e => (float)e.AvgSpindleTemperature3)), 2),
+                        AvgCurrent = MathF.Round(source.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,                       
+                    };
+
+                case "SCC":
+                    return new
+                    {
+                        AvgCurrent =0,
+                        LoadStall = loadStall,
+                    };
+
+                case "PUL":
+                    return new
+                    {
+                        AvgVibrate1 = MathF.Round(source.Average(e => (float)e.AvgVibrate1), 2),
+                        AvgVibrate2 = MathF.Round((source.Average(e => (float)e.AvgVibrate2)), 2),
+                        AvgCurrent = MathF.Round(source.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,
+                       };
+
+                case "IC":
+                    return new
+                    {
+                        AvgMotor2Current_B = MathF.Round(source.Average(e => (float)e.AvgMotor2Current_B), 2),
+                        AvgMotor1Current_B = MathF.Round((source.Average(e => (float)e.AvgMotor1Current_B)), 2),
+                        AvgSpindleTemperature1 = MathF.Round(source.Average(e => (float)e.AvgSpindleTemperature1), 2),
+                        AvgSpindleTemperature2 = MathF.Round(source.Average(e => (float)e.AvgSpindleTemperature2), 2),
+                        AvgVibrate1 = MathF.Round(source.Average(e => (float)e.AvgVibrate1), 2),
+                        AvgVibrate2 = MathF.Round((source.Average(e => (float)e.AvgVibrate2)), 2),
+                        LoadStall = loadStall,                   
+                    };
+                case "HVB":
+                    return new
+                    {
+                        AvgSpindleTemperature4 = MathF.Round(source.Average(e => (float)e.AvgSpindleTemperature4), 2),
+                        AvgSpindleTemperature2 = MathF.Round((source.Average(e => (float)e.AvgSpindleTemperature2)), 2),
+                        AvgSpindleTemperature3 = MathF.Round(source.Average(e => (float)e.AvgSpindleTemperature3), 2),
+                        AvgSpindleTemperature1 = MathF.Round((source.Average(e => (float)e.AvgSpindleTemperature1)), 2),
+                        AvgOilReturnStress = MathF.Round(source.Average(e => (float)e.AvgOilReturnStress), 2),
+                        AvgOilFeedStress = MathF.Round((source.Average(e => (float)e.AvgOilFeedStress)), 2),
+                        AvgCurrent = MathF.Round(source.Average(e => (float)e.AvgCurrent_B), 2),
+                        LoadStall = loadStall,                    
+                    };
+                default:
+                    return  new
+                    {
+                        AvgCurrent = 0,
+                        LoadStall = 0,                   
+                    };
             }
-            var loadStall= isInstant?MotorIntantLoadStall(motor): load;      
+        }
+        /// <summary>
+        /// 获取设备瞬时详情项
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+        public dynamic GetMotorInstantDetails(Motor motor)
+        {
+            dynamic lastRecord = null;
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    lastRecord = _cyRep.GetLatestRecord(motor.MotorId);
+                    return new
+                    {
+                        AvgInstantWeight = lastRecord?.InstantWeight ?? 0,                        
+                        AvgCurrent =lastRecord?.Current_B ?? 0,
+                        LoadStall = (lastRecord?.InstantWeight ?? 0) * motor.StandValue == 0 ? 0 :
+                                                MathF.Round(lastRecord.InstantWeight / motor.StandValue, 3),
+                    };
+                case "MF":
+                    lastRecord = _mfRep.GetLatestRecord(motor.MotorId);
+                    return new
+                    {
+                        AvgCurrent = lastRecord?.Current_B ?? 0,
+                        AvgFrequency = lastRecord?.Frequency ?? 0,
+                        LoadStall = (lastRecord?.Frequency ?? 0) * motor.StandValue == 0 ? 0 :
+                                                MathF.Round(lastRecord.Frequency / motor.StandValue, 3),
+                    };
+                case "JC":
+                    lastRecord = _jcRep.GetLatestRecord(motor.MotorId);
+                    return new
+                    {
+                        AvgMotiveSpindleTemperature1 = lastRecord?.MotiveSpindleTemperature1 ?? 0,
+                        AvgMotiveSpindleTemperature2 = lastRecord?.MotiveSpindleTemperature2 ?? 0,
+                        AvgRackSpindleTemperature1 = lastRecord?.RackSpindleTemperature1 ?? 0,
+                        AvgRackSpindleTemperature2 = lastRecord?.RackSpindleTemperature2 ?? 0,
+                        AvgVibrate1 = lastRecord?.Vibrate1 ?? 0,
+                        AvgVibrate2 = lastRecord?.Vibrate2 ?? 0,                   
+                        AvgCurrent = lastRecord?.Current_B ?? 0,
+                        LoadStall = (lastRecord?.Current_B ?? 0) * motor.StandValue == 0 ? 0 :
+                                                MathF.Round(lastRecord.Current_B / motor.StandValue, 3),
+                    };
+                case "CC":
+                    lastRecord = _ccRep.GetLatestRecord(motor.MotorId);
+                    return new
+                    {
+                        AvgMovaStress = lastRecord?.MovaStress ?? 0,
+                        AvgOilReturnTempreatur = lastRecord?.OilReturnTempreatur ?? 0,
+                        AvgOilFeedTempreature = lastRecord?.OilFeedTempreature ?? 0,
+                        AvgTankTemperature = lastRecord?.TankTemperature ?? 0,
+                        AvgSpindleTravel = lastRecord?.SpindleTravel ?? 0,
+                        AvgVibrate1 = lastRecord?.Vibrate1 ?? 0,
+                        AvgVibrate2 = lastRecord?.Vibrate2 ?? 0,
+                        AvgCurrent = lastRecord?.Current_B ?? 0,
+                        LoadStall = (lastRecord?.Current_B ?? 0) * motor.StandValue == 0 ? 0 :
+                                                MathF.Round(lastRecord.Current_B / motor.StandValue, 3),
+                    };
+
+                case "VC":
+                    lastRecord = _vcRep.GetLatestRecord(motor.MotorId);
+                    return new
+                    {
+                        AvgVibrate1 = lastRecord?.Vibrate1 ?? 0,
+                        AvgVibrate2 = lastRecord?.Vibrate2 ?? 0,
+                        AvgCurrent = lastRecord?.Current_B ?? 0,
+                        LoadStall = (lastRecord?.Current_B ?? 0) * motor.StandValue == 0 ? 0 :
+                                                MathF.Round(lastRecord.Current_B / motor.StandValue, 3),
+                    };
+                case "VB":
+                    lastRecord = _vbRep.GetLatestRecord(motor.MotorId);
+                    return new
+                    {
+                        AvgSpindleTemperature4 = lastRecord?.SpindleTemperature4 ?? 0,
+                        AvgSpindleTemperature2 = lastRecord?.SpindleTemperature2 ?? 0,
+                        AvgSpindleTemperature1 = lastRecord?.SpindleTemperature1 ?? 0,
+                        AvgSpindleTemperature3 = lastRecord?.SpindleTemperature3 ?? 0,
+                        AvgCurrent = lastRecord?.Current_B ?? 0,
+                        LoadStall = (lastRecord?.Current_B ?? 0) * motor.StandValue == 0 ? 0 :
+                                                MathF.Round(lastRecord.Current_B / motor.StandValue, 3),
+                    };
+
+                case "SCC":
+                    lastRecord = _sccRep.GetLatestRecord(motor.MotorId);
+                    return new
+                    {
+                        AvgCurrent = lastRecord?.Current_B ?? 0,
+                        LoadStall = (lastRecord?.Current_B ?? 0) * motor.StandValue == 0 ? 0 :
+                                                MathF.Round(lastRecord.Current_B / motor.StandValue, 3),
+                    };
+
+                case "PUL":
+                    lastRecord = _pulRep.GetLatestRecord(motor.MotorId);
+                    return new
+                    {
+                        AvgVibrate1 = lastRecord?.Vibrate1 ?? 0,
+                        AvgVibrate2 = lastRecord?.Vibrate2 ?? 0,
+                        AvgCurrent = lastRecord?.Current_B ?? 0,
+                        LoadStall = (lastRecord?.Current_B ?? 0) * motor.StandValue == 0 ? 0 :
+                                                MathF.Round(lastRecord.Current_B / motor.StandValue, 3),
+                    };
+
+                case "IC":
+                    lastRecord = _icRep.GetLatestRecord(motor.MotorId);
+                    return new
+                    {
+                        AvgMotor2Current_B = lastRecord?.Motor2Current_B ?? 0,
+                        AvgMotor1Current_B = lastRecord?.Motor1Current_B ?? 0,
+                        AvgSpindleTemperature1 = lastRecord?.SpindleTemperature1 ?? 0,
+                        AvgSpindleTemperature2 = lastRecord?.SpindleTemperature2 ?? 0,
+                        AvgVibrate1 = lastRecord?.Vibrate1 ?? 0,
+                        AvgVibrate2 = lastRecord?.Vibrate2 ?? 0,
+                        LoadStall = (lastRecord?.Motor1Current_B ?? 0) * motor.StandValue == 0 ? 0 :
+                                                MathF.Round(lastRecord.Motor1Current_B / motor.StandValue, 3),
+                    };
+                case "HVB":
+                    lastRecord = _hvbRep.GetLatestRecord(motor.MotorId);
+                    return new
+                    {
+                        AvgSpindleTemperature4 = lastRecord?.SpindleTemperature4 ?? 0,
+                        AvgSpindleTemperature2 = lastRecord?.SpindleTemperature2 ?? 0,
+                        AvgSpindleTemperature3 = lastRecord?.SpindleTemperature3 ?? 0,
+                        AvgSpindleTemperature1 = lastRecord?.SpindleTemperature1 ?? 0,
+                        AvgOilReturnStress = lastRecord?.OilReturnStress ?? 0,
+                        AvgOilFeedStress = lastRecord?.OilFeedStress ?? 0,
+                        AvgCurrent = lastRecord?.Current_B ?? 0,
+                        LoadStall = (lastRecord?.Current_B ?? 0) * motor.StandValue == 0 ? 0 :
+                                                MathF.Round(lastRecord.Current_B / motor.StandValue, 3),
+                    };
+                default:
+                    return new
+                    {
+                        AvgCurrent = 0,
+                        LoadStall = 0,
+                    };
+            }
+        }
+        /// <summary>
+        /// 根据动态数据获取设备详情图表
+        /// </summary>
+        /// <param name="datas"></param>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+        public dynamic GetMotorSeries(IEnumerable<dynamic> datas, Motor motor)
+        {
+            if (datas == null || !datas.Any())
+                return GetMotorSeries(motor.MotorTypeId);         
             switch (motor.MotorTypeId)
             {
                 case "CY":
                     return new
                     {
-                        AvgInstantWeight =isInstant ? _cyByHourRep.GetInstantWeight(motor) : instantWeight ,
                         AccumulativeWeight = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
-                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = loadStall,
                         RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new {
                             Output = e.AccumulativeWeight,
@@ -501,25 +744,14 @@ namespace Yunt.Device.Repository.EF.Services
                 case "MF":
                     return new
                     {
-                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        AvgFrequency = MathF.Round((datas.Average(e => (float)e.AvgFrequency)), 2),
-                        LoadStall = loadStall,
                         RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new { e.AvgFrequency, Current = e.AvgCurrent_B, e.RunningTime, UnixTime = e.Time })
                     };
                 case "JC":
                     return new
                     {
-                        AvgMotiveSpindleTemperature1 = MathF.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature1), 2),
-                        AvgMotiveSpindleTemperature2 = MathF.Round(datas.Average(e => (float)e.AvgMotiveSpindleTemperature2), 2),
-                        AvgRackSpindleTemperature1 = MathF.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature1), 2),
-                        AvgRackSpindleTemperature2 = MathF.Round(datas.Average(e => (float)e.AvgRackSpindleTemperature2), 2),
-                        AvgVibrate1 = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
                         WearValue1 = MathF.Round(datas.Average(e => (float)e.WearValue1), 2),
-                        AvgVibrate2 = MathF.Round(datas.Average(e => (float)e.AvgVibrate2), 2),
                         WearValue2 = MathF.Round(datas.Average(e => (float)e.WearValue2), 2),
-                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = loadStall,
                         RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new {
                             e.AvgMotiveSpindleTemperature1,
@@ -538,17 +770,8 @@ namespace Yunt.Device.Repository.EF.Services
                 case "CC":
                     return new
                     {
-                        AvgMovaStress = MathF.Round(datas.Average(e => (float)e.AvgMovaStress), 2),
-                        AvgOilReturnTempreatur = MathF.Round((datas.Average(e => (float)e.AvgOilReturnTempreatur)), 2),
-                        AvgOilFeedTempreature = MathF.Round(datas.Average(e => (float)e.AvgOilFeedTempreature), 2),
-                        AvgTankTemperature = MathF.Round((datas.Average(e => (float)e.AvgTankTemperature)), 2),
-                        AvgSpindleTravel = MathF.Round(datas.Average(e => (float)e.AvgSpindleTravel), 2),
-                        AvgVibrate1 = MathF.Round((datas.Average(e => (float)e.AvgVibrate1)), 2),
-                        AvgVibrate2 = MathF.Round((datas.Average(e => (float)e.AvgVibrate2)), 2),
                         WearValue1 = MathF.Round(datas.Average(e => (float)e.WearValue1), 2),
-                        WearValue2 = MathF.Round((datas.Average(e => (float)e.WearValue2)), 2),
-                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = loadStall,
+                        WearValue2 = MathF.Round(datas.Average(e => (float)e.WearValue2), 2),
                         RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new {
                             e.AvgMovaStress,
@@ -571,22 +794,12 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         WearValue1 = MathF.Round(datas.Average(e => (float)e.WearValue1), 2),
                         WearValue2 = MathF.Round(datas.Average(e => (float)e.WearValue2), 2),
-                        AvgVibrate1 = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                        AvgVibrate2 = MathF.Round((datas.Average(e => (float)e.AvgVibrate2)), 2),
-                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = loadStall,
                         RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new { e.WearValue2, e.WearValue1, e.AvgVibrate1, e.AvgVibrate2, Current = e.AvgCurrent_B, e.RunningTime, UnixTime = e.Time })
                     };
                 case "VB":
                     return new
                     {
-                        AvgSpindleTemperature4 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature4), 2),
-                        AvgSpindleTemperature2 = MathF.Round((datas.Average(e => (float)e.AvgSpindleTemperature2)), 2),
-                        AvgSpindleTemperature1 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
-                        AvgSpindleTemperature3 = MathF.Round((datas.Average(e => (float)e.AvgSpindleTemperature3)), 2),
-                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = loadStall,
                         RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new {
                             e.AvgSpindleTemperature1,
@@ -602,10 +815,6 @@ namespace Yunt.Device.Repository.EF.Services
                 case "SCC":
                     return new
                     {
-                        AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
-                        AccumulativeWeight = MathF.Round((datas.Sum(e => (float)e.AccumulativeWeight)), 2),
-                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = loadStall,
                         RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new { Output = e.AccumulativeWeight, Current = e.AvgCurrent_B, e.RunningTime, UnixTime = e.Time })
                     };
@@ -613,12 +822,8 @@ namespace Yunt.Device.Repository.EF.Services
                 case "PUL":
                     return new
                     {
-                        AvgVibrate1 = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                        AvgVibrate2 = MathF.Round((datas.Average(e => (float)e.AvgVibrate2)), 2),
                         WearValue1 = MathF.Round(datas.Average(e => (float)e.WearValue1), 2),
-                        WearValue2 = MathF.Round((datas.Average(e => (float)e.WearValue2)), 2),
-                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = loadStall,
+                        WearValue2 = MathF.Round(datas.Average(e => (float)e.WearValue2), 2),
                         RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new { e.WearValue2, e.WearValue1, e.AvgVibrate1, e.AvgVibrate2, Current = e.AvgCurrent_B, e.RunningTime, UnixTime = e.Time })
                     };
@@ -626,15 +831,8 @@ namespace Yunt.Device.Repository.EF.Services
                 case "IC":
                     return new
                     {
-                        AvgMotor2Current_B = MathF.Round(datas.Average(e => (float)e.AvgMotor2Current_B), 2),
-                        AvgMotor1Current_B = MathF.Round((datas.Average(e => (float)e.AvgMotor1Current_B)), 2),
-                        AvgSpindleTemperature1 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature1), 2),
-                        AvgSpindleTemperature2 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature2), 2),
-                        AvgVibrate1 = MathF.Round(datas.Average(e => (float)e.AvgVibrate1), 2),
-                        AvgVibrate2 = MathF.Round((datas.Average(e => (float)e.AvgVibrate2)), 2),
                         WearValue1 = MathF.Round(datas.Average(e => (float)e.WearValue1), 2),
-                        WearValue2 = MathF.Round((datas.Average(e => (float)e.WearValue2)), 2),
-                        LoadStall = loadStall,
+                        WearValue2 = MathF.Round(datas.Average(e => (float)e.WearValue2), 2),
                         RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new {
                             e.WearValue2,
@@ -653,14 +851,6 @@ namespace Yunt.Device.Repository.EF.Services
                 case "HVB":
                     return new
                     {
-                        AvgSpindleTemperature4 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature4), 2),
-                        AvgSpindleTemperature2 = MathF.Round((datas.Average(e => (float)e.AvgSpindleTemperature2)), 2),
-                        AvgSpindleTemperature3 = MathF.Round(datas.Average(e => (float)e.AvgSpindleTemperature3), 2),
-                        AvgSpindleTemperature1 = MathF.Round((datas.Average(e => (float)e.AvgSpindleTemperature1)), 2),
-                        AvgOilReturnStress = MathF.Round(datas.Average(e => (float)e.AvgOilReturnStress), 2),
-                        AvgOilFeedStress = MathF.Round((datas.Average(e => (float)e.AvgOilFeedStress)), 2),
-                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = loadStall,
                         RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                         SeriesData = datas.Select(e => new {
                             e.AvgSpindleTemperature4,
@@ -675,246 +865,13 @@ namespace Yunt.Device.Repository.EF.Services
                         })
                     };
                 default:
-                    return  new
+                    return new
                     {
-                        AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
-                        AccumulativeWeight = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2),
-                        AvgCurrent = MathF.Round(datas.Average(e => (float)e.AvgCurrent_B), 2),
-                        LoadStall = loadStall,
-                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),                    
+                        RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2),
                     };
             }
         }
-
-        /// <summary>
-        /// 获取设备详情
-        /// </summary>
-        /// <param name="motorTypeId"></param>
-        /// <returns></returns>
-        private dynamic GetMotorDetails(string motorTypeId)
-        {
-            switch (motorTypeId)
-            {
-                case "CY":
-                    return new
-                    {
-                        AvgInstantWeight = 0,
-                        AccumulativeWeight = 0,
-                        AvgCurrent = 0,
-                        LoadStall =0,
-                        RunningTime = 0,
-                        SeriesData =  new {
-                            Output = 0,
-                            Current =0,
-                            RunningTime=0,
-                            UnixTime = 0
-                        }
-                    };
-                case "MF":
-                    return new
-                    {
-                        AvgCurrent = 0,
-                        AvgFrequency = 0,
-                        LoadStall = 0,
-                        RunningTime = 0,
-                        SeriesData =  new { AvgFrequency = 0, Current = 0,AvgCurrent_B = 0, RunningTime=0, UnixTime =0 }
-                    };
-                case "JC":
-                    return new
-                    {
-                        AvgMotiveSpindleTemperature1 = 0,
-                        AvgMotiveSpindleTemperature2  = 0,
-                        AvgRackSpindleTemperature1 = 0,
-                        AvgRackSpindleTemperature2 = 0,
-                        AvgVibrate1 = 0,
-                        WearValue1 =0,
-                        AvgVibrate2 = 0,
-                        WearValue2 =0,
-                        AvgCurrent = 0,
-                        LoadStall =0,
-                        RunningTime = 0,
-                        SeriesData = new {
-                           AvgMotiveSpindleTemperature1 = 0,
-                            AvgMotiveSpindleTemperature2 = 0,
-                            AvgRackSpindleTemperature1 = 0,
-                            AvgRackSpindleTemperature2 = 0,
-                           AvgVibrate1 = 0,
-                          AvgVibrate2 = 0,
-                           WearValue2 = 0,
-                           WearValue = 0,
-                           AvgCurrent_B = 0,
-                           RunningTime = 0,
-                            UnixTime =0
-                        }
-                    };
-                case "CC":
-                    return new
-                    {
-                        AvgMovaStress =  0,
-                        AvgOilReturnTempreatur =0,
-                        AvgOilFeedTempreature = 0,
-                        AvgTankTemperature = 0,
-                        AvgSpindleTravel = 0,
-                        AvgVibrate1 =0,
-                        AvgVibrate2 = 0,
-                        WearValue1 = 0,
-                        WearValue2 =0,
-                        AvgCurrent = 0,
-                        LoadStall =0,
-                        RunningTime =0,
-                        SeriesData = new {
-                           AvgMovaStress = 0,
-                           AvgOilReturnTempreatur = 0,
-                           AvgOilFeedTempreature = 0,
-                           AvgTankTemperature = 0,
-                           AvgSpindleTravel = 0,
-                           AvgVibrate1 = 0,
-                           AvgVibrate2 = 0,
-                           WearValue1 = 0,
-                           WearValue2 = 0,
-                            Current = 0,
-                           RunningTime = 0,
-                            UnixTime =0
-                        }
-                    };
-
-                case "VC":
-                    return new
-                    {
-                        WearValue1 = 0,
-                        WearValue2 = 0,
-                        AvgVibrate1 = 0,
-                        AvgVibrate2 = 0,
-                        AvgCurrent = 0,
-                        LoadStall = 0,
-                        RunningTime = 0,
-                        SeriesData =new {
-                           WearValue2=0,
-                           WearValue1=0,
-                           AvgVibrate=01,
-                           AvgVibrate2=0,
-                            Current =0,
-                            RunningTime=0,
-                            UnixTime = 0 }
-                    };
-                case "VB":
-                    return new
-                    {
-                        AvgSpindleTemperature4 = 0,
-                        AvgSpindleTemperature2 = 0,
-                        AvgSpindleTemperature1 = 0,
-                        AvgSpindleTemperature3 = 0,
-                        AvgCurrent =0,
-                        LoadStall =0, 
-                        RunningTime =0,   
-                        SeriesData = new {
-                          AvgSpindleTemperature1=0,
-                          AvgSpindleTemperature4=0,
-                          AvgSpindleTemperature2=0,
-                          AvgSpindleTemperature3=0,
-                            Current = 0,
-                            RunningTime=0,
-                            UnixTime =0
-                        }
-                    };
-
-                case "SCC":
-                    return new
-                    {
-                        AvgInstantWeight =0,
-                        AccumulativeWeight=0,
-                        AvgCurrent = 0,
-                        LoadStall = 0,
-                        RunningTime = 0,                     
-                        SeriesData = new {
-                            Output =0,
-                            Current = 0,
-                            RunningTime=0,
-                            UnixTime =0 }
-                    };
-
-                case "PUL":
-                    return new
-                    {
-                        AvgVibrate1 =0,
-                        AvgVibrate2 = 0,
-                        WearValue1 = 0,
-                        WearValue2 = 0,
-                        AvgCurrent = 0,
-                        LoadStall = 0,
-                        RunningTime = 0,
-                        SeriesData = new {
-                           WearValue2=0,
-                           WearValue1=0,
-                           AvgVibrate1=0,
-                           AvgVibrate2=0,
-                            Current = 0,
-                            RunningTime=0,
-                            UnixTime = 0 }
-                    };
-
-                case "IC":
-                    return new
-                    {
-                        AvgMotor2Current_B = 0,
-                        AvgMotor1Current_B = 0,
-                        AvgSpindleTemperature1 =0 ,
-                        AvgSpindleTemperature2 =0 ,
-                        AvgVibrate1 = 0,
-                        AvgVibrate2 = 0,
-                        WearValue1 = 0,
-                        WearValue2 = 0,
-                        LoadStall = 0,
-                        RunningTime = 0,
-                        SeriesData = new {
-                           WearValue2=0,
-                           WearValue1 = 0,
-                           AvgVibrate1 = 0,
-                           AvgVibrate2 = 0,
-                            AvgMotor2Current_B = 0,
-                            AvgMotor1Current_B = 0,
-                           AvgSpindleTemperature1 = 0,
-                           AvgSpindleTemperature2 = 0,
-                            Current = 0,
-                            RunningTime = 0,
-                            UnixTime = 0
-                        }
-                    };
-                case "HVB":
-                    return new
-                    {
-                        AvgSpindleTemperature4 =0,
-                        AvgSpindleTemperature2 = 0,
-                        AvgSpindleTemperature3 = 0,
-                        AvgSpindleTemperature1 = 0,
-                        AvgOilReturnStress = 0,
-                        AvgOilFeedStress =0,
-                        AvgCurrent =0,
-                        LoadStall = 0,
-                        RunningTime = 0,
-                        SeriesData = new {
-                           AvgSpindleTemperature4=0,
-                           AvgSpindleTemperature2 = 0,
-                           AvgSpindleTemperature3 = 0,
-                           AvgSpindleTemperature1 = 0,
-                           AvgOilFeedStress = 0,
-                           AvgOilReturnStress = 0,
-                            Current = 0,
-                            RunningTime = 0,
-                            UnixTime = 0
-                        }
-                    };
-                default:
-                    return new
-                    {
-                        AvgInstantWeight = 0,
-                        AccumulativeWeight = 0,
-                        AvgCurrent = 0,
-                        LoadStall =0,
-                        RunningTime = 0,
-                    };
-            }
-        }
+       
         /// <summary>
         /// 根据电机设备ID获取当日电机设备详情
         /// </summary>
@@ -1385,13 +1342,14 @@ namespace Yunt.Device.Repository.EF.Services
                 }
 
             });
-            var groups = list.GroupBy(e => e.Time);
-            foreach (var item in groups)
-            {
-                var time = item.Key;
-                var powerSum = MathF.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
-                resp.Add(new PowerCal { ActivePower = powerSum, Time = (long)time });
-            }
+            var groups = list?.OrderBy(e => e.Time)?.GroupBy(e => e.Time);
+            if(groups!=null&&groups.Any())
+                foreach (var item in groups)
+                {
+                    var time = item.Key;
+                    var powerSum = MathF.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
+                    resp.Add(new PowerCal { ActivePower = powerSum, Time = (long)time });
+                }
             return resp;
         }
 
@@ -1702,239 +1660,7 @@ namespace Yunt.Device.Repository.EF.Services
             }
         }
 
-        /// <summary>
-        /// 获取设备详情
-        /// </summary>
-        /// <param name="motorTypeId"></param>
-        /// <returns></returns>
-        private dynamic GetMobileMotorDetails(string motorTypeId)
-        {
-            switch (motorTypeId)
-            {
-                case "CY":
-                    return new
-                    {
-                        outline = new
-                        {
-                            // AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
-                            Output =0,
-                            Current = 0,
-                            Load = 0,
-                            RunningTime =0,
-                        },
-                        xAxis = new { },
-                        outputSeries = new {},
-                        runningtimeSeries = new {  },
-                        currentSeries = new {},
-                    };
-                case "MF":
-                    return new
-                    {
-                        outline = new
-                        {
-                            Frequency =0, 
-                            Current = 0,
-                            Load = 0,
-                            RunningTime =0,   
-                        },
-                        xAxis = new { },
-                        freqSeries = new { },
-                        runningtimeSeries = new { },
-                        currentSeries = new { },
-                    };
-                case "JC":
-                    return new
-                    {
-                        outline = new
-                        {
-                            MST = 0,
-                            MST2 = 0,
-                            RST = 0,
-                            RST2 = 0,
-                            VIB = 0,
-                            VIB2 = 0,
-                            Current = 0,
-                            Load =0,
-                            RunningTime =0,
-                        },
-                        xAxis = new { },
-                        mstSeries = new { },
-                        mst2Series = new { },
-                        rstSeries = new { },
-                        rst2Series = new { },
-                        vibSeries = new { },
-                        vib2Series = new { },
-                        runningtimeSeries = new { },
-                        currentSeries = new { },
-                    };
-                case "CC":
-                    return new
-                    {
-                        outline = new
-                        {
-                            TT = 0,
-                            OFT = 0,
-                            ORT = 0,
-                            STV = 0,
-                            MS = 0,
-                            VIB = 0,
-                            VIB2 = 0,
-                            Current =0,
-                            Load = 0,
-                            RunningTime = 0,
-                        },
-                        xAxis = new { },
-                        ttSeries = new { },
-                        oftSeries = new { },
-                        ortSeries = new { },
-                        stvSeries = new { },
-                        msSeries = new { },
-                        vibSeries = new { },
-                        vib2Series = new { },
-                        runningtimeSeries = new { },
-                        currentSeries = new { },
-                    };
-
-                case "VC":
-                    return new
-                    {
-                        outline = new
-                        {
-                            VIB = 0,
-                            VIB2 = 0,
-                            Current = 0,
-                            Load =0,
-                            RunningTime = 0,
-                        },
-                        xAxis = new {  },
-                        vibSeries = new {},
-                        vib2Series = new {  },
-                        runningtimeSeries = new {  },
-                        currentSeries = new { },
-                    };
-                case "VB":
-                    return new
-                    {
-                        outline = new
-                        {
-                            ST = 0,
-                            ST2 = 0,
-                            ST3 = 0,
-                            ST4 =0,
-                            Current = 0,
-                            Load = 0,
-                            RunningTime = 0,
-                        },
-                        xAxis = new {  },
-                        stSeries = new {  },
-                        st2Series = new {  },
-                        st3Series = new {  },
-                        st4Series = new { },
-                        runningtimeSeries = new {  },
-                        currentSeries = new {  },
-                    };
-
-                case "SCC":
-                    return new
-                    {
-                        outline = new
-                        {
-                            TT = 0,
-                            OFT = 0,
-                            ORT =0,
-                            STV = 0,
-                            MS = 0,
-                            VIB = 0,
-                            VIB2 =0,
-                            Current = 0,
-                            Load = 0,
-                            RunningTime = 0,
-                        },
-                        xAxis = new {  },
-                        mstSeries = new {  },
-                        mst2Series = new {  },
-                        rstSeries = new {  },
-                        rst2Series = new {  },
-                        vibSeries = new {  },
-                        vib2Series = new {  },
-                        runningtimeSeries = new { },
-                        currentSeries = new { },
-
-                    };
-
-                case "PUL":
-                    return new
-                    {
-                        outline = new
-                        {
-                            VIB = 0,
-                            VIB2 = 0,
-                            Current = 0,
-                            Load = 0,
-                            RunningTime = 0,
-                        },
-                        xAxis = new {  },
-                        vibSeries = new {  },
-                        vib2Series = new {  },
-                        runningtimeSeries = new { },
-                        currentSeries = new { },
-                    };
-
-                case "IC":
-                    return new
-                    {
-                        outline = new
-                        {
-                            ST =0,
-                            ST2 = 0,
-                            Current2 = 0,
-                            VIB = 0,
-                            VIB2 = 0,
-                            Current =0,
-                            Load = 0,
-                            RunningTime = 0,
-                        },
-                        xAxis = new {  },
-                        stSeries = new { },
-                        st2Series = new {  },
-                        current2Series = new { },
-                        vibSeries = new {  },
-                        vib2Series = new {  },
-                        runningtimeSeries = new {  },
-                        currentSeries = new { },
-
-                    };
-                case "HVB":
-                    return new
-                    {
-                        outline = new
-                        {
-                            ST = 0,
-                            ST2 =0,
-                            ST3 =0,
-                            ST4 =0,
-                            OFS =0,
-                            ORS =0,
-                            Current = 0,
-                            Load = 0,
-                            RunningTime = 0,
-                        },
-                        xAxis = new {  },
-                        stSeries = new {  },
-                        st2Series = new { },
-                        st3Series = new {  },
-                        st4Series = new {  },
-                        runningtimeSeries = new {  },
-                        ofsSeries = new {  },
-                        orsSeries = new { },
-                        currentSeries = new {  },
-                    };
-                default:
-                    return new
-                    {
-                    };
-            }
-        }
+       
         #endregion
 
         #region version 18.07.17
@@ -1977,6 +1703,614 @@ namespace Yunt.Device.Repository.EF.Services
 
                 default:
                     return 0f;
+            }
+        }
+        #endregion
+
+        #region private method
+        /// <summary>
+        /// 获取设备详情
+        /// </summary>
+        /// <param name="motorTypeId"></param>
+        /// <returns></returns>
+        private dynamic GetMotorSeries(string motorTypeId)
+        {
+            switch (motorTypeId)
+            {
+                case "CY":
+                    return new
+                    {
+                        //AvgInstantWeight = 0,
+                        AccumulativeWeight = 0,
+                        //AvgCurrent = 0,
+                       // LoadStall = 0,
+                        RunningTime = 0,
+                        SeriesData = new
+                        {
+                            Output = 0,
+                            Current = 0,
+                            RunningTime = 0,
+                            UnixTime = 0
+                        }
+                    };
+                case "MF":
+                    return new
+                    {
+                        //AvgCurrent = 0,
+                        //AvgFrequency = 0,
+                        LoadStall = 0,
+                        RunningTime = 0,
+                        SeriesData = new { AvgFrequency = 0, Current = 0, AvgCurrent_B = 0, RunningTime = 0, UnixTime = 0 }
+                    };
+                case "JC":
+                    return new
+                    {
+                       // AvgMotiveSpindleTemperature1 = 0,
+                       // AvgMotiveSpindleTemperature2 = 0,
+                       // AvgRackSpindleTemperature1 = 0,
+                       // AvgRackSpindleTemperature2 = 0,
+                      //  AvgVibrate1 = 0,
+                        WearValue1 = 0,
+                       // AvgVibrate2 = 0,
+                        WearValue2 = 0,
+                      //  AvgCurrent = 0,
+                        //LoadStall = 0,
+                        RunningTime = 0,
+                        SeriesData = new
+                        {
+                            AvgMotiveSpindleTemperature1 = 0,
+                            AvgMotiveSpindleTemperature2 = 0,
+                            AvgRackSpindleTemperature1 = 0,
+                            AvgRackSpindleTemperature2 = 0,
+                            AvgVibrate1 = 0,
+                            AvgVibrate2 = 0,
+                            WearValue2 = 0,
+                            WearValue = 0,
+                            AvgCurrent_B = 0,
+                            RunningTime = 0,
+                            UnixTime = 0
+                        }
+                    };
+                case "CC":
+                    return new
+                    {
+                       // AvgMovaStress = 0,
+                      //  AvgOilReturnTempreatur = 0,
+                       // AvgOilFeedTempreature = 0,
+                       // AvgTankTemperature = 0,
+                      //  AvgSpindleTravel = 0,
+                     //   AvgVibrate1 = 0,
+                      //  AvgVibrate2 = 0,
+                        WearValue1 = 0,
+                        WearValue2 = 0,
+                      //  AvgCurrent = 0,
+                       // LoadStall = 0,
+                        RunningTime = 0,
+                        SeriesData = new
+                        {
+                            AvgMovaStress = 0,
+                            AvgOilReturnTempreatur = 0,
+                            AvgOilFeedTempreature = 0,
+                            AvgTankTemperature = 0,
+                            AvgSpindleTravel = 0,
+                            AvgVibrate1 = 0,
+                            AvgVibrate2 = 0,
+                            WearValue1 = 0,
+                            WearValue2 = 0,
+                            Current = 0,
+                            RunningTime = 0,
+                            UnixTime = 0
+                        }
+                    };
+
+                case "VC":
+                    return new
+                    {
+                        WearValue1 = 0,
+                        WearValue2 = 0,
+                        //AvgVibrate1 = 0,
+                       // AvgVibrate2 = 0,
+                       // AvgCurrent = 0,
+                       // LoadStall = 0,
+                        RunningTime = 0,
+                        SeriesData = new
+                        {
+                            WearValue2 = 0,
+                            WearValue1 = 0,
+                            AvgVibrate = 01,
+                            AvgVibrate2 = 0,
+                            Current = 0,
+                            RunningTime = 0,
+                            UnixTime = 0
+                        }
+                    };
+                case "VB":
+                    return new
+                    {
+                        //AvgSpindleTemperature4 = 0,
+                        //AvgSpindleTemperature2 = 0,
+                      //  AvgSpindleTemperature1 = 0,
+                      //  AvgSpindleTemperature3 = 0,
+                      //  AvgCurrent = 0,
+                       // LoadStall = 0,
+                        RunningTime = 0,
+                        SeriesData = new
+                        {
+                            AvgSpindleTemperature1 = 0,
+                            AvgSpindleTemperature4 = 0,
+                            AvgSpindleTemperature2 = 0,
+                            AvgSpindleTemperature3 = 0,
+                            Current = 0,
+                            RunningTime = 0,
+                            UnixTime = 0
+                        }
+                    };
+
+                case "SCC":
+                    return new
+                    {
+                       // AvgInstantWeight = 0,
+                       // AccumulativeWeight = 0,
+                       // AvgCurrent = 0,
+                       // LoadStall = 0,
+                        RunningTime = 0,
+                        SeriesData = new
+                        {
+                           // Output = 0,
+                            Current = 0,
+                            RunningTime = 0,
+                            UnixTime = 0
+                        }
+                    };
+
+                case "PUL":
+                    return new
+                    {
+                       // AvgVibrate1 = 0,
+                       // AvgVibrate2 = 0,
+                        WearValue1 = 0,
+                        WearValue2 = 0,
+                      //  AvgCurrent = 0,
+                      //  LoadStall = 0,
+                        RunningTime = 0,
+                        SeriesData = new
+                        {
+                            WearValue2 = 0,
+                            WearValue1 = 0,
+                            AvgVibrate1 = 0,
+                            AvgVibrate2 = 0,
+                            Current = 0,
+                            RunningTime = 0,
+                            UnixTime = 0
+                        }
+                    };
+
+                case "IC":
+                    return new
+                    {
+                        //AvgMotor2Current_B = 0,
+                        //AvgMotor1Current_B = 0,
+                        //AvgSpindleTemperature1 = 0,
+                        //AvgSpindleTemperature2 = 0,
+                        //AvgVibrate1 = 0,
+                        //AvgVibrate2 = 0,
+                        WearValue1 = 0,
+                        WearValue2 = 0,
+                        //LoadStall = 0,
+                        RunningTime = 0,
+                        SeriesData = new
+                        {
+                            WearValue2 = 0,
+                            WearValue1 = 0,
+                            AvgVibrate1 = 0,
+                            AvgVibrate2 = 0,
+                            AvgMotor2Current_B = 0,
+                            AvgMotor1Current_B = 0,
+                            AvgSpindleTemperature1 = 0,
+                            AvgSpindleTemperature2 = 0,
+                            Current = 0,
+                            RunningTime = 0,
+                            UnixTime = 0
+                        }
+                    };
+                case "HVB":
+                    return new
+                    {
+                        //AvgSpindleTemperature4 = 0,
+                        //AvgSpindleTemperature2 = 0,
+                        //AvgSpindleTemperature3 = 0,
+                        //AvgSpindleTemperature1 = 0,
+                        //AvgOilReturnStress = 0,
+                        //AvgOilFeedStress = 0,
+                        //AvgCurrent = 0,
+                        //LoadStall = 0,
+                        RunningTime = 0,
+                        SeriesData = new
+                        {
+                            AvgSpindleTemperature4 = 0,
+                            AvgSpindleTemperature2 = 0,
+                            AvgSpindleTemperature3 = 0,
+                            AvgSpindleTemperature1 = 0,
+                            AvgOilFeedStress = 0,
+                            AvgOilReturnStress = 0,
+                            Current = 0,
+                            RunningTime = 0,
+                            UnixTime = 0
+                        }
+                    };
+                default:
+                    return new
+                    {
+                        //AvgInstantWeight = 0,
+                       // AccumulativeWeight = 0,
+                       // AvgCurrent = 0,
+                        //LoadStall = 0,
+                        RunningTime = 0,
+                    };
+            }
+        }
+        /// <summary>
+        /// 获取设备详情
+        /// </summary>
+        /// <param name="motorTypeId"></param>
+        /// <returns></returns>
+        private dynamic GetMotorDetails(string motorTypeId)
+        {
+            switch (motorTypeId)
+            {
+                case "CY":
+                    return new
+                    {
+                        AvgInstantWeight = 0,
+                        //AccumulativeWeight = 0,
+                        AvgCurrent = 0,
+                        LoadStall = 0,
+                    };
+                case "MF":
+                    return new
+                    {
+                        AvgCurrent = 0,
+                        AvgFrequency = 0,
+                        LoadStall = 0,
+                    };
+                case "JC":
+                    return new
+                    {
+                        AvgMotiveSpindleTemperature1 = 0,
+                        AvgMotiveSpindleTemperature2 = 0,
+                        AvgRackSpindleTemperature1 = 0,
+                        AvgRackSpindleTemperature2 = 0,
+                        AvgVibrate1 = 0,
+                        //WearValue1 = 0,
+                        AvgVibrate2 = 0,
+                       // WearValue2 = 0,
+                        AvgCurrent = 0,
+                        LoadStall = 0,                      
+                    };
+                case "CC":
+                    return new
+                    {
+                        AvgMovaStress = 0,
+                        AvgOilReturnTempreatur = 0,
+                        AvgOilFeedTempreature = 0,
+                        AvgTankTemperature = 0,
+                        AvgSpindleTravel = 0,
+                        AvgVibrate1 = 0,
+                        AvgVibrate2 = 0,
+                        //WearValue1 = 0,
+                        //WearValue2 = 0,
+                        AvgCurrent = 0,
+                        LoadStall = 0,                  
+                    };
+
+                case "VC":
+                    return new
+                    {
+                        //WearValue1 = 0,
+                        //WearValue2 = 0,
+                        AvgVibrate1 = 0,
+                        AvgVibrate2 = 0,
+                        AvgCurrent = 0,
+                        LoadStall = 0,                      
+                    };
+                case "VB":
+                    return new
+                    {
+                        AvgSpindleTemperature4 = 0,
+                        AvgSpindleTemperature2 = 0,
+                        AvgSpindleTemperature1 = 0,
+                        AvgSpindleTemperature3 = 0,
+                        AvgCurrent = 0,
+                        LoadStall = 0,                      
+                    };
+
+                case "SCC":
+                    return new
+                    {
+                       // AvgInstantWeight = 0,
+                        //AccumulativeWeight = 0,
+                        AvgCurrent = 0,
+                        LoadStall = 0,                    
+                    };
+
+                case "PUL":
+                    return new
+                    {
+                        AvgVibrate1 = 0,
+                        AvgVibrate2 = 0,
+                        //WearValue1 = 0,
+                        //WearValue2 = 0,
+                        AvgCurrent = 0,
+                        LoadStall = 0,                     
+                    };
+
+                case "IC":
+                    return new
+                    {
+                        AvgMotor2Current_B = 0,
+                        AvgMotor1Current_B = 0,
+                        AvgSpindleTemperature1 = 0,
+                        AvgSpindleTemperature2 = 0,
+                        AvgVibrate1 = 0,
+                        AvgVibrate2 = 0,
+                        //WearValue1 = 0,
+                       // WearValue2 = 0,
+                        LoadStall = 0,                     
+                    };
+                case "HVB":
+                    return new
+                    {
+                        AvgSpindleTemperature4 = 0,
+                        AvgSpindleTemperature2 = 0,
+                        AvgSpindleTemperature3 = 0,
+                        AvgSpindleTemperature1 = 0,
+                        AvgOilReturnStress = 0,
+                        AvgOilFeedStress = 0,
+                        AvgCurrent = 0,
+                        LoadStall = 0,                    
+                    };
+                default:
+                    return new
+                    {
+                        //AvgInstantWeight = 0,
+                        //AccumulativeWeight = 0,
+                        AvgCurrent = 0,
+                        LoadStall = 0,
+                    };
+            }
+        }
+
+        /// <summary>
+        /// 获取设备详情
+        /// </summary>
+        /// <param name="motorTypeId"></param>
+        /// <returns></returns>
+        private dynamic GetMobileMotorDetails(string motorTypeId)
+        {
+            switch (motorTypeId)
+            {
+                case "CY":
+                    return new
+                    {
+                        outline = new
+                        {
+                            // AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2),
+                            Output = 0,
+                            Current = 0,
+                            Load = 0,
+                            RunningTime = 0,
+                        },
+                        xAxis = new { },
+                        outputSeries = new { },
+                        runningtimeSeries = new { },
+                        currentSeries = new { },
+                    };
+                case "MF":
+                    return new
+                    {
+                        outline = new
+                        {
+                            Frequency = 0,
+                            Current = 0,
+                            Load = 0,
+                            RunningTime = 0,
+                        },
+                        xAxis = new { },
+                        freqSeries = new { },
+                        runningtimeSeries = new { },
+                        currentSeries = new { },
+                    };
+                case "JC":
+                    return new
+                    {
+                        outline = new
+                        {
+                            MST = 0,
+                            MST2 = 0,
+                            RST = 0,
+                            RST2 = 0,
+                            VIB = 0,
+                            VIB2 = 0,
+                            Current = 0,
+                            Load = 0,
+                            RunningTime = 0,
+                        },
+                        xAxis = new { },
+                        mstSeries = new { },
+                        mst2Series = new { },
+                        rstSeries = new { },
+                        rst2Series = new { },
+                        vibSeries = new { },
+                        vib2Series = new { },
+                        runningtimeSeries = new { },
+                        currentSeries = new { },
+                    };
+                case "CC":
+                    return new
+                    {
+                        outline = new
+                        {
+                            TT = 0,
+                            OFT = 0,
+                            ORT = 0,
+                            STV = 0,
+                            MS = 0,
+                            VIB = 0,
+                            VIB2 = 0,
+                            Current = 0,
+                            Load = 0,
+                            RunningTime = 0,
+                        },
+                        xAxis = new { },
+                        ttSeries = new { },
+                        oftSeries = new { },
+                        ortSeries = new { },
+                        stvSeries = new { },
+                        msSeries = new { },
+                        vibSeries = new { },
+                        vib2Series = new { },
+                        runningtimeSeries = new { },
+                        currentSeries = new { },
+                    };
+
+                case "VC":
+                    return new
+                    {
+                        outline = new
+                        {
+                            VIB = 0,
+                            VIB2 = 0,
+                            Current = 0,
+                            Load = 0,
+                            RunningTime = 0,
+                        },
+                        xAxis = new { },
+                        vibSeries = new { },
+                        vib2Series = new { },
+                        runningtimeSeries = new { },
+                        currentSeries = new { },
+                    };
+                case "VB":
+                    return new
+                    {
+                        outline = new
+                        {
+                            ST = 0,
+                            ST2 = 0,
+                            ST3 = 0,
+                            ST4 = 0,
+                            Current = 0,
+                            Load = 0,
+                            RunningTime = 0,
+                        },
+                        xAxis = new { },
+                        stSeries = new { },
+                        st2Series = new { },
+                        st3Series = new { },
+                        st4Series = new { },
+                        runningtimeSeries = new { },
+                        currentSeries = new { },
+                    };
+
+                case "SCC":
+                    return new
+                    {
+                        outline = new
+                        {
+                            TT = 0,
+                            OFT = 0,
+                            ORT = 0,
+                            STV = 0,
+                            MS = 0,
+                            VIB = 0,
+                            VIB2 = 0,
+                            Current = 0,
+                            Load = 0,
+                            RunningTime = 0,
+                        },
+                        xAxis = new { },
+                        mstSeries = new { },
+                        mst2Series = new { },
+                        rstSeries = new { },
+                        rst2Series = new { },
+                        vibSeries = new { },
+                        vib2Series = new { },
+                        runningtimeSeries = new { },
+                        currentSeries = new { },
+
+                    };
+
+                case "PUL":
+                    return new
+                    {
+                        outline = new
+                        {
+                            VIB = 0,
+                            VIB2 = 0,
+                            Current = 0,
+                            Load = 0,
+                            RunningTime = 0,
+                        },
+                        xAxis = new { },
+                        vibSeries = new { },
+                        vib2Series = new { },
+                        runningtimeSeries = new { },
+                        currentSeries = new { },
+                    };
+
+                case "IC":
+                    return new
+                    {
+                        outline = new
+                        {
+                            ST = 0,
+                            ST2 = 0,
+                            Current2 = 0,
+                            VIB = 0,
+                            VIB2 = 0,
+                            Current = 0,
+                            Load = 0,
+                            RunningTime = 0,
+                        },
+                        xAxis = new { },
+                        stSeries = new { },
+                        st2Series = new { },
+                        current2Series = new { },
+                        vibSeries = new { },
+                        vib2Series = new { },
+                        runningtimeSeries = new { },
+                        currentSeries = new { },
+
+                    };
+                case "HVB":
+                    return new
+                    {
+                        outline = new
+                        {
+                            ST = 0,
+                            ST2 = 0,
+                            ST3 = 0,
+                            ST4 = 0,
+                            OFS = 0,
+                            ORS = 0,
+                            Current = 0,
+                            Load = 0,
+                            RunningTime = 0,
+                        },
+                        xAxis = new { },
+                        stSeries = new { },
+                        st2Series = new { },
+                        st3Series = new { },
+                        st4Series = new { },
+                        runningtimeSeries = new { },
+                        ofsSeries = new { },
+                        orsSeries = new { },
+                        currentSeries = new { },
+                    };
+                default:
+                    return new
+                    {
+                    };
             }
         }
         #endregion

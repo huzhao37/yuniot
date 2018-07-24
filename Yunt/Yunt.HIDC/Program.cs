@@ -41,7 +41,7 @@ namespace Yunt.HIDC
             #endregion
 
             #region test
-            //DateTime dt = "2018-06-25 13:00:00".ToDateTime();
+            //DateTime dt = "2018-07-23 13:00:00".ToDateTime();
 
             //var x = HourStatisticsTask.Test(dt, "WDD-P001-CY000021");
 
@@ -51,34 +51,34 @@ namespace Yunt.HIDC
             #endregion
 
             #region recovery
-            try
-            {
-                DateTime start = "2018-07-16 08:00:00".ToDateTime(), end = "2018-07-16 20:00:00".ToDateTime();
-                var startT = start;
-                var hours = end.Subtract(start).TotalHours;
-                for (int i = 0; i < hours; i++)
-                {
-                    var time = startT.AddHours(i);// "2018-06-25 06:00:00".ToDateTime();//
-                    HourStatisticsTask.RecoveryTask(time);
-                }
-                Common.Logger.Error("恢复完毕！");
-                Console.ReadKey();
-            }
-            catch (Exception ex)
-            {
-                Common.Logger.Exception(ex);
-            }
+            //try
+            //{
+            //    DateTime start = "2018-07-16 08:00:00".ToDateTime(), end = "2018-07-16 20:00:00".ToDateTime();
+            //    var startT = start;
+            //    var hours = end.Subtract(start).TotalHours;
+            //    for (int i = 0; i < hours; i++)
+            //    {
+            //        var time = startT.AddHours(i);// "2018-06-25 06:00:00".ToDateTime();//
+            //        HourStatisticsTask.RecoveryTask(time);
+            //    }
+            //    Common.Logger.Error("恢复完毕！");
+            //    Console.ReadKey();
+            //}
+            //catch (Exception ex)
+            //{
+            //    Common.Logger.Exception(ex);
+            //}
 
             #endregion
 
-            //while (true)
-            //{
-            //    if (sched?.IsShutdown ?? false)
-            //        break;
-            //    if (sched == null)
-            //        Start();
-            //    Thread.Sleep(60 * 1000);
-            //}
+            while (true)
+            {
+                if (sched?.IsShutdown ?? false)
+                    break;
+                if (sched == null)
+                    Start();
+                Thread.Sleep(60 * 1000);
+            }
         }
         public static async Task Start()
         {

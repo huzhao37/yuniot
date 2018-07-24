@@ -31,7 +31,7 @@ namespace Yunt.WebApi.Controllers
         {
             try
             {
-                long startT = start.TimeSpan(), endT = end.TimeSpan();
+                long startT = start.TimeSpan(), endT = end.Date.AddDays(1).AddMilliseconds(-1).TimeSpan();
                 if (!operater.IsNullOrWhiteSpace())
                     return _maintainRepository.GetPage(pageindex, pagesize, e => e.Operator.Equals(operater) && e.Time >= startT && e.Time <= endT, e => e.Time);
                 return _maintainRepository.GetPage(pageindex, pagesize, e => e.Time >= startT && e.Time <= endT, e => e.Time);

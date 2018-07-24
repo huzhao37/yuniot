@@ -77,9 +77,9 @@ namespace Yunt.IDC.Task
 
         public static void Start()
         {
-            var datas=originalBytesRepository.GetEntities(e => e.Time >= 1529456400 && e.Time <= 1530374340 
-                        && e.ProductionLineId.Equals("WDD-P001"))?.OrderBy(e=>e.Time)?.ToList();//6.20 9:00~6.30 23:59
-            if (datas != null && datas.Any())
+            var datas=originalBytesRepository.GetEntities(e => e.Time >= 1530374400 && e.Time <= 1532051400 //7.1 0:00~7.20 9:50
+                        && e.ProductionLineId.Equals("WDD-P001"))?.OrderBy(e=>e.Time)?.ToList();//6.20 9:00~6.30 23:59 (1529456400,1530374340)
+            if (datas != null && datas.Any()) 
                 datas.ForEach(d => {
                     try
                     {
@@ -99,7 +99,7 @@ namespace Yunt.IDC.Task
                     }
                
                 });
-            Logger.Error($"6月份原始DB数据恢复完毕！");
+            Logger.Error($"7月份原始DB数据恢复完毕！");
         }
         private static bool Saving(DataGramModel model)
         {

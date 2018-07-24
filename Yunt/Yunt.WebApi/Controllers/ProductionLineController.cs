@@ -310,18 +310,31 @@ namespace Yunt.WebApi.Controllers
             if ((startT == endT) && (startT == now))
             {
                 datas = _productionLineRepository.MotorHours(motor)?.OrderBy(e => (long)e.Time)?.ToList();
-                return _productionLineRepository.GetMotorDetails(datas, motor, true);
+                var series=_productionLineRepository.GetMotorSeries(datas, motor);
+                var details= _productionLineRepository.GetMotorInstantDetails( motor);
+                return new { details,series };
             }
             //历史某一天
             if (startT == endT)
             {
                 datas = _productionLineRepository.MotorHours(motor, startT)?.OrderBy(e => (long)e.Time)?.ToList();
-                return _productionLineRepository.GetMotorDetails(datas, motor, false);
+                var series = _productionLineRepository.GetMotorSeries(datas, motor);
+                var details = _productionLineRepository.GetMotorHistoryDetails(datas, motor);
+                return new { details, series };
             }
             datas = _productionLineRepository.MotorDays(startT, endT, motor)?.OrderBy(e => (long)e.Time)?.ToList();
-            return _productionLineRepository.GetMotorDetails(datas, motor, false);
+            if (datas == null || !datas.Any())
+            {
+                var todayDatas = _productionLineRepository.MotorDetails(motor);
+                todayDatas.Time = DateTime.Now.Date.TimeSpan();
+                datas.Add(todayDatas);
+            }
+            
+            return new {
+                details = _productionLineRepository.GetMotorHistoryDetails(datas, motor),
+                series = _productionLineRepository.GetMotorSeries(datas, motor)
+            };
         }
-
         #endregion
 
         #region schedule
@@ -499,7 +512,9 @@ namespace Yunt.WebApi.Controllers
         public dynamic GetScheduleCys(string productionlineId)
         {
             var results = new List<dynamic>();
-            var cys = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) && e.IsBeltWeight)?.ToList();
+            var cys = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) &&
+                        (e.MotorId.Equals("WDD-P001-CY000054")|| e.MotorId.Equals("WDD-P001-CY000019") || 
+                        e.MotorId.Equals("WDD-P001-CY000041") ||e.MotorId.Equals("WDD-P001-CY000046")||e.IsMainBeltWeight))?.ToList();
             if (cys != null && cys.Any())
                 cys.ForEach(cy => {
                     results.Add(new {cy.MotorId, cy.Name});

@@ -50,13 +50,25 @@ namespace Yunt.Device.Domain.Services
         IEnumerable<dynamic> MotorDays(long start, long end, Motor motor);
 
         /// <summary>
-        /// 根据动态数据获取设备详情
+        /// 获取设备瞬时详情项
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+        dynamic GetMotorInstantDetails( Motor motor );
+        /// <summary>
+        /// 根据动态数据获取设备历史详情项
         /// </summary>
         /// <param name="datas"></param>
         /// <param name="motor"></param>
-        /// <param name="isInstant">是否瞬时</param>
         /// <returns></returns>
-        dynamic GetMotorDetails(IEnumerable<dynamic> datas, Motor motor, bool isInstant);
+        dynamic GetMotorHistoryDetails(IEnumerable<dynamic> datas, Motor motor);
+        /// <summary>
+        /// 根据动态数据获取设备详情图表
+        /// </summary>
+        /// <param name="datas"></param>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+        dynamic GetMotorSeries(IEnumerable<dynamic> datas, Motor motor);
         /// <summary>
         /// 根据电机设备ID和时间节点获取电机设备详情
         /// </summary>

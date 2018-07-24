@@ -86,7 +86,7 @@ namespace Yunt.IDA.Tasks
                 mailBody = content,
                 isbodyHtml = true,    //是否是HTML
                 host = "smtp.exmail.qq.com",//如果是QQ邮箱则：smtp:qq.com,依次类推
-                mailToArray = new string[] { "wubo@unitoon.cn", "xuzh@unitoon.cn", "yujf@unitoon.cn","dongb@unitoon.cn","shuhr@unitoon.cn","liz@unitoon.cn",
+                mailToArray = new string[] { "wubo@unitoon.cn", "xuzh@unitoon.cn", "yujf@sari.ac.cn","dongb@unitoon.cn","shuhr@unitoon.cn","liz@unitoon.cn",
                 "huangdb@unitoon.cn", "lic@unitoon.cn"
                 //"zhaoh@unitoon.cn"
                 },//接收者邮件集合
@@ -115,6 +115,8 @@ namespace Yunt.IDA.Tasks
                 var logs = MotorEventLogRepository.GetAiLogsByKey(key);
                 //todo
                 var time = DateTime.Now.TimeSpan();
+                //test
+                //var time = DateTime.Now.Date.AddDays(-1).TimeSpan();
                 if (logs.Any())
                 {
                     string motorId = "";
@@ -342,7 +344,7 @@ namespace Yunt.IDA.Tasks
                     var faccumlateWeigh = logs?.Where(e => e.Param.Contains("累计产量")).ToList();
                     if (faccumlateWeigh != null && faccumlateWeigh.Any())
                     {
-                        var last = 0.0;
+                        float last = 0f;
                         for (var i = 0; i < faccumlateWeigh.Count(); i++)
                         {
                             var weigh = faccumlateWeigh[i].Value;
@@ -374,15 +376,15 @@ namespace Yunt.IDA.Tasks
                     var accumlateWeigh = logs?.Where(e => e.Param.Contains("累计产量")).ToList();
                     if (accumlateWeigh != null && accumlateWeigh.Any())
                     {
-                        var last = 0.0;
+                        float last = 0f;
                         for (var i = 0; i < accumlateWeigh.Count(); i++)
                         {
                             var weigh = accumlateWeigh[i].Value;
                             if (i == 0)
                             {
-                                last = weigh;
+                                last = (float)weigh;
                                 continue;
-                            }
+                            }                         
                             //跑偏
                             if (weigh - last >= 100)
                             {
@@ -394,10 +396,9 @@ namespace Yunt.IDA.Tasks
                                     ProductionLineId = lineId,
                                     MotorName = MotorName,
                                     Time = accumlateWeigh[i].Time
-                                });
-
-                                last = weigh;
+                                });                        
                             }
+                            last = weigh;
                         }
                     }
                     break;
@@ -590,7 +591,7 @@ namespace Yunt.IDA.Tasks
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
-                        if (e.Any(item => item.Value != -1))
+                        if (e.Any(item => item.Value != -1f))
                             return;
                         var id = MotorId;
                         var exist = motorLogs.Where(x => x.MotorId == id && x.EventCode.Equals("EVT00000014"));
@@ -731,7 +732,7 @@ namespace Yunt.IDA.Tasks
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
-                        if (e.Any(item => item.Value != -1))
+                        if (e.Any(item => item.Value != -1f))
                             return;
                         var id = MotorId;
                         var exist = motorLogs.Where(x => x.MotorId == id && x.EventCode.Equals("EVT000000019"));
@@ -841,7 +842,7 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
-                            var isStop = flags[i].Value <= 0;
+                            var isStop = flags[i].Value <= 0f;
                             if (isStop == boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
@@ -868,7 +869,7 @@ namespace Yunt.IDA.Tasks
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
-                        if (e.Any(item => item.Value != -1))
+                        if (e.Any(item => item.Value != -1f))
                             return;
                         var id = MotorId;
                         var exist = motorLogs.Where(x => x.MotorId == id && x.EventCode.Equals("EVT00000024"));
@@ -935,7 +936,7 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
-                            var isStop = flags[i].Value <= 0;
+                            var isStop = flags[i].Value <= 0f;
                             if (isStop == boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
@@ -962,7 +963,7 @@ namespace Yunt.IDA.Tasks
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
-                        if (e.Any(item => item.Value != -1))
+                        if (e.Any(item => item.Value != -1f))
                             return;
                         var id = MotorId;
                         var exist = motorLogs.Where(x => x.MotorId == id && x.EventCode.Equals("EVT00000024"));
@@ -1028,7 +1029,7 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
-                            var isStop = flags[i].Value <= 0;
+                            var isStop = flags[i].Value <= 0f;
                             if (isStop == boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
@@ -1055,7 +1056,7 @@ namespace Yunt.IDA.Tasks
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
-                        if (e.Any(item => item.Value != -1))
+                        if (e.Any(item => item.Value != -1f))
                             return;
                         var id = MotorId;
                         var exist = motorLogs.Where(x => x.MotorId == id && x.EventCode.Equals("EVT00000027"));
@@ -1144,7 +1145,7 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
-                            var isStop = flags[i].Value <= 0;
+                            var isStop = flags[i].Value <= 0f;
                             if (isStop == boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
@@ -1171,7 +1172,7 @@ namespace Yunt.IDA.Tasks
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
-                        if (e.Any(item => item.Value != -1))
+                        if (e.Any(item => item.Value != -1f))
                             return;
                         var id = MotorId;
                         var exist = motorLogs.Where(x => x.MotorId == id && x.EventCode.Equals("EVT00000031"));
@@ -1260,7 +1261,7 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
-                            var isStop = flags[i].Value <= 0;
+                            var isStop = flags[i].Value <= 0f;
                             if (isStop == boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
@@ -1287,7 +1288,7 @@ namespace Yunt.IDA.Tasks
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
-                        if (e.Any(item => item.Value != -1))
+                        if (e.Any(item => item.Value != -1f))
                             return;
                         var id = MotorId;
                         var exist = motorLogs.Where(x => x.MotorId == id && x.EventCode.Equals("EVT00000035"));
@@ -1376,7 +1377,7 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
-                            var isStop = flags[i].Value <= 0;
+                            var isStop = flags[i].Value <= 0f;
                             if (isStop == boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
@@ -1516,7 +1517,7 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
-                            var isStop = flags[i].Value <= 0;
+                            var isStop = flags[i].Value <= 0f;
                             if (isStop == boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
@@ -1543,7 +1544,7 @@ namespace Yunt.IDA.Tasks
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
-                        if (e.Any(item => item.Value != -1))
+                        if (e.Any(item => item.Value != -1f))
                             return;
                         var id = MotorId;
                         var exist = motorLogs.Where(x => x.MotorId == id && x.EventCode.Equals("EVT00000044"));
@@ -1960,8 +1961,6 @@ namespace Yunt.IDA.Tasks
                     Time = DateTime.Now.TimeSpan()
                 }
             };
-
-            #endregion
        
         EventKindRepository.Insert(kinds);
         EventKindRepository.Batch();
@@ -1978,5 +1977,6 @@ namespace Yunt.IDA.Tasks
 
         #endregion
 
+        #endregion
     }
 }
