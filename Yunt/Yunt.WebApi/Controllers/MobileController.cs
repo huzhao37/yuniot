@@ -77,12 +77,19 @@ namespace Yunt.WebApi.Controllers
                 var datas = _conveyorByDayRepository.GetEntities(e => e.Time >= startT &&
                                                                       e.Time<= endT && e.MotorId.Equals(motor.MotorId))?.OrderBy(e => e.Time)?.ToList();
                 if (datas == null || !datas.Any()) return resData;
+                var source = datas.Where(e => e.RunningTime > 0);
+                float instantOutPut = 0f, load = 0f;
+                if (source != null && source.Any())
+                {
+                    instantOutPut = MathF.Round(source.Average(e => e.AvgInstantWeight), 2);
+                    load = MathF.Round(source.Average(e => e.LoadStall), 3);
+                }
                 return new ConveyorOutlineModel
                 {
                     Output = MathF.Round(datas.Sum(e => e.AccumulativeWeight),2),
-                    InstantOutput = MathF.Round(datas.Average(e => e.AvgInstantWeight),2),
-                    Load =MathF.Round(datas.Average(e => e.LoadStall),3),
-                    RunningTime = MathF.Round(datas.Average(e => e.RunningTime),2)
+                    InstantOutput = instantOutPut,// MathF.Round(datas.Average(e => e.AvgInstantWeight),2),
+                    Load = load,//MathF.Round(datas.Average(e => e.LoadStall),3),
+                    RunningTime = MathF.Round(datas.Sum(e => e.RunningTime),2)
                 };
             }
             catch (Exception e)

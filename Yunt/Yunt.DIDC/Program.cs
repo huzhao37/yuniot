@@ -42,35 +42,35 @@ namespace Yunt.DIDC
             #endregion
 
             #region recovery
-            //try
-            //{
-            //    DateTime start = "2018-06-30 00:00:00".ToDateTime(), end = "2018-07-1 00:00:00".ToDateTime();
-            //    var startT = start;
-            //    var days = end.Subtract(start).TotalDays;
-            //    for (int i = 0; i < days; i++)
-            //    {
-            //        var time = startT.AddDays(i);
-            //        DayStatisticsTask.RecoveryTask(time);
-            //    }
-            //}
-            //catch (Exception ex)
-            //{
-            //    Common.Logger.Exception(ex);
-            //}
+            try
+            {
+                DateTime start = "2018-06-20 00:00:00".ToDateTime(), end = "2018-07-20 00:00:00".ToDateTime();
+                var startT = start;
+                var days = (int)end.Subtract(start).TotalDays+1;
+                for (int i = 0; i < days; i++)
+                {
+                    var time = startT.AddDays(i);
+                    DayStatisticsTask.RecoveryTask(time);
+                }
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.Exception(ex);
+            }
 
-            //Common.Logger.Error("恢复完毕！");
-            //Console.ReadKey();
+            Common.Logger.Error("恢复完毕！");
+            Console.ReadKey();
             #endregion
 
 
-            while (true)
-            {
-                if (Sched?.IsShutdown ?? false)
-                    break;
-                if (Sched == null)
-                    Start();
-                Thread.Sleep(60 * 1000);
-            }
+            //while (true)
+            //{
+            //    if (Sched?.IsShutdown ?? false)
+            //        break;
+            //    if (Sched == null)
+            //        Start();
+            //    Thread.Sleep(60 * 1000);
+            //}
         }
         public static async Task Start()
         {

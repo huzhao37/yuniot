@@ -208,12 +208,16 @@ namespace Yunt.WebApi.Controllers
                 // resp.AvgLoadStall = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
             }
             if (datas == null || !datas.Any()) return resp;
-            resp.AvgInstantWeight = MathF.Round(datas.Average(e => (float)e.AvgInstantWeight), 2);
-            float load = 0;
+     
+            float avgload = 0f, avgWeight = 0f ;
             var source = datas?.Where(e => e.RunningTime > 0) ?? null;
             if (source != null && source.Any())
-                load = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
-            resp.AvgLoadStall = load;
+            {
+                avgload = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
+                avgWeight =MathF.Round(source.Average(e => (float)e.AvgInstantWeight), 2);
+            }
+            resp.AvgInstantWeight = avgWeight;
+            resp.AvgLoadStall = avgload;
             resp.RunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2);
             resp.Output = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2);
             foreach (var d in datas)

@@ -77,7 +77,7 @@ namespace Yunt.IDC.Task
 
         public static void Start()
         {
-            var datas=originalBytesRepository.GetEntities(e => e.Time >= 1530374400 && e.Time <= 1532051400 //7.1 0:00~7.20 9:50
+            var datas=originalBytesRepository.GetEntities(e => e.Time >= 1530374400 && e.Time <= 1532055000 //7.1 0:00~7.20 10:50(1530374400,1532055000)
                         && e.ProductionLineId.Equals("WDD-P001"))?.OrderBy(e=>e.Time)?.ToList();//6.20 9:00~6.30 23:59 (1529456400,1530374340)
             if (datas != null && datas.Any()) 
                 datas.ForEach(d => {
@@ -99,7 +99,7 @@ namespace Yunt.IDC.Task
                     }
                
                 });
-            Logger.Error($"7月份原始DB数据恢复完毕！");
+            Logger.Error($"6月份原始DB数据恢复完毕！");
         }
         private static bool Saving(DataGramModel model)
         {
@@ -132,7 +132,7 @@ namespace Yunt.IDC.Task
 
                                     {
                                         //给料机
-                                        var mf = mfRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        var mf = mfRepository.GetFromSqlDb(e => e.Time == time&&e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (mf == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, mf);
@@ -143,7 +143,7 @@ namespace Yunt.IDC.Task
                                 case "JC":
                                     {
                                         //粗鄂破
-                                        var jc = jcRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        var jc = jcRepository.GetFromSqlDb(e => e.Time == time && e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (jc == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, jc);
@@ -154,7 +154,7 @@ namespace Yunt.IDC.Task
                                 case "CC":
                                     {
                                         //单杠圆锥破碎机
-                                        var cc = ccRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        var cc = ccRepository.GetFromSqlDb(e => e.Time == time && e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (cc == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, cc);
@@ -165,7 +165,7 @@ namespace Yunt.IDC.Task
                                 case "VC":
                                     {
                                         //立轴破
-                                        var vc = vcRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        var vc = vcRepository.GetFromSqlDb(e => e.Time == time && e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (vc == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, vc);
@@ -176,7 +176,7 @@ namespace Yunt.IDC.Task
                                 case "VB":
                                     {
                                         //振动筛
-                                        var vib = vibRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        var vib = vibRepository.GetFromSqlDb(e => e.Time == time && e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (vib == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, vib);
@@ -187,7 +187,8 @@ namespace Yunt.IDC.Task
                                 case "CY":
                                     {
                                         //皮带机
-                                        var cy = cyRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        //var cy2 = cyRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        var cy = cyRepository.GetFromSqlDb(e => e.Time == time && e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (cy == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, cy);
@@ -198,7 +199,7 @@ namespace Yunt.IDC.Task
                                 case "SCC":
                                     {
                                         //西蒙斯圆锥破碎机
-                                        var scc = sccRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        var scc = sccRepository.GetFromSqlDb(e => e.Time == time && e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (scc == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, scc);
@@ -209,7 +210,7 @@ namespace Yunt.IDC.Task
                                 case "PUL":
                                     {
                                         //磨粉机
-                                        var pul = pulRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        var pul = pulRepository.GetFromSqlDb(e => e.Time == time && e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (pul == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, pul);
@@ -220,7 +221,7 @@ namespace Yunt.IDC.Task
                                 case "IC":
                                     {
                                         //反击破
-                                        var ic = icRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        var ic = icRepository.GetFromSqlDb(e => e.Time == time && e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (ic == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, ic);
@@ -230,7 +231,7 @@ namespace Yunt.IDC.Task
                                     }
                                 case "HVB":
                                     {
-                                        var hvb = hvibRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        var hvb = hvibRepository.GetFromSqlDb(e => e.Time == time && e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (hvb == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, hvb);
@@ -241,7 +242,7 @@ namespace Yunt.IDC.Task
                                 case "RHC":
                                     {
                                         //可逆锤破碎机
-                                        var rhc = rhcRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        var rhc = rhcRepository.GetFromSqlDb(e => e.Time == time && e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (rhc == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, rhc);
@@ -253,7 +254,7 @@ namespace Yunt.IDC.Task
                                 case "DTRC":
                                     {
                                         //双齿辊破碎机
-                                        var dtrc = dtrRepository.GetFromSqlDb(e => e.Time == time)?.FirstOrDefault();
+                                        var dtrc = dtrRepository.GetFromSqlDb(e => e.Time == time && e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (dtrc == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, dtrc);
@@ -274,7 +275,7 @@ namespace Yunt.IDC.Task
                     }
 
                 }
-                dtrRepository.Batch();//device
+                originalBytesRepository.Batch();//device
                 return true;
             }
             catch (Exception ex)
