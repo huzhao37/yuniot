@@ -67,26 +67,45 @@ namespace Yunt.IDC.Helper
 
             if (ccuri == null) ccuri = "amqp://" + queueHost + ":" + queuePort;
             if (queue == null) queue = "Wdd_OriginalBytes"; //sumin
-            motorRepository = ServiceProviderServiceExtensions.GetService<IMotorRepository>(Program.Providers["Device"]);
-            mfRepository = ServiceProviderServiceExtensions.GetService<IMaterialFeederRepository>(Program.Providers["Device"]);
-            cyRepository = ServiceProviderServiceExtensions.GetService<IConveyorRepository>(Program.Providers["Device"]);
-            ccRepository = ServiceProviderServiceExtensions.GetService<IConeCrusherRepository>(Program.Providers["Device"]);
-            jcRepository = ServiceProviderServiceExtensions.GetService<IJawCrusherRepository>(Program.Providers["Device"]);
-            rhcRepository = ServiceProviderServiceExtensions.GetService<IReverHammerCrusherRepository>(Program.Providers["Device"]);
-            dtrRepository = ServiceProviderServiceExtensions.GetService<IDoubleToothRollCrusherRepository>(Program.Providers["Device"]);
+            if (motorRepository == null)
+                motorRepository = ServiceProviderServiceExtensions.GetService<IMotorRepository>(Program.Providers["Device"]);
+            if (mfRepository == null)
+                mfRepository = ServiceProviderServiceExtensions.GetService<IMaterialFeederRepository>(Program.Providers["Device"]);
+            if (cyRepository == null)
+                cyRepository = ServiceProviderServiceExtensions.GetService<IConveyorRepository>(Program.Providers["Device"]);
+            if (ccRepository == null)
+                ccRepository = ServiceProviderServiceExtensions.GetService<IConeCrusherRepository>(Program.Providers["Device"]);
+            if (jcRepository == null)
+                jcRepository = ServiceProviderServiceExtensions.GetService<IJawCrusherRepository>(Program.Providers["Device"]);
+            if (rhcRepository == null)
+                rhcRepository = ServiceProviderServiceExtensions.GetService<IReverHammerCrusherRepository>(Program.Providers["Device"]);
+            if (dtrRepository == null)
+                dtrRepository = ServiceProviderServiceExtensions.GetService<IDoubleToothRollCrusherRepository>(Program.Providers["Device"]);
 
-            vibRepository = ServiceProviderServiceExtensions.GetService<IVibrosieveRepository>(Program.Providers["Device"]);
-            pulRepository = ServiceProviderServiceExtensions.GetService<IPulverizerRepository>(Program.Providers["Device"]);
-            vcRepository = ServiceProviderServiceExtensions.GetService<IVerticalCrusherRepository>(Program.Providers["Device"]);
-            icRepository = ServiceProviderServiceExtensions.GetService<IImpactCrusherRepository>(Program.Providers["Device"]);
-            sccRepository = ServiceProviderServiceExtensions.GetService<ISimonsConeCrusherRepository>(Program.Providers["Device"]);
-            hvibRepository = ServiceProviderServiceExtensions.GetService<IHVibRepository>(Program.Providers["Device"]);
-            lineRepository = ServiceProviderServiceExtensions.GetService<IProductionLineRepository>(Program.Providers["Device"]);
-            bytesRepository = ServiceProviderServiceExtensions.GetService<IOriginalBytesRepository>(Program.Providers["Device"]);
-            CollectdeviceRepository = ServiceProviderServiceExtensions.GetService<ICollectdeviceRepository>(Program.Providers["Xml"]);
-            DataformmodelRepository = ServiceProviderServiceExtensions.GetService<IDataformmodelRepository>(Program.Providers["Xml"]);
-            MotorEventLogRepository = ServiceProviderServiceExtensions.GetService<IMotorEventLogRepository>(Program.Providers["Analysis"]);
-            alarmInfoRepository = ServiceProviderServiceExtensions.GetService<IAlarmInfoRepository>(Program.Providers["Analysis"]);
+            if (vibRepository == null)
+                vibRepository = ServiceProviderServiceExtensions.GetService<IVibrosieveRepository>(Program.Providers["Device"]);
+            if (pulRepository == null)
+                pulRepository = ServiceProviderServiceExtensions.GetService<IPulverizerRepository>(Program.Providers["Device"]);
+            if (vcRepository == null)
+                vcRepository = ServiceProviderServiceExtensions.GetService<IVerticalCrusherRepository>(Program.Providers["Device"]);
+            if (icRepository == null)
+                icRepository = ServiceProviderServiceExtensions.GetService<IImpactCrusherRepository>(Program.Providers["Device"]);
+            if (sccRepository == null)
+                sccRepository = ServiceProviderServiceExtensions.GetService<ISimonsConeCrusherRepository>(Program.Providers["Device"]);
+            if (hvibRepository == null)
+                hvibRepository = ServiceProviderServiceExtensions.GetService<IHVibRepository>(Program.Providers["Device"]);
+            if (lineRepository == null)
+                lineRepository = ServiceProviderServiceExtensions.GetService<IProductionLineRepository>(Program.Providers["Device"]);
+            if (bytesRepository == null)
+                bytesRepository = ServiceProviderServiceExtensions.GetService<IOriginalBytesRepository>(Program.Providers["Device"]);
+            if (CollectdeviceRepository == null)
+                CollectdeviceRepository = ServiceProviderServiceExtensions.GetService<ICollectdeviceRepository>(Program.Providers["Xml"]);
+            if (DataformmodelRepository == null)
+                DataformmodelRepository = ServiceProviderServiceExtensions.GetService<IDataformmodelRepository>(Program.Providers["Xml"]);
+            if (MotorEventLogRepository == null)
+                MotorEventLogRepository = ServiceProviderServiceExtensions.GetService<IMotorEventLogRepository>(Program.Providers["Analysis"]);
+            if (alarmInfoRepository == null)
+                alarmInfoRepository = ServiceProviderServiceExtensions.GetService<IAlarmInfoRepository>(Program.Providers["Analysis"]);
 
         }
         #endregion

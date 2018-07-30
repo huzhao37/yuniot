@@ -46,6 +46,12 @@ namespace Yunt.Device.Domain.IRepository
         /// <param name="dt">时间</param>
         /// <param name="motorTypeId">设备类型</param>
         Task RecoveryHourStatistics(DateTime dt, string motorTypeId);
+        /// <summary>
+        ///恢复该小时内所有的电量数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        Task UpdatePowers(DateTime dt, string motorTypeId);
 
         /// <summary>
         /// 统计该小时内皮带机的数据;

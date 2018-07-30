@@ -93,7 +93,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 var item = originalDatas2[i];
                 //电能
-                if (item.ActivePower == -1 || item.ActivePower < lastPower)
+                if (Math.Abs(item.ActivePower - lastPower) > 100 || item.ActivePower < lastPower)
                 {
                     lastPower = item.ActivePower;
                     continue;
@@ -234,6 +234,33 @@ namespace Yunt.Device.Repository.EF.Repositories
                     ts.Add(t);
             }
             await InsertAsync(ts);
+        }
+        /// <summary>
+        ///恢复该小时内所有的电量数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task UpdatePowers(DateTime dt, string motorTypeId)
+        {
+            var ts = new List<MaterialFeederByHour>();
+            var hour = dt.Date.AddHours(dt.Hour).TimeSpan();
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
+            foreach (var motor in query)
+            {
+                var exsit = GetEntities(o => o.Time == hour && o.MotorId == motor.MotorId)?.FirstOrDefault();
+                if (exsit != null)
+                {
+                    var t = GetByMotor(motor, false, dt);
+                    if (t != null)
+                    {
+                        exsit.ActivePower = t.ActivePower;
+                        ts.Add(exsit);
+                    }
+
+                }
+
+            }
+            await UpdateEntityAsync(ts);
         }
         #endregion
 

@@ -41,7 +41,7 @@ namespace Yunt.HIDC
             #endregion
 
             #region test
-            //DateTime dt = "2018-07-23 13:00:00".ToDateTime();
+            //DateTime dt = "2018-07-22 11:00:00".ToDateTime();
 
             //var x = HourStatisticsTask.Test(dt, "WDD-P001-CY000021");
 
@@ -53,14 +53,11 @@ namespace Yunt.HIDC
             #region recovery
             try
             {
-                DateTime start = "2018-06-20 09:00:00".ToDateTime(), end = "2018-07-20 10:00:00".ToDateTime();
-                var startT = start;
-                var hours = (int)end.Subtract(start).TotalHours+1;
-                for (int i = 0; i < hours; i++)
-                {
-                    var time = startT.AddHours(i);// "2018-06-25 06:00:00".ToDateTime();//
-                    HourStatisticsTask.RecoveryTask(time);
-                }
+                DateTime start = "2018-06-20 10:00:00".ToDateTime(), end = "2018-07-28 14:00:00".ToDateTime();
+                HourStatisticsTask.UpdatePowers(start,end);
+                //HourStatisticsTask.RecoveryTask("2018-06-20 09:00:00".ToDateTime());
+                //HourStatisticsTask.RecoveryTask("2018-06-25 13:00:00".ToDateTime());
+                //HourStatisticsTask.RecoveryTask("2018-07-06 12:00:00".ToDateTime());
                 Common.Logger.Error("恢复完毕！");
                 Console.ReadKey();
             }

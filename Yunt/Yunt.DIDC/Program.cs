@@ -27,6 +27,7 @@ namespace Yunt.DIDC
         static  void Main(string[] args)
         {
             Thread.CurrentThread.CurrentUICulture = new CultureInfo("en-us");
+
             #region init
             XTrace.UseConsole(true, true);
             XTrace.Log.Level = LogLevel.Info;//打印错误级别的日志
@@ -44,14 +45,14 @@ namespace Yunt.DIDC
             #region recovery
             try
             {
-                DateTime start = "2018-06-20 00:00:00".ToDateTime(), end = "2018-07-20 00:00:00".ToDateTime();
-                var startT = start;
-                var days = (int)end.Subtract(start).TotalDays+1;
-                for (int i = 0; i < days; i++)
-                {
-                    var time = startT.AddDays(i);
-                    DayStatisticsTask.RecoveryTask(time);
-                }
+                DateTime start = "2018-06-20 00:00:00".ToDateTime(), end = "2018-07-27 00:00:00".ToDateTime();
+                //DayStatisticsTask.UpdatePowers("2018-06-20 00:00:00".ToDateTime());
+                //DayStatisticsTask.UpdatePowers("2018-06-25 00:00:00".ToDateTime());
+                //DayStatisticsTask.UpdatePowers("2018-07-06 00:00:00".ToDateTime());
+                //DayStatisticsTask.UpdatePowers("2018-07-22 00:00:00".ToDateTime());
+                DayStatisticsTask.UpdatePowers(start, end);
+
+
             }
             catch (Exception ex)
             {
@@ -62,15 +63,19 @@ namespace Yunt.DIDC
             Console.ReadKey();
             #endregion
 
+            #region test
 
-            //while (true)
-            //{
-            //    if (Sched?.IsShutdown ?? false)
-            //        break;
-            //    if (Sched == null)
-            //        Start();
-            //    Thread.Sleep(60 * 1000);
-            //}
+            //DayStatisticsTask.Test("WDD-P001-CC000001", new DateTime(2018, 7, 25));
+            #endregion
+
+            //    while (true)
+            //    {
+            //        if (Sched?.IsShutdown ?? false)
+            //            break;
+            //        if (Sched == null)
+            //            Start();
+            //        Thread.Sleep(60 * 1000);
+            //    }
         }
         public static async Task Start()
         {

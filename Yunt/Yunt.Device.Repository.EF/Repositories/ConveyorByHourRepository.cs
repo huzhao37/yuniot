@@ -132,8 +132,8 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             for (var i = 0; i < length; i++)
             {
-                var cy = originalDatas[i];
-                if (cy.AccumulativeWeight == -1 && cy.AccumulativeWeight < lastWeight ||Math.Abs(cy.AccumulativeWeight - lastWeight) > 100) //比上次小，认作清零,或者比上次多出100t以上
+                var cy = originalDatas[i];//cy.AccumulativeWeight == -1 &&
+                if ( cy.AccumulativeWeight < lastWeight ||Math.Abs(cy.AccumulativeWeight - lastWeight) > 100) //比上次小，认作清零,或者比上次多出100t以上
                 {
                     lastWeight = cy.AccumulativeWeight;
                     continue;
@@ -148,9 +148,9 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             for (var i = 0; i < length2; i++)
             {
-                var cy = originalDatas2[i];              
+                var cy = originalDatas2[i]; //cy.ActivePower == -1      
                 //电能
-                if (cy.ActivePower == -1 || cy.ActivePower < lastPower)
+                if (Math.Abs(cy.ActivePower - lastPower) > 100 || cy.ActivePower < lastPower)
                 {
                     lastPower = cy.ActivePower;
                     continue;
@@ -318,7 +318,33 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
             await InsertAsync(ts);
         }
-
+        /// <summary>
+        ///恢复该小时内所有的电量数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task UpdatePowers(DateTime dt, string motorTypeId)
+        {
+            var ts = new List<ConveyorByHour>();
+            var hour = dt.Date.AddHours(dt.Hour).TimeSpan();
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
+            foreach (var motor in query)
+            {
+                var exsit = GetEntities(o => o.Time == hour && o.MotorId == motor.MotorId)?.FirstOrDefault();
+                if (exsit!=null)
+                {
+                    var t = GetByMotor(motor, false, dt);
+                    if (t != null)
+                    {
+                        exsit.ActivePower = t.ActivePower;
+                        ts.Add(exsit);
+                    }
+                       
+                }
+               
+            }
+            await UpdateEntityAsync(ts);
+        }
         /// <summary>
         /// 统计该小时内皮带机的数据;
         /// </summary>

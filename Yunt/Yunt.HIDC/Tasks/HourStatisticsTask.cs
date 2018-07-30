@@ -149,23 +149,75 @@ namespace Yunt.HIDC.Tasks
         /// <summary>
         /// 统计恢复任务
         /// </summary>
-        /// <param name="dt"></param>
-        public static void RecoveryTask(DateTime dt)
+        /// <param name="start"></param>
+        ///  <param name="end"></param>
+        public static void RecoveryTask(DateTime start,DateTime end)
         {
-            CyByHourRepository.RecoveryHourStatistics(dt, "CY");
-            SccByHourRepository.RecoveryHourStatistics(dt, "SCC");
-            CcByHourRepository.RecoveryHourStatistics(dt, "CC");
-            JcByHourRepository.RecoveryHourStatistics(dt, "JC");
-            MfByHourRepository.RecoveryHourStatistics(dt, "MF");
-            VcByHourRepository.RecoveryHourStatistics(dt, "VC");
-            VibByHourRepository.RecoveryHourStatistics(dt, "VB");
-            PulByHourRepository.RecoveryHourStatistics(dt, "PUL");
-            IcByHourRepository.RecoveryHourStatistics(dt, "IC");
-            HvibByHourRepository.RecoveryHourStatistics(dt, "HVB");
-            HvibByHourRepository.Batch();
+            var startT = start;
+            var hours = (int)end.Subtract(start).TotalHours + 1;
+            for (int i = 0; i < hours; i++)
+            {
+                var time = startT.AddHours(i);// "2018-06-25 06:00:00".ToDateTime();//
+                CyByHourRepository.RecoveryHourStatistics(time, "CY");
+                //SccByHourRepository.RecoveryHourStatistics(dt, "SCC");
+                CcByHourRepository.RecoveryHourStatistics(time, "CC");
+                JcByHourRepository.RecoveryHourStatistics(time, "JC");
+                MfByHourRepository.RecoveryHourStatistics(time, "MF");
+                VcByHourRepository.RecoveryHourStatistics(time, "VC");
+                VibByHourRepository.RecoveryHourStatistics(time, "VB");
+                PulByHourRepository.RecoveryHourStatistics(time, "PUL");
+                IcByHourRepository.RecoveryHourStatistics(time, "IC");
+                HvibByHourRepository.RecoveryHourStatistics(time, "HVB");
+                HvibByHourRepository.Batch();
+                Logger.Warn($"{time}:恢复完毕！");
+            }    
+
+        }
+        /// <summary>
+        /// 电量统计更新任务
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        public static void UpdatePowers(DateTime start, DateTime end)
+        {
+            var startT = start;
+            var hours = (int)end.Subtract(start).TotalHours + 1;
+            for (int i = 0; i < hours; i++)
+            {
+                var dt = startT.AddHours(i);
+                CyByHourRepository.UpdatePowers(dt, "CY");
+                CcByHourRepository.UpdatePowers(dt, "CC");
+                JcByHourRepository.UpdatePowers(dt, "JC");
+                MfByHourRepository.UpdatePowers(dt, "MF");
+                VcByHourRepository.UpdatePowers(dt, "VC");
+                VibByHourRepository.UpdatePowers(dt, "VB");
+                PulByHourRepository.UpdatePowers(dt, "PUL");
+                HvibByHourRepository.UpdatePowers(dt, "HVB");
+                HvibByHourRepository.Batch();
+                Logger.Warn($"{dt}:恢复完毕！");
+            }
 
         }
 
+        /// <summary>
+        /// 统计恢复任务
+        /// </summary>
+        /// <param name="dt"></param>
+        public static void UpdatePowers(DateTime dt)
+        {
+
+            CyByHourRepository.UpdatePowers(dt, "CY");
+            CcByHourRepository.UpdatePowers(dt, "CC");
+            JcByHourRepository.UpdatePowers(dt, "JC");
+            MfByHourRepository.UpdatePowers(dt, "MF");
+            VcByHourRepository.UpdatePowers(dt, "VC");
+            VibByHourRepository.UpdatePowers(dt, "VB");
+            PulByHourRepository.UpdatePowers(dt, "PUL");
+            HvibByHourRepository.UpdatePowers(dt, "HVB");
+            HvibByHourRepository.Batch();
+            Logger.Warn($"{dt}:恢复完毕！");
+
+        }
         public static dynamic Test(DateTime dt,string motorId)
         {
            return CyByHourRepository.GetHour(dt, motorId);

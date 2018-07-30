@@ -46,7 +46,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var start = dt.Date;
             var end = start.AddDays(1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
-            var originalDatas = _sccRep.GetEntities(e => e.Time >= startUnix &&
+            var originalDatas = _sccRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix &&
                                     e.Time < endUnix, e => e.Time)?.ToList();
 
             if (!(originalDatas?.Any() ?? false)) return new SimonsConeCrusherByDay

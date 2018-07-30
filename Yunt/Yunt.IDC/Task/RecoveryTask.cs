@@ -64,23 +64,26 @@ namespace Yunt.IDC.Task
             sccRepository = ServiceProviderServiceExtensions.GetService<ISimonsConeCrusherRepository>(Program.Providers["Device"]);
             hvibRepository = ServiceProviderServiceExtensions.GetService<IHVibRepository>(Program.Providers["Device"]);
             bytesRepository = ServiceProviderServiceExtensions.GetService<IOriginalBytesRepository>(Program.Providers["Device"]);
-      
+
             DataformmodelRepository = ServiceProviderServiceExtensions.GetService<IDataformmodelRepository>(Program.Providers["Xml"]);
 
-            _motors =  motorRepository.GetEntities(e => e.ProductionLineId.Equals("WDD-P001")&&e.MotorTypeId.Equals("CY")&&
-                        (e.Name.Equals("J38(5~20mm)") || e.Name.Equals("J5(40~80mm)") || e.Name.Equals("J42(成品砂)") 
-                        || e.Name.Equals("皮带机A1") ||e.Name.Equals("皮带机C1") || e.Name.Equals("皮带机J22") || e.Name.Equals("皮带机J30") 
-                        || e.Name.Equals("皮带机J4")|| e.Name.Equals("皮带机J6") ))?.ToList();
+            _motors = motorRepository.GetEntities(e => e.ProductionLineId.Equals("WDD-P001") && e.MotorTypeId.Equals("CY") &&
+                       (//e.Name.Equals("J38(5~20mm)") || e.Name.Equals("J5(40~80mm)") || e.Name.Equals("J42(成品砂)")|| 
+                        e.Name.Equals("皮带机A1") || e.Name.Equals("皮带机C1") //|| e.Name.Equals("皮带机J22") || e.Name.Equals("皮带机J30") 
+                       || e.Name.Equals("皮带机J4") || e.Name.Equals("皮带机J6")))?.ToList();
 
         }
         #endregion
 
+
+        #region recovery
         public static void Start()
         {
-            var datas=originalBytesRepository.GetEntities(e => e.Time >= 1530374400 && e.Time <= 1532055000 //7.1 0:00~7.20 10:50(1530374400,1532055000)
-                        && e.ProductionLineId.Equals("WDD-P001"))?.OrderBy(e=>e.Time)?.ToList();//6.20 9:00~6.30 23:59 (1529456400,1530374340)
-            if (datas != null && datas.Any()) 
-                datas.ForEach(d => {
+            var datas = originalBytesRepository.GetEntities(e => e.Time >= 1529456400 && e.Time <= 1532055000 //7.1 0:00~7.20 10:50(1530374400,1532055000)
+                          && e.ProductionLineId.Equals("WDD-P001"))?.OrderBy(e => e.Time)?.ToList();//6.20 9:00~6.30 23:59 (1529456400,1530374340)
+            if (datas != null && datas.Any())
+                datas.ForEach(d =>
+                {
                     try
                     {
                         var bytes = Extention.strToToHexByte(d.Bytes);
@@ -89,7 +92,7 @@ namespace Yunt.IDC.Task
                         if (!result)
                         {
                             Logger.Error($"{d.Time.Time()}:数据报错！");
-                           // Console.ReadKey();
+                            // Console.ReadKey();
                         }
                     }
                     catch (Exception ex)
@@ -97,7 +100,7 @@ namespace Yunt.IDC.Task
                         Logger.Error($"{d.Time.Time()}数据报错:{ex.Message}！");
                         //Console.ReadKey();
                     }
-               
+
                 });
             Logger.Error($"6月份原始DB数据恢复完毕！");
         }
@@ -132,7 +135,7 @@ namespace Yunt.IDC.Task
 
                                     {
                                         //给料机
-                                        var mf = mfRepository.GetFromSqlDb(e => e.Time == time&&e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
+                                        var mf = mfRepository.GetFromSqlDb(e => e.Time == time && e.MotorId.Equals(motor.MotorId))?.FirstOrDefault();
                                         if (mf == null)
                                             break;
                                         var obj = MotorObj(pvalue, motor, mf);
@@ -284,22 +287,20 @@ namespace Yunt.IDC.Task
                 return false;
             }
         }
-
-        #region private methods
         private static dynamic MotorObj(KeyValuePair<DateTime, List<int>> pvalue, Motor motor, dynamic obj)
         {
             var time = pvalue.Key.TimeSpan();
             var values = pvalue.Value;
             var type = obj.GetType();
             //电量，电流，电压数据恢复
-            var forms = DataformmodelRepository.GetEntities(e => e.MotorId.Equals(motor.MotorId)&&
-                        (e.DataPhysicalId==17|| e.DataPhysicalId == 2 || e.DataPhysicalId == 3)).ToList();
+            var forms = DataformmodelRepository.GetEntities(e => e.MotorId.Equals(motor.MotorId) &&
+                        (e.DataPhysicalId == 17 || e.DataPhysicalId == 2 || e.DataPhysicalId == 3)).ToList();
             if (forms == null || !forms.Any())
                 return null;
             for (var i = 0; i < forms.Count(); i++)
             {
                 var form = forms[i];
-                form.Value = OriginalNormalize.ConvertToNormal(form, values);             
+                form.Value = OriginalNormalize.ConvertToNormal(form, values);
                 if (form.BitDesc.Equals("整型模拟量"))
                 {
                     if (string.IsNullOrWhiteSpace(form.FieldParamEn))
@@ -308,12 +309,62 @@ namespace Yunt.IDC.Task
                     if (info == null || info?.Name == "")
                         continue;
                     info?.SetValue(obj, MathF.Round((float)form.Value, 2));//保留两位小数
-                }      
+                }
 
             }
             return obj;
         }
         #endregion
-  
+
+        #region private methods
+        public static bool Update()
+        {
+            try
+            {
+                if (_motors == null || !_motors.Any())
+                {
+                    Logger.Info("[RecoveryTask]No Related Motors!");
+                    return false;
+                }
+
+                if (_motors != null && _motors.Any())
+                {
+                    foreach (var motor in _motors)
+                    {
+                        //皮带机
+                        var cys = cyRepository.GetFromSqlDb(e => e.Time >= 1529456400 && e.Time <= 1532055000 && e.MotorId.Equals(motor.MotorId))?.ToList();
+                        if (cys == null||!cys.Any())
+                            continue;
+                        var updates = new List<Conveyor>();
+                        cys.ForEach(cy => {
+                            var update = cy;
+                            update.ActivePower = 0f;
+                            update.Current_A = 0f;
+                            update.Current_B = 0f;
+                            update.Current_C = 0f;
+                            update.Voltage_A = 0f;
+                            update.Voltage_B = 0f;
+                            update.Voltage_C = 0f;
+                            updates.Add(update);
+                          
+                        });
+                        //test 请用完注释
+                        cyRepository.UpdateEntityAsync(updates);
+                        Logger.Warn($"{motor.Name}:更新{updates.Count}");
+                    }
+
+                }
+                cyRepository.Batch();//device
+                Logger.Warn($"更新完毕！");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("[RecoveryTask]" + ex.Message);
+                return false;
+            }
+        }
+        #endregion
+
     }
 }

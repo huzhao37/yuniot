@@ -1378,7 +1378,7 @@ namespace Yunt.Device.Repository.EF.Services
                 {
                     var datas = MotorHours(motor, date);
                     var times = new List<long>();
-                    for (int i = 0; i < 23; i++)
+                    for (int i = 0; i < 24; i++)
                     {
                         var time = dt.AddHours(i).TimeSpan();
                         times.Add(time);
@@ -1393,7 +1393,7 @@ namespace Yunt.Device.Repository.EF.Services
                 {
                     var datas = MotorHours(motor, date);
                     var times = new List<long>();
-                    for (int i = 0; i < 23; i++)
+                    for (int i = 0; i < 24; i++)
                     {
                         var time = dt.AddHours(i).TimeSpan();
                         times.Add(time);
@@ -1564,7 +1564,7 @@ namespace Yunt.Device.Repository.EF.Services
                 case "CC":
                     if (isInstant)
                     {
-                        lastRecord = _jcRep.GetLatestRecord(motor.MotorId);
+                        lastRecord = _ccRep.GetLatestRecord(motor.MotorId);
                         loadStall = lastRecord == null ? 0 : (lastRecord.Current_B * motor.StandValue == 0 ? 0 :
                                             MathF.Round(lastRecord.Current_B / motor.StandValue, 3));
                         return new

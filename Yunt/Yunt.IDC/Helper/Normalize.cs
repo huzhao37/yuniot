@@ -19,7 +19,8 @@ namespace Yunt.IDC.Helper
         private static readonly IDataformmodelRepository DataformmodelRepository;
         static Normalize()
         {
-            DataformmodelRepository = BytesToDb.DataformmodelRepository;
+            if(DataformmodelRepository == null)
+                DataformmodelRepository = BytesToDb.DataformmodelRepository;
         }
         /// <summary>
         /// 根据数据精度和数据参数将数值转化为实际值

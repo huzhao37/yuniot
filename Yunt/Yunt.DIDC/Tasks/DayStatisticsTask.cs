@@ -14,6 +14,7 @@ using Yunt.Analysis.Domain.IRepository;
 using Yunt.Analysis.Domain.Model;
 using Yunt.Common;
 using Yunt.Device.Domain.IRepository;
+using Yunt.Device.Domain.Model;
 using Yunt.Device.Domain.Services;
 using Yunt.MQ;
 using Yunt.Xml.Domain.IRepository;
@@ -39,7 +40,7 @@ namespace Yunt.DIDC.Tasks
         private static readonly IHVibByDayRepository HvibByDayRepository;
 
         private static readonly IMessagequeueRepository MessagequeueRepository;
-        
+        private static readonly IMotorRepository motorRepository;
 
         static DayStatisticsTask()
         {
@@ -57,7 +58,10 @@ namespace Yunt.DIDC.Tasks
             IcByDayRepository = ServiceProviderServiceExtensions.GetService<IImpactCrusherByDayRepository>(Program.Providers["Device"]);
             SccByDayRepository = ServiceProviderServiceExtensions.GetService<ISimonsConeCrusherByDayRepository>(Program.Providers["Device"]);
             HvibByDayRepository = ServiceProviderServiceExtensions.GetService<IHVibByDayRepository>(Program.Providers["Device"]);
-            MessagequeueRepository = ServiceProviderServiceExtensions.GetService<IMessagequeueRepository>(Program.Providers["Xml"]);        
+            MessagequeueRepository = ServiceProviderServiceExtensions.GetService<IMessagequeueRepository>(Program.Providers["Xml"]);
+
+            //test
+            motorRepository = ServiceProviderServiceExtensions.GetService<IMotorRepository>(Program.Providers["Device"]);
         }
 
         #endregion
@@ -139,7 +143,7 @@ namespace Yunt.DIDC.Tasks
         private void MainTask(DateTime dt)
         {
             CyByDayRepository.InsertDayStatistics(dt, "CY");
-            SccByDayRepository.InsertDayStatistics(dt, "SCC");
+            //SccByDayRepository.InsertDayStatistics(dt, "SCC");
             CcByDayRepository.InsertDayStatistics(dt, "CC");
             JcByDayRepository.InsertDayStatistics(dt, "JC");
             MfByDayRepository.InsertDayStatistics(dt, "MF");
@@ -159,21 +163,78 @@ namespace Yunt.DIDC.Tasks
         /// <summary>
         /// 统计恢复任务
         /// </summary>
-        /// <param name="dt"></param>
-        public static void RecoveryTask(DateTime dt)
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        public static void RecoveryTask(DateTime start,DateTime end)
         {
-            CyByDayRepository.RecoveryDayStatistics(dt, "CY");
-            //SccByDayRepository.RecoveryDayStatistics(dt, "SCC");
-            //CcByDayRepository.RecoveryDayStatistics(dt, "CC");
-            //JcByDayRepository.RecoveryDayStatistics(dt, "JC");
-            //MfByDayRepository.RecoveryDayStatistics(dt, "MF");
-            //VcByDayRepository.RecoveryDayStatistics(dt, "VC");
-            //VibByDayRepository.RecoveryDayStatistics(dt, "VB");
-            //PulByDayRepository.RecoveryDayStatistics(dt, "PUL");
-            //IcByDayRepository.RecoveryDayStatistics(dt, "IC");
-            //HvibByDayRepository.RecoveryDayStatistics(dt, "HVB");
+           
+            var startT = start;
+            var days = (int)end.Subtract(start).TotalDays + 1;
+            for (int i = 0; i < days; i++)
+            {
+                var time = startT.AddDays(i);
+                CyByDayRepository.RecoveryDayStatistics(time, "CY");
+                //SccByDayRepository.RecoveryDayStatistics(dt, "SCC");
+                CcByDayRepository.RecoveryDayStatistics(time, "CC");
+                JcByDayRepository.RecoveryDayStatistics(time, "JC");
+                MfByDayRepository.RecoveryDayStatistics(time, "MF");
+                VcByDayRepository.RecoveryDayStatistics(time, "VC");
+                VibByDayRepository.RecoveryDayStatistics(time, "VB");
+                PulByDayRepository.RecoveryDayStatistics(time, "PUL");
+                IcByDayRepository.RecoveryDayStatistics(time, "IC");
+                HvibByDayRepository.RecoveryDayStatistics(time, "HVB");
+                HvibByDayRepository.Batch();
+                Common.Logger.Warn($"{time}:恢复完毕！");
+            }
 
-            HvibByDayRepository.Batch();
+        }
+        /// <summary>
+        /// 统计恢复任务
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        public static void UpdatePowers(DateTime dt)
+        {
+                CyByDayRepository.UpdatePowers(dt, "CY");
+                CcByDayRepository.UpdatePowers(dt, "CC");
+                JcByDayRepository.UpdatePowers(dt, "JC");
+                MfByDayRepository.UpdatePowers(dt, "MF");
+                VcByDayRepository.UpdatePowers(dt, "VC");
+                VibByDayRepository.UpdatePowers(dt, "VB");
+                PulByDayRepository.UpdatePowers(dt, "PUL");
+                HvibByDayRepository.UpdatePowers(dt, "HVB");
+                HvibByDayRepository.Batch();
+                Common.Logger.Warn($"{dt}:恢复完毕！");
+        }
+        /// <summary>
+        /// 电量统计更新任务
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        public static void UpdatePowers(DateTime start, DateTime end)
+        {
+            var startT = start;
+            var days = (int)end.Subtract(start).TotalDays + 1;
+            for (int i = 0; i < days; i++)
+            {
+                var dt = startT.AddDays(i);
+                CyByDayRepository.UpdatePowers(dt, "CY");
+                CcByDayRepository.UpdatePowers(dt, "CC");
+                JcByDayRepository.UpdatePowers(dt, "JC");
+                MfByDayRepository.UpdatePowers(dt, "MF");
+                VcByDayRepository.UpdatePowers(dt, "VC");
+                VibByDayRepository.UpdatePowers(dt, "VB");
+                PulByDayRepository.UpdatePowers(dt, "PUL");
+                HvibByDayRepository.UpdatePowers(dt, "HVB");
+                HvibByDayRepository.Batch();
+                Common.Logger.Warn($"{dt}:恢复完毕！");
+            }
+
+        }
+        public static dynamic Test(string motorId,DateTime dt)
+        {
+            var motor = motorRepository.GetEntities(e => e.MotorId.Equals(motorId))?.FirstOrDefault();
+           return CcByDayRepository.GetByMotor(motor, dt);
         }
     }
 }
