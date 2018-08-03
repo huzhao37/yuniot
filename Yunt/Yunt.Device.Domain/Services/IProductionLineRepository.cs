@@ -174,5 +174,9 @@ namespace Yunt.Device.Domain.Services
         /// <returns></returns>
         float MotorIntantLoadStall(Motor motor);
         #endregion
+
+        #region test
+        dynamic test();
+        #endregion
     }
 }

@@ -15,14 +15,19 @@ namespace Yunt.Analysis.Repository.EF.Repositories
     {
         private static readonly object Objlock = new object();
         public static  ConcurrentDictionary<int, AnalysisContext> ContextDic;
-        public static  IServiceProvider ServiceProvider;
+        //public static  IServiceProvider ServiceProvider;
 
         public static AnalysisContext Get(int threadId)
         {
+            #region test
+#if DEBUG
+            //return BootStrap.ServiceProvider.GetService<AnalysisContext>();
+#endif
+            #endregion
             lock (Objlock)
             {
                 if (ContextDic.ContainsKey(threadId)) return ContextDic[threadId];
-                ContextDic[threadId] = (AnalysisContext)ServiceProvider.GetService(typeof(AnalysisContext));
+                ContextDic[threadId] = BootStrap.ServiceProvider.GetService<AnalysisContext>();
 #if DEBUG
                 Console.WriteLine($"current threadid is :{threadId}");
 #endif
@@ -33,7 +38,7 @@ namespace Yunt.Analysis.Repository.EF.Repositories
 
         public static void Init(IServiceProvider serviceProvider)
         {
-            ServiceProvider = serviceProvider;
+            //ServiceProvider = serviceProvider;
             ContextDic=new ConcurrentDictionary<int, AnalysisContext>();
         }
 

@@ -26,7 +26,7 @@ namespace Yunt.WebApi
    
     public class Startup
     {
-        internal static Dictionary<string, IServiceProvider> Providers;
+        //internal static Dictionary<string, IServiceProvider> Providers;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -51,7 +51,7 @@ namespace Yunt.WebApi
             //Logger.Create(configuration, new LoggerFactory(), "Yunt.WebApi");
 
 
-            Providers = ServiceEx.StartServices(services, configuration);
+            ServiceEx.StartServices(services, configuration);//Providers = 
             services.AddAutoMapper(typeof(Startup).Assembly);
 
             services.AddMvc();

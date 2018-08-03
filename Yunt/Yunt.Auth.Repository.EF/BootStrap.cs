@@ -28,8 +28,7 @@ namespace Yunt.Auth.Repository.EF
         public void Start(IServiceCollection services, IConfigurationRoot configuration)
         {
             try
-            {
-              
+            {             
                 AutoMapper.IConfigurationProvider config = new MapperConfiguration(cfg =>
                 {
                     cfg.AddProfile<AutoMapperProfileConfiguration>();
@@ -52,7 +51,8 @@ namespace Yunt.Auth.Repository.EF
 
                 var contextOptions = new DbContextOptionsBuilder().UseMySql(mySqlConn).Options;
                 services.AddSingleton(contextOptions)
-                  .AddTransient<AuthContext>();
+                  .TryAddTransient<AuthContext>();
+                //services.AddDbContext<AuthContext>(options => options.UseMySql(mySqlConn));
 
                 dynamic x = (new BootStrap()).GetType();
                 string currentpath = Path.GetDirectoryName(x.Assembly.Location);

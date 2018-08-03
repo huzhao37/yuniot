@@ -11,7 +11,7 @@ using Yunt.Xml.Repository.EF.Models;
 
 namespace Yunt.Xml.Repository.EF.Repositories
 {
-   public class XmlContext : DbContext
+   public class XmlContext : DbContext, IDisposable
     {
         public XmlContext(DbContextOptions options) : base(options)
         {

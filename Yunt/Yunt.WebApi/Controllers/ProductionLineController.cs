@@ -19,6 +19,7 @@ using System.Dynamic;
 using Yunt.Device.Domain.MapModel;
 using Microsoft.AspNetCore.Cors;
 using Yunt.Device.Domain.Model;
+using System.Diagnostics;
 
 namespace Yunt.WebApi.Controllers
 {
@@ -626,6 +627,12 @@ namespace Yunt.WebApi.Controllers
                 return new PaginatedList<dynamic>(0, 0, 0, new List<dynamic>() { });
 
             var datas = new List<dynamic>();
+            //var x = new System.Collections.Concurrent.ConcurrentBag<dynamic>();
+            //test sw
+#if DEBUG
+            var sw = new Stopwatch();
+            sw.Start();
+#endif
             if (eventLogs != null && eventLogs.Any())
                 eventLogs.ForEach(e =>
                 {
@@ -650,6 +657,10 @@ namespace Yunt.WebApi.Controllers
                        EventType = "Alarm"
                    });
                });
+#if DEBUG
+            sw.Stop();
+            Logger.Warn($"耗时{sw.ElapsedMilliseconds}ms");
+#endif
             var list = datas?.OrderByDescending(x => (long)(x?.Time ?? 0))?.Skip((pageindex - 1) * pagesize)?.Take(pagesize) ?? new List<dynamic>();
             return new PaginatedList<dynamic>(pageindex, pagesize, datas.Count(), list);
         }
@@ -758,6 +769,15 @@ namespace Yunt.WebApi.Controllers
 
         #endregion
 
-
+        //test
+        [HttpGet]
+        [Route("test")]
+        [EnableCors("any")]
+        public dynamic test()
+        {
+            _productionLineRepository.test();
+            //_userRepository.GetPage(pageindex, pagesize, null, e => e.Time);
+            return 1;
+        }
     }
 }

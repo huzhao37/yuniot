@@ -10,7 +10,7 @@ using Yunt.Inventory.Repository.EF.Models;
 
 namespace Yunt.Inventory.Repository.EF.Repositories
 {
-   public class InventoryContext : DbContext
+   public class InventoryContext : DbContext, IDisposable
     {
         public InventoryContext(DbContextOptions options) : base(options)
         {

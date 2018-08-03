@@ -53,39 +53,69 @@ namespace Yunt.Device.Repository.EF.Services
         private readonly IHVibByDayRepository _hvbByDayRep;
         public ProductionLineRepository(IMapper mapper, IRedisCachingProvider provider) : base(mapper, provider)
         {
-            _motorRep = ServiceProviderServiceExtensions.GetService<IMotorRepository>(BootStrap.ServiceProvider);
-            _cyRep = ServiceProviderServiceExtensions.GetService<IConveyorRepository>(BootStrap.ServiceProvider);
-            _mfRep = ServiceProviderServiceExtensions.GetService<IMaterialFeederRepository>(BootStrap.ServiceProvider);
-            _jcRep = ServiceProviderServiceExtensions.GetService<IJawCrusherRepository>(BootStrap.ServiceProvider);
-            _ccRep = ServiceProviderServiceExtensions.GetService<IConeCrusherRepository>(BootStrap.ServiceProvider);
-            _vcRep = ServiceProviderServiceExtensions.GetService<IVerticalCrusherRepository>(BootStrap.ServiceProvider);
-            _vbRep = ServiceProviderServiceExtensions.GetService<IVibrosieveRepository>(BootStrap.ServiceProvider);
-            _sccRep = ServiceProviderServiceExtensions.GetService<ISimonsConeCrusherRepository>(BootStrap.ServiceProvider);
-            _pulRep = ServiceProviderServiceExtensions.GetService<IPulverizerRepository>(BootStrap.ServiceProvider);
-            _icRep = ServiceProviderServiceExtensions.GetService<IImpactCrusherRepository>(BootStrap.ServiceProvider);
-            _hvbRep = ServiceProviderServiceExtensions.GetService<IHVibRepository>(BootStrap.ServiceProvider);
+            if(_motorRep==null)
+                _motorRep = ServiceProviderServiceExtensions.GetService<IMotorRepository>(BootStrap.ServiceProvider);
+            if (_cyRep == null)
+                _cyRep = ServiceProviderServiceExtensions.GetService<IConveyorRepository>(BootStrap.ServiceProvider);
+            if (_mfRep == null)
+                _mfRep = ServiceProviderServiceExtensions.GetService<IMaterialFeederRepository>(BootStrap.ServiceProvider);
+            if (_jcRep == null)
+                _jcRep = ServiceProviderServiceExtensions.GetService<IJawCrusherRepository>(BootStrap.ServiceProvider);
+            if (_ccRep == null)
+                _ccRep = ServiceProviderServiceExtensions.GetService<IConeCrusherRepository>(BootStrap.ServiceProvider);
+            if (_vcRep == null)
+                _vcRep = ServiceProviderServiceExtensions.GetService<IVerticalCrusherRepository>(BootStrap.ServiceProvider);
+            if (_vbRep == null)
+                _vbRep = ServiceProviderServiceExtensions.GetService<IVibrosieveRepository>(BootStrap.ServiceProvider);
+            if (_sccRep == null)
+                _sccRep = ServiceProviderServiceExtensions.GetService<ISimonsConeCrusherRepository>(BootStrap.ServiceProvider);
+            if (_pulRep == null)
+                _pulRep = ServiceProviderServiceExtensions.GetService<IPulverizerRepository>(BootStrap.ServiceProvider);
+            if (_icRep == null)
+                _icRep = ServiceProviderServiceExtensions.GetService<IImpactCrusherRepository>(BootStrap.ServiceProvider);
+            if (_hvbRep == null)
+                _hvbRep = ServiceProviderServiceExtensions.GetService<IHVibRepository>(BootStrap.ServiceProvider);
 
-            _cyByHourRep = ServiceProviderServiceExtensions.GetService<IConveyorByHourRepository>(BootStrap.ServiceProvider);
-            _mfByHourRep = ServiceProviderServiceExtensions.GetService<IMaterialFeederByHourRepository>(BootStrap.ServiceProvider);
-            _jcByHourRep = ServiceProviderServiceExtensions.GetService<IJawCrusherByHourRepository>(BootStrap.ServiceProvider);
-            _ccByHourRep = ServiceProviderServiceExtensions.GetService<IConeCrusherByHourRepository>(BootStrap.ServiceProvider);
-            _vcByHourRep = ServiceProviderServiceExtensions.GetService<IVerticalCrusherByHourRepository>(BootStrap.ServiceProvider);
-            _vbByHourRep = ServiceProviderServiceExtensions.GetService<IVibrosieveByHourRepository>(BootStrap.ServiceProvider);
-            _sccByHourRep = ServiceProviderServiceExtensions.GetService<ISimonsConeCrusherByHourRepository>(BootStrap.ServiceProvider);
-            _pulByHourRep = ServiceProviderServiceExtensions.GetService<IPulverizerByHourRepository>(BootStrap.ServiceProvider);
-            _icByHourRep = ServiceProviderServiceExtensions.GetService<IImpactCrusherByHourRepository>(BootStrap.ServiceProvider);
-            _hvbByHourRep = ServiceProviderServiceExtensions.GetService<IHVibByHourRepository>(BootStrap.ServiceProvider);
-
-            _cyByDayRep = ServiceProviderServiceExtensions.GetService<IConveyorByDayRepository>(BootStrap.ServiceProvider);
-            _mfByDayRep = ServiceProviderServiceExtensions.GetService<IMaterialFeederByDayRepository>(BootStrap.ServiceProvider);
-            _jcByDayRep = ServiceProviderServiceExtensions.GetService<IJawCrusherByDayRepository>(BootStrap.ServiceProvider);
-            _ccByDayRep = ServiceProviderServiceExtensions.GetService<IConeCrusherByDayRepository>(BootStrap.ServiceProvider);
-            _vcByDayRep = ServiceProviderServiceExtensions.GetService<IVerticalCrusherByDayRepository>(BootStrap.ServiceProvider);
-            _vbByDayRep = ServiceProviderServiceExtensions.GetService<IVibrosieveByDayRepository>(BootStrap.ServiceProvider);
-            _sccByDayRep = ServiceProviderServiceExtensions.GetService<ISimonsConeCrusherByDayRepository>(BootStrap.ServiceProvider);
-            _pulByDayRep = ServiceProviderServiceExtensions.GetService<IPulverizerByDayRepository>(BootStrap.ServiceProvider);
-            _icByDayRep = ServiceProviderServiceExtensions.GetService<IImpactCrusherByDayRepository>(BootStrap.ServiceProvider);
-            _hvbByDayRep = ServiceProviderServiceExtensions.GetService<IHVibByDayRepository>(BootStrap.ServiceProvider);
+            if (_cyByHourRep == null)
+                _cyByHourRep = ServiceProviderServiceExtensions.GetService<IConveyorByHourRepository>(BootStrap.ServiceProvider);
+            if (_mfByHourRep == null)
+                _mfByHourRep = ServiceProviderServiceExtensions.GetService<IMaterialFeederByHourRepository>(BootStrap.ServiceProvider);
+            if (_jcByHourRep == null)
+                _jcByHourRep = ServiceProviderServiceExtensions.GetService<IJawCrusherByHourRepository>(BootStrap.ServiceProvider);
+            if (_ccByHourRep == null)
+                _ccByHourRep = ServiceProviderServiceExtensions.GetService<IConeCrusherByHourRepository>(BootStrap.ServiceProvider);
+            if (_vcByHourRep == null)
+                _vcByHourRep = ServiceProviderServiceExtensions.GetService<IVerticalCrusherByHourRepository>(BootStrap.ServiceProvider);
+            if (_vbByHourRep == null)
+                _vbByHourRep = ServiceProviderServiceExtensions.GetService<IVibrosieveByHourRepository>(BootStrap.ServiceProvider);
+            if (_sccByHourRep == null)
+                _sccByHourRep = ServiceProviderServiceExtensions.GetService<ISimonsConeCrusherByHourRepository>(BootStrap.ServiceProvider);
+            if (_pulByHourRep == null)
+                _pulByHourRep = ServiceProviderServiceExtensions.GetService<IPulverizerByHourRepository>(BootStrap.ServiceProvider);
+            if (_icByHourRep == null)
+                _icByHourRep = ServiceProviderServiceExtensions.GetService<IImpactCrusherByHourRepository>(BootStrap.ServiceProvider);
+            if (_hvbByHourRep == null)
+                _hvbByHourRep = ServiceProviderServiceExtensions.GetService<IHVibByHourRepository>(BootStrap.ServiceProvider);
+            if (_cyByDayRep == null)
+                _cyByDayRep = ServiceProviderServiceExtensions.GetService<IConveyorByDayRepository>(BootStrap.ServiceProvider);
+            if (_mfByDayRep == null)
+                _mfByDayRep = ServiceProviderServiceExtensions.GetService<IMaterialFeederByDayRepository>(BootStrap.ServiceProvider);
+            if (_jcByDayRep == null)
+                _jcByDayRep = ServiceProviderServiceExtensions.GetService<IJawCrusherByDayRepository>(BootStrap.ServiceProvider);
+            if (_ccByDayRep == null)
+                _ccByDayRep = ServiceProviderServiceExtensions.GetService<IConeCrusherByDayRepository>(BootStrap.ServiceProvider);
+            if (_vcByDayRep == null)
+                _vcByDayRep = ServiceProviderServiceExtensions.GetService<IVerticalCrusherByDayRepository>(BootStrap.ServiceProvider);
+            if (_vbByDayRep == null)
+                _vbByDayRep = ServiceProviderServiceExtensions.GetService<IVibrosieveByDayRepository>(BootStrap.ServiceProvider);
+            if (_sccByDayRep == null)
+                _sccByDayRep = ServiceProviderServiceExtensions.GetService<ISimonsConeCrusherByDayRepository>(BootStrap.ServiceProvider);
+            if (_pulByDayRep == null)
+                _pulByDayRep = ServiceProviderServiceExtensions.GetService<IPulverizerByDayRepository>(BootStrap.ServiceProvider);
+            if (_icByDayRep == null)
+                _icByDayRep = ServiceProviderServiceExtensions.GetService<IImpactCrusherByDayRepository>(BootStrap.ServiceProvider);
+            if (_hvbByDayRep == null)
+                _hvbByDayRep = ServiceProviderServiceExtensions.GetService<IHVibByDayRepository>(BootStrap.ServiceProvider);
         }
 
         #region extend method
@@ -1425,12 +1455,18 @@ namespace Yunt.Device.Repository.EF.Services
         /// <returns></returns>
         public dynamic GetMobileMotorDetails(IEnumerable<dynamic> datas, Motor motor, bool isInstant)
         {
-            var source = datas?.Where(e => e.RunningTime > 0) ?? null;
-            if (source == null || !source.Any())
+            if (datas == null || !datas.Any())
                 return GetMobileMotorDetails(motor.MotorTypeId);
+            var source = datas.Where(e => e.RunningTime > 0) ?? null;       
             float loadStall = 0;
             if (!isInstant)
-                loadStall = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
+            {
+                if (source == null || !source.Any())
+                    loadStall = 0;
+                else
+                    loadStall = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
+            }
+            //add version-2018.8.3
             dynamic lastRecord = null;
             switch (motor.MotorTypeId)
             {
@@ -2580,6 +2616,13 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                     };
             }
+        }
+        #endregion
+
+        #region test
+        public virtual dynamic test()
+        {
+            return GetEntities();
         }
         #endregion
     }

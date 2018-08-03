@@ -22,14 +22,17 @@ namespace Yunt.Device.Repository.EF.Repositories
     public class ConveyorByHourRepository : DeviceRepositoryBase<ConveyorByHour, Models.ConveyorByHour>, IConveyorByHourRepository
     {
 
-        private readonly IConveyorRepository _cyRep;
-        private readonly IMotorRepository _motorRep;
-        private readonly IMotorTypeRepository _motorTypeRep;
+        private  readonly IConveyorRepository _cyRep;//{ get; set; }
+        private  readonly IMotorRepository _motorRep;
+        private  readonly IMotorTypeRepository _motorTypeRep;
         public ConveyorByHourRepository(IMapper mapper, IRedisCachingProvider provider) : base(mapper, provider)
         {
-            _cyRep = ServiceProviderServiceExtensions.GetService<IConveyorRepository>(BootStrap.ServiceProvider);
-            _motorRep = ServiceProviderServiceExtensions.GetService<IMotorRepository>(BootStrap.ServiceProvider);
-            _motorTypeRep = ServiceProviderServiceExtensions.GetService<IMotorTypeRepository>(BootStrap.ServiceProvider);
+            if(_cyRep==null)
+                _cyRep = ServiceProviderServiceExtensions.GetService<IConveyorRepository>(BootStrap.ServiceProvider);
+            if (_motorRep == null)
+                _motorRep = ServiceProviderServiceExtensions.GetService<IMotorRepository>(BootStrap.ServiceProvider);
+            if (_motorTypeRep == null)
+                _motorTypeRep = ServiceProviderServiceExtensions.GetService<IMotorTypeRepository>(BootStrap.ServiceProvider);
         }
 
         #region extend method

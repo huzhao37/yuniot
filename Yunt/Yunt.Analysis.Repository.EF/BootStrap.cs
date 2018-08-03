@@ -52,7 +52,8 @@ namespace Yunt.Analysis.Repository.EF
 
                 var contextOptions = new DbContextOptionsBuilder().UseMySql(mySqlConn).Options;
                 services.AddSingleton(contextOptions)
-                  .AddTransient<AnalysisContext>();
+                  .TryAddTransient<AnalysisContext>();
+                //services.AddDbContext<AnalysisContext>(options => options.UseMySql(mySqlConn));
 
                 dynamic x = (new BootStrap()).GetType();
                 string currentpath = Path.GetDirectoryName(x.Assembly.Location);

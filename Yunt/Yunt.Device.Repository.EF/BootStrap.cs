@@ -23,7 +23,7 @@ using Yunt.Device.Domain.Model.IdModel;
 namespace Yunt.Device.Repository.EF
 {
     [Service(ServiceType.Device)]
-    public class BootStrap:MarshalByRefObject //: IBootStrap
+    public class BootStrap:MarshalByRefObject 
     {
         internal static IServiceProvider ServiceProvider;
         public void Start(IServiceCollection services, IConfigurationRoot configuration)
@@ -49,10 +49,14 @@ namespace Yunt.Device.Repository.EF
                     Logger.Error($"please write Device service's settings into appsettings! \n exp：\"Device\":{{\"RedisConn\":\"***\"," +
                         $"\"MySqlConn\":\"***\"}}");
                 }
-             
+
                 var contextOptions = new DbContextOptionsBuilder().UseMySql(mySqlConn).EnableSensitiveDataLogging().Options;
                 services.AddSingleton(contextOptions)
                   .TryAddTransient<DeviceContext>();
+
+                //services.AddDbContext<DeviceContext>(options => options.UseMySql(mySqlConn));
+
+                //services.AddScoped(s => new DeviceContext(contextOptions));
                 //services.AddDbContextPool<DeviceContext>(options =>
                 //                  options.UseMySql(mySqlConn).EnableSensitiveDataLogging());
                 dynamic x = (new BootStrap()).GetType();

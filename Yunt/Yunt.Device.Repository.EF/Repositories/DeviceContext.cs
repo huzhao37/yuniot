@@ -11,7 +11,7 @@ using Yunt.Device.Repository.EF.Models.IdModel;
 
 namespace Yunt.Device.Repository.EF.Repositories
 {
-   public class DeviceContext : DbContext
+   public class DeviceContext : DbContext, IDisposable
     {
         public DeviceContext(DbContextOptions options) : base(options)
         {

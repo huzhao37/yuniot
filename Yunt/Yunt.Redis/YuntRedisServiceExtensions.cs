@@ -25,6 +25,7 @@ namespace Yunt.Redis
             services.AddOptions();
             services.Configure(optionsAction);
             services.TryAddSingleton<IRedisCachingProvider, RedisCachingProvider>();
+           // services.TryAddSingleton<IRedisCachingProvider, RedisCachingProvider>();
 
             return services;
         }

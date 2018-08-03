@@ -51,7 +51,8 @@ namespace Yunt.Xml.Repository.EF
 
                 var contextOptions = new DbContextOptionsBuilder().UseMySql(mySqlConn).Options;
                 services.AddSingleton(contextOptions)
-                  .AddTransient<XmlContext>();
+                  .TryAddTransient<XmlContext>();
+                //services.AddDbContext<XmlContext>(options => options.UseMySql(mySqlConn));
 
                 dynamic x = (new BootStrap()).GetType();
                 string currentpath = Path.GetDirectoryName(x.Assembly.Location);

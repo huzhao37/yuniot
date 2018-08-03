@@ -24,8 +24,8 @@ namespace Yunt.Common
                 dynamic type = (new ServiceEx()).GetType();
                 string path = Path.GetDirectoryName(type.Assembly.Location);
 
-                var dllPath= configuration.GetSection("AppSettings").GetValue<string>("DllPath");
-                FileEx.CopyFolderTo(dllPath, path);
+                //var dllPath= configuration.GetSection("AppSettings").GetValue<string>("DllPath");
+                //FileEx.CopyFolderTo(dllPath, path);
 
                 //FileEx.TryLoadAssembly();
                 var files = new DirectoryInfo(path).GetFiles();
