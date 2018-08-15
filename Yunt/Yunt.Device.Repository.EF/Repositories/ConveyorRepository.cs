@@ -536,7 +536,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         {
             var now = DateTime.Now.TimeSpan();
           
-            var status = MotorStatus.Lose;
+            var status = MotorStatus.Stop;
             var lastData = GetLatestRecord(motorId);
             if(lastData==null)
                 return MotorStatus.Stop;
@@ -569,5 +569,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             return result;
         }
         #endregion
+
+      
     }
 }

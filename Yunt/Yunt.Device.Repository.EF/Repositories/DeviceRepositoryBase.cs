@@ -646,5 +646,7 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         }
         #endregion
+
+
     }
 }

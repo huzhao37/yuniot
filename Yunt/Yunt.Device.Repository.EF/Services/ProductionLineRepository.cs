@@ -261,7 +261,7 @@ namespace Yunt.Device.Repository.EF.Services
                     return _hvbRep.GetCurrentStatus(motor.MotorId);
 
                 default:
-                    return MotorStatus.Lose;
+                    return MotorStatus.Stop;
             }
         }
         /// <summary>
@@ -1454,10 +1454,9 @@ namespace Yunt.Device.Repository.EF.Services
         ///  <param name="isInstant"></param>
         /// <returns></returns>
         public dynamic GetMobileMotorDetails(IEnumerable<dynamic> datas, Motor motor, bool isInstant)
-        {
-            if (datas == null || !datas.Any())
-                return GetMobileMotorDetails(motor.MotorTypeId);
-            var source = datas.Where(e => e.RunningTime > 0) ?? null;       
+        {           
+                //return GetMobileMotorDetails(motor.MotorTypeId);          
+            var source = datas?.Where(e => e.RunningTime > 0)?.ToList() ?? new List<dynamic>();       
             float loadStall = 0;
             if (!isInstant)
             {
@@ -1471,6 +1470,10 @@ namespace Yunt.Device.Repository.EF.Services
             switch (motor.MotorTypeId)
             {
                 case "CY":
+                    if (datas == null || !datas.Any())
+                        datas = new List<ConveyorByHour>() { new ConveyorByHour() { MotorId = motor.MotorId } };
+                    if (source == null || !source.Any())
+                        source.Add(new ConveyorByHour() { MotorId=motor.MotorId});
                     if (isInstant)
                     {
                         lastRecord = _cyRep.GetLatestRecord(motor.MotorId);
@@ -1508,6 +1511,10 @@ namespace Yunt.Device.Repository.EF.Services
                         currentSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgCurrent_B }) },
                     };
                 case "MF":
+                    if (datas == null || !datas.Any())
+                        datas = new List<MaterialFeederByHour>() { new MaterialFeederByHour() { MotorId = motor.MotorId } };
+                    if (source == null || !source.Any())
+                        source.Add(new MaterialFeederByHour() { MotorId = motor.MotorId });
                     if (isInstant)
                     {
                         lastRecord = _mfRep.GetLatestRecord(motor.MotorId);
@@ -1543,6 +1550,10 @@ namespace Yunt.Device.Repository.EF.Services
                         currentSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgCurrent_B }) },
                     };
                 case "JC":
+                    if (datas == null || !datas.Any())
+                        datas = new List<JawCrusherByHour>() { new JawCrusherByHour() { MotorId = motor.MotorId } };
+                    if (source == null || !source.Any())
+                        source.Add(new JawCrusherByHour() { MotorId = motor.MotorId });
                     if (isInstant)
                     {
                         lastRecord = _jcRep.GetLatestRecord(motor.MotorId);
@@ -1598,6 +1609,10 @@ namespace Yunt.Device.Repository.EF.Services
                         currentSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgCurrent_B }) },
                     };
                 case "CC":
+                    if (datas == null || !datas.Any())
+                        datas = new List<ConeCrusherByHour>() { new ConeCrusherByHour() { MotorId = motor.MotorId } };
+                    if (source == null || !source.Any())
+                        source.Add(new ConeCrusherByHour() { MotorId = motor.MotorId });
                     if (isInstant)
                     {
                         lastRecord = _ccRep.GetLatestRecord(motor.MotorId);
@@ -1658,6 +1673,10 @@ namespace Yunt.Device.Repository.EF.Services
                     };
 
                 case "VC":
+                    if (datas == null || !datas.Any())
+                        datas = new List<VerticalCrusherByHour>() { new VerticalCrusherByHour() { MotorId = motor.MotorId } };
+                    if (source == null || !source.Any())
+                        source.Add(new VerticalCrusherByHour() { MotorId = motor.MotorId });
                     if (isInstant)
                     {
                         lastRecord = _vcRep.GetLatestRecord(motor.MotorId);
@@ -1697,6 +1716,10 @@ namespace Yunt.Device.Repository.EF.Services
                         currentSeries = new { name = motor.Name, data = datas.Select(e => new { e.AvgCurrent_B }) },
                     };
                 case "VB":
+                    if (datas == null || !datas.Any())
+                        datas = new List<VibrosieveByHour>() { new VibrosieveByHour() { MotorId = motor.MotorId } };
+                    if (source == null || !source.Any())
+                        source.Add(new VibrosieveByHour() { MotorId = motor.MotorId });
                     if (isInstant)
                     {
                         lastRecord = _vbRep.GetLatestRecord(motor.MotorId);
@@ -1745,6 +1768,10 @@ namespace Yunt.Device.Repository.EF.Services
                     };
 
                 case "SCC":
+                    if (datas == null || !datas.Any())
+                        datas = new List<SimonsConeCrusherByHour>() { new SimonsConeCrusherByHour() { MotorId = motor.MotorId } };
+                    if (source == null || !source.Any())
+                        source.Add(new SimonsConeCrusherByHour() { MotorId = motor.MotorId });
                     if (isInstant)
                     {
                         lastRecord = _sccRep.GetLatestRecord(motor.MotorId);
@@ -1805,6 +1832,10 @@ namespace Yunt.Device.Repository.EF.Services
                     };
 
                 case "PUL":
+                    if (datas == null || !datas.Any())
+                        datas = new List<PulverizerByHour>() { new PulverizerByHour() { MotorId = motor.MotorId } };
+                    if (source == null || !source.Any())
+                        source.Add(new PulverizerByHour() { MotorId = motor.MotorId });
                     if (isInstant)
                     {
                         lastRecord = _pulRep.GetLatestRecord(motor.MotorId);
@@ -1845,6 +1876,10 @@ namespace Yunt.Device.Repository.EF.Services
                     };
 
                 case "IC":
+                    if (datas == null || !datas.Any())
+                        datas = new List<ImpactCrusherByHour>() { new ImpactCrusherByHour() { MotorId = motor.MotorId } };
+                    if (source == null || !source.Any())
+                        source.Add(new ImpactCrusherByHour() { MotorId = motor.MotorId });
                     if (isInstant)
                     {
                         lastRecord = _icRep.GetLatestRecord(motor.MotorId);
@@ -1898,6 +1933,10 @@ namespace Yunt.Device.Repository.EF.Services
 
                     };
                 case "HVB":
+                    if (datas == null || !datas.Any())
+                        datas = new List<HVibByHour>() { new HVibByHour() { MotorId = motor.MotorId } };
+                    if (source == null || !source.Any())
+                        source.Add(new HVibByHour() { MotorId = motor.MotorId });
                     if (isInstant)
                     {
                         lastRecord = _hvbRep.GetLatestRecord(motor.MotorId);

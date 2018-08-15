@@ -508,7 +508,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         public MotorStatus GetCurrentStatus(string motorId)
         {
             var now = DateTime.Now.TimeSpan();
-            var status = MotorStatus.Lose;
+            var status = MotorStatus.Stop;
             var lastData = GetLatestRecord(motorId);
             if (lastData == null || now-lastData.Time > 10 * 60) return status;
             if (lastData.Current_B == -1)

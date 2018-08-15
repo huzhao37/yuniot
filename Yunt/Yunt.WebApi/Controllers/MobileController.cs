@@ -265,10 +265,13 @@ namespace Yunt.WebApi.Controllers
             try
             {
                 var motors =
-                    _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId))?.ToList();
+                    _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId) && e.MotorTypeId != "MF"
+                        && e.MotorTypeId != "HVB" && e.MotorTypeId != "VB" && e.MotorId != "WDD-P001-CC000001")?.ToList();
                 if (motors == null || !motors.Any()) return resData;
                 motors.ForEach(motor =>
                 {
+                    if (motor.MotorTypeId == "CY" && !motor.IsBeltWeight)
+                        return;
                     var data = _productionLineRepository.MotorDetails(motor);//_conveyorByHourRepository.GetRealData(motor);
                     if(data==null)
                         resData.Add(new MotorItemModel()

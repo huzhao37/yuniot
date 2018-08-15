@@ -246,8 +246,13 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
-                            var isStop = flags[i].Value <= 0;
-                            if (isStop == boot)
+                            if (i == 0)
+                            {
+                                boot = flags[0].Value > 0f;
+                                continue;
+                            }
+                            var isStop = flags[i].Value <= 0f;
+                            if (isStop != boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
                                 motorLogs.Add(new MotorEventLog()
@@ -260,7 +265,7 @@ namespace Yunt.IDA.Tasks
                                     Time = flags[i].Time
                                 });
 
-                                boot = !isStop;
+                                boot = isStop;
                             }
                         }
                     }
@@ -268,7 +273,10 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000003":
                     if (logs == null || !logs.Any()) return;
-                    var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
+                    var existNo = logs.Where(e => e.Value != -1f)?.ToList();
+                    if (existNo != null && existNo.Any())
+                        break;
+                    var allParamEx = logs.Where(e => e.Value == -1f)?.GroupBy(e => e.Time)?.ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
                     {
@@ -293,7 +301,7 @@ namespace Yunt.IDA.Tasks
                     break;
                 case "EVT00000004":
                     //判断每秒脉冲数
-                    var boots = logs?.Where(e => e.Param.Contains("每秒脉冲数") && e.Value <=0f).ToList();
+                    var boots = logs?.Where(e => e.Param.Contains("每秒脉冲数") && e.Value ==-1f).ToList();
                     if (boots != null && boots.Any())
                     {
                         boots.ForEach(e =>
@@ -354,7 +362,7 @@ namespace Yunt.IDA.Tasks
                                 continue;
                             }
                             //清零
-                            if (weigh < last)
+                            if (weigh < last&&Math.Abs(weigh-last)<100)
                             {
                                 motorLogs.Add(new MotorEventLog()
                                 {
@@ -386,7 +394,7 @@ namespace Yunt.IDA.Tasks
                                 continue;
                             }                         
                             //跑偏
-                            if (weigh - last >= 100)
+                            if (Math.Abs(weigh - last) >= 100)
                             {
                                 motorLogs.Add(new MotorEventLog()
                                 {
@@ -450,8 +458,13 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
-                            var isStop = flags[i].Value <= 0;
-                            if (isStop == boot)
+                            if (i == 0)
+                            {
+                                boot = flags[0].Value > 0f;
+                                continue;
+                            }
+                            var isStop = flags[i].Value <= 0f;
+                            if (isStop != boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
                                 motorLogs.Add(new MotorEventLog()
@@ -464,7 +477,7 @@ namespace Yunt.IDA.Tasks
                                     Time = flags[i].Time
                                 });
 
-                                boot = !isStop;
+                                boot = isStop;
                             }
                         }
                     }
@@ -472,6 +485,9 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000010":
                     if (logs == null || !logs.Any()) return;
+                    var existNo = logs.Where(e => e.Value != -1f)?.ToList();
+                    if (existNo != null && existNo.Any())
+                        break;
                     var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
@@ -565,8 +581,13 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
-                            var isStop = flags[i].Value <= 0;
-                            if (isStop == boot)
+                            if (i == 0)
+                            {
+                                boot = flags[0].Value > 0f;
+                                continue;
+                            }
+                            var isStop = flags[i].Value <= 0f;
+                            if (isStop != boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
                                 motorLogs.Add(new MotorEventLog()
@@ -579,7 +600,7 @@ namespace Yunt.IDA.Tasks
                                     Time = flags[i].Time
                                 });
 
-                                boot = !isStop;
+                                boot = isStop;
                             }
                         }
                     }
@@ -587,6 +608,9 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000014":
                     if (logs == null || !logs.Any()) return;
+                    var existNo = logs.Where(e => e.Value != -1f)?.ToList();
+                    if (existNo != null && existNo.Any())
+                        break;
                     var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
@@ -705,8 +729,13 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
-                            var isStop = flags[i].Value <= 0;
-                            if (isStop == boot)
+                            if (i == 0)
+                            {
+                                boot = flags[0].Value > 0f;
+                                continue;
+                            }
+                            var isStop = flags[i].Value <= 0f;
+                            if (isStop != boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
                                 motorLogs.Add(new MotorEventLog()
@@ -719,7 +748,7 @@ namespace Yunt.IDA.Tasks
                                     Time = flags[i].Time
                                 });
 
-                                boot = !isStop;
+                                boot = isStop;
                             }
                         }
                     }
@@ -727,7 +756,9 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT000000019":
                     if (logs == null || !logs.Any()) return;
-
+                    var existNo = logs.Where(e => e.Value != -1f)?.ToList();
+                    if (existNo != null && existNo.Any())
+                        break;
                     var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
@@ -842,8 +873,13 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
+                            if (i == 0)
+                            {
+                                boot = flags[0].Value > 0f;
+                                continue;
+                            }
                             var isStop = flags[i].Value <= 0f;
-                            if (isStop == boot)
+                            if (isStop != boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
                                 motorLogs.Add(new MotorEventLog()
@@ -856,7 +892,7 @@ namespace Yunt.IDA.Tasks
                                     Time = flags[i].Time
                                 });
 
-                                boot = !isStop;
+                                boot = isStop;
                             }
                         }
                     }
@@ -864,7 +900,9 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000024":
                     if (logs == null || !logs.Any()) return;
-
+                    var existNo = logs.Where(e => e.Value != -1f)?.ToList();
+                    if (existNo != null && existNo.Any())
+                        break;
                     var allParamEx = logs.Where(e => e.Value == -1).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
@@ -936,8 +974,13 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
+                            if (i == 0)
+                            {
+                                boot = flags[0].Value > 0f;
+                                continue;
+                            }
                             var isStop = flags[i].Value <= 0f;
-                            if (isStop == boot)
+                            if (isStop != boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
                                 motorLogs.Add(new MotorEventLog()
@@ -950,7 +993,7 @@ namespace Yunt.IDA.Tasks
                                     Time = flags[i].Time
                                 });
 
-                                boot = !isStop;
+                                boot = isStop;
                             }
                         }
                     }
@@ -958,7 +1001,9 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000024":
                     if (logs == null || !logs.Any()) return;
-
+                    var existNo = logs.Where(e => e.Value != -1f)?.ToList();
+                    if (existNo != null && existNo.Any())
+                        break;
                     var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
@@ -1029,8 +1074,13 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
+                            if (i == 0)
+                            {
+                                boot = flags[0].Value > 0f;
+                                continue;
+                            }
                             var isStop = flags[i].Value <= 0f;
-                            if (isStop == boot)
+                            if (isStop != boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
                                 motorLogs.Add(new MotorEventLog()
@@ -1043,7 +1093,7 @@ namespace Yunt.IDA.Tasks
                                     Time = flags[i].Time
                                 });
 
-                                boot = !isStop;
+                                boot = isStop;
                             }
                         }
                     }
@@ -1051,7 +1101,9 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000027":
                     if (logs == null || !logs.Any()) return;
-
+                    var existNo = logs.Where(e => e.Value != -1f)?.ToList();
+                    if (existNo != null && existNo.Any())
+                        break;
                     var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
@@ -1145,8 +1197,13 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
+                            if (i == 0)
+                            {
+                                boot = flags[0].Value > 0f;
+                                continue;
+                            }
                             var isStop = flags[i].Value <= 0f;
-                            if (isStop == boot)
+                            if (isStop != boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
                                 motorLogs.Add(new MotorEventLog()
@@ -1159,7 +1216,7 @@ namespace Yunt.IDA.Tasks
                                     Time = flags[i].Time
                                 });
 
-                                boot = !isStop;
+                                boot = isStop;
                             }
                         }
                     }
@@ -1167,7 +1224,9 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000031":
                     if (logs == null || !logs.Any()) return;
-
+                    var existNo = logs.Where(e => e.Value != -1f)?.ToList();
+                    if (existNo != null && existNo.Any())
+                        break;
                     var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
@@ -1261,8 +1320,13 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
+                            if (i == 0)
+                            {
+                                boot = flags[0].Value > 0f;
+                                continue;
+                            }
                             var isStop = flags[i].Value <= 0f;
-                            if (isStop == boot)
+                            if (isStop != boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
                                 motorLogs.Add(new MotorEventLog()
@@ -1275,7 +1339,7 @@ namespace Yunt.IDA.Tasks
                                     Time = flags[i].Time
                                 });
 
-                                boot = !isStop;
+                                boot = isStop;
                             }
                         }
                     }
@@ -1283,7 +1347,9 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000035":
                     if (logs == null || !logs.Any()) return;
-
+                    var existNo = logs.Where(e => e.Value != -1f)?.ToList();
+                    if (existNo != null && existNo.Any())
+                        break;
                     var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
@@ -1377,8 +1443,13 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
+                            if (i == 0)
+                            {
+                                boot = flags[0].Value > 0f;
+                                continue;
+                            }
                             var isStop = flags[i].Value <= 0f;
-                            if (isStop == boot)
+                            if (isStop != boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
                                 motorLogs.Add(new MotorEventLog()
@@ -1391,7 +1462,7 @@ namespace Yunt.IDA.Tasks
                                     Time = flags[i].Time
                                 });
 
-                                boot = !isStop;
+                                boot = isStop;
                             }
                         }
                     }
@@ -1399,7 +1470,9 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000039":
                     if (logs == null || !logs.Any()) return;
-
+                    var existNo = logs.Where(e => e.Value != -1f)?.ToList();
+                    if (existNo != null && existNo.Any())
+                        break;
                     var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>
@@ -1517,8 +1590,13 @@ namespace Yunt.IDA.Tasks
                         var boot = true;
                         for (var i = 0; i < flags.Count(); i++)
                         {
+                            if (i == 0)
+                            {
+                                boot = flags[0].Value > 0f;
+                                continue;
+                            }
                             var isStop = flags[i].Value <= 0f;
-                            if (isStop == boot)
+                            if (isStop != boot)
                             {
                                 var bootDesc = isStop ? "停止" : "启动";
                                 motorLogs.Add(new MotorEventLog()
@@ -1531,7 +1609,7 @@ namespace Yunt.IDA.Tasks
                                     Time = flags[i].Time
                                 });
 
-                                boot = !isStop;
+                                boot = isStop;
                             }
                         }
                     }
@@ -1539,7 +1617,9 @@ namespace Yunt.IDA.Tasks
 
                 case "EVT00000044":
                     if (logs == null || !logs.Any()) return;
-
+                    var existNo = logs.Where(e => e.Value != -1f)?.ToList();
+                    if (existNo != null && existNo.Any())
+                        break;
                     var allParamEx = logs.Where(e => e.Value == -1f).GroupBy(e => e.Time).ToList();
                     if (!allParamEx.Any()) return;
                     allParamEx.ForEach(e =>

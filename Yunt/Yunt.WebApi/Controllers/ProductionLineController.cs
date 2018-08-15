@@ -118,7 +118,7 @@ namespace Yunt.WebApi.Controllers
             return new ProductionLineStatus()
             {
                 Gprs = gprs,
-                LoseMotors = tuple.Item1,
+                LoseMotors = tuple.Item3 > 0? 0:(tuple.Item2 + tuple.Item3),//tuple.Item1,
                 StopMotors = tuple.Item2,
                 RunMotors = tuple.Item3,
                 LineStatus = tuple.Item3 > 0,
@@ -276,11 +276,15 @@ namespace Yunt.WebApi.Controllers
         public IEnumerable<MotorSummary> Motors(string productionlineId)
         {
             var datas = new List<MotorSummary>();
-            var motors = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId))?.ToList();
+            var motors = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) && e.MotorTypeId != "MF"
+                        && e.MotorTypeId != "HVB" && e.MotorTypeId != "VB" && e.MotorId != "WDD-P001-CC000001")?.ToList();
             if (motors == null || !motors.Any()) return datas;
+            var gprs = _productionLineRepository.GetStatus(productionlineId);
             motors.ForEach(motor =>
-           {
-               var status = _productionLineRepository.GetMotorStatusByMotorId(motor.MotorId);
+            {
+                if (motor.MotorTypeId == "CY" && !motor.IsBeltWeight)
+                    return;
+                var status = gprs? _productionLineRepository.GetMotorStatusByMotorId(motor.MotorId):MotorStatus.Lose;
                var detail = _productionLineRepository.MotorDetails(motor);
                datas.Add(new MotorSummary()
                {
