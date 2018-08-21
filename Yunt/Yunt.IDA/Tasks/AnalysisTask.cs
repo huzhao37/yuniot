@@ -61,7 +61,7 @@ namespace Yunt.IDA.Tasks
             var now = DateTime.Now;
             var end = now.TimeSpan();
             var start = now.AddDays(-1).TimeSpan();
-            var logs = MotorEventLogRepository.GetEntities(e=>e.Time>start&&e.Time<=end);
+            var logs = MotorEventLogRepository.GetEntities(e=>e.Time>start&&e.Time<end);
             var sb = new StringBuilder();
             if (logs?.Any() ?? false)
                 foreach (var log in logs)
@@ -112,20 +112,21 @@ namespace Yunt.IDA.Tasks
             var keys = MotorEventLogRepository.GetRedisAllKeys();
             keys.ForEach(key =>
             {
-                var logs = MotorEventLogRepository.GetAiLogsByKey(key);
-                //todo
-                var time = DateTime.Now.TimeSpan();
-                //test
-                //var time = DateTime.Now.Date.AddDays(-1).TimeSpan();
+                var nowDate = DateTime.Now.Date;//.AddDays(1);
+                var strs = key.Split("|");
+                if (strs.Length > 0 && Convert.ToSingle(strs[0]) == nowDate.TimeSpan())
+                    return;
+                var startTime = nowDate.AddDays(-1).TimeSpan();
+                var logs = MotorEventLogRepository.GetAiLogsByKey(key);                        
                 if (logs.Any())
                 {
                     string motorId = "";
-                    var strs = key.Split('|');
+                    //var strs = key.Split('|');
                     if (strs.Length == 2)
                         motorId = strs[1];
                     if (motorId.IsNullOrWhiteSpace())
                         return;
-                    var result = Statistics(logs.OrderBy(e => e.Time), motorId, time);
+                    var result = Statistics(logs.OrderBy(e => e.Time), motorId, startTime);
                     MotorEventLogRepository.Batch();
 #if DEBUG
                     if (result)
@@ -135,6 +136,7 @@ namespace Yunt.IDA.Tasks
 
 
             });
+ 
 
         }
 
@@ -146,12 +148,12 @@ namespace Yunt.IDA.Tasks
                 var MotorName = single.MotorName;
                 var lineId = single.ProductionLineId;
 
-                var kinds = EventKindRepository.GetEntities(e => e.MotorTypeId.Equals(single.MotorTypeId));
+                var kinds = EventKindRepository.GetEntities(e => e.MotorTypeId.Equals(single.MotorTypeId)).ToList();
                 if (single.MotorTypeId.Equals("HVB"))
-                    kinds = EventKindRepository.GetEntities(e => e.MotorTypeId.Equals("VB"));
+                    kinds = EventKindRepository.GetEntities(e => e.MotorTypeId.Equals("VB")).ToList();
                 if (kinds != null && kinds.Any())
                 {
-                    Parallel.ForEach(kinds, kind =>
+                    kinds.ForEach(kind =>
                     {
                         switch (single.MotorTypeId)
                         {
@@ -248,7 +250,7 @@ namespace Yunt.IDA.Tasks
                         {
                             if (i == 0)
                             {
-                                boot = flags[0].Value > 0f;
+                                boot = flags[0].Value <= 0f;;
                                 continue;
                             }
                             var isStop = flags[i].Value <= 0f;
@@ -443,15 +445,15 @@ namespace Yunt.IDA.Tasks
                     var flags = logs?.Where(e => e.Param.Contains("运行")).ToList();
                     if (flags == null || !flags.Any())
                     {
-                        motorLogs.Add(new MotorEventLog()
-                        {
-                            MotorId = MotorId,
-                            EventCode = "EVT00000009",
-                            Description = $"[{start.Time()}]:{kind.Description}-停止",
-                            ProductionLineId = lineId,
-                            MotorName = MotorName,
-                            Time = start
-                        });
+                        //motorLogs.Add(new MotorEventLog()
+                        //{
+                        //    MotorId = MotorId,
+                        //    EventCode = "EVT00000009",
+                        //    Description = $"[{start.Time()}]:{kind.Description}-停止",
+                        //    ProductionLineId = lineId,
+                        //    MotorName = MotorName,
+                        //    Time = start
+                        //});
                     }
                     else
                     {
@@ -460,7 +462,7 @@ namespace Yunt.IDA.Tasks
                         {
                             if (i == 0)
                             {
-                                boot = flags[0].Value > 0f;
+                                boot = flags[0].Value <= 0f;;
                                 continue;
                             }
                             var isStop = flags[i].Value <= 0f;
@@ -566,15 +568,15 @@ namespace Yunt.IDA.Tasks
                     var flags = logs?.Where(e => e.Param.Contains("运行")).ToList();
                     if (flags == null || !flags.Any())
                     {
-                        motorLogs.Add(new MotorEventLog()
-                        {
-                            MotorId = MotorId,
-                            EventCode = "EVT00000013",
-                            Description = $"[{start.Time()}]:{kind.Description}-停止",
-                            ProductionLineId = lineId,
-                            MotorName = MotorName,
-                            Time = start
-                        });
+                        //motorLogs.Add(new MotorEventLog()
+                        //{
+                        //    MotorId = MotorId,
+                        //    EventCode = "EVT00000013",
+                        //    Description = $"[{start.Time()}]:{kind.Description}-停止",
+                        //    ProductionLineId = lineId,
+                        //    MotorName = MotorName,
+                        //    Time = start
+                        //});
                     }
                     else
                     {
@@ -583,7 +585,7 @@ namespace Yunt.IDA.Tasks
                         {
                             if (i == 0)
                             {
-                                boot = flags[0].Value > 0f;
+                                boot = flags[0].Value <= 0f;;
                                 continue;
                             }
                             var isStop = flags[i].Value <= 0f;
@@ -714,15 +716,15 @@ namespace Yunt.IDA.Tasks
                     var flags = logs?.Where(e => e.Param.Contains("运行")).ToList();
                     if (flags == null || !flags.Any())
                     {
-                        motorLogs.Add(new MotorEventLog()
-                        {
-                            MotorId = MotorId,
-                            EventCode = "EVT000000018",
-                            Description = $"[{start.Time()}]:{kind.Description}-停止",
-                            ProductionLineId = lineId,
-                            MotorName = MotorName,
-                            Time = start
-                        });
+                        //motorLogs.Add(new MotorEventLog()
+                        //{
+                        //    MotorId = MotorId,
+                        //    EventCode = "EVT000000018",
+                        //    Description = $"[{start.Time()}]:{kind.Description}-停止",
+                        //    ProductionLineId = lineId,
+                        //    MotorName = MotorName,
+                        //    Time = start
+                        //});
                     }
                     else
                     {
@@ -731,7 +733,7 @@ namespace Yunt.IDA.Tasks
                         {
                             if (i == 0)
                             {
-                                boot = flags[0].Value > 0f;
+                                boot = flags[0].Value <= 0f;;
                                 continue;
                             }
                             var isStop = flags[i].Value <= 0f;
@@ -858,15 +860,15 @@ namespace Yunt.IDA.Tasks
                     var flags = logs?.Where(e => e.Param.Contains("运行")).ToList();
                     if (flags == null || !flags.Any())
                     {
-                        motorLogs.Add(new MotorEventLog()
-                        {
-                            MotorId = MotorId,
-                            EventCode = "EVT00000023",
-                            Description = $"[{start.Time()}]:{kind.Description}-停止",
-                            ProductionLineId = lineId,
-                            MotorName = MotorName,
-                            Time = start
-                        });
+                        //motorLogs.Add(new MotorEventLog()
+                        //{
+                        //    MotorId = MotorId,
+                        //    EventCode = "EVT00000023",
+                        //    Description = $"[{start.Time()}]:{kind.Description}-停止",
+                        //    ProductionLineId = lineId,
+                        //    MotorName = MotorName,
+                        //    Time = start
+                        //});
                     }
                     else
                     {
@@ -875,7 +877,7 @@ namespace Yunt.IDA.Tasks
                         {
                             if (i == 0)
                             {
-                                boot = flags[0].Value > 0f;
+                                boot = flags[0].Value <= 0f;;
                                 continue;
                             }
                             var isStop = flags[i].Value <= 0f;
@@ -959,15 +961,15 @@ namespace Yunt.IDA.Tasks
                     var flags = logs?.Where(e => e.Param.Contains("运行")).ToList();
                     if (flags == null || !flags.Any())
                     {
-                        motorLogs.Add(new MotorEventLog()
-                        {
-                            MotorId = MotorId,
-                            EventCode = "EVT00000023",
-                            Description = $"[{start.Time()}]:{kind.Description}-停止",
-                            ProductionLineId = lineId,
-                            MotorName = MotorName,
-                            Time = start
-                        });
+                        //motorLogs.Add(new MotorEventLog()
+                        //{
+                        //    MotorId = MotorId,
+                        //    EventCode = "EVT00000023",
+                        //    Description = $"[{start.Time()}]:{kind.Description}-停止",
+                        //    ProductionLineId = lineId,
+                        //    MotorName = MotorName,
+                        //    Time = start
+                        //});
                     }
                     else
                     {
@@ -976,7 +978,7 @@ namespace Yunt.IDA.Tasks
                         {
                             if (i == 0)
                             {
-                                boot = flags[0].Value > 0f;
+                                boot = flags[0].Value <= 0f;;
                                 continue;
                             }
                             var isStop = flags[i].Value <= 0f;
@@ -1059,15 +1061,15 @@ namespace Yunt.IDA.Tasks
                     var flags = logs?.Where(e => e.Param.Contains("运行")).ToList();
                     if (flags == null || !flags.Any())
                     {
-                        motorLogs.Add(new MotorEventLog()
-                        {
-                            MotorId = MotorId,
-                            EventCode = "EVT00000026",
-                            Description = $"[{start.Time()}]:{kind.Description}-停止",
-                            ProductionLineId = lineId,
-                            MotorName = MotorName,
-                            Time = start
-                        });
+                        //motorLogs.Add(new MotorEventLog()
+                        //{
+                        //    MotorId = MotorId,
+                        //    EventCode = "EVT00000026",
+                        //    Description = $"[{start.Time()}]:{kind.Description}-停止",
+                        //    ProductionLineId = lineId,
+                        //    MotorName = MotorName,
+                        //    Time = start
+                        //});
                     }
                     else
                     {
@@ -1076,7 +1078,7 @@ namespace Yunt.IDA.Tasks
                         {
                             if (i == 0)
                             {
-                                boot = flags[0].Value > 0f;
+                                boot = flags[0].Value <= 0f;;
                                 continue;
                             }
                             var isStop = flags[i].Value <= 0f;
@@ -1182,15 +1184,15 @@ namespace Yunt.IDA.Tasks
                     var flags = logs?.Where(e => e.Param.Contains("运行")).ToList();
                     if (flags == null || !flags.Any())
                     {
-                        motorLogs.Add(new MotorEventLog()
-                        {
-                            MotorId = MotorId,
-                            EventCode = "EVT00000030",
-                            Description = $"[{start.Time()}]:{kind.Description}-停止",
-                            ProductionLineId = lineId,
-                            MotorName = MotorName,
-                            Time = start
-                        });
+                        //motorLogs.Add(new MotorEventLog()
+                        //{
+                        //    MotorId = MotorId,
+                        //    EventCode = "EVT00000030",
+                        //    Description = $"[{start.Time()}]:{kind.Description}-停止",
+                        //    ProductionLineId = lineId,
+                        //    MotorName = MotorName,
+                        //    Time = start
+                        //});
                     }
                     else
                     {
@@ -1199,7 +1201,7 @@ namespace Yunt.IDA.Tasks
                         {
                             if (i == 0)
                             {
-                                boot = flags[0].Value > 0f;
+                                boot = flags[0].Value <= 0f;;
                                 continue;
                             }
                             var isStop = flags[i].Value <= 0f;
@@ -1305,15 +1307,15 @@ namespace Yunt.IDA.Tasks
                     var flags = logs?.Where(e => e.Param.Contains("运行")).ToList();
                     if (flags == null || !flags.Any())
                     {
-                        motorLogs.Add(new MotorEventLog()
-                        {
-                            MotorId = MotorId,
-                            EventCode = "EVT00000034",
-                            Description = $"[{start.Time()}]:{kind.Description}-停止",
-                            ProductionLineId = lineId,
-                            MotorName = MotorName,
-                            Time = start
-                        });
+                        //motorLogs.Add(new MotorEventLog()
+                        //{
+                        //    MotorId = MotorId,
+                        //    EventCode = "EVT00000034",
+                        //    Description = $"[{start.Time()}]:{kind.Description}-停止",
+                        //    ProductionLineId = lineId,
+                        //    MotorName = MotorName,
+                        //    Time = start
+                        //});
                     }
                     else
                     {
@@ -1322,7 +1324,7 @@ namespace Yunt.IDA.Tasks
                         {
                             if (i == 0)
                             {
-                                boot = flags[0].Value > 0f;
+                                boot = flags[0].Value <= 0f;;
                                 continue;
                             }
                             var isStop = flags[i].Value <= 0f;
@@ -1428,15 +1430,15 @@ namespace Yunt.IDA.Tasks
                     var flags = logs?.Where(e => e.Param.Contains("运行")).ToList();
                     if (flags == null || !flags.Any())
                     {
-                        motorLogs.Add(new MotorEventLog()
-                        {
-                            MotorId = MotorId,
-                            EventCode = "EVT00000038",
-                            Description = $"[{start.Time()}]:{kind.Description}-停止",
-                            ProductionLineId = lineId,
-                            MotorName = MotorName,
-                            Time = start
-                        });
+                        //motorLogs.Add(new MotorEventLog()
+                        //{
+                        //    MotorId = MotorId,
+                        //    EventCode = "EVT00000038",
+                        //    Description = $"[{start.Time()}]:{kind.Description}-停止",
+                        //    ProductionLineId = lineId,
+                        //    MotorName = MotorName,
+                        //    Time = start
+                        //});
                     }
                     else
                     {
@@ -1445,7 +1447,7 @@ namespace Yunt.IDA.Tasks
                         {
                             if (i == 0)
                             {
-                                boot = flags[0].Value > 0f;
+                                boot = flags[0].Value <= 0f;;
                                 continue;
                             }
                             var isStop = flags[i].Value <= 0f;
@@ -1575,15 +1577,15 @@ namespace Yunt.IDA.Tasks
                     var flags = logs?.Where(e => e.Param.Contains("运行")).ToList();
                     if (flags == null || !flags.Any())
                     {
-                        motorLogs.Add(new MotorEventLog()
-                        {
-                            MotorId = MotorId,
-                            EventCode = "EVT00000043",
-                            Description = $"[{start.Time()}]:{kind.Description}-停止",
-                            ProductionLineId = lineId,
-                            MotorName = MotorName,
-                            Time = start
-                        });
+                        //motorLogs.Add(new MotorEventLog()
+                        //{
+                        //    MotorId = MotorId,
+                        //    EventCode = "EVT00000043",
+                        //    Description = $"[{start.Time()}]:{kind.Description}-停止",
+                        //    ProductionLineId = lineId,
+                        //    MotorName = MotorName,
+                        //    Time = start
+                        //});
                     }
                     else
                     {
@@ -1592,7 +1594,7 @@ namespace Yunt.IDA.Tasks
                         {
                             if (i == 0)
                             {
-                                boot = flags[0].Value > 0f;
+                                boot = flags[0].Value <= 0f;;
                                 continue;
                             }
                             var isStop = flags[i].Value <= 0f;

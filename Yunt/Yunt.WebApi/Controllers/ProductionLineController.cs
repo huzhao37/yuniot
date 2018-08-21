@@ -779,9 +779,9 @@ namespace Yunt.WebApi.Controllers
         [EnableCors("any")]
         public dynamic test()
         {
-            _productionLineRepository.test();
+            return _motorRepository.GetEntities();
             //_userRepository.GetPage(pageindex, pagesize, null, e => e.Time);
-            return 1;
+           // return 1;
         }
     }
 }
