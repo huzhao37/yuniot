@@ -36,7 +36,8 @@ namespace Yunt.Analysis.Repository.EF.Repositories
             long dayUnix = log.Time.Time().Date.TimeSpan();
             RedisProvider.DB = 1;
             RedisProvider.LPUSH(dayUnix+"|"+log.MotorId, log, DataType.Protobuf);   //若要提高解析数据速度，可更改为异步LpushAsync //备用 
-            RedisProvider.Expire(dayUnix + "|" + log.MotorId, dayUnix.ExpireOneDay());            
+           // RedisProvider.Expire(dayUnix + "|" + log.MotorId, dayUnix.ExpireOneDay());    
+            RedisProvider.ExpireAt(dayUnix + "|" + log.MotorId, log.Time.Time().Date.AddDays(1).TimeSpan());
         }
         /// <summary>
         /// 获取分析元数据

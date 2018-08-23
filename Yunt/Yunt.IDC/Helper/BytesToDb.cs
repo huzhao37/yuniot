@@ -25,7 +25,7 @@ namespace Yunt.IDC.Helper
     public class BytesToDb
     {
         #region ctor & fields
-        private static DataGramModel _model;
+        private static DataGramModel _model=null;
         private readonly static RabbitMqHelper rabbitHelper;
         private readonly static string queueHost;
         private readonly static int queuePort;
@@ -318,6 +318,7 @@ namespace Yunt.IDC.Helper
             {
                 var form = forms[i];
                 form.Value = Normalize.ConvertToNormal(form, values);
+                form.Time = time.Time();
                 DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
                 if (form.BitDesc.Equals("整型模拟量"))
                 {

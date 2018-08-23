@@ -16,8 +16,8 @@ namespace Yunt.Xml.Repository.EF.Services
 {
    public class BytesParseRepository : XmlRepositoryBase<Datatype, Models.Datatype>, IBytesParseRepository
     {
-        private readonly List<Datatype> _types;
-        private readonly List<Dataconfig> _configs;
+        private readonly List<Datatype> _types=null;
+        private readonly List<Dataconfig> _configs = null;
         public BytesParseRepository(IMapper mapper, IRedisCachingProvider provider) : base(mapper, provider)
         {
             var dataTypeRep = ServiceProviderServiceExtensions.GetService<IDatatypeRepository>(BootStrap.ServiceProvider);

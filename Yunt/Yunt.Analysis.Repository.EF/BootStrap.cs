@@ -113,7 +113,7 @@ namespace Yunt.Analysis.Repository.EF
         public void ContextInit(IServiceProvider serviceProvider)
         {
             ServiceProvider = serviceProvider;
-            ContextFactory.Init(serviceProvider);
+            ContextFactory.Init();
         }
     }
 }

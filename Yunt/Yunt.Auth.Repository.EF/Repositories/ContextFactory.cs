@@ -16,22 +16,19 @@ namespace Yunt.Auth.Repository.EF.Repositories
     public sealed class ContextFactory
     {
         private static readonly object Objlock = new object();
-        internal static  ConcurrentDictionary<int, AuthContext> ContextDic;
-        // public static  IServiceProvider ServiceProvider;
-        static IServiceScope ServiceScope;
-        static ConcurrentDictionary<Thread, IServiceScope> ThreadPool;
-        internal static AuthContext Get(int threadId)
+        public static ConcurrentDictionary<int, AuthContext> ContextDic = new ConcurrentDictionary<int, AuthContext>();
+        public static IServiceScope ServiceScope = null;
+        static ConcurrentDictionary<Thread, IServiceScope> ThreadPool = new ConcurrentDictionary<Thread, IServiceScope>();
+        public static AuthContext Get(int threadId)
         {
             lock (Objlock)
             {
-                //if (ContextDic.ContainsKey(threadId)) return ContextDic[threadId];
+                if (ContextDic.ContainsKey(threadId)) return ContextDic[threadId];
                 //ContextDic[threadId] = ServiceProviderServiceExtensions.GetService<AuthContext>(BootStrap.ServiceProvider);
                 #region test
                 ServiceScope = ServiceProviderServiceExtensions.GetService<IServiceScopeFactory>(BootStrap.ServiceProvider).CreateScope();
-                {
-                    ContextDic[threadId] = ServiceProviderServiceExtensions.GetService<AuthContext>(ServiceScope.ServiceProvider);
-                    ThreadPool[Thread.CurrentThread] = ServiceScope;
-                }
+                ContextDic[threadId] = ServiceProviderServiceExtensions.GetService<AuthContext>(ServiceScope.ServiceProvider);
+                ThreadPool[Thread.CurrentThread] = ServiceScope;
                 #endregion
 #if DEBUG
                 Console.WriteLine($"current threadid is :{threadId}");
@@ -41,7 +38,7 @@ namespace Yunt.Auth.Repository.EF.Repositories
 
         }
 
-        static void Dispose()
+        private static void Dispose()
         {
             while (true)
             {
@@ -65,16 +62,15 @@ namespace Yunt.Auth.Repository.EF.Repositories
                     }
 
                 }
-                Thread.Sleep(10000);//10s
+                Thread.Sleep(60 * 1000);//10s
             }
 
         }
-        public static void Init(IServiceProvider serviceProvider)
+        public static void Init()
         {
-           // ServiceProvider = serviceProvider;
-            ContextDic=new ConcurrentDictionary<int, AuthContext>();
-            //TEST
-            ThreadPool = new ConcurrentDictionary<Thread, IServiceScope>();
+            //ContextDic=new ConcurrentDictionary<int, AuthContext>();
+            ////TEST
+            //ThreadPool = new ConcurrentDictionary<Thread, IServiceScope>();
             //启动线程状态监测
             System.Threading.Tasks.Task.Factory.StartNew(() => Dispose());
         }

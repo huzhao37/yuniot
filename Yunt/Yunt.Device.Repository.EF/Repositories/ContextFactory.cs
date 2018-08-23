@@ -18,21 +18,19 @@ namespace Yunt.Device.Repository.EF.Repositories
     public sealed class ContextFactory
     {
         private static readonly object Objlock = new object();
-        public static  ConcurrentDictionary<int, DeviceContext> ContextDic;
-         static  IServiceScope ServiceScope;
-         static ConcurrentDictionary<Thread, IServiceScope> ThreadPool ;
+        public static ConcurrentDictionary<int, DeviceContext> ContextDic = new ConcurrentDictionary<int, DeviceContext>();
+        public static IServiceScope ServiceScope = null;
+        static ConcurrentDictionary<Thread, IServiceScope> ThreadPool = new ConcurrentDictionary<Thread, IServiceScope>();
         public static DeviceContext Get(int threadId)
         {
             lock (Objlock)
             {
-                //if (ContextDic.ContainsKey(threadId)) return ContextDic[threadId];
-                // ContextDic[threadId] = ServiceProviderServiceExtensions.GetService<DeviceContext>(BootStrap.ServiceProvider); //第一次缓存的时候速度会慢很多，之后速度就上去了
+                if (ContextDic.ContainsKey(threadId)) return ContextDic[threadId];
+                //ContextDic[threadId] = ServiceProviderServiceExtensions.GetService<DeviceContext>(BootStrap.ServiceProvider); //第一次缓存的时候速度会慢很多，之后速度就上去了
                 //test
                 ServiceScope = ServiceProviderServiceExtensions.GetService<IServiceScopeFactory>(BootStrap.ServiceProvider).CreateScope();
-                {
-                    ContextDic[threadId] = ServiceProviderServiceExtensions.GetService<DeviceContext>(ServiceScope.ServiceProvider);
-                    ThreadPool[Thread.CurrentThread] = ServiceScope;
-                }
+                ContextDic[threadId] = ServiceProviderServiceExtensions.GetService<DeviceContext>(ServiceScope.ServiceProvider);
+                ThreadPool[Thread.CurrentThread] = ServiceScope;
 #if DEBUG
                 Logger.Info($"current threadid is :{threadId}");
 #endif
@@ -41,7 +39,7 @@ namespace Yunt.Device.Repository.EF.Repositories
 
         }
 
-        static void Dispose()
+        private static void Dispose()
         {
             while (true)
             {
@@ -65,16 +63,15 @@ namespace Yunt.Device.Repository.EF.Repositories
                     }
 
                 }
-                Thread.Sleep(10000);//10s
+                Thread.Sleep(60 * 1000);//10s
             }
 
         }
-        public static void Init(IServiceProvider serviceProvider)
+        public static void Init()
         {
-            //ServiceProvider = serviceProvider;
-            ContextDic=new ConcurrentDictionary<int, DeviceContext>();
-            //TEST
-            ThreadPool = new ConcurrentDictionary<Thread, IServiceScope>();
+            //ContextDic=new ConcurrentDictionary<int, DeviceContext>();
+            ////TEST
+            //ThreadPool = new ConcurrentDictionary<Thread, IServiceScope>();
             //启动线程状态监测
             System.Threading.Tasks.Task.Factory.StartNew(() => Dispose());
         }

@@ -82,14 +82,11 @@ namespace Yunt.IDA.Tasks
             {
                 mailFrom = "zhaoh@unitoon.cn",
                 mailPwd = "Zh199112",
-                mailSubject = "云统设备监测平台之设备事件日报" + DateTime.Now.ToString("yyyyMMddHHmmss") + "【系统邮件】",
+                mailSubject = "云统智能监测-设备事件" + DateTime.Now.ToString("yyyyMMddHHmmss") + "【系统邮件】",
                 mailBody = content,
                 isbodyHtml = true,    //是否是HTML
                 host = "smtp.exmail.qq.com",//如果是QQ邮箱则：smtp:qq.com,依次类推
-                mailToArray = new string[] { "wubo@unitoon.cn", "xuzh@unitoon.cn", "yujf@sari.ac.cn","dongb@unitoon.cn","shuhr@unitoon.cn","liz@unitoon.cn",
-                "huangdb@unitoon.cn", "lic@unitoon.cn"
-                //"zhaoh@unitoon.cn"
-                },//接收者邮件集合
+                mailToArray = Program.MailList,//接收者邮件集合
                 mailCcArray = new string[] { "zhaoh@unitoon.cn" }//抄送者邮件集合
             };
             try
@@ -114,9 +111,9 @@ namespace Yunt.IDA.Tasks
             {
                 var nowDate = DateTime.Now.Date;//.AddDays(1);
                 var strs = key.Split("|");
-                if (strs.Length > 0 && Convert.ToSingle(strs[0]) == nowDate.TimeSpan())
-                    return;
-                var startTime = nowDate.AddDays(-1).TimeSpan();
+                //if (strs.Length > 0)// && Convert.ToSingle(strs[0]) == nowDate.TimeSpan()
+                //    return;
+                var startTime = nowDate.TimeSpan();//.AddDays(-1)
                 var logs = MotorEventLogRepository.GetAiLogsByKey(key);                        
                 if (logs.Any())
                 {

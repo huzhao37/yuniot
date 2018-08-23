@@ -93,10 +93,8 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <returns></returns>
         public override async Task InsertAsync(IEnumerable<ConeCrusher> ts)
         {
-
             try
             {
-
                 await ContextFactory.Get(Thread.CurrentThread.ManagedThreadId).Set<Models.ConeCrusher>().AddRangeAsync(Mapper.Map<IEnumerable<Models.ConeCrusher>>(ts));
                 await CommitAsync(); var single = ts.ElementAt(0);
                 long dayUnix = single.Time.Time().Date.TimeSpan();

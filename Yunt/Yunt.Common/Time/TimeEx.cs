@@ -58,11 +58,11 @@ namespace Yunt.Common
                 return (int)(time - startTime).TotalSeconds;
             }
         }
-    
+
         #endregion
 
         /// <summary>
-        /// redis key 过期时长（3个月）
+        /// redis key 过期时长（到现在为止间隔3个月）
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
@@ -72,13 +72,22 @@ namespace Yunt.Common
         }
 
         /// <summary>
-        /// redis key 过期时长（1天）
+        /// redis key 过期时长（到现在为止间隔1天）
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         public static long ExpireOneDay(this long time)
         {
             return Convert.ToInt64(Math.Abs(time.Time().Date.AddDays(1).Subtract(DateTime.Now.Date).TotalSeconds));
+        }
+        /// <summary>
+        /// redis key 过期时长（< 1 days，明天凌晨过期）
+        /// </summary>
+        /// <param name="time"></param>
+        /// <returns></returns>
+        public static long ExpireOneDay2(this long time)
+        {
+            return Convert.ToInt64(Math.Abs(time.Time().Date.AddDays(1).Subtract(time.Time()).TotalSeconds));
         }
 
         /// <summary>

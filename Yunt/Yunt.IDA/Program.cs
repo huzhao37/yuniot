@@ -17,10 +17,11 @@ namespace Yunt.IDA
 {
     class Program
     {
-        public static IConfigurationRoot Configuration;
-        public static Dictionary<string, IServiceProvider> Providers;
+        public static IConfigurationRoot Configuration=null;
+        public static Dictionary<string, IServiceProvider> Providers=null;
 
         public static IScheduler Sched;
+        public static string[] MailList;
         static void Main(string[] args)
         {
             #region init
@@ -32,14 +33,12 @@ namespace Yunt.IDA
 
             services.AddAutoMapper(typeof(Program).Assembly);
             BufferPool.DEFAULT_BUFFERLENGTH = 2000 * 1024;//2M缓冲区
-                                                          //var day = new AnalysisTask();
-                                                          //day.ExcuteAnalysis();
-                                                          //day.MailPush();
-
 
             #endregion
-            // var x = new AnalysisTask();
-            // x.ExcuteAnalysis();
+
+            //var day = new AnalysisTask();
+            //day.ExcuteAnalysis();
+           // day.MailPush();
             //Console.ReadKey();
 
             while (true)
@@ -62,7 +61,7 @@ namespace Yunt.IDA
             var trigger = TriggerBuilder.Create()
                     .WithIdentity("analysisTrigger", "group1")
                     .StartNow()
-                    .WithCronSchedule("0 3 0 * * ? *")
+                    .WithCronSchedule("0 59 23 * * ? *")
                     .Build();
 
             await Sched.ScheduleJob(job, trigger);
@@ -95,6 +94,7 @@ namespace Yunt.IDA
             Configuration = configuration;
             var providers = ServiceEx.StartServices(services, configuration);
             Providers = providers;
+            MailList= Configuration.GetSection("AppSettings").GetValue<string>("MailList").Split(",");
         }
 
     }

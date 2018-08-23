@@ -30,6 +30,11 @@ namespace Yunt.Redis
         public const string REDIS_COMMAND_EXPIRE = "Expire";
 
         /// <summary>
+        ///     为给定key设置过期时间点
+        /// </summary>
+        public const string REDIS_COMMAND_EXPIREAT = "EXPIREAT";
+
+        /// <summary>
         ///     检查给定key是否存在。
         /// </summary>
         public const string REDIS_COMMAND_EXISTS = "EXISTS";

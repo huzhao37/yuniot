@@ -40,6 +40,21 @@ namespace Yunt.Redis
         int Expire(string key, long time);
 
         /// <summary>
+        ///    EXPIREAT key timestamp
+
+        ///  EXPIREAT 的作用和 EXPIRE 类似，都用于为 key 设置生存时间。
+
+        ///不同在于 EXPIREAT 命令接受的时间参数是 UNIX 时间戳(unix timestamp)。
+        /// </summary>
+        /// <param name="key"></param>
+        /// <param name="time"></param>
+        /// <returns>
+        ///     设置成功返回1。
+        ///     当key不存在或者不能为key设置生存时间时(比如在低于2.1.3中你尝试更新key的生存时间)，返回0。
+        /// </returns>
+        int ExpireAt(string key, long time);
+
+        /// <summary>
         ///     返回给定key的剩余生存时间(time to live)(以秒为单位)。
         /// </summary>
         /// <param name="key"></param>

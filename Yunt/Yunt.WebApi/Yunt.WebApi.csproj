@@ -9,6 +9,10 @@
     <DocumentationFile></DocumentationFile>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Controllers\Inventories\WareHouseController.cs" />
     <Compile Remove="Models\Inventories\InHouse.cs" />
