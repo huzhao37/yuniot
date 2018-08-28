@@ -6,6 +6,6 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <TimeStampOfAssociatedLegacyPublishXmlFile />
-    <_PublishTargetUrl>G:\2018\Yunt\Yunt\Yunt.WebApi\bin\Debug\webapi</_PublishTargetUrl>
+    <_PublishTargetUrl>G:\2018\Yunt\Yunt\Yunt.WebApi\bin\Release\webapi</_PublishTargetUrl>
   </PropertyGroup>
 </Project>

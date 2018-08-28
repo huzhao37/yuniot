@@ -21,6 +21,7 @@
           "Yunt.Common": "1.0.0",
           "Yunt.Device.Domain": "1.0.0",
           "Yunt.Redis": "1.0.0",
+          "Yunt.Share.Domain": "1.0.0",
           "protobuf-net": "2.3.7"
         },
         "runtime": {
@@ -1388,6 +1389,7 @@
       "Yunt.Device.Domain/1.0.0": {
         "dependencies": {
           "Yunt.Common": "1.0.0",
+          "Yunt.Share.Domain": "1.0.0",
           "protobuf-net": "2.3.7"
         },
         "runtime": {
@@ -1406,6 +1408,14 @@
         },
         "runtime": {
           "Yunt.Redis.dll": {}
+        }
+      },
+      "Yunt.Share.Domain/1.0.0": {
+        "dependencies": {
+          "protobuf-net": "2.3.7"
+        },
+        "runtime": {
+          "Yunt.Share.Domain.dll": {}
         }
       }
     }
@@ -2274,6 +2284,11 @@
       "sha512": ""
     },
     "Yunt.Redis/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Yunt.Share.Domain/1.0.0": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

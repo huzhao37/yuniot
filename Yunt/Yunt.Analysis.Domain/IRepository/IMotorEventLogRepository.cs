@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Yunt.Analysis.Domain.Model;
+using Yunt.Share.Domain.Model;
 using Yunt.Common;
 
 namespace Yunt.Analysis.Domain.IRepository

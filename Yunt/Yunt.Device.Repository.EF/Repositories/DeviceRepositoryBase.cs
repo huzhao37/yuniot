@@ -18,6 +18,7 @@ using Yunt.Device.Domain.IRepository;
 using Yunt.Device.Repository.EF.Models;
 using Yunt.Common;
 using Yunt.Redis;
+using Yunt.Share.Domain.Model;
 
 namespace Yunt.Device.Repository.EF.Repositories
 {
@@ -644,6 +645,113 @@ namespace Yunt.Device.Repository.EF.Repositories
             return sql.ToList();
 
 
+        }
+        #endregion
+
+        #region v 18.8.23
+        /// <summary>
+        /// 获取10min最新一条运行反馈记录
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <returns></returns>
+        public DiHistory GetLatestDiStatusRecord(string motorId)
+        {
+            var now = DateTime.Now.Date.TimeSpan();
+            long lastTime = now - 10 * 60;
+            RedisProvider.DB = 3;
+            return RedisProvider.ListRange<DiHistory>(now + "|" + motorId, DataType.Protobuf)?.Where(e =>
+                    e.Param.Contains("运行反馈") && e.Time>=lastTime&&e.DataPhysic.Equals("状态"))?.OrderByDescending(e => e.Time)?.FirstOrDefault();
+
+        }
+
+        /// <summary>
+        /// 根据运行反馈获取设备实时状态
+        /// </summary>
+        /// <param name="motorId">电机Id</param>
+        /// <returns></returns>
+        public virtual MotorStatus GetCurrentStatus(string motorId)
+        {
+            var now = DateTime.Now.TimeSpan();
+            var status = MotorStatus.Stop;
+            var di = GetLatestDiStatusRecord(motorId);
+            if (di == null) return status;
+            status = di.Value > 0 ? MotorStatus.Run : MotorStatus.Stop;
+            return status;
+        }
+
+        /// <summary>
+        /// 获取某日设备数字量记录
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public IEnumerable<DiHistory> GetDis(string motorId, DateTime dt)
+        {
+            long dayUnix = dt.Date.TimeSpan();
+            RedisProvider.DB = 3;
+            return RedisProvider.ListRange<DiHistory>(dayUnix + "|" + motorId, DataType.Protobuf);
+        }
+        /// <summary>
+        /// 获取某日设备数字量运行反馈记录
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        public IEnumerable<DiHistory> GetDiStatus(string motorId, DateTime dt)
+        {
+            long dayUnix = dt.Date.TimeSpan();
+            RedisProvider.DB = 3;
+            return RedisProvider.ListRange<DiHistory>(dayUnix + "|" + motorId, DataType.Protobuf)?.Where(e=>e.Param.Contains("运行反馈"));
+        }
+        /// <summary>
+        /// 获取某日设备数字量运行反馈记录(不包含结束时间)
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public IEnumerable<DiHistory> GetDiStatus(string motorId, DateTime start,DateTime end)
+        {
+            long dayUnix = start.Date.TimeSpan(),startT=start.TimeSpan(),endT=end.TimeSpan();
+            RedisProvider.DB = 3;
+            return RedisProvider.ListRange<DiHistory>(dayUnix + "|" + motorId, DataType.Protobuf)?.Where(e => e.Param.Contains("运行反馈")
+                    &&e.Time>=startT&&e.Time < endT);
+        }
+        /// <summary>
+        /// 获取某日设备开机情况下的时间数据集合(不包含结束时间)
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public IEnumerable<long> GetDiStatusTimes(string motorId, DateTime start, DateTime end)
+        {
+            var times = new List<long>();
+            long dayUnix = start.Date.TimeSpan(), startT = start.TimeSpan(), endT = end.TimeSpan();
+            RedisProvider.DB = 3;
+            var data= RedisProvider.ListRange<DiHistory>(dayUnix + "|" + motorId, DataType.Protobuf)?.Where(e => e.Param.Contains("运行反馈")
+                    && e.Value > 0 && e.Time >= startT && e.Time < endT)?.GroupBy(e => e.Time)?.ToList();
+            if(data!=null&&data.Any())
+                foreach (var d in data)
+                {
+                    times.Add(d.Key);
+                }
+            return times;
+        }
+
+        /// <summary>
+        /// 获取某日设备的开机时间(不包含结束时间)
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        public long GetDiRunningTimes(string motorId, DateTime start, DateTime end)
+        {
+            long dayUnix = start.Date.TimeSpan(), startT = start.TimeSpan(), endT = end.TimeSpan();
+            RedisProvider.DB = 3;
+            return RedisProvider.ListRange<DiHistory>(dayUnix + "|" + motorId, DataType.Protobuf)?.Where(e => e.Param.Contains("运行反馈")
+                     &&e.Value>0&& e.Time >= startT && e.Time < endT)?.GroupBy(e=>e.Time)?.Count()??0;
         }
         #endregion
 

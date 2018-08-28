@@ -12,6 +12,7 @@ using Quartz;
 using Quartz.Impl;
 using Yunt.Common;
 using Yunt.HIDC.Tasks;
+using Yunt.Redis;
 using Yunt.Xml.Domain.Model;
 using LogLevel = NewLife.Log.LogLevel;
 
@@ -37,7 +38,7 @@ namespace Yunt.HIDC
             services.AddAutoMapper(typeof(Program).Assembly);
 
 
-
+            BufferPool.DEFAULT_BUFFERLENGTH = 1024 * 1024;//1m缓冲区
             #endregion
 
             #region test
@@ -53,19 +54,19 @@ namespace Yunt.HIDC
             #region recovery
             try
             {
-                DateTime start = "2018-08-22 14:00:00".ToDateTime(), end = "2018-08-22 14:00:00".ToDateTime();
-                //HourStatisticsTask.UpdatePowers(start,end);
-                HourStatisticsTask.RecoveryTask(start,end);
+                DateTime start = "2018-06-20 9:00:00".ToDateTime(), end = "2018-08-25 14:00:00".ToDateTime();
+                // HourStatisticsTask.UpdatePowers(start,end);
+                HourStatisticsTask.UpdateRunLoads(start, end);
+                //HourStatisticsTask.RecoveryTask(start, end);
                 //HourStatisticsTask.RecoveryTask("2018-06-25 13:00:00".ToDateTime());
                 //HourStatisticsTask.RecoveryTask("2018-07-06 12:00:00".ToDateTime());
-                Common.Logger.Error("恢复完毕！");
-                Console.ReadKey();
+                Common.Logger.Error("所有恢复完毕！");
             }
             catch (Exception ex)
             {
                 Common.Logger.Exception(ex);
             }
-
+            Console.ReadKey();
             #endregion
 
             //while (true)

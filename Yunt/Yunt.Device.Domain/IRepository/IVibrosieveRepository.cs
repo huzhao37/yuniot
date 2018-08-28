@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Yunt.Common;
 using Yunt.Device.Domain.IRepository;
 using Yunt.Device.Domain.Model;
+using Yunt.Share.Domain.Model;
 
 namespace Yunt.Device.Domain.IRepository
 {
@@ -45,15 +46,8 @@ namespace Yunt.Device.Domain.IRepository
         /// </summary>
         /// <param name="motorId">设备电机编号</param>
         /// <returns></returns>
-        Vibrosieve GetLatestRecord(string motorId);
-        /// <summary>
-        /// 获取设备实时状态
-        /// </summary>
-        /// <param name="motorId">电机Id</param>
-        /// <returns></returns>
-        MotorStatus GetCurrentStatus(string motorId);
-
-
+        Vibrosieve GetLatestRecord(string motorId);   
+      
         #endregion
 
         #region cache

@@ -74,17 +74,21 @@ namespace Yunt.Device.Repository.EF.Repositories
 #endif
 
 #if DEBUG
-            var originalDatas = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) &&
+            var originalDatas = motor.IsBeltWeight?_cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) &&
                                                                        e.AccumulativeWeight > 0f && e.Time >= startUnix &&
+                                e.Time < endUnix, e => e.Time)?.ToList():
+                                _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId)  && e.Time >= startUnix &&
                                 e.Time < endUnix, e => e.Time)?.ToList();
 
             var originalDatas2 = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) &&
                                                                       e.ActivePower > 0f && e.Time >= startUnix &&
                                e.Time < endUnix, e => e.Time)?.ToList();
 #else
-            var originalDatas = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
+            var originalDatas = motor.IsBeltWeight?_cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
                                                                        e.Time < endUnix &&
-                                                                       e.AccumulativeWeight > 0f, e => e.Time)?.ToList(); 
+                                                                       e.AccumulativeWeight > 0f, e => e.Time)?.ToList()
+                                :_cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
+                                                                       e.Time < endUnix, e => e.Time)?.ToList();
             var originalDatas2 = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
                                                                        e.Time < endUnix &&
                                                                        e.ActivePower > 0f, e => e.Time)?.ToList(); 
@@ -132,22 +136,22 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
 
             #endregion
-
-            for (var i = 0; i < length; i++)
-            {
-                var cy = originalDatas[i];//cy.AccumulativeWeight == -1 &&
-                if ( cy.AccumulativeWeight < lastWeight ||Math.Abs(cy.AccumulativeWeight - lastWeight) > 100) //比上次小，认作清零,或者比上次多出100t以上
+            if (motor.IsBeltWeight)
+                for (var i = 0; i < length; i++)
                 {
+                    var cy = originalDatas[i];//cy.AccumulativeWeight == -1 &&
+                    if (cy.AccumulativeWeight < lastWeight || Math.Abs(cy.AccumulativeWeight - lastWeight) > 100) //比上次小，认作清零,或者比上次多出100t以上
+                    {
+                        lastWeight = cy.AccumulativeWeight;
+                        continue;
+                    }
+                    //瞬时重量为负数时，统计按照零计算;
+                    if (cy.InstantWeight < 0)
+                        cy.InstantWeight = 0;
+                    float sub = cy.AccumulativeWeight - lastWeight;
                     lastWeight = cy.AccumulativeWeight;
-                    continue;
-                }     
-                //瞬时重量为负数时，统计按照零计算;
-                if (cy.InstantWeight < 0)
-                    cy.InstantWeight = 0;         
-                float sub = cy.AccumulativeWeight - lastWeight;
-                lastWeight = cy.AccumulativeWeight;
-                weightSum += sub;       
-            }
+                    weightSum += sub;
+                }
 
             for (var i = 0; i < length2; i++)
             {
@@ -169,10 +173,9 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             var instantWeight = originalDatas?.
                 Where(c => c.InstantWeight >=0f);
-            var active = originalDatas?.
-               Where(c => c.Current_B > 0f);
-            var count = active?.Count()??0;
+            var active = originalDatas?. Where(c => c.Current_B > 0f);
 
+            var count = motor.IsBeltWeight ? (active?.Count()??0) : GetDiRunningTimes(motor.MotorId, start, end);//非皮带秤使用开关机标志位
 
             var load = motor.UseCalc ? Math.Round(((calcWeight * 60) / count) / standValue, 2) :
                   Math.Round(((weightSum * 60) / count) / standValue, 2);
@@ -345,6 +348,35 @@ namespace Yunt.Device.Repository.EF.Repositories
                        
                 }
                
+            }
+            await UpdateEntityAsync(ts);
+        }
+
+        /// <summary>
+        ///恢复该小时内所有的开机时间和负荷数据（非皮带秤）;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task UpdateRunLoads(DateTime dt, string motorTypeId)
+        {
+            var ts = new List<ConveyorByHour>();
+            var hour = dt.Date.AddHours(dt.Hour).TimeSpan();
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId)&&!e.IsBeltWeight);
+            foreach (var motor in query)
+            {
+                var exsit = GetEntities(o => o.Time == hour && o.MotorId == motor.MotorId)?.FirstOrDefault();
+                if (exsit != null)
+                {
+                    var t = GetByMotor(motor, false, dt);
+                    if (t != null)
+                    {
+                        exsit.RunningTime = t.RunningTime;
+                        exsit.LoadStall = t.LoadStall;
+                        ts.Add(exsit);
+                    }
+
+                }
+
             }
             await UpdateEntityAsync(ts);
         }

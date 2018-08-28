@@ -162,6 +162,20 @@ namespace webapi.Controllers
                 return false;
             }
         }
-
+        [Route("SparePartsNames")]
+        [HttpGet]
+        [EnableCors("any")]
+        public dynamic SparePartsNames()
+        {
+            try
+            {
+                return _sparePartsTypeRepository.GetEntities()?.ToList()?.Select(e => e.Name);
+            }
+            catch (Exception ex)
+            {
+                Logger.Exception(ex);
+                return ex.Message;
+            }
+        }
     }
 }

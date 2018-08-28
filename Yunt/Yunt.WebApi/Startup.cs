@@ -19,6 +19,7 @@ using Microsoft.IdentityModel.Tokens;
 using NewLife.Log;
 using Swashbuckle.AspNetCore.Swagger;
 using Yunt.Common;
+using Yunt.Redis;
 using Yunt.WebApi.Data;
 
 namespace Yunt.WebApi
@@ -53,7 +54,7 @@ namespace Yunt.WebApi
 
             ServiceEx.StartServices(services, configuration);//Providers = 
             services.AddAutoMapper(typeof(Startup).Assembly);
-
+            BufferPool.DEFAULT_BUFFERLENGTH = 1024 * 1024;//1M缓冲区
             services.AddMvc();
             //配置跨域处理
             services.AddCors(options =>

@@ -231,6 +231,28 @@ namespace Yunt.DIDC.Tasks
             }
 
         }
+
+        /// <summary>
+        /// 开机时间和负荷统计更新任务
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        public static void UpdateRunLoads(DateTime start, DateTime end)
+        {
+            var startT = start;
+            var days = (int)end.Subtract(start).TotalDays + 1;
+            for (int i = 0; i < days; i++)
+            {
+                var dt = startT.AddDays(i);
+                CyByDayRepository.UpdateRunLoads(dt, "CY");
+                VibByDayRepository.UpdateRuns(dt, "VB");
+                HvibByDayRepository.UpdateRuns(dt, "HVB");
+                IcByDayRepository.UpdateOthers(dt, "IC");
+                HvibByDayRepository.Batch();
+                Common.Logger.Warn($"{dt}:恢复完毕！");
+            }
+
+        }
         public static dynamic Test(string motorId,DateTime dt)
         {
             var motor = motorRepository.GetEntities(e => e.MotorId.Equals(motorId))?.FirstOrDefault();

@@ -54,6 +54,12 @@ namespace Yunt.Device.Domain.IRepository
         /// <param name="dt">时间</param>
         /// <param name="motorTypeId">设备类型</param>
         Task UpdatePowers(DateTime dt, string motorTypeId);
+        /// <summary>
+        ///恢复该小时内所有的开机时间;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+       Task UpdateRuns(DateTime dt, string motorTypeId);
         #endregion
 
         #region version 18.07.17

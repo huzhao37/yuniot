@@ -135,6 +135,23 @@ namespace Yunt.WebApi.Controllers
             }
         }
 
-
+        [Route("WareHouseNames")]
+        [EnableCors("any")]
+        [HttpGet()]
+        public dynamic WareHouseNames(string productionLineId)
+        {
+            try
+            {
+                var data = _wareHousesRepository.GetEntities(e => e.ProductionLineId.Equals(productionLineId))?.ToList();
+                if (data == null || !data.Any())
+                    return new List<dynamic>();
+                return data.Select(e => new {e.Name });
+            }
+            catch (Exception ex)
+            {
+                Logger.Exception(ex);
+                return ex.Message;
+            }
+        }
     }
 }

@@ -45,26 +45,14 @@ namespace Yunt.Device.Domain.IRepository
         /// <returns></returns>
         Conveyor GetLatestRecord(string motorId);
 
-        /// <summary>
-        /// 根据电流获取当日开机时间
-        /// </summary>
-        /// <param name="motorId"></param>
-        /// <returns></returns>
-        int GetTodayRunningTimeByCurrent(string motorId);
-
-        /// <summary>
-        /// 根据瞬时称重获取当日开机时间
-        /// </summary>
-        /// <param name="motorId"></param>
-        /// <returns></returns>
-        int GetTodayRunningTimeByInstant(string motorId);
 
         /// <summary>
         /// 获取设备实时状态
         /// </summary>
         /// <param name="motorId">电机Id</param>
+        /// <param name="isBelt">是否皮带秤</param>
         /// <returns></returns>
-        MotorStatus GetCurrentStatus(string motorId);
+        MotorStatus GetCurrentStatus(string motorId, bool isBelt);
 
         #endregion
 

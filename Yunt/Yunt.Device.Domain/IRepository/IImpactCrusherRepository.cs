@@ -47,13 +47,6 @@ namespace Yunt.Device.Domain.IRepository
         ImpactCrusher GetLatestRecord(string motorId);
 
         /// <summary>
-        /// 根据电流获取当日开机时间
-        /// </summary>
-        /// <param name="motorId"></param>
-        /// <returns></returns>
-        int GetTodayRunningTimeByCurrent(string motorId);
-
-        /// <summary>
         /// 获取设备实时状态
         /// </summary>
         /// <param name="motorId">电机Id</param>

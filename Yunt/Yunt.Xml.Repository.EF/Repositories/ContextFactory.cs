@@ -61,7 +61,7 @@ namespace Yunt.Xml.Repository.EF.Repositories
                     }
 
                 }
-                Thread.Sleep(60 * 1000);//40s
+                Thread.Sleep(50 * 1000);//40s
             }
 
         }

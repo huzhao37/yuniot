@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Yunt.Common;
 using Yunt.Device.Domain.BaseModel;
+using Yunt.Share.Domain.Model;
 
 namespace Yunt.Device.Domain.IRepository
 {
@@ -73,6 +74,59 @@ namespace Yunt.Device.Domain.IRepository
         /// <param name="order"></param>
         /// <returns></returns>
         List<T> GetFromDb(Expression<Func<T, bool>> where = null, Expression<Func<T, object>> order = null);
+        #endregion
+
+        #region v 18.8.23
+        /// <summary>
+        /// 获取10min最新一条运行反馈记录
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <returns></returns>
+        DiHistory GetLatestDiStatusRecord(string motorId);
+        /// <summary>
+        /// 根据运行反馈获取设备实时状态
+        /// </summary>
+        /// <param name="motorId">电机Id</param>
+        /// <returns></returns>
+        MotorStatus GetCurrentStatus(string motorId);
+        /// <summary>
+        /// 获取某日设备数字量记录
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        IEnumerable<DiHistory> GetDis(string motorId, DateTime dt);
+        /// <summary>
+        /// 获取某日设备数字量运行反馈记录
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <param name="dt"></param>
+        /// <returns></returns>
+        IEnumerable<DiHistory> GetDiStatus(string motorId, DateTime dt);
+        /// <summary>
+        /// 获取某日设备数字量运行反馈记录(不包含结束时间)
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        IEnumerable<DiHistory> GetDiStatus(string motorId, DateTime start, DateTime end);
+        /// <summary>
+        /// 获取某日设备开机情况下的时间数据集合(不包含结束时间)
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        IEnumerable<long> GetDiStatusTimes(string motorId, DateTime start, DateTime end);
+        /// <summary>
+        /// 获取某日设备的开机时间(不包含结束时间)
+        /// </summary>
+        /// <param name="motorId"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <returns></returns>
+        long GetDiRunningTimes(string motorId, DateTime start, DateTime end);
         #endregion
     }
 }

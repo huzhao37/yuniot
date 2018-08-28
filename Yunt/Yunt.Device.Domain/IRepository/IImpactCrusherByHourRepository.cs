@@ -56,6 +56,12 @@ namespace Yunt.Device.Domain.IRepository
         /// </summary>
         /// <param name="motor"></param>
         float GetInstantLoadStall(Motor motor);
+        /// <summary>
+        ///恢复该小时内所有的相关参数;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        Task UpdateOthers(DateTime dt, string motorTypeId);
         #endregion
     }
 }

@@ -2488,6 +2488,7 @@
         "framework": ".NETCoreApp,Version=v2.1",
         "dependencies": {
           "Yunt.Common": "1.0.0",
+          "Yunt.Share.Domain": "1.0.0",
           "protobuf-net": "2.3.7"
         },
         "compile": {
@@ -2589,6 +2590,7 @@
         "framework": ".NETCoreApp,Version=v2.1",
         "dependencies": {
           "Yunt.Common": "1.0.0",
+          "Yunt.Share.Domain": "1.0.0",
           "protobuf-net": "2.3.7"
         },
         "compile": {
@@ -2615,6 +2617,7 @@
           "Yunt.Common": "1.0.0",
           "Yunt.Device.Domain": "1.0.0",
           "Yunt.Redis": "1.0.0",
+          "Yunt.Share.Domain": "1.0.0",
           "protobuf-net": "2.3.7"
         },
         "compile": {
@@ -2708,6 +2711,19 @@
         },
         "runtime": {
           "bin/placeholder/Yunt.Redis.dll": {}
+        }
+      },
+      "Yunt.Share.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v2.1",
+        "dependencies": {
+          "protobuf-net": "2.3.7"
+        },
+        "compile": {
+          "bin/placeholder/Yunt.Share.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/Yunt.Share.Domain.dll": {}
         }
       },
       "Yunt.Xml.Domain/1.0.0": {
@@ -8239,6 +8255,11 @@
       "type": "project",
       "path": "../Yunt.Redis/Yunt.Redis.csproj",
       "msbuildProject": "../Yunt.Redis/Yunt.Redis.csproj"
+    },
+    "Yunt.Share.Domain/1.0.0": {
+      "type": "project",
+      "path": "../Yunt.Share.Domain/Yunt.Share.Domain.csproj",
+      "msbuildProject": "../Yunt.Share.Domain/Yunt.Share.Domain.csproj"
     },
     "Yunt.Xml.Domain/1.0.0": {
       "type": "project",

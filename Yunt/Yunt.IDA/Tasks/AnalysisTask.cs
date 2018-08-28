@@ -16,6 +16,7 @@ using Yunt.Common;
 using Yunt.Common.Email;
 using Yunt.Device.Domain.IRepository;
 using Yunt.Device.Domain.Services;
+using Yunt.Share.Domain.Model;
 
 namespace Yunt.IDA.Tasks
 {

@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Model\AiLog.cs" />
+    <Compile Remove="Model\DiHistory.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Services\" />
   </ItemGroup>
 
@@ -14,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
+    <ProjectReference Include="..\Yunt.Share.Domain\Yunt.Share.Domain.csproj" />
   </ItemGroup>
 
 </Project>

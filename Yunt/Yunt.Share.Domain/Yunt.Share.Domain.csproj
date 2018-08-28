@@ -8,9 +8,4 @@
     <PackageReference Include="protobuf-net" Version="2.3.7" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
-    <ProjectReference Include="..\Yunt.Share.Domain\Yunt.Share.Domain.csproj" />
-  </ItemGroup>
-
 </Project>

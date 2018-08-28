@@ -33,16 +33,34 @@ namespace Yunt.IDC
                 #region init
                 XTrace.UseConsole(true, true);
                 XTrace.Log.Level = LogLevel.Info;//打印错误级别的日志
-                                                 //XCode.Setting.Current.Migration = XCode.DataAccessLayer.Migration.Off;//关闭反向工程
-                                                 //XCode.Setting.Current.TraceSQLTime = 2000;//sql执行时间超过2s打印log
+                //XCode.Setting.Current.Migration = XCode.DataAccessLayer.Migration.Off;//关闭反向工程
+                 //XCode.Setting.Current.TraceSQLTime = 2000;//sql执行时间超过2s打印log
 
                 var services = new ServiceCollection();
                 Init(services);
 
                 services.AddAutoMapper(typeof(Program).Assembly);
 
-                //BufferPool.DEFAULT_BUFFERLENGTH = 5 * 1024 * 1024;//5M缓冲区
 
+
+                #endregion
+
+                #region v2-test
+               // BufferPool.DEFAULT_BUFFERLENGTH =1024 * 1024;//1m缓冲区
+                //var vib = ServiceProviderServiceExtensions.GetService<IVibrosieveByHourRepository>(Providers["Device"]);
+                //var cy= ServiceProviderServiceExtensions.GetService<IConveyorByHourRepository>(Providers["Device"]);
+                //var m = ServiceProviderServiceExtensions.GetService<IMotorRepository>(Providers["Device"]);
+                //var hvib = ServiceProviderServiceExtensions.GetService<IHVibByHourRepository>(Providers["Device"]);
+                //var motor = m.GetEntities(e => e.MotorId.Equals("WDD-P001-VB000022")).FirstOrDefault();
+                //var motor2 = m.GetEntities(e => e.MotorId.Equals("WDD-P001-CY000002")).FirstOrDefault();
+                //var motor3= m.GetEntities(e => e.MotorId.Equals("WDD-P001-CY000024")).FirstOrDefault();
+                //var motor4 = m.GetEntities(e => e.MotorId.Equals("WDD-P001-HVB000002")).FirstOrDefault();
+                //var lasted=vib.GetByMotor(motor, false,new DateTime(2018,8,23,13,0,0));
+                //var lasted2 = cy.GetByMotor(motor2, false, new DateTime(2018, 8, 23, 13, 0, 0));
+                //var lasted3= cy.GetByMotor(motor3, false, new DateTime(2018, 8, 23, 13, 0, 0));
+                //var lasted4 = hvib.GetByMotor(motor4, false, new DateTime(2018, 8, 24,1, 0, 0));
+                //Console.ReadKey();
+                //Environment.Exit(0);
                 #endregion
 
                 #region di recovery
@@ -68,7 +86,7 @@ namespace Yunt.IDC
                 #endregion
 
                 //RecoveryTask.Update();
-               // CacheTask.Start();
+                // CacheTask.Start();
                 MqDealTask.Start();
             }
             catch (Exception e)

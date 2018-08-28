@@ -46,20 +46,6 @@ namespace Yunt.Device.Domain.IRepository
         /// <returns></returns>
         MaterialFeeder GetLatestRecord(string motorId);
 
-        /// <summary>
-        /// 根据频率获取当日开机时间
-        /// </summary>
-        /// <param name="motorId"></param>
-        /// <returns></returns>
-         int GetTodayRunningTimeByFrequence(string motorId);
-
-        /// <summary>
-        /// 获取设备实时状态
-        /// </summary>
-        /// <param name="motorId">电机Id</param>
-        /// <returns></returns>
-        MotorStatus GetCurrentStatus(string motorId);
-
         #endregion
 
         #region cache

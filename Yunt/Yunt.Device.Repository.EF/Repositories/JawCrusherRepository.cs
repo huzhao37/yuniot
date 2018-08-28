@@ -505,7 +505,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// </summary>
         /// <param name="motorId">电机Id</param>
         /// <returns></returns>
-        public MotorStatus GetCurrentStatus(string motorId)
+        public override MotorStatus GetCurrentStatus(string motorId)
         {
             var now = DateTime.Now.TimeSpan();
             var status = MotorStatus.Stop;

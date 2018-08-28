@@ -487,24 +487,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             RedisProvider.DB = 15;
             return RedisProvider.GetListItem<HVib>(now + "_" + motorId, 0, DataType.Protobuf);
         }
-     
-
-        /// <summary>
-        /// 获取设备实时状态
-        /// </summary>
-        /// <param name="motorId">电机Id</param>
-        /// <returns></returns>
-        public MotorStatus GetCurrentStatus(string motorId)
-        {
-            var now = DateTime.Now.TimeSpan();
-            var status = MotorStatus.Stop;
-            var lastData = GetLatestRecord(motorId);
-            if (lastData == null || now-lastData.Time > 10 * 60) return status;
-            if (lastData.Current_B == -1)
-                return status;
-            status = lastData.Current_B > 0f ? MotorStatus.Run : MotorStatus.Stop;
-            return status;
-        }
+    
         #endregion
 
 

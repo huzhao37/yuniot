@@ -489,33 +489,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             return RedisProvider.GetListItem<MaterialFeeder>(now + "_" + motorId, 0, DataType.Protobuf);
         }
 
-        /// <summary>
-        /// 根据频率获取当日开机时间
-        /// </summary>
-        /// <param name="motorId"></param>
-        /// <returns></returns>
-        public int GetTodayRunningTimeByFrequence(string motorId)
-        {
-            var time = DateTime.Now.Date;
-            return GetEntities(motorId,time, false, c => c.Frequency > 0f).Count();
-        }
+    
 
-        /// <summary>
-        /// 获取设备实时状态
-        /// </summary>
-        /// <param name="motorId">电机Id</param>
-        /// <returns></returns>
-        public MotorStatus GetCurrentStatus(string motorId)
-        {
-            var now = DateTime.Now.TimeSpan();
-            var status = MotorStatus.Stop;
-            var lastData = GetLatestRecord(motorId);
-            if (lastData == null || now-lastData.Time > 10 * 60) return status;
-            if (lastData.Frequency == -1)
-                return status;
-            status = lastData.Frequency > 0f ? MotorStatus.Run : MotorStatus.Stop;
-            return status;
-        }
         #endregion
 
 

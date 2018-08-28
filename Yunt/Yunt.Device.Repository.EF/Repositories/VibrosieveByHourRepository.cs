@@ -41,25 +41,31 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// <returns></returns>
         public VibrosieveByHour GetByMotor(Motor motor, bool isExceed, DateTime dt)
         {
-
             var standValue = motor?.StandValue ?? 0;
 
             var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
             var dt3 = start.AddHours(-1);
             long startUnix = start.TimeSpan(), endUnix = end.TimeSpan(), dt3Unix = dt3.TimeSpan();
+            //开机时间数据集合
+            var runTimes = GetDiStatusTimes(motor.MotorId, start, end);
 
 #if DEBUG
-            var originalDatas = _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Current_B > -1f && e.Time >= startUnix &&
-                                e.Time < endUnix, e => e.Time)?.ToList();
+
+            var originalDatas = runTimes?.Any() ?? false ? _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix &&
+                                    e.Time < endUnix && runTimes.Contains(e.Time), e => e.Time)?.ToList() : null;
 
             var originalDatas2 = _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.ActivePower > 0f && e.Time >= startUnix &&
                                e.Time < endUnix, e => e.Time)?.ToList();
+
+
 #else
-            var originalDatas = _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Current_B > -1f && e.Time >= startUnix &&
-                                    e.Time < endUnix, e => e.Time)?.ToList();
-               var originalDatas2 = _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.ActivePower >0f && e.Time >= startUnix &&
-                                    e.Time < endUnix, e => e.Time)?.ToList();
+                 var originalDatas = runTimes?.Any() ?? false ? _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
+                                   e.Time < endUnix && runTimes.Contains(e.Time), e => e.Time)?.ToList():null;
+
+            var originalDatas2 = _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.ActivePower > 0f && e.Time >= startUnix &&
+                                 e.Time < endUnix, e => e.Time)?.ToList();
+         
 #endif
             if (!(originalDatas?.Any() ?? false)&& !(originalDatas2?.Any() ?? false)) return new VibrosieveByHour
             {
@@ -116,7 +122,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                 AvgSpindleTemperature2 = MathF.Round(originalDatas.Average(o => o.SpindleTemperature2), 2),
                 AvgSpindleTemperature3 = MathF.Round(originalDatas.Average(o => o.SpindleTemperature3), 2),
                 AvgSpindleTemperature4 = MathF.Round(originalDatas.Average(o => o.SpindleTemperature4), 2),
-                RunningTime = originalDatas.Count(c => c.Current_B > 0f),
+                RunningTime = originalDatas.Count(),//c => c.Current_B > 0f
                 ActivePower = (float)Math.Round(powerSum, 2),
                 LoadStall = (standValue == 0) ? 0 : MathF.Round(Average / standValue, 2)
             };
@@ -251,6 +257,33 @@ namespace Yunt.Device.Repository.EF.Repositories
                     if (t != null)
                     {
                         exsit.ActivePower = t.ActivePower;
+                        ts.Add(exsit);
+                    }
+
+                }
+
+            }
+            await UpdateEntityAsync(ts);
+        }
+        /// <summary>
+        ///恢复该小时内所有的开机时间;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task UpdateRuns(DateTime dt, string motorTypeId)
+        {
+            var ts = new List<VibrosieveByHour>();
+            var hour = dt.Date.AddHours(dt.Hour).TimeSpan();
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
+            foreach (var motor in query)
+            {
+                var exsit = GetEntities(o => o.Time == hour && o.MotorId == motor.MotorId)?.FirstOrDefault();
+                if (exsit != null)
+                {
+                    var t = GetByMotor(motor, false, dt);
+                    if (t != null)
+                    {
+                        exsit.RunningTime = t.RunningTime;
                         ts.Add(exsit);
                     }
 

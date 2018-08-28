@@ -31,7 +31,7 @@ namespace Yunt.WebApi.Controllers
         [EnableCors("any")]
         public IActionResult Authenticate([FromBody]LoginInfo info)
         {          
-            var user = _userRepository.GetEntities(e=>e.LoginAccount.Equals(info.LoginName)&&e.LoginPwd.Equals(info.Password)).SingleOrDefault();
+            var user = _userRepository.GetEntities(e=>e.LoginAccount.Equals(info.LoginName)&&e.LoginPwd.Equals(info.Password)).FirstOrDefault();
             if (user == null) return Unauthorized();
             var role = _userRoleRepository.GetEntityById(user.UserRoleId);
             var tokenHandler = new JwtSecurityTokenHandler();

@@ -490,32 +490,19 @@ namespace Yunt.Device.Repository.EF.Repositories
         }
 
         /// <summary>
-        /// 根据电流获取当日开机时间
-        /// </summary>
-        /// <param name="motorId"></param>
-        /// <returns></returns>
-        public int GetTodayRunningTimeByCurrent(string motorId)
-        {
-            var time = DateTime.Now.Date;
-            return GetEntities(motorId,time, false, c => c.Motor1Current_B > 0f).Count();
-        }
-
-    
-
-        /// <summary>
         /// 获取设备实时状态
         /// </summary>
         /// <param name="motorId">电机Id</param>
         /// <returns></returns>
-        public MotorStatus GetCurrentStatus(string motorId)
+        public override MotorStatus GetCurrentStatus(string motorId)
         {
             var now = DateTime.Now.TimeSpan();
             var status = MotorStatus.Stop;
             var lastData = GetLatestRecord(motorId);
             if (lastData == null || now-lastData.Time > 10 * 60) return status;
-            if (lastData.Motor1Current_B == -1)
+            if (lastData.Current_B == -1)
                 return status;
-            status = lastData.Motor1Current_B > 0f ? MotorStatus.Run : MotorStatus.Stop;
+            status = lastData.Current_B > 0f ? MotorStatus.Run : MotorStatus.Stop;
             return status;
         }
         #endregion

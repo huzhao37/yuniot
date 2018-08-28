@@ -200,6 +200,29 @@ namespace Yunt.HIDC.Tasks
         }
 
         /// <summary>
+        /// 开机时间和负荷统计更新任务
+        /// </summary>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        public static void UpdateRunLoads(DateTime start, DateTime end)
+        {
+            var startT = start;
+            var hours = (int)end.Subtract(start).TotalHours + 1;
+            for (int i = 0; i < hours; i++)
+            {
+                var dt = startT.AddHours(i);
+                //CyByHourRepository.UpdateRunLoads(dt, "CY");
+                //VibByHourRepository.UpdateRuns(dt, "VB");
+                //HvibByHourRepository.UpdateRuns(dt, "HVB");
+                //HvibByHourRepository.Batch();
+                IcByHourRepository.UpdateOthers(dt, "IC");
+                IcByHourRepository.Batch();
+                Logger.Warn($"{dt}:恢复完毕！");
+            }
+
+        }
+
+        /// <summary>
         /// 统计恢复任务
         /// </summary>
         /// <param name="dt"></param>

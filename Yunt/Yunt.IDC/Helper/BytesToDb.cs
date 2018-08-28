@@ -18,7 +18,7 @@ using Yunt.IDC.Task;
 using Yunt.MQ;
 using Yunt.Xml.Domain.IRepository;
 using Yunt.Xml.Domain.MiddleMap;
-using Yunt.Xml.Domain.Model;
+using Yunt.Share.Domain.Model;
 
 namespace Yunt.IDC.Helper
 {

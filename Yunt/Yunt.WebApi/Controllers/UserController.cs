@@ -57,6 +57,9 @@ namespace Yunt.WebApi.Controllers
                 if (value == null)
                     return false;
                 value.Time = DateTime.Now.TimeSpan();
+                var exist = _userRepository.GetEntities(e => e.LoginAccount.Equals(value.LoginAccount));
+                if (exist != null && exist.Any())
+                    return false;
                 return _userRepository.Insert(value) > 0;
             }
             catch (Exception ex)
@@ -74,7 +77,7 @@ namespace Yunt.WebApi.Controllers
             try
             {
                 if (value.Id==0||value == null)
-                    return false;
+                    return false;      
                 value.Time = DateTime.Now.TimeSpan();
                 return _userRepository.UpdateEntity(value) > 0;
             }
@@ -102,6 +105,21 @@ namespace Yunt.WebApi.Controllers
                 return false;
             }
 
+        }
+        [Route("UserNames")]
+        [HttpGet]
+        [EnableCors("any")]
+        public dynamic UserNames()
+        {
+            try
+            {
+                return _userRepository.GetEntities()?.ToList()?.Select(e => e.LoginAccount);
+            }
+            catch (Exception ex)
+            {
+                Logger.Exception(ex);
+                return ex.Message;
+            }
         }
     }
 }

@@ -122,7 +122,8 @@ namespace Yunt.Device.Repository.EF.Repositories
             }
 
             await InsertAsync(ts);
-        }  /// <summary>
+        }
+        /// <summary>
            ///恢复该小时内所有的电量数据;
            /// </summary>
            /// <param name="dt">时间</param>
@@ -141,6 +142,34 @@ namespace Yunt.Device.Repository.EF.Repositories
                     if (t != null)
                     {
                         exsit.ActivePower = t.ActivePower;
+                        ts.Add(exsit);
+                    }
+
+                }
+
+            }
+
+            await UpdateEntityAsync(ts);
+        }
+        /// <summary>
+        ///恢复该小时内所有的开机时间数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+        public async Task UpdateRuns(DateTime dt, string motorTypeId)
+        {
+            var ts = new List<VibrosieveByDay>();
+            var day = dt.Date.TimeSpan();
+            var query = _motorRep.GetEntities(e => e.MotorTypeId.Equals(motorTypeId));
+            foreach (var motor in query)
+            {
+                var exsit = GetEntities(o => o.Time == day && o.MotorId == motor.MotorId)?.FirstOrDefault();
+                if (exsit != null)
+                {
+                    var t = GetByMotor(motor, dt);
+                    if (t != null)
+                    {
+                        exsit.RunningTime = t.RunningTime;
                         ts.Add(exsit);
                     }
 

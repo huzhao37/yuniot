@@ -25,6 +25,12 @@ namespace Yunt.Device.Domain.IRepository
         /// <param name="dt">时间</param>
         /// <param name="motorTypeId">设备类型</param>
         Task RecoveryDayStatistics(DateTime dt, string motorTypeId);
+        /// <summary>
+        ///恢复该小时内所有的其他参数数据;
+        /// </summary>
+        /// <param name="dt">时间</param>
+        /// <param name="motorTypeId">设备类型</param>
+         Task UpdateOthers(DateTime dt, string motorTypeId);
         #endregion
     }
 }

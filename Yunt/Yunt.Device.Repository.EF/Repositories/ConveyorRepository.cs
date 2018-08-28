@@ -483,68 +483,33 @@ namespace Yunt.Device.Repository.EF.Repositories
         public Conveyor GetLatestRecord(string motorId)
         {
             var now = DateTime.Now.Date.TimeSpan();
-            //var time = now;// 1521876278;
-
-            //RedisProvider.DB = 15;
-            //var list=new List<Conveyor>();
-            //var sw=new Stopwatch();
-            //sw.Start();
-            //for (var i = 0; i < 30; i++)
-            //{
-            //    time= now.AddDays(1);
-            //        //if (RedisProvider.Exists(time.ToString()) <= 0) continue;
-            //        //if (RedisProvider.HashFieldExists(time.ToString(), motorId, DataType.Protobuf) <= 0) continue;
-            //        var item = RedisProvider.ListRange<Conveyor>(time.TimeSpan() + "_" + motorId, DataType.Protobuf);
-            //        if (item != null)
-            //            list.AddRange(item);
-            //}
-            ////var x = RedisProvider.ListRange<Conveyor>(span+"_"+motorId, DataType.Protobuf);//.Where(e=>e.Time== 1521882489);
-            //sw.Stop();
-            //Logger.Warn($"cost {sw.ElapsedMilliseconds}ms");
-            //return list.FirstOrDefault();
             RedisProvider.DB = 15;
             return RedisProvider.GetListItem<Conveyor>(now+"_"+motorId,0, DataType.Protobuf);
         }
 
-
-        /// <summary>
-        /// 根据电流获取当日开机时间
-        /// </summary>
-        /// <param name="motorId"></param>
-        /// <returns></returns>
-        public int GetTodayRunningTimeByCurrent(string motorId)
-        {
-            var time = DateTime.Now.Date;
-            return GetEntities(motorId, time, false, c => c.Current_B > 0f).Count();
-        }
-        /// <summary>
-        /// 根据瞬时称重获取当日开机时间
-        /// </summary>
-        /// <param name="motorId"></param>
-        /// <returns></returns>
-        public int GetTodayRunningTimeByInstant(string motorId)
-        {
-            var time = DateTime.Now.Date;
-            return GetEntities(motorId, time, false, c => c.InstantWeight > 0f).Count();
-        }
         /// <summary>
         /// 获取设备实时状态
         /// </summary>
         /// <param name="motorId">电机Id</param>
+        /// <param name="isBelt">是否皮带秤</param>
         /// <returns></returns>
-        public MotorStatus GetCurrentStatus(string motorId)
+        public   MotorStatus GetCurrentStatus(string motorId, bool isBelt)
         {
-            var now = DateTime.Now.TimeSpan();
-          
-            var status = MotorStatus.Stop;
-            var lastData = GetLatestRecord(motorId);
-            if(lastData==null)
-                return MotorStatus.Stop;
-            if (lastData == null || now > lastData.Time + 10 * 60) return status;
-            if (lastData.Current_B == -1)
+            if (isBelt)
+            {
+                var now = DateTime.Now.TimeSpan();
+                var status = MotorStatus.Stop;
+                var lastData = GetLatestRecord(motorId);
+                if (lastData == null)
+                    return MotorStatus.Stop;
+                if (lastData == null || now > lastData.Time + 10 * 60) return status;
+                if (lastData.Current_B == -1)
+                    return status;
+                status = lastData.Current_B > 0 ? MotorStatus.Run : MotorStatus.Stop;
                 return status;
-            status = lastData.Current_B>0?MotorStatus.Run : MotorStatus.Stop;
-            return status;
+            }
+            return GetCurrentStatus(motorId);
+         
         }
 
         #endregion

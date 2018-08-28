@@ -266,7 +266,7 @@ namespace Yunt.WebApi.Controllers
             {
                 var motors =
                     _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId) && e.MotorTypeId != "MF"
-                        && e.MotorTypeId != "HVB" && e.MotorTypeId != "VB" && e.MotorId != "WDD-P001-CC000001")?.ToList();
+                        && e.MotorTypeId != "VB" && e.MotorId != "WDD-P001-CC000001"&&e.MotorId!= "WDD-P001-PUL000004")?.ToList();
                 if (motors == null || !motors.Any()) return resData;
                 motors.ForEach(motor =>
                 {

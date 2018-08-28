@@ -12,6 +12,7 @@
     <ProjectReference Include="..\Yunt.Common\Yunt.Common.csproj" />
     <ProjectReference Include="..\Yunt.Device.Domain\Yunt.Device.Domain.csproj" />
     <ProjectReference Include="..\Yunt.Redis\Yunt.Redis.csproj" />
+    <ProjectReference Include="..\Yunt.Share.Domain\Yunt.Share.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

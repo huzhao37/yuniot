@@ -46,14 +46,7 @@ namespace Yunt.Device.Domain.IRepository
         /// <param name="motorId">设备电机编号</param>
         /// <returns></returns>
         HVib GetLatestRecord(string motorId);
-        /// <summary>
-        /// 获取设备实时状态
-        /// </summary>
-        /// <param name="motorId">电机Id</param>
-        /// <returns></returns>
-        MotorStatus GetCurrentStatus(string motorId);
-
-
+     
         #endregion
 
         #region cache

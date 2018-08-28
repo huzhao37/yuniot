@@ -138,11 +138,13 @@ namespace Yunt.WebApi.Controllers
             // var motorId= _motorRepository.GetEntities(e=>e.ProductionLineId.Equals(productionlineId)&&e.MotorId).SingleOrDefault().MotorId
             var data = _conveyorByHourRepository.GetRealData(motor);
             var status = _productionLineRepository.GetStatus(productionlineId);
+            var instant = _conveyorByHourRepository.GetInstantWeight(motor);
+            var load = MathF.Round(data?.LoadStall ?? 0, 3);
             return new MainConveyorReal
             {
                 AccumulativeWeight = data?.AccumulativeWeight ?? 0,
-                InstantWeight = _conveyorByHourRepository.GetInstantWeight(motor),//data?.AvgInstantWeight ?? 0,
-                LoadStall = MathF.Round(data?.LoadStall ?? 0, 3),
+                InstantWeight = instant>0?instant:0,
+                LoadStall = load>0?load:0,
                 RunningTime = data?.RunningTime ?? 0,
                 ProductionLineStatus = status
             };
@@ -277,7 +279,7 @@ namespace Yunt.WebApi.Controllers
         {
             var datas = new List<MotorSummary>();
             var motors = _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) && e.MotorTypeId != "MF"
-                        && e.MotorTypeId != "HVB" && e.MotorTypeId != "VB" && e.MotorId != "WDD-P001-CC000001")?.ToList();
+                         && e.MotorTypeId != "VB" && e.MotorId != "WDD-P001-CC000001" && e.MotorId != "WDD-P001-PUL000004")?.ToList();
             if (motors == null || !motors.Any()) return datas;
             var gprs = _productionLineRepository.GetStatus(productionlineId);
             motors.ForEach(motor =>
@@ -455,7 +457,7 @@ namespace Yunt.WebApi.Controllers
                            resp.Add(new
                            {
                                RealOutput = MathF.Round(mainCyList.Sum(e => (float)e.AccumulativeWeight), 2),
-                               PlanOutput = datas?.Sum(e => e.MainCy) ?? 0,
+                               PlanOutput = x?.MainCy ?? 0,//datas?.Sum(e => e.MainCy) ?? 0,
                                mainCy.MotorId,
                                mainCy.Name,
                                Start = startTime,
@@ -465,7 +467,7 @@ namespace Yunt.WebApi.Controllers
                            resp.Add(new
                            {
                                RealOutput = MathF.Round(cy1List.Sum(e => (float)e.AccumulativeWeight), 2),
-                               PlanOutput = datas?.Sum(e => e.FinishCy1) ?? 0,
+                               PlanOutput = x?.FinishCy1 ?? 0,//datas?.Sum(e => e.FinishCy1) ?? 0,
                                finishCy1.MotorId,
                                finishCy1.Name,
                                Start = startTime,
@@ -475,7 +477,7 @@ namespace Yunt.WebApi.Controllers
                            resp.Add(new
                            {
                                RealOutput = MathF.Round(cy2List.Sum(e => (float)e.AccumulativeWeight), 2),
-                               PlanOutput = datas?.Sum(e => e.FinishCy2) ?? 0,
+                               PlanOutput = x?.FinishCy2 ?? 0,// datas?.Sum(e => e.FinishCy2) ?? 0,
                                finishCy2.MotorId,
                                finishCy2.Name,
                                Start = startTime,
@@ -485,7 +487,7 @@ namespace Yunt.WebApi.Controllers
                            resp.Add(new
                            {
                                RealOutput = MathF.Round(cy3List.Sum(e => (float)e.AccumulativeWeight), 2),
-                               PlanOutput = datas?.Sum(e => e.FinishCy3) ?? 0,
+                               PlanOutput = x?.FinishCy3 ?? 0,//datas?.Sum(e => e.FinishCy3) ?? 0,
                                finishCy3.MotorId,
                                finishCy3.Name,
                                Start = startTime,
@@ -495,7 +497,7 @@ namespace Yunt.WebApi.Controllers
                            resp.Add(new
                            {
                                RealOutput = MathF.Round(cy4List.Sum(e => (float)e.AccumulativeWeight), 2),
-                               PlanOutput = datas?.Sum(e => e.FinishCy4) ?? 0,
+                               PlanOutput = x?.FinishCy4 ?? 0,//datas?.Sum(e => e.FinishCy4) ?? 0,
                                finishCy4.MotorId,
                                finishCy4.Name,
                                Start = startTime,
@@ -533,6 +535,46 @@ namespace Yunt.WebApi.Controllers
         #endregion
 
         #region instant_data_plc
+        [HttpGet]
+        [Route("MotorTypeList")]
+        [EnableCors("any")]
+        public dynamic MotorTypeList()
+        {
+            try
+            {
+                var data = _motortypeRepository.GetEntities(e=>e.MotorTypeId!= "SCC" && e.MotorTypeId != "RHC" && e.MotorTypeId != "DTRC" &&
+                             e.MotorTypeId != "MS" && e.MotorTypeId != "Universal");
+                if (data != null && data.Any())
+                    return data.Select(e => new[] { e.MotorTypeId, e.MotorTypeName });
+                return "no data";
+            }
+            catch (Exception ex)
+            {
+                Logger.Exception(ex);
+                return ex.Message;
+            }
+         
+        }
+        [HttpGet]
+        [Route("MotorListByType")]
+        [EnableCors("any")]
+        public dynamic MotorListByType(string motorTypeId,string productionLineId)
+        {
+            try
+            {
+                var data = _motorRepository.GetEntities(e=>e.ProductionLineId.Equals(productionLineId)&e.MotorTypeId.Equals(motorTypeId));
+                if (data != null && data.Any())
+                    return data.Select(e => new[] { e.MotorId, e.Name });
+                return "no data";
+            }
+            catch (Exception ex)
+            {
+                Logger.Exception(ex);
+                return ex.Message;
+            }
+        }
+
+
         /// <summary>
         /// 获取电机设备原始数据
         /// </summary>

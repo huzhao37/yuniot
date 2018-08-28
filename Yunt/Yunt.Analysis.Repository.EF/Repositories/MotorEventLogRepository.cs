@@ -8,6 +8,7 @@ using Yunt.Analysis.Domain.IRepository;
 using Yunt.Analysis.Domain.Model;
 using Yunt.Common;
 using Yunt.Redis;
+using Yunt.Share.Domain.Model;
 
 namespace Yunt.Analysis.Repository.EF.Repositories
 {
