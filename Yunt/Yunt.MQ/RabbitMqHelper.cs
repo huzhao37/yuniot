@@ -23,6 +23,8 @@ namespace Yunt.MQ
         IModel _channel = null;
         Subscription _subscription = null;
 
+        QueueDeclareOk _declare = null;
+
         readonly RabbitMQClientHelper _rabbitMqClientHelper =
             new RabbitMQClientHelper("[RabbitMq]Yunt Data Parse");
 
@@ -80,16 +82,22 @@ namespace Yunt.MQ
                             Logger.Error("[RabbitMq]Create Connection Failed." + ex.Message);
                             continue;
                         }
-
-                        _channel = _connection.CreateModel();
-                        var declare = _channel.QueueDeclare(queueName, true, false, false, null);
-                        _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
-                        var messageCount = declare.MessageCount;//获取当前队列中的未读消息数
+                        if (_channel == null)
+                        {
+                            _channel = _connection.CreateModel();
+                            _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
+                            _channel.BasicQos(0,1,false);
+                        }                           
+                        if(_declare==null)
+                            _declare = _channel.QueueDeclare(queueName, true, false, false, null);
+                       // _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
+                        var messageCount = _declare.MessageCount;//获取当前队列中的未读消息数
 #if DEBUG
                         if (messageCount > 2)
                             Logger.Info($"[队列未读数量]:{messageCount}");
 #endif
-                        _subscription = new Subscription(_channel, queueName, false);
+                        if(_subscription==null)
+                            _subscription = new Subscription(_channel, queueName, false);
                     }
 
                     BasicDeliverEventArgs args;
@@ -139,7 +147,7 @@ namespace Yunt.MQ
 
                             if (!result)
                             {
-                                Write(brokerUri, args.Body, errorQueueName, errorQueueName, exchange, username, password);
+                                Task.Factory.StartNew(() => Write(brokerUri, args.Body, errorQueueName, errorQueueName, exchange, username, password));
                             }
                         }
                         catch (Exception ex)
@@ -181,14 +189,17 @@ namespace Yunt.MQ
             if (_connection == null)
                 _connection = _factory.CreateConnection();
             if (_channel == null)
+            {
                 _channel = _connection.CreateModel();
+                //定义一个持久化队列;
+                _channel.QueueDeclare(queueName, true, false, false, null);
+                _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
+            }
             //using (var conn = _factory.CreateConnection())
             {
                 //using (var channel = conn.CreateModel())
                 {
-                    //定义一个持久化队列;
-                    _channel.QueueDeclare(queueName, true, false, false, null);
-                    _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
+
                     var properties = _channel.CreateBasicProperties();
                     properties.DeliveryMode = 2;
 
@@ -233,12 +244,14 @@ namespace Yunt.MQ
                 if (_connection == null)
                     _connection = _factory.CreateConnection();
                 if (_channel == null)
+                {
                     _channel = _connection.CreateModel();
+                    _channel.QueueDeclare(queueName, true, false, false, null);
+                }
                 // using (var conn = factory.CreateConnection())
                 {
                     // using (var channel = conn.CreateModel())
                     {
-                        _channel.QueueDeclare(queueName, true, false, false, null);
                         var properties = _channel.CreateBasicProperties();
                         properties.DeliveryMode = 2;
                         _channel.BasicPublish("amq.topic", queueName, properties, buffer);
@@ -278,11 +291,13 @@ namespace Yunt.MQ
                 if (_connection == null)
                     _connection = _factory.CreateConnection();
                 if (_channel == null)
+                {
                     _channel = _connection.CreateModel();
-
-                //定义一个持久化队列;
-                _channel.QueueDeclare(queueName, true, false, false, null);
-                _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
+                    //定义一个持久化队列;
+                    _channel.QueueDeclare(queueName, true, false, false, null);
+                    _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
+                }
+                   
                 var properties = _channel.CreateBasicProperties();
                 properties.DeliveryMode = 2;
 
@@ -338,10 +353,16 @@ namespace Yunt.MQ
                         Logger.Error("[RabbitMq]Create Connection Failed." + ex.Message);
                     }
                     if (_channel == null)
+                    {
                         _channel = _connection.CreateModel();
-                    var declare = _channel.QueueDeclare(queueName, true, false, false, null);
-                    _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
-                    return declare.MessageCount; //获取当前队列中的未读消息数
+                        _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
+                        _channel.BasicQos(0, 1, false);
+                    }
+                 
+                    if (_declare == null)
+                        _declare = _channel.QueueDeclare(queueName, true, false, false, null);
+               
+                    return _declare.MessageCount; //获取当前队列中的未读消息数
                 }
             }
             catch (Exception ex)

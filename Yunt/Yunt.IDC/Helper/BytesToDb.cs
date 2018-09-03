@@ -138,7 +138,7 @@ namespace Yunt.IDC.Helper
                 };
                 bytesRepository.InsertAsync(bytes);
                 // 写入队列中缓冲
-                rabbitHelper.Write(ccuri, Extention.strToToHexByte(buffer), queue, queue, "amq.topic", queueUserName, queuePassword);
+               // rabbitHelper.Write(ccuri, Extention.strToToHexByte(buffer), queue, queue, "amq.topic", queueUserName, queuePassword);
 
 
                 var motors = motorRepository.GetEntities(e => e.EmbeddedDeviceId == emDevice.Id
@@ -293,7 +293,7 @@ namespace Yunt.IDC.Helper
                     line.Time = current.TimeSpan();
                 lineRepository.UpdateEntityAsync(line);
                 lineRepository.Batch();//device
-                DataformmodelRepository.Batch();//xml
+               // DataformmodelRepository.Batch();//xml
                 alarmInfoRepository.Batch();//analysis
                 return true;
             }
@@ -311,7 +311,7 @@ namespace Yunt.IDC.Helper
             var values = pvalue.Value;
             var type = obj.GetType();
 
-            var forms = DataformmodelRepository.GetEntities(e => e.MotorId.Equals(motor.MotorId)).ToList();
+            var forms = DataformmodelRepository.GetEntities(e => e.MotorId.Equals(motor.MotorId))?.ToList();
             if (forms == null || !forms.Any())
                 return null;
             for (var i = 0; i < forms.Count(); i++)
@@ -319,7 +319,7 @@ namespace Yunt.IDC.Helper
                 var form = forms[i];
                 form.Value = Normalize.ConvertToNormal(form, values);
                 form.Time = time.Time();
-                DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
+                //DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
                 if (form.BitDesc.Equals("整型模拟量"))
                 {
                     //添加AI分析记录
@@ -388,7 +388,7 @@ namespace Yunt.IDC.Helper
             {
                 var form = forms[i];
                 form.Value = Normalize.ConvertToNormal(form, values);
-                DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
+                //DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
                 //add-alarminfo   line级别
                 if (form.DataPhysicalId == 21 && form.Value == 1)
                 {

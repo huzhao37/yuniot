@@ -43,24 +43,25 @@ namespace Yunt.DIDC
             #endregion
 
             #region recovery
-            //try
-            //{
-            //    DateTime start = "2018-06-20 00:00:00".ToDateTime(), end = "2018-08-24 00:00:00".ToDateTime();
-            //    //DayStatisticsTask.UpdatePowers("2018-06-20 00:00:00".ToDateTime());
-            //    //DayStatisticsTask.UpdatePowers("2018-06-25 00:00:00".ToDateTime());
-            //    //DayStatisticsTask.UpdatePowers("2018-07-06 00:00:00".ToDateTime());
-            //    //DayStatisticsTask.UpdatePowers("2018-07-22 00:00:00".ToDateTime());
-            //    DayStatisticsTask.UpdateRunLoads(start, end);
+            try
+            {
+                DateTime start = "2018-09-2 0:00:00".ToDateTime(), end = "2018-09-2 0:00:00".ToDateTime();
+                //DayStatisticsTask.UpdatePowers("2018-06-20 00:00:00".ToDateTime());
+                //DayStatisticsTask.UpdatePowers("2018-06-25 00:00:00".ToDateTime());
+                //DayStatisticsTask.UpdatePowers("2018-07-06 00:00:00".ToDateTime());
+                //DayStatisticsTask.UpdatePowers("2018-07-22 00:00:00".ToDateTime());
+                //DayStatisticsTask.UpdateRunLoads(start, end);
+                DayStatisticsTask.RecoveryTask(start, end);
 
 
-            //}
-            //catch (Exception ex)
-            //{
-            //    Common.Logger.Exception(ex);
-            //}
+            }
+            catch (Exception ex)
+            {
+                Common.Logger.Exception(ex);
+            }
 
-            //Common.Logger.Error("所有恢复完毕！");
-            //Console.ReadKey();
+            Common.Logger.Error("所有恢复完毕！");
+            Console.ReadKey();
             #endregion
 
             #region test

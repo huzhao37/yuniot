@@ -30,18 +30,18 @@ namespace Yunt.IDC.Task
         private static readonly IBytesParseRepository BytesParseRepository;
         private static readonly IProductionLineRepository ProductionLineRepository;
         private static readonly IMotorRepository MotorRepository;
-        static MqDealTask()
+        internal static Messagequeue WddQueue;
+       static MqDealTask()
        {
             MessagequeueRepository = ServiceProviderServiceExtensions.GetService<IMessagequeueRepository>(Program.Providers["Xml"]);
             BytesParseRepository = ServiceProviderServiceExtensions.GetService<IBytesParseRepository>(Program.Providers["Xml"]);
             ProductionLineRepository = ServiceProviderServiceExtensions.GetService<IProductionLineRepository>(Program.Providers["Device"]);
             MotorRepository = ServiceProviderServiceExtensions.GetService<IMotorRepository>(Program.Providers["Device"]);
+            var w_r = (int)WriteOrRead.Read;
+            if (WddQueue == null)
+                WddQueue =
+                    MessagequeueRepository.GetEntities(e => e.Write_Read.Equals(w_r) && !e.Route_Key.Equals("STATUS")).FirstOrDefault();
         }
-       /// <summary>
-       /// 所有队列集合
-       /// </summary>
-       //static readonly List<QueueModel> _queueList = new List<QueueModel>();
-       internal static  Messagequeue WddQueue;
         /// <summary>
         /// 启动队列解析
         /// </summary>
@@ -83,10 +83,7 @@ namespace Yunt.IDC.Task
            // Console.ReadKey();
 
             #endregion
-            var w_r =(int) WriteOrRead.Read;
-            //var where = " Write_Read = '" + w_r + "' and  Route_Key != 'STATUS'";
-            WddQueue =
-               MessagequeueRepository.GetEntities(e => e.Write_Read.Equals(w_r) && !e.Route_Key.Equals("STATUS")).FirstOrDefault();
+        
             if (WddQueue == null)
                 return;
             var interval = WddQueue.Timer;

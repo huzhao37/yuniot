@@ -54,10 +54,10 @@ namespace Yunt.HIDC
             #region recovery
             try
             {
-                DateTime start = "2018-06-20 9:00:00".ToDateTime(), end = "2018-08-25 14:00:00".ToDateTime();
+                DateTime start = "2018-09-2 7:00:00".ToDateTime(), end = "2018-09-3 10:00:00".ToDateTime();
                 // HourStatisticsTask.UpdatePowers(start,end);
-                HourStatisticsTask.UpdateRunLoads(start, end);
-                //HourStatisticsTask.RecoveryTask(start, end);
+                //HourStatisticsTask.UpdateRunLoads(start, end);
+                HourStatisticsTask.RecoveryTask(start, end);
                 //HourStatisticsTask.RecoveryTask("2018-06-25 13:00:00".ToDateTime());
                 //HourStatisticsTask.RecoveryTask("2018-07-06 12:00:00".ToDateTime());
                 Common.Logger.Error("所有恢复完毕！");

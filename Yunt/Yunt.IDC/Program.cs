@@ -32,7 +32,7 @@ namespace Yunt.IDC
             {
                 #region init
                 XTrace.UseConsole(true, true);
-                XTrace.Log.Level = LogLevel.Info;//打印错误级别的日志
+                XTrace.Log.Level = LogLevel.Error;//打印错误级别的日志
                 //XCode.Setting.Current.Migration = XCode.DataAccessLayer.Migration.Off;//关闭反向工程
                  //XCode.Setting.Current.TraceSQLTime = 2000;//sql执行时间超过2s打印log
 
