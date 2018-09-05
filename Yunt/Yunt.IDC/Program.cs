@@ -93,9 +93,11 @@ namespace Yunt.IDC
                 Common.Logger.Error($"program2{e.InnerException.Message + e.InnerException.StackTrace}");
                 Common.Logger.Error($"program3{e.InnerException.InnerException.Message + e.InnerException.InnerException.StackTrace}");
             }
-       
-
-
+            while (true)
+            {
+               Common.Logger.Info("idc is running...");
+               System.Threading.Thread.Sleep(60*1000);
+            }
             Console.ReadKey();
             Console.WriteLine("idc is running...");
         }

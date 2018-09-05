@@ -49,7 +49,6 @@ namespace Yunt.MQ
             string hostName, int port, string username, string password, int rabbitMqResolveInterval,
             string errorQueueName, Func<byte[], T, bool> operation, T type)
         {
-
             if (_factory == null)
                 _factory = new ConnectionFactory()
                 {
