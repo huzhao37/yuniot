@@ -675,7 +675,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             var status = MotorStatus.Stop;
             var di = GetLatestDiStatusRecord(motorId);
             if (di == null) return status;
-            status = di.Value > 0 ? MotorStatus.Run : MotorStatus.Stop;
+            status = di.Value > 0&&now-di.Time<=10*60 ? MotorStatus.Run : MotorStatus.Stop;
             return status;
         }
 

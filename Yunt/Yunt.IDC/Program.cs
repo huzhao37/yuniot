@@ -41,8 +41,6 @@ namespace Yunt.IDC
 
                 services.AddAutoMapper(typeof(Program).Assembly);
 
-
-
                 #endregion
 
                 #region v2-test
@@ -99,7 +97,7 @@ namespace Yunt.IDC
 
 
             Console.ReadKey();
-            Console.WriteLine("Hello World!");
+            Console.WriteLine("idc is running...");
         }
         /// <summary>
         /// 程序初始化

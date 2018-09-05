@@ -59,63 +59,35 @@ namespace Yunt.MQ
                     Port = port,
                     UserName = username,
                     Password = password,
+                    AutomaticRecoveryEnabled=true
                 };
-            while (!Cancelled)
-            {
-                if (Cancelled)
-                {
-                    DisposeAllConnectionObjects();
-                    break;
-                }
+            
                 try
                 {
-                    if (_subscription == null)
+                    if (_connection == null)
+                        _connection = _factory.CreateConnection();
+                    if (_channel == null)
                     {
-                        try
-                        {
-                            _connection = _factory.CreateConnection();
-                        }
-                        catch (BrokerUnreachableException ex)
-                        {
-                            //You probably want to log the error and cancel after N tries, 
-                            //otherwise start the loop over to try to connect again after a second or so.
-                            Logger.Error("[RabbitMq]Create Connection Failed." + ex.Message);
-                            continue;
-                        }
-                        if (_channel == null)
-                        {
-                            _channel = _connection.CreateModel();
-                            _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
-                            _channel.BasicQos(0,1,false);
-                        }                           
-                        if(_declare==null)
-                            _declare = _channel.QueueDeclare(queueName, true, false, false, null);
-                       // _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
+                        _channel = _connection.CreateModel();
+                        _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
+                        _channel.BasicQos(0, 1, false);
+                    }
+                    if (_declare == null)
+                        _declare = _channel.QueueDeclare(queueName, true, false, false, null);
+
+                    var consumer = new EventingBasicConsumer(_channel);    
+                    consumer.Received += (model, ea) =>
+                    {
                         var messageCount = _declare.MessageCount;//获取当前队列中的未读消息数
 #if DEBUG
                         if (messageCount > 2)
                             Logger.Info($"[队列未读数量]:{messageCount}");
 #endif
-                        if(_subscription==null)
-                            _subscription = new Subscription(_channel, queueName, false);
-                    }
-
-                    BasicDeliverEventArgs args;
-                    var gotMessage = _subscription.Next(rabbitMqResolveInterval, out args); //250
-                    if (!gotMessage) continue;
-                    {
-                        if (args == null)
+                        if (Cancelled)
                         {
-                            //This means the connection is closed.
                             DisposeAllConnectionObjects();
-                            Logger.Error("[RabbitMq]Connection is closed!");
-                            continue;
                         }
-
-                        var bytes = args.Body;
-                        _subscription.Ack(args);
-
-                        Write(brokerUri, args.Body, queueName + "BK", queueName + "BK", exchange, username, password);
+                        var bytes = ea.Body;                     
                         try
                         {
 #if DEBUG
@@ -129,9 +101,7 @@ namespace Yunt.MQ
 #endif
                             if (!result)
                             {
-                                //再尝试解析两次
-                                for (var i = 0; i < 2; i++)
-                                {
+                                //再尝试解析
 #if DEBUG
                                     var sw1 = new Stopwatch();
                                     sw1.Start();
@@ -141,28 +111,34 @@ namespace Yunt.MQ
                                     sw1.Stop();
                                     Logger.Info($"[RabbitMq]解析数据耗时:{sw1.ElapsedMilliseconds}ms");
 #endif
-                                    if (result) break;
-                                }
                             }
 
                             if (!result)
                             {
-                                Task.Factory.StartNew(() => Write(brokerUri, args.Body, errorQueueName, errorQueueName, exchange, username, password));
+                                Write(brokerUri, bytes, errorQueueName, errorQueueName, exchange, username, password);
                             }
+                        }
+                        catch(ConnectFailureException e)
+                        {
+                            Logger.Error($"rabbitmq:{brokerUri}连接失败 ,准备尝试重启", e.Message);
                         }
                         catch (Exception ex)
                         {
                             Logger.Error("Update DB: " + ex.Message);
                         }
-                    }
+                        Write(brokerUri, bytes, queueName + "BK", queueName + "BK", exchange, username, password);
+                        //处理完成，告诉Broker可以服务端可以删除消息，分配新的消息过来
+                        _channel.BasicAck(deliveryTag: ea.DeliveryTag, multiple: false);
+                    };
+                    _channel.BasicConsume(queueName, autoAck: false, consumer: consumer);
+ 
                 }
+            
                 catch (OperationInterruptedException ex)
                 {
                     DisposeAllConnectionObjects();
                     Logger.Error("[RabbitMq]获取数据错误： " + ex.Message);
                 }
-            }
-            DisposeAllConnectionObjects();
         }
         /// <summary>
         /// 队列写入;
@@ -184,7 +160,8 @@ namespace Yunt.MQ
                     //RequestedHeartbeat = 30,
                     UserName = userName,
                     Password = pwd,
-                    Endpoint = new AmqpTcpEndpoint(new Uri(uri))
+                    Endpoint = new AmqpTcpEndpoint(new Uri(uri)) ,
+                    AutomaticRecoveryEnabled = true
                 };
             if (_connection == null)
                 _connection = _factory.CreateConnection();
@@ -240,6 +217,7 @@ namespace Yunt.MQ
                         Port = port,
                         UserName = username,
                         Password = password,
+                        AutomaticRecoveryEnabled = true
                     };
                 if (_connection == null)
                     _connection = _factory.CreateConnection();
@@ -286,7 +264,8 @@ namespace Yunt.MQ
                         //RequestedHeartbeat = 30,
                         UserName = userName,
                         Password = pwd,
-                        Endpoint = new AmqpTcpEndpoint(new Uri(uri))
+                        Endpoint = new AmqpTcpEndpoint(new Uri(uri)),
+                        AutomaticRecoveryEnabled = true
                     };
                 if (_connection == null)
                     _connection = _factory.CreateConnection();
@@ -297,7 +276,7 @@ namespace Yunt.MQ
                     _channel.QueueDeclare(queueName, true, false, false, null);
                     _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
                 }
-                   
+
                 var properties = _channel.CreateBasicProperties();
                 properties.DeliveryMode = 2;
 
@@ -336,7 +315,8 @@ namespace Yunt.MQ
                     HostName = hostName,
                     Port = port,
                     UserName = username,
-                    Password = password,
+                    Password = password, 
+                    AutomaticRecoveryEnabled = true
                 };
 
             try
@@ -358,10 +338,10 @@ namespace Yunt.MQ
                         _channel.QueueBind(queue: queueName, exchange: exchange, routingKey: routKey);
                         _channel.BasicQos(0, 1, false);
                     }
-                 
+
                     if (_declare == null)
                         _declare = _channel.QueueDeclare(queueName, true, false, false, null);
-               
+
                     return _declare.MessageCount; //获取当前队列中的未读消息数
                 }
             }

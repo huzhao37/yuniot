@@ -57,45 +57,45 @@ namespace Yunt.WebApi
             BufferPool.DEFAULT_BUFFERLENGTH = 1024 * 1024;//1M缓冲区
             services.AddMvc();
             #region Metrics监控配置
-            string IsOpen = configuration.GetSection("InfluxDB")["IsOpen"].ToLower();
-            if (IsOpen == "true")
-            {
-                string database = configuration.GetSection("InfluxDB")["DataBaseName"];
-                string InfluxDBConStr = configuration.GetSection("InfluxDB")["ConnectionString"];
-                string app = configuration.GetSection("InfluxDB")["app"];
-                string env = configuration.GetSection("InfluxDB")["env"];
-                string username = configuration.GetSection("InfluxDB")["username"];
-                string password = configuration.GetSection("InfluxDB")["password"];
+            //string IsOpen = configuration.GetSection("InfluxDB")["IsOpen"].ToLower();
+            //if (IsOpen == "true")
+            //{
+            //    string database = configuration.GetSection("InfluxDB")["DataBaseName"];
+            //    string InfluxDBConStr = configuration.GetSection("InfluxDB")["ConnectionString"];
+            //    string app = configuration.GetSection("InfluxDB")["app"];
+            //    string env = configuration.GetSection("InfluxDB")["env"];
+            //    string username = configuration.GetSection("InfluxDB")["username"];
+            //    string password = configuration.GetSection("InfluxDB")["password"];
 
-                var uri = new Uri(InfluxDBConStr);
+            //    var uri = new Uri(InfluxDBConStr);
 
-                var metrics = AppMetrics.CreateDefaultBuilder()
-                .Configuration.Configure(
-                options =>
-                {
-                    options.AddAppTag(app);
-                    options.AddEnvTag(env);
-                })
-                .Report.ToInfluxDb(
-                options =>
-                {
-                    options.InfluxDb.BaseUri = uri;
-                    options.InfluxDb.Database = database;
-                    options.InfluxDb.UserName = username;
-                    options.InfluxDb.Password = password;
-                    options.HttpPolicy.BackoffPeriod = TimeSpan.FromSeconds(30);
-                    options.HttpPolicy.FailuresBeforeBackoff = 5;
-                    options.HttpPolicy.Timeout = TimeSpan.FromSeconds(10);
-                    options.FlushInterval = TimeSpan.FromSeconds(5);
-                })
-                .Build();
+            //    var metrics = AppMetrics.CreateDefaultBuilder()
+            //    .Configuration.Configure(
+            //    options =>
+            //    {
+            //        options.AddAppTag(app);
+            //        options.AddEnvTag(env);
+            //    })
+            //    .Report.ToInfluxDb(
+            //    options =>
+            //    {
+            //        options.InfluxDb.BaseUri = uri;
+            //        options.InfluxDb.Database = database;
+            //        options.InfluxDb.UserName = username;
+            //        options.InfluxDb.Password = password;
+            //        options.HttpPolicy.BackoffPeriod = TimeSpan.FromSeconds(30);
+            //        options.HttpPolicy.FailuresBeforeBackoff = 5;
+            //        options.HttpPolicy.Timeout = TimeSpan.FromSeconds(10);
+            //        options.FlushInterval = TimeSpan.FromSeconds(5);
+            //    })
+            //    .Build();
 
-                services.AddMetrics(metrics);
-                services.AddMetricsReportScheduler();
-                services.AddMetricsTrackingMiddleware();
-                services.AddMetricsEndpoints();
+            //    services.AddMetrics(metrics);
+            //    services.AddMetricsReportScheduler();
+            //    services.AddMetricsTrackingMiddleware();
+            //    services.AddMetricsEndpoints();
 
-            }
+            //}
             #endregion
             //配置跨域处理
             services.AddCors(options =>
@@ -180,24 +180,24 @@ namespace Yunt.WebApi
 
             app.UseAuthentication();
             #region 注入Metrics
-            string IsOpen = "true";//Configuration.GetSection("InfluxDB")["IsOpen"].ToLower();
-            if (IsOpen == "true")
-            {
-                app.UseMetricsAllMiddleware();
-                // Or to cherry-pick the tracking of interest
-                app.UseMetricsActiveRequestMiddleware();
-                app.UseMetricsErrorTrackingMiddleware();
-                app.UseMetricsPostAndPutSizeTrackingMiddleware();
-                app.UseMetricsRequestTrackingMiddleware();
-                app.UseMetricsOAuth2TrackingMiddleware();
-                app.UseMetricsApdexTrackingMiddleware();
+            //string IsOpen = "true";//Configuration.GetSection("InfluxDB")["IsOpen"].ToLower();
+            //if (IsOpen == "true")
+            //{
+            //    app.UseMetricsAllMiddleware();
+            //    // Or to cherry-pick the tracking of interest
+            //    app.UseMetricsActiveRequestMiddleware();
+            //    app.UseMetricsErrorTrackingMiddleware();
+            //    app.UseMetricsPostAndPutSizeTrackingMiddleware();
+            //    app.UseMetricsRequestTrackingMiddleware();
+            //    app.UseMetricsOAuth2TrackingMiddleware();
+            //    app.UseMetricsApdexTrackingMiddleware();
 
-                app.UseMetricsAllEndpoints();
-                // Or to cherry-pick endpoint of interest
-                app.UseMetricsEndpoint();
-                app.UseMetricsTextEndpoint();
-                app.UseEnvInfoEndpoint();
-            }
+            //    app.UseMetricsAllEndpoints();
+            //    // Or to cherry-pick endpoint of interest
+            //    app.UseMetricsEndpoint();
+            //    app.UseMetricsTextEndpoint();
+            //    app.UseEnvInfoEndpoint();
+            //}
             #endregion
             //app.UseHttpsRedirection();
             app.UseMvc(routes =>

@@ -109,10 +109,8 @@ namespace Yunt.IDC.Helper
                         {
                             oldValue = (oldValue == -1) ? -1 : Math.Round(oldValue / 1000, 2);
                             if (oldValue < -1)
-                            {
                                 //4294967295
                                 oldValue = Math.Round((4294967295 + oldValue * 1000) / 1000, 2);
-                            }
                             return oldValue;
                         }
                         if (param.Equals("瞬时产量"))
@@ -127,10 +125,8 @@ namespace Yunt.IDC.Helper
                         {
                             oldValue = (oldValue == -1) ? -1 : Math.Round(oldValue / 1000, 2);
                             if (oldValue < -1)
-                            {
                                 //4294967295
                                 oldValue = Math.Round((4294967295 + oldValue * 1000) / 1000, 2);
-                            }
                             return oldValue;
                         }
                         break;
@@ -142,11 +138,9 @@ namespace Yunt.IDC.Helper
                         if (param.Equals("累计产量"))
                         {
                             oldValue = (oldValue == -1) ? -1 : Math.Round(oldValue / 1000, 2);
-                            if (oldValue < -1)
-                            {
+                            if (oldValue < -1)                          
                                 //4294967295
                                 oldValue = Math.Round((4294967295 + oldValue * 1000) / 1000, 2);
-                            }
                             return oldValue;
                         }
                         if (param.Equals("瞬时产量"))
@@ -155,9 +149,7 @@ namespace Yunt.IDC.Helper
                     case 6:
                         break;
                     case -1:
-                        if (param.Equals("累计产量"))
-                            return -1;
-                        if (param.Equals("瞬时产量"))
+                        if (param.Equals("累计产量")|| param.Equals("瞬时产量"))
                             return -1;
                         break;
                     default:

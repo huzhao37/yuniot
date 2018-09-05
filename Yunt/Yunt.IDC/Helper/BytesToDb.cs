@@ -317,11 +317,11 @@ namespace Yunt.IDC.Helper
             for (var i = 0; i < forms.Count(); i++)
             {
                 var form = forms[i];
-                form.Value = Normalize.ConvertToNormal(form, values);
                 form.Time = time.Time();
                 //DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
                 if (form.BitDesc.Equals("整型模拟量"))
                 {
+                    form.Value = Normalize.ConvertToNormal(form, values);
                     //添加AI分析记录
                     MotorEventLogRepository.AddAiLogAsync(new AiLog()
                     {
@@ -344,6 +344,7 @@ namespace Yunt.IDC.Helper
                 //数字量存储redis-3个月
                 if (form.BitDesc.Equals("数字量"))
                 {
+                    form.Value = values[(int)form.Index];
                     MotorEventLogRepository.AddDiLogAsync(new DiHistory()
                     {
                         MotorId = motor.MotorId,
@@ -356,7 +357,7 @@ namespace Yunt.IDC.Helper
                     });
 
                     //add-alarminfo   motor级别
-                    if (form.DataPhysicalId == 21 && form.Value == 1)
+                    if (form.DataPhysicalId == 21 && (float)form.Value == 1)
                     {
                         alarmInfoRepository.InsertAsync(new AlarmInfo()
                         {
@@ -387,7 +388,7 @@ namespace Yunt.IDC.Helper
             for (var i = 0; i < forms.Count(); i++)
             {
                 var form = forms[i];
-                form.Value = Normalize.ConvertToNormal(form, values);
+                form.Value = values[(int)form.Index];//Normalize.ConvertToNormal(form, values);
                 //DataformmodelRepository.UpdateEntityAsync(form);//更新实时数据
                 //add-alarminfo   line级别
                 if (form.DataPhysicalId == 21 && form.Value == 1)
