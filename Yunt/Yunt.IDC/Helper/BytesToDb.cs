@@ -286,15 +286,18 @@ namespace Yunt.IDC.Helper
                 }
                 //更新绑定产线的最新GPRS通信时间;   
                 var current = _model.PValues.First().Key;
+             
                 var line =
                     lineRepository.GetEntities(e => e.ProductionLineId.Equals(emDevice.Productionline_Id)).ToList()
                         .FirstOrDefault();
                 if (line != null)
                     line.Time = current.TimeSpan();
                 lineRepository.UpdateEntityAsync(line);
-                lineRepository.Batch();//device
-               // DataformmodelRepository.Batch();//xml
+                lineRepository.Batch();//device                   
                 alarmInfoRepository.Batch();//analysis
+                emDevice.Time = current;//更新采集设备时间
+                CollectdeviceRepository.UpdateEntityAsync(emDevice);
+                CollectdeviceRepository.Batch();//xml
                 return true;
             }
             catch (Exception ex)

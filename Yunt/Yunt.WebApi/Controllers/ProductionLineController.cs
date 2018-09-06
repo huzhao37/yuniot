@@ -41,6 +41,7 @@ namespace Yunt.WebApi.Controllers
         private readonly IOutHouseRepository _outHouseRepository;
         private readonly ISparePartsTypeRepository _sparePartsTypeRepository;
         private readonly IAlarmInfoRepository _alarmInfoRepository;
+        private readonly ICollectdeviceRepository _collectRepo;
         public ProductionLineController(IConveyorByHourRepository conveyorByHourRepository
             , IConveyorByDayRepository conveyorByDayRepository,
             IMotorRepository motorRepository,
@@ -51,7 +52,8 @@ namespace Yunt.WebApi.Controllers
               IMotorEventLogRepository motorEventLogRepository,
               IOutHouseRepository outHouseRepository,
               ISparePartsTypeRepository sparePartsTypeRepository,
-              IAlarmInfoRepository alarmInfoRepository
+              IAlarmInfoRepository alarmInfoRepository,
+              ICollectdeviceRepository collectRepo
             )
         {
             _conveyorByHourRepository = conveyorByHourRepository;
@@ -65,6 +67,7 @@ namespace Yunt.WebApi.Controllers
             _outHouseRepository = outHouseRepository;
             _sparePartsTypeRepository = sparePartsTypeRepository;
             _alarmInfoRepository = alarmInfoRepository;
+            _collectRepo = collectRepo;
         }
         #endregion
 
@@ -115,10 +118,20 @@ namespace Yunt.WebApi.Controllers
             var tuple = _productionLineRepository.GetMotors(productionlineId);
             var gprs = _productionLineRepository.GetStatus(productionlineId);
             var alarmMotors = _alarmInfoRepository.GetEntities(e => e.Time >= dt)?.GroupBy(e => e.MotorName)?.Count() ?? 0;
+            //var loseMotors =0;
+            //var collectDevices=_collectRepo.GetEntities(e => e.Productionline_Id.Equals(productionlineId))?.ToList();
+            //if (collectDevices != null && collectDevices.Any())
+            //    collectDevices.ForEach(c => {
+            //        if (dt.Time()> c.Time)
+            //        {
+            //            loseMotors += _motorRepository.GetEntities(e => e.EmbeddedDeviceId == c.Id)?.ToList()?.Count??0;
+            //        }
+            //    });
+
             return new ProductionLineStatus()
             {
                 Gprs = gprs,
-                LoseMotors = tuple.Item3 > 0? 0:(tuple.Item2 + tuple.Item3),//tuple.Item1,
+                LoseMotors = (tuple.Item3 > 0? 0:tuple.Item2),//loseMotors,//
                 StopMotors = tuple.Item2,
                 RunMotors = tuple.Item3,
                 LineStatus = tuple.Item3 > 0,
