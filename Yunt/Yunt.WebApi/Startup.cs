@@ -27,7 +27,8 @@ namespace Yunt.WebApi
    
     public class Startup
     {
-        //internal static Dictionary<string, IServiceProvider> Providers;
+        public static int ShiftStartHour { get; set; }
+        public static int ShiftEndHour { get; set; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -50,7 +51,8 @@ namespace Yunt.WebApi
             var configuration = builder.Build();
             services.AddSingleton<IConfiguration>(configuration);
             //Logger.Create(configuration, new LoggerFactory(), "Yunt.WebApi");
-
+            ShiftStartHour =int.Parse(configuration.GetSection("AppSettings")["ShiftStartHour"]);
+            ShiftEndHour = int.Parse(configuration.GetSection("AppSettings")["ShiftEndHour"]);
 
             ServiceEx.StartServices(services, configuration);//Providers = 
             services.AddAutoMapper(typeof(Startup).Assembly);

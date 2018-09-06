@@ -79,5 +79,36 @@ namespace Yunt.Device.Domain.IRepository
         /// <param name="motor"></param>
         float GetInstantWeight(Motor motor);
         #endregion
+
+        #region shift
+        /// <summary>
+        /// 获取当班次实时数据(所有当日的负荷和瞬时负荷，历史为平均负荷)
+        /// </summary>
+        /// <param name="motor"></param>
+        ///  <param name="shiftStartHour">班次起始小时时间</param>
+        ConveyorByDay GetShiftRealData(Motor motor, int shiftStartHour);
+        /// <summary>
+        /// 获取历史某班次的数据
+        /// </summary>
+        /// <param name="motor"></param>
+        ///  <param name="start">班次起始小时时间</param>
+        ///   <param name="end">班次结束小时时间（不包含）</param>
+        ConveyorByDay GetHistoryShiftOneData(Motor motor, long start, long end);
+        /// <summary>
+        /// 获取历史某些班次的数据
+        /// </summary>
+        /// <param name="motor"></param>
+        ///  <param name="start">起始时间</param>
+        ///   <param name="end">结束时间（不包含）</param>
+        ///  <param name="shiftStart">班次起始小时时间</param>
+        ///   <param name="shiftEnd">班次结束小时时间（不包含）</param>
+        IEnumerable<ConveyorByDay> GetHistoryShiftSomeData(Motor motor, long start, long end, int shiftStart, int shiftEnd);
+        /// <summary>
+        /// 获取当前班次实时数据统计
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="shiftStartHour">班次起始小时时间</param>
+        IEnumerable<ConveyorByHour> GetShiftRealDatas(Motor motor, int shiftStartHour);
+        #endregion
     }
 }

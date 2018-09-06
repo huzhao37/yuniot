@@ -178,5 +178,38 @@ namespace Yunt.Device.Domain.Services
         #region test
         dynamic test();
         #endregion
+
+        #region shift
+        /// <summary>
+        /// 根据电机设备ID获取当日电机设备详情(其中皮带机为班次)
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="shiftStart">班次起始小时时间</param>
+        /// <returns></returns>
+         dynamic MotorShiftDetails(Motor motor, int shiftStart);
+        /// <summary>
+        /// 根据电机设备ID获取当日电机设备详情(其中皮带机为班次)
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="shiftStart">班次起始小时时间</param>
+        /// <returns></returns>
+        IEnumerable<dynamic> MotorShiftHours(Motor motor, int shiftStart);
+        /// <summary>
+        /// 根据电机设备ID获取历史某一天电机设备详情(其中皮带机为班次)
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+         IEnumerable<dynamic> MotorShiftHours(Motor motor, long date, int shiftStart);
+        /// <summary>
+        /// 根据电机设备ID和时间节点获取电机设备详情(不包括今天)(其中皮带机为班次)
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="shiftStart">班次起始小时时间</param>
+        /// <param name="shiftEnd">班次结束小时时间（不包含）</param>
+        /// <returns></returns>
+        IEnumerable<dynamic> MotorShifts(Motor motor, long start, long end, int shiftStart, int shiftEnd);
+        #endregion
     }
 }

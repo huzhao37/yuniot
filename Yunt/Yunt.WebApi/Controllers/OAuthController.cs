@@ -43,7 +43,7 @@ namespace Yunt.WebApi.Controllers
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(JwtClaimTypes.Audience,"api"),
-                    new Claim(JwtClaimTypes.Issuer,"http://localhost:5200"),
+                    new Claim(JwtClaimTypes.Issuer,"http://localhost:5201"),
                     new Claim(JwtClaimTypes.Id, user.Id.ToString()),
                     new Claim(JwtClaimTypes.Name, user.UserName),
                     new Claim(JwtClaimTypes.Email, user.Mail),

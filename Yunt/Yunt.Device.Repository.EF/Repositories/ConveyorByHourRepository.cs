@@ -16,6 +16,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using Yunt.Common.Shift;
 
 namespace Yunt.Device.Repository.EF.Repositories
 {
@@ -418,6 +419,129 @@ namespace Yunt.Device.Repository.EF.Repositories
             if (data != null)
                 return data.InstantWeight;
             return 0;
+        }
+        #endregion
+
+        #region shift
+        /// <summary>
+        /// 获取当班次实时数据(所有当日的负荷和瞬时负荷，历史为平均负荷)
+        /// </summary>
+        /// <param name="motor"></param>
+        ///  <param name="shiftStartHour">班次起始小时时间</param>
+        public ConveyorByDay GetShiftRealData(Motor motor,int shiftStartHour)
+        {
+            var minuteEnd = DateTime.Now;
+            var hourStart = minuteEnd.Date.AddHours(shiftStartHour);
+            var hourEnd = minuteEnd.Date.AddHours(minuteEnd.Hour);
+            var minuteStart = hourEnd;
+
+            long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
+            var hourData =
+                GetEntities(
+                    e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time <= endUnix)?.ToList();
+
+            var minuteData = GetByMotor(motor, false, minuteStart);
+
+            if (minuteData != null)
+                hourData?.Add(minuteData);
+            if (hourData == null || !hourData.Any()) return null;
+            var weightSum = MathF.Round(hourData?.Sum(e => e.AccumulativeWeight) ?? 0, 2);        
+            var data = new ConveyorByDay
+            {
+                MotorId = motor.MotorId,
+                AccumulativeWeight = weightSum,
+                AvgInstantWeight = MathF.Round(_cyRep.GetLatestRecord(motor.MotorId)?.InstantWeight ?? 0, 2),//实时的瞬时称重
+                RunningTime = MathF.Round(hourData?.Sum(e => e.RunningTime) ?? 0, 2),
+                //负荷 = 累计重量/额定产量 (单位: 吨/小时);
+                LoadStall = GetInstantLoadStall(motor)
+            };
+            return data;
+        }
+
+        /// <summary>
+        /// 获取历史某班次的数据
+        /// </summary>
+        /// <param name="motor"></param>
+        ///  <param name="start">班次起始小时时间</param>
+        ///   <param name="end">班次结束小时时间（不包含）</param>
+        public ConveyorByDay GetHistoryShiftOneData(Motor motor, long start,long end)
+        {
+            var hourData =
+                GetEntities(
+                    e => e.MotorId.Equals(motor.MotorId) && e.Time >= start && e.Time < end)?.ToList();     
+            if (hourData == null || !hourData.Any()) return null;
+            var weightSum = MathF.Round(hourData?.Sum(e => e.AccumulativeWeight) ?? 0, 2);
+            var source = hourData.Where(e => e.RunningTime > 0);
+            var data = new ConveyorByDay
+            {
+                MotorId = motor.MotorId,
+                AccumulativeWeight = weightSum,
+                AvgInstantWeight = MathF.Round(source?.Average(e => e.AvgInstantWeight) ?? 0, 2),//历史平均瞬时称重
+                RunningTime = MathF.Round(source?.Sum(e => e.RunningTime) ?? 0, 2),
+                //负荷 = 累计重量/额定产量 (单位: 吨/小时);
+                LoadStall = MathF.Round(source?.Average(e =>e.LoadStall) ?? 0, 3)
+            };
+            return data;
+        }
+
+        /// <summary>
+        /// 获取历史某些班次的数据
+        /// </summary>
+        /// <param name="motor"></param>
+        ///  <param name="start">起始时间</param>
+        ///   <param name="end">结束时间（不包含）</param>
+        ///  <param name="shiftStart">班次起始小时时间</param>
+        ///   <param name="shiftEnd">班次结束小时时间（不包含）</param>
+        public IEnumerable<ConveyorByDay> GetHistoryShiftSomeData(Motor motor, long start, long end,int shiftStart,int shiftEnd)
+        {
+            var datas= new List<ConveyorByDay>();
+            DateTime startTime = start.Time(), endTime = end.Time();
+            var times= ShiftCalc.GetTimesByShift(startTime, endTime, shiftStart, shiftEnd);
+            if (times == null || !times.Any())
+                return null;
+            times.ForEach(t=> {
+
+                var hourData =GetEntities( e => e.MotorId.Equals(motor.MotorId) && e.Time >= t.Item1 && e.Time < t.Item2)?.ToList();
+                if (hourData == null || !hourData.Any()) return;
+                var weightSum = MathF.Round(hourData?.Sum(e => e.AccumulativeWeight) ?? 0, 2);
+                var source = hourData.Where(e => e.RunningTime > 0);
+                datas.Add(new ConveyorByDay
+                {
+                    MotorId = motor.MotorId,
+                    AccumulativeWeight = weightSum,
+                    AvgInstantWeight = MathF.Round(source?.Average(e => e.AvgInstantWeight) ?? 0, 2),//历史平均瞬时称重
+                    RunningTime = MathF.Round(source?.Sum(e => e.RunningTime) ?? 0, 2),
+                    //负荷 = 累计重量/额定产量 (单位: 吨/小时);
+                    LoadStall = MathF.Round(source?.Average(e => e.LoadStall) ?? 0, 3)
+                });
+            });
+          
+            return datas;
+        }
+
+        /// <summary>
+        /// 获取当前班次实时数据统计
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="shiftStartHour">班次起始小时时间</param>
+        public IEnumerable<ConveyorByHour> GetShiftRealDatas(Motor motor,int shiftStartHour)
+        {
+            var minuteEnd = DateTime.Now;
+            var hourStart = minuteEnd.Date.AddHours(shiftStartHour);
+            var hourEnd = minuteEnd.Date.AddHours(minuteEnd.Hour);
+            var minuteStart = hourEnd;
+
+            long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
+            var hourData =
+                GetEntities(
+                    e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time <= endUnix)?.ToList();
+
+            var minuteData = GetByMotor(motor, false, minuteStart);
+
+            if (minuteData != null)
+                hourData?.Add(minuteData);
+            if (hourData == null || !hourData.Any()) return null;
+            return hourData;
         }
         #endregion
     }

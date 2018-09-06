@@ -307,112 +307,7 @@ namespace Yunt.Device.Repository.EF.Services
                 default:
                     return list;
             }
-        }
-        /// <summary>
-        /// 根据电机设备ID和时间节点获取电机设备详情
-        /// </summary>
-        /// <param name="startTime"></param>
-        /// <param name="endTime"></param>
-        /// <param name="motorId"></param>
-        /// <returns></returns>
-        //public virtual IEnumerable<dynamic> MotorDetails(DateTime startTime, DateTime endTime, string motorId)
-        //{
-        //    long start = startTime.TimeSpan(), end = endTime.TimeSpan();
-        //    var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motorId)).FirstOrDefault();
-        //    if (motor == null) return new List<dynamic>();
-        //    dynamic list=new List<dynamic>();
-        //    switch (motor.MotorTypeId)
-        //    {
-        //        case "CY":
-        //              list = _cyByDayRep.GetEntities(e=>e.MotorId.Equals(motor.MotorId)&&e.Time>=start&&
-        //              e.Time<=end).ToList();//?.ToList()??new List<ConveyorByDay>();
-        //              var cy = _cyByHourRep.GetRealData(motor);
-        //              if(cy!=null)
-        //                list.Add(cy);
-        //              return list;
-        //        case "MF":
-        //            list = _mfByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-        //             e.Time<=end).ToList();//?.ToList() ?? new List<MaterialFeederByDay>();                   
-        //            var mf = _mfByHourRep.GetRealData(motor);
-        //            if (mf != null)
-        //                list.Add(mf);
-        //            return list;
-
-        //        case "JC":
-        //            list = _jcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-        //             e.Time<=end).ToList();//?.ToList() ?? new List<JawCrusherByDay>();
-        //            var jc = _jcByHourRep.GetRealData(motor);
-        //            if (jc != null)
-        //                list.Add(jc);
-        //            return list;
-
-        //        case "CC":
-        //            list = _ccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-        //             e.Time<=end).ToList();//?.ToList() ?? new List<ConeCrusherByDay>();
-        //            //list.Add(_ccByHourRep.GetRealData(motor.MotorId));
-        //            var cc = _ccByHourRep.GetRealData(motor);
-        //            if (cc != null)
-        //                list.Add(cc);
-        //            return list;
-
-        //        case "VC":
-        //            list = _vcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-        //              e.Time<=end).ToList();//?.ToList() ?? new List<VerticalCrusherByDay>();
-        //                           //list.Add(_vcByHourRep.GetRealData(motor.MotorId));
-        //            var vc = _vcByHourRep.GetRealData(motor);
-        //            if (vc != null)
-        //                list.Add(vc);
-        //            return list;
-
-        //        case "VB":
-        //            list = _vbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-        //             e.Time<=end).ToList();//?.ToList() ?? new List<VibrosieveByDay>();
-        //                          //list.Add(_vbByHourRep.GetRealData(motor.MotorId));
-        //            var vb = _vbByHourRep.GetRealData(motor);
-        //            if (vb != null)
-        //                list.Add(vb);
-        //            return list;
-
-        //        case "SCC":
-        //            list = _sccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-        //             e.Time<=end).ToList();
-        //            //list.Add(_sccByHourRep.GetRealData(motor.MotorId));
-        //            var scc = _sccByHourRep.GetRealData(motor);
-        //            if (scc != null)
-        //                list.Add(scc);
-        //            return list;
-
-        //        case "PUL":
-        //            list = _pulByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-        //             e.Time<=end).ToList();//?.ToList() ?? new List<PulverizerByDay>();
-        //            //list.Add(_pulByHourRep.GetRealData(motor.MotorId));
-        //            var pul = _pulByHourRep.GetRealData(motor);
-        //            if (pul != null)
-        //                list.Add(pul);
-        //            return list;
-
-        //        case "IC":
-        //            list = _icByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-        //             e.Time<=end).ToList();//?.ToList() ?? new List<ImpactCrusherByDay>();
-        //                          //list.Add(_icByHourRep.GetRealData(motor.MotorId));
-        //            var ic = _icByHourRep.GetRealData(motor);
-        //            if (ic != null)
-        //                list.Add(ic);
-        //            return list;
-
-        //        case "HVB":
-        //            list = _hvbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time>=start &&
-        //             e.Time<=end).ToList();//?.ToList() ?? new List<HVibByDay>();
-        //                          //list.Add(_hvbByHourRep.GetRealData(motor.MotorId));
-        //            var hvb = _hvbByHourRep.GetRealData(motor);
-        //            if (hvb != null)
-        //                list.Add(hvb);
-        //            return list;
-
-        //        default:
-        //            return list;
-        //    }
-        //}
+        } 
 
         /// <summary>
         /// 根据电机设备ID和时间节点获取电机设备详情(不包括今天)
@@ -2665,6 +2560,223 @@ namespace Yunt.Device.Repository.EF.Services
         {
             return GetEntities();
         }
+        #endregion
+
+        #region shift
+        /// <summary>
+        /// 根据电机设备ID获取当日电机设备详情(其中皮带机为班次)
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="shiftStart">班次起始小时时间</param>
+        /// <returns></returns>
+        public virtual dynamic MotorShiftDetails(Motor motor,int shiftStart)
+        {
+            // var motor = _motorRep.GetEntities(e => e.MotorId.Equals(motor.motorId)).SingleOrDefault();
+            if (motor == null) return new List<dynamic>();
+            dynamic list = new List<dynamic>();
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    return _cyByHourRep.GetShiftRealData(motor,shiftStart);
+                case "MF":
+                    return _mfByHourRep.GetRealData(motor);
+                case "JC":
+                    return _jcByHourRep.GetRealData(motor);
+
+                case "CC":
+                    return _ccByHourRep.GetRealData(motor);
+
+                case "VC":
+                    return _vcByHourRep.GetRealData(motor);
+
+                case "VB":
+                    return _vbByHourRep.GetRealData(motor);
+
+                case "SCC":
+                    return _sccByHourRep.GetRealData(motor);
+
+                case "PUL":
+                    return _pulByHourRep.GetRealData(motor);
+
+                case "IC":
+                    return _icByHourRep.GetRealData(motor);
+
+                case "HVB":
+                    return _hvbByHourRep.GetRealData(motor);
+
+                default:
+                    return list;
+            }
+        }
+
+        /// <summary>
+        /// 根据电机设备ID获取当日电机设备详情(其中皮带机为班次)
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="shiftStart">班次起始小时时间</param>
+        /// <returns></returns>
+        public virtual IEnumerable<dynamic> MotorShiftHours(Motor motor,int shiftStart)
+        {
+            if (motor == null) return new List<dynamic>();
+            dynamic list = new List<dynamic>();
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    return _cyByHourRep.GetShiftRealDatas(motor,shiftStart);
+                case "MF":
+                    return _mfByHourRep.GetRealDatas(motor);
+                case "JC":
+                    return _jcByHourRep.GetRealDatas(motor);
+
+                case "CC":
+                    return _ccByHourRep.GetRealDatas(motor);
+
+                case "VC":
+                    return _vcByHourRep.GetRealDatas(motor);
+
+                case "VB":
+                    return _vbByHourRep.GetRealDatas(motor);
+
+                case "SCC":
+                    return _sccByHourRep.GetRealDatas(motor);
+
+                case "PUL":
+                    return _pulByHourRep.GetRealDatas(motor);
+
+                case "IC":
+                    return _icByHourRep.GetRealDatas(motor);
+
+                case "HVB":
+                    return _hvbByHourRep.GetRealDatas(motor);
+
+                default:
+                    return list;
+            }
+        }
+
+        /// <summary>
+        /// 根据电机设备ID获取历史某一天电机设备详情(其中皮带机为班次)
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <returns></returns>
+        public virtual IEnumerable<dynamic> MotorShiftHours(Motor motor, long date, int shiftStart)
+        {
+            long startUnix = date, endUnix = date.Time().AddDays(1).TimeSpan();
+            if (motor == null) return new List<dynamic>();
+            dynamic list = new List<dynamic>();
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    var end = date.Time().Date.AddDays(1).AddHours(shiftStart).TimeSpan();
+                    return _cyByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end).ToList();
+                case "MF":
+                    return _mfByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < endUnix).ToList();
+                case "JC":
+                    return _jcByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < endUnix).ToList();
+
+                case "CC":
+                    return _ccByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < endUnix).ToList();
+
+                case "VC":
+                    return _vcByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < endUnix).ToList();
+
+                case "VB":
+                    return _vbByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < endUnix).ToList();
+
+                case "SCC":
+                    return _sccByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < endUnix).ToList();
+
+                case "PUL":
+                    return _pulByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < endUnix).ToList();
+
+                case "IC":
+                    return _icByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < endUnix).ToList();
+
+                case "HVB":
+                    return _hvbByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < endUnix).ToList();
+
+                default:
+                    return list;
+            }
+        }
+
+        /// <summary>
+        /// 根据电机设备ID和时间节点获取电机设备详情(不包括今天)(其中皮带机为班次)
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="shiftStart">班次起始小时时间</param>
+        /// <param name="shiftEnd">班次结束小时时间（不包含）</param>
+        /// <returns></returns>
+        public virtual IEnumerable<dynamic> MotorShifts(Motor motor, long start, long end, int shiftStart, int shiftEnd)
+        {
+            if (motor == null) return new List<dynamic>();
+            dynamic list = new List<dynamic>();
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    list = _cyByHourRep.GetHistoryShiftSomeData(motor, start, end, shiftStart, shiftEnd)?.ToList(); //_cyByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&e.Time <= end).ToList();
+                    return list;
+                case "MF":
+                    list = _mfByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();                   
+
+                    return list;
+
+                case "JC":
+                    list = _jcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();
+
+                    return list;
+
+                case "CC":
+                    list = _ccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();
+
+                    return list;
+
+                case "VC":
+                    list = _vcByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                      e.Time <= end).ToList();
+
+                    return list;
+
+                case "VB":
+                    list = _vbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();
+
+                    return list;
+
+                case "SCC":
+                    list = _sccByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();
+
+                    return list;
+
+                case "PUL":
+                    list = _pulByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();
+
+                    return list;
+
+                case "IC":
+                    list = _icByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();
+
+                    return list;
+
+                case "HVB":
+                    list = _hvbByDayRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= start &&
+                     e.Time <= end).ToList();
+
+                    return list;
+
+                default:
+                    return list;
+            }
+        }
+
         #endregion
     }
 }
