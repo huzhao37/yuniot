@@ -61,10 +61,10 @@ namespace Yunt.WebApi.Controllers
                 var end = value.endDatetime.ToDateTime();
                 long startT = start.TimeSpan(), endT = end.TimeSpan();
                 //同一班次
-                if (end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour <= Startup.ShiftEndHour)
+                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour <= Startup.ShiftEndHour)||(start==end&&start.Hour==DateTime.Now.Hour))
                 {
                     //今班次
-                    if (start.Date.CompareTo(DateTime.Now.Date) == 0)
+                    if ((start == end && start.Hour == DateTime.Now.Hour))
                     {
                         var data = _conveyorByHourRepository.GetShiftRealData(motor, Startup.ShiftStartHour);
                         return new ConveyorOutlineModel
@@ -174,10 +174,10 @@ namespace Yunt.WebApi.Controllers
                 var end = value.endDatetime.ToDateTime();
                 long startT = start.TimeSpan(), endT = end.TimeSpan();
                 //同一班次
-                if (end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour <= Startup.ShiftEndHour)
+                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour <= Startup.ShiftEndHour)|| (start == end && start.Hour == DateTime.Now.Hour))
                 {
                     //今班次
-                    if (start.Date.CompareTo(DateTime.Now.Date) == 0)
+                    if ((start == end && start.Hour == DateTime.Now.Hour))
                     {
                         motors.ForEach(motor =>
                         {
@@ -335,10 +335,10 @@ namespace Yunt.WebApi.Controllers
                 var end = value.endDatetime.ToDateTime();
                 long endTime = end.Date.TimeSpan(), startTime = start.Date.TimeSpan();
                 //同一班次
-                if (end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour <= Startup.ShiftEndHour)
+                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour <= Startup.ShiftEndHour)|| (start == end && start.Hour == DateTime.Now.Hour))
                 {
                     //今班次
-                    if (start.Date.CompareTo(DateTime.Now.Date) == 0)
+                    if (start == end && start.Hour == DateTime.Now.Hour)
                     {
                         return resData;
                     }
@@ -469,10 +469,10 @@ namespace Yunt.WebApi.Controllers
             if (motor == null) return resData;
             List<dynamic> datas;
             //同一班次
-            if (end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour <= Startup.ShiftEndHour)
+            if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour <= Startup.ShiftEndHour)|| (start == end && start.Hour == DateTime.Now.Hour))
             {
                 //今班次
-                if (start.Date.CompareTo(DateTime.Now.Date) == 0)
+                if ((start == end && start.Hour == DateTime.Now.Hour))
                 {
                     datas = _productionLineRepository.MotorShiftHours(motor,Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
                     return _productionLineRepository.GetMobileMotorDetails(datas, motor, true);
