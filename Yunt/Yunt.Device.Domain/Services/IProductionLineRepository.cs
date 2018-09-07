@@ -198,8 +198,10 @@ namespace Yunt.Device.Domain.Services
         /// 根据电机设备ID获取历史某一天电机设备详情(其中皮带机为班次)
         /// </summary>
         /// <param name="motor"></param>
+        /// <param name="date">日期或起始班次小时时间</param>
+        /// <param name="end">结束班次小时时间</param>
         /// <returns></returns>
-         IEnumerable<dynamic> MotorShiftHours(Motor motor, long date, int shiftStart);
+        IEnumerable<dynamic> MotorShiftHours(Motor motor, long date, long end, int shiftStart);
         /// <summary>
         /// 根据电机设备ID和时间节点获取电机设备详情(不包括今天)(其中皮带机为班次)
         /// </summary>

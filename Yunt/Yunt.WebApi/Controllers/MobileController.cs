@@ -61,7 +61,8 @@ namespace Yunt.WebApi.Controllers
                 var end = value.endDatetime.ToDateTime();
                 long startT = start.TimeSpan(), endT = end.TimeSpan();
                 //同一班次
-                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour <= Startup.ShiftEndHour)||(start==end&&start.Hour==DateTime.Now.Hour))
+                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour)||(start==end&&start.Hour==DateTime.Now.Hour)
+                     || ((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour || start.Hour < Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date == end.Date))
                 {
                     //今班次
                     if ((start == end && start.Hour == DateTime.Now.Hour))
@@ -174,7 +175,8 @@ namespace Yunt.WebApi.Controllers
                 var end = value.endDatetime.ToDateTime();
                 long startT = start.TimeSpan(), endT = end.TimeSpan();
                 //同一班次
-                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour <= Startup.ShiftEndHour)|| (start == end && start.Hour == DateTime.Now.Hour))
+                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour)|| (start == end && start.Hour == DateTime.Now.Hour)
+                     || ((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour || start.Hour < Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date == end.Date))
                 {
                     //今班次
                     if ((start == end && start.Hour == DateTime.Now.Hour))
@@ -333,9 +335,10 @@ namespace Yunt.WebApi.Controllers
                 if (motor == null) return resData;
                 var start = value.startDatetime.ToDateTime();
                 var end = value.endDatetime.ToDateTime();
-                long endTime = end.Date.TimeSpan(), startTime = start.Date.TimeSpan();
+                long endTime = end.TimeSpan(), startTime = start.TimeSpan();
                 //同一班次
-                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour <= Startup.ShiftEndHour)|| (start == end && start.Hour == DateTime.Now.Hour))
+                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour)|| (start == end && start.Hour == DateTime.Now.Hour)
+                     || ((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour || start.Hour < Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date == end.Date))
                 {
                     //今班次
                     if (start == end && start.Hour == DateTime.Now.Hour)
@@ -469,7 +472,8 @@ namespace Yunt.WebApi.Controllers
             if (motor == null) return resData;
             List<dynamic> datas;
             //同一班次
-            if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour <= Startup.ShiftEndHour)|| (start == end && start.Hour == DateTime.Now.Hour))
+            if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour)|| (start == end && start.Hour == DateTime.Now.Hour)
+                ||((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour|| start.Hour <Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date==end.Date))
             {
                 //今班次
                 if ((start == end && start.Hour == DateTime.Now.Hour))
@@ -480,7 +484,7 @@ namespace Yunt.WebApi.Controllers
                 //历史某一班次
                 else
                 {
-                    datas = _productionLineRepository.MotorShiftHours(motor, startT, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
+                    datas = _productionLineRepository.MotorShiftHours(motor, startT,endT, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
                     return _productionLineRepository.GetMobileMotorDetails(datas, motor, false);
                 }
             }

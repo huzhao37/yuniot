@@ -92,7 +92,7 @@ namespace Yunt.Device.Domain.IRepository
         /// </summary>
         /// <param name="motor"></param>
         ///  <param name="start">班次起始小时时间</param>
-        ///   <param name="end">班次结束小时时间（不包含）</param>
+        ///   <param name="end">班次结束小时时间</param>
         ConveyorByDay GetHistoryShiftOneData(Motor motor, long start, long end);
         /// <summary>
         /// 获取历史某些班次的数据

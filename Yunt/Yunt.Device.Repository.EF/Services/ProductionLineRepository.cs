@@ -2658,8 +2658,10 @@ namespace Yunt.Device.Repository.EF.Services
         /// 根据电机设备ID获取历史某一天电机设备详情(其中皮带机为班次)
         /// </summary>
         /// <param name="motor"></param>
+        /// <param name="date">日期或起始班次小时时间</param>
+        /// <param name="end">结束班次小时时间</param>
         /// <returns></returns>
-        public virtual IEnumerable<dynamic> MotorShiftHours(Motor motor, long date, int shiftStart)
+        public virtual IEnumerable<dynamic> MotorShiftHours(Motor motor, long date,long end, int shiftStart)
         {
             long startUnix = date, endUnix = date.Time().AddDays(1).TimeSpan();
             if (motor == null) return new List<dynamic>();
@@ -2667,8 +2669,9 @@ namespace Yunt.Device.Repository.EF.Services
             switch (motor.MotorTypeId)
             {
                 case "CY":
-                    var end = date.Time().Date.AddDays(1).AddHours(shiftStart).TimeSpan();
-                    return _cyByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end).ToList();
+                    var specHour = end.Time().AddHours(1).TimeSpan();
+                    return startUnix==end? _cyByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < specHour)?.ToList():
+                            _cyByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end)?.ToList();
                 case "MF":
                     return _mfByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < endUnix).ToList();
                 case "JC":
