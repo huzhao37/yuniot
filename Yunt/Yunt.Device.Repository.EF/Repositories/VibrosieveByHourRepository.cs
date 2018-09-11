@@ -45,26 +45,26 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
-            var dt3 = start.AddHours(-1);
-            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan(), dt3Unix = dt3.TimeSpan();
+            //var dt3 = start.AddHours(-1);
+            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();//, dt3Unix = dt3.TimeSpan();
             //开机时间数据集合
             var runTimes = GetDiStatusTimes(motor.MotorId, start, end);
 
 #if DEBUG
 
             var originalDatas = runTimes?.Any() ?? false ? _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix &&
-                                    e.Time < endUnix && runTimes.Contains(e.Time), e => e.Time)?.ToList() : null;
+                                    e.Time <= endUnix && runTimes.Contains(e.Time), e => e.Time)?.ToList() : null;
 
             var originalDatas2 = _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.ActivePower > 0f && e.Time >= startUnix &&
-                               e.Time < endUnix, e => e.Time)?.ToList();
+                               e.Time <= endUnix, e => e.Time)?.ToList();
 
 
 #else
-                 var originalDatas = runTimes?.Any() ?? false ? _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
-                                   e.Time < endUnix && runTimes.Contains(e.Time), e => e.Time)?.ToList():null;
+            var originalDatas = runTimes?.Any() ?? false ? _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
+                                   e.Time <= endUnix && runTimes.Contains(e.Time), e => e.Time)?.ToList():null;
 
             var originalDatas2 = _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.ActivePower > 0f && e.Time >= startUnix &&
-                                 e.Time < endUnix, e => e.Time)?.ToList();
+                                 e.Time <= endUnix, e => e.Time)?.ToList();
          
 #endif
             if (!(originalDatas?.Any() ?? false)&& !(originalDatas2?.Any() ?? false)) return new VibrosieveByHour
@@ -80,26 +80,26 @@ namespace Yunt.Device.Repository.EF.Repositories
             } : originalDatas2[0];
             //上一个小时的最后一条记录;
 #if DEBUG
-            var lastRecord = _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.ActivePower > 0f && e.Time >= dt3Unix &&
-             e.Time < startUnix, e => e.Time)?.LastOrDefault();
+            //var lastRecord = _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.ActivePower > 0f && e.Time >= dt3Unix &&
+            // e.Time < startUnix, e => e.Time)?.LastOrDefault();
 #else           
-            var lastRecord = _ccRep.GetEntities(motor.MotorId, dt3, isExceed, e => e.ActivePower > 0f&&e.Time >= dt3Unix &&
-            e.Time < startUnix, e => e.Time)?.LastOrDefault();
+            //var lastRecord = _ccRep.GetEntities(motor.MotorId, dt3, isExceed, e => e.ActivePower > 0f&&e.Time >= dt3Unix &&
+            //e.Time < startUnix, e => e.Time)?.LastOrDefault();
 #endif
             var length = originalDatas2?.Count() ?? 0;
             double lastPower = 0;
             double powerSum = 0;
             //获取上一个有效电能的值      
-            if (lastRecord != null && lastRecord.ActivePower >0 &&
-               first.ActivePower - lastRecord.ActivePower >= 0)
-            {
-                lastPower = lastRecord.ActivePower;
-            }
+            //if (lastRecord != null && lastRecord.ActivePower >0 &&
+            //   first.ActivePower - lastRecord.ActivePower >= 0)
+            //{
+            //    lastPower = lastRecord.ActivePower;
+            //}
             for (var i = 0; i < length; i++)
             {
                 var item = originalDatas2[i];
                 //电能
-                if (Math.Abs(item.ActivePower - lastPower) > 100 || item.ActivePower < lastPower)
+                if (Math.Abs(item.ActivePower - lastPower) > 100 || item.ActivePower < lastPower || i == 0)
                 {
                     lastPower = item.ActivePower;
                     continue;

@@ -22,7 +22,7 @@ namespace Yunt.Common.Shift
                      || start.Hour < shiftStartHour && end.Hour < shiftEndHour) && start.Date == end.Date))
                 return res;           
             var hours =(int)end.Subtract(start).TotalHours/1+1;          
-            var endTime = start.Hour > shiftStartHour ? start.Date.AddDays(1).AddHours(shiftStartHour):start.Date.AddHours(shiftStartHour);
+            var endTime = start.Hour >= shiftStartHour ? start.Date.AddDays(1).AddHours(shiftStartHour):start.Date.AddHours(shiftStartHour);
             var startTime =end.Hour>= shiftEndHour?end.Date.AddHours(shiftEndHour):end.Date.AddDays(-1).AddHours(shiftEndHour);
             res.Add(new Tuple<long, long>(start.TimeSpan(), endTime.TimeSpan()));     
             var remainsHours = hours - (int)endTime.Subtract(start).TotalHours/1 - (int)end.Subtract(startTime).TotalHours/1;
