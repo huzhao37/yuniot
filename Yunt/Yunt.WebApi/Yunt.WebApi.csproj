@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Compile Remove="Controllers\Inventories\WareHouseController.cs" />
+    <Compile Remove="Controllers\ProductionLineController2.cs" />
     <Compile Remove="Models\Inventories\InHouse.cs" />
     <Compile Remove="Models\Inventories\OutHouse.cs" />
     <Compile Remove="Models\Inventories\WareHouses.cs" />
@@ -23,12 +24,6 @@
 
   <ItemGroup>
     <None Remove="server.pfx" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="server.pfx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
   </ItemGroup>
 
   <ItemGroup>
