@@ -54,36 +54,36 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
-            var dt3 = start.AddHours(-1);
+           // var dt3 = start.AddHours(-1);
 
-            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan(), dt3Unix=dt3.TimeSpan();
+            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();//, dt3Unix=dt3.TimeSpan();
             //上一个小时的最后一条记录;
             //var x = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= dt3Unix &&
             //  e.Time < startUnix, e => e.Time);
 #if DEBUG
-            var lastRecord = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= dt3Unix &&
-             e.Time < startUnix, e => e.Time)?.LastOrDefault();
+            //var lastRecord = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= dt3Unix &&
+            // e.Time < startUnix, e => e.Time)?.LastOrDefault();
 
-            var lastRecord2 = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId)&&e.ActivePower>0f && e.Time >= dt3Unix &&
-            e.Time < startUnix, e => e.Time)?.LastOrDefault();
+            //var lastRecord2 = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId)&&e.ActivePower>0f && e.Time >= dt3Unix &&
+            //e.Time < startUnix, e => e.Time)?.LastOrDefault();
 #else
-            var lastRecord = _cyRep.GetEntities(motor.MotorId, dt3, isExceed, e => e.Time >= dt3Unix &&
-            e.Time < startUnix, e => e.Time)?.LastOrDefault();
+            //var lastRecord = _cyRep.GetEntities(motor.MotorId, dt3, isExceed, e => e.Time >= dt3Unix &&
+            //e.Time < startUnix, e => e.Time)?.LastOrDefault();
 
-             var lastRecord2 = _cyRep.GetEntities(motor.MotorId, dt3, isExceed, e => e.ActivePower>0f &&e.Time >= dt3Unix &&
-            e.Time < startUnix, e => e.Time)?.LastOrDefault();
+            // var lastRecord2 = _cyRep.GetEntities(motor.MotorId, dt3, isExceed, e => e.ActivePower>0f &&e.Time >= dt3Unix &&
+            //e.Time < startUnix, e => e.Time)?.LastOrDefault();
 #endif
 
 #if DEBUG
             var originalDatas = motor.IsBeltWeight?_cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) &&
                                                                        e.AccumulativeWeight > 0f && e.Time >= startUnix &&
-                                e.Time < endUnix, e => e.Time)?.ToList():
+                                e.Time <=endUnix, e => e.Time)?.ToList():
                                 _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId)  && e.Time >= startUnix &&
-                                e.Time < endUnix, e => e.Time)?.ToList();
+                                e.Time <=endUnix, e => e.Time)?.ToList();
 
             var originalDatas2 = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) &&
                                                                       e.ActivePower > 0f && e.Time >= startUnix &&
-                               e.Time < endUnix, e => e.Time)?.ToList();
+                               e.Time <=endUnix, e => e.Time)?.ToList();
 #else
             var originalDatas = motor.IsBeltWeight?_cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
                                                                        e.Time < endUnix &&
@@ -119,36 +119,36 @@ namespace Yunt.Device.Repository.EF.Repositories
                 MotorId = motor.MotorId,
             } : originalDatas2[0];
             //获取上一个有效累计称重的值      
-            if (lastRecord != null && lastRecord.AccumulativeWeight != -1 &&
-                first.AccumulativeWeight - lastRecord.AccumulativeWeight <=10*600 &&
-                first.AccumulativeWeight - lastRecord.AccumulativeWeight >= 0)
-            {
-                lastWeight = lastRecord.AccumulativeWeight;
-            }
+            //if (lastRecord != null && lastRecord.AccumulativeWeight != -1 &&
+            //    first.AccumulativeWeight - lastRecord.AccumulativeWeight <=10*600 &&
+            //    first.AccumulativeWeight - lastRecord.AccumulativeWeight >= 0)
+            //{
+            //    lastWeight = lastRecord.AccumulativeWeight;
+            //}
 
             #region 计算产量
             double lastPower = 0;
             double powerSum = 0;
             //获取上一个有效电能的值      
-            if (lastRecord2 != null && lastRecord2.ActivePower >0 &&
-               first2.ActivePower - lastRecord2.ActivePower >= 0)
-            {
-                lastPower = lastRecord2.ActivePower;
-            }
+            //if (lastRecord2 != null && lastRecord2.ActivePower >0 &&
+            //   first2.ActivePower - lastRecord2.ActivePower >= 0)
+            //{
+            //    lastPower = lastRecord2.ActivePower;
+            //}
 
             #endregion
             if (motor.IsBeltWeight)
                 for (var i = 0; i < length; i++)
                 {
-                    var cy = originalDatas[i];//cy.AccumulativeWeight == -1 &&
-                    if (cy.AccumulativeWeight < lastWeight || Math.Abs(cy.AccumulativeWeight - lastWeight) > 100) //比上次小，认作清零,或者比上次多出100t以上
+                    var cy = originalDatas[i];//cy.AccumulativeWeight == -1 &&               
+                    if (cy.AccumulativeWeight < lastWeight || Math.Abs(cy.AccumulativeWeight - lastWeight) > 100|| i == 0) //比上次小，认作清零,或者比上次多出100t以上
                     {
                         lastWeight = cy.AccumulativeWeight;
                         continue;
                     }
                     //瞬时重量为负数时，统计按照零计算;
-                    if (cy.InstantWeight < 0)
-                        cy.InstantWeight = 0;
+                    //if (cy.InstantWeight < 0)
+                    //    cy.InstantWeight = 0;
                     float sub = cy.AccumulativeWeight - lastWeight;
                     lastWeight = cy.AccumulativeWeight;
                     weightSum += sub;
@@ -158,7 +158,7 @@ namespace Yunt.Device.Repository.EF.Repositories
             {
                 var cy = originalDatas2[i]; //cy.ActivePower == -1      
                 //电能
-                if (Math.Abs(cy.ActivePower - lastPower) > 100 || cy.ActivePower < lastPower)
+                if (Math.Abs(cy.ActivePower - lastPower) > 100 || cy.ActivePower < lastPower|| i == 0)//第一条开始做统计
                 {
                     lastPower = cy.ActivePower;
                     continue;
@@ -438,12 +438,22 @@ namespace Yunt.Device.Repository.EF.Repositories
             long startUnix = hourStart.TimeSpan(), endUnix = hourEnd.TimeSpan();
             var hourData =
                 GetEntities(
-                    e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time <= endUnix)?.ToList();
-
+                    e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time <= endUnix)?.ToList();            
             var minuteData = GetByMotor(motor, false, minuteStart);
-
             if (minuteData != null)
                 hourData?.Add(minuteData);
+            //最近一个小时是否已经统计
+            if (minuteEnd.Minute <= 3)
+            {
+                var hourUnix = hourEnd.AddHours(-1).TimeSpan();
+                var exist = hourData.Any(e => e.Time == hourUnix);
+                if(!exist)
+                {
+                    var lastedHour = GetByMotor(motor, false, hourEnd.AddHours(-1));
+                    if (lastedHour != null)
+                        hourData?.Add(lastedHour);
+                }
+            }
             if (hourData == null || !hourData.Any()) return null;
             var weightSum = MathF.Round(hourData?.Sum(e => e.AccumulativeWeight) ?? 0, 2);        
             var data = new ConveyorByDay
@@ -581,11 +591,21 @@ namespace Yunt.Device.Repository.EF.Repositories
             var hourData =
                 GetEntities(
                     e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time <= endUnix)?.ToList();
-
             var minuteData = GetByMotor(motor, false, minuteStart);
-
             if (minuteData != null)
                 hourData?.Add(minuteData);
+            //最近一个小时是否已经统计
+            if (minuteEnd.Minute <= 3)
+            {
+                var hourUnix = hourEnd.AddHours(-1).TimeSpan();
+                var exist = hourData.Any(e => e.Time == hourUnix);
+                if (!exist)
+                {
+                    var lastedHour = GetByMotor(motor, false, hourEnd.AddHours(-1));
+                    if (lastedHour != null)
+                        hourData?.Add(lastedHour);
+                }
+            }
             if (hourData == null || !hourData.Any()) return null;
             return hourData;
         }

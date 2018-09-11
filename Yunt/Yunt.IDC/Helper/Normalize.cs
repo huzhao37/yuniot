@@ -61,25 +61,27 @@ namespace Yunt.IDC.Helper
                     }
                     break;
                 case "称重":
-                    var unitForm= DataformmodelRepository.GetEntities(e=>e.MotorId.Equals(form.MotorId)&&e.FieldParamEn.Equals("WeightUnit"))?.ToList().FirstOrDefault();
-                    if (unitForm == null)
-                    {
-                        Logger.Error($"{form.MotorId}:not exist WeightUnit");
-                        return 0;
-                    }
-                    unitForm.Value = ConvertToNormal(unitForm,values);
+                    //var unitForm= DataformmodelRepository.GetEntities(e=>e.MotorId.Equals(form.MotorId)&&e.FieldParamEn.Equals("WeightUnit"))?.ToList().FirstOrDefault();
+                    //if (unitForm == null)
+                    //{
+                    //    Logger.Error($"{form.MotorId}:not exist WeightUnit");
+                    //    return 0;
+                    //}
+                    //unitForm.Value = ConvertToNormal(unitForm,values);
                     var originalValue = (oldValue == -1) ? -1 : Math.Round(oldValue * accu, 2);
-                    return ConveyorWeightConvert(Convert.ToInt32(unitForm.Value), form.FieldParam, originalValue);
+                    //return ConveyorWeightConvert(Convert.ToInt32(unitForm.Value), form.FieldParam, originalValue);
+                    return ConveyorWeightConvert(5, form.FieldParam, originalValue);
                 case "瞬时称重":
-                    var unitForm2 = DataformmodelRepository.GetEntities(e => e.MotorId.Equals(form.MotorId) && e.FieldParamEn.Equals("WeightUnit"))?.ToList().FirstOrDefault();
-                    if (unitForm2 == null)
-                    {
-                        Logger.Error($"{form.MotorId}:not exist WeightUnit");
-                        return 0;
-                    }
-                    unitForm2.Value = ConvertToNormal(unitForm2, values);
+                    //var unitForm2 = DataformmodelRepository.GetEntities(e => e.MotorId.Equals(form.MotorId) && e.FieldParamEn.Equals("WeightUnit"))?.ToList().FirstOrDefault();
+                    //if (unitForm2 == null)
+                    //{
+                    //    Logger.Error($"{form.MotorId}:not exist WeightUnit");
+                    //    return 0;
+                    //}
+                    //unitForm2.Value = ConvertToNormal(unitForm2, values);
                     var originalValue2 = (oldValue == -1) ? -1 : Math.Round(oldValue * accu, 2);
-                    return ConveyorWeightConvert(Convert.ToInt32(unitForm2.Value), form.FieldParam, originalValue2);
+                    //  return ConveyorWeightConvert(Convert.ToInt32(unitForm2.Value), form.FieldParam, originalValue2);
+                    return ConveyorWeightConvert(5, form.FieldParam, originalValue2);
             }
             return (oldValue == -1) ? -1
               : Math.Round(oldValue * accu, 2);

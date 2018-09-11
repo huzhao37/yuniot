@@ -44,22 +44,22 @@ namespace Yunt.Device.Repository.EF.Repositories
             var standValue = motor?.StandValue ?? 0;//_motorRep.GetEntities(e => e.MotorId.Equals(motorId)).SingleOrDefault()
 
             var start = dt.Date.AddHours(dt.Hour);
-            var end = start.AddHours(1);         
-            var dt3 = start.AddHours(-1);
-            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan(), dt3Unix = dt3.TimeSpan();
+            var end = start.AddHours(1);
+            // var dt3 = start.AddHours(-1);
+            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();//, dt3Unix = dt3.TimeSpan();
 #if DEBUG
             var originalDatas = _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Current_B > -1f && e.Time >= startUnix &&
-                                e.Time < endUnix, e => e.Time)?.ToList();
+                                e.Time <= endUnix, e => e.Time)?.ToList();
 
             var originalDatas2 = _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) &&
                                                                       e.ActivePower > 0f && e.Time >= startUnix &&
-                               e.Time < endUnix, e => e.Time)?.ToList();
+                               e.Time <= endUnix, e => e.Time)?.ToList();
 #else
             var originalDatas = _ccRep.GetEntities(motor.MotorId, dt,isExceed, e => e.Current_B > -1f && e.Time >= startUnix &&
-                                    e.Time < endUnix, e => e.Time)?.ToList();
+                                    e.Time <= endUnix, e => e.Time)?.ToList();
 
             var originalDatas2 = _ccRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
-                                                                       e.Time < endUnix &&
+                                                                       e.Time <= endUnix &&
                                                                        e.ActivePower > 0f, e => e.Time)?.ToList(); 
 #endif
             if (!(originalDatas?.Any() ?? false) && !(originalDatas2?.Any() ?? false)) return new ConeCrusherByHour
@@ -74,28 +74,28 @@ namespace Yunt.Device.Repository.EF.Repositories
             } :originalDatas2[0];
             //上一个小时的最后一条记录;
 #if DEBUG
-            var lastRecord = _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) &&
-                                                                      e.ActivePower > 0f && e.Time >= dt3Unix &&
-            e.Time < startUnix, e => e.Time)?.LastOrDefault();
+            //var lastRecord = _ccRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) &&
+            //                                                          e.ActivePower > 0f && e.Time >= dt3Unix &&
+            //e.Time < startUnix, e => e.Time)?.LastOrDefault();
 #else
-            var lastRecord = _ccRep.GetEntities(motor.MotorId, dt3, isExceed, e =>
-                                                                      e.ActivePower > 0f&&e.Time >= dt3Unix &&
-            e.Time < startUnix, e => e.Time)?.LastOrDefault();
+            //var lastRecord = _ccRep.GetEntities(motor.MotorId, dt3, isExceed, e =>
+            //                                                          e.ActivePower > 0f&&e.Time >= dt3Unix &&
+            //e.Time < startUnix, e => e.Time)?.LastOrDefault();
 #endif
             var length = originalDatas2?.Count() ?? 0;
             double lastPower = 0;
             double powerSum = 0;
             //获取上一个有效电能的值      
-            if (lastRecord != null && lastRecord.ActivePower >0 &&
-               first.ActivePower - lastRecord.ActivePower >= 0)
-            {
-                lastPower = lastRecord.ActivePower;
-            }
+            //if (lastRecord != null && lastRecord.ActivePower >0 &&
+            //   first.ActivePower - lastRecord.ActivePower >= 0)
+            //{
+            //    lastPower = lastRecord.ActivePower;
+            //}
             for (var i = 0; i < length; i++)
             {
                 var item = originalDatas2[i];          
                 //电能
-                if (Math.Abs(item.ActivePower - lastPower) > 100 || item.ActivePower < lastPower)
+                if (Math.Abs(item.ActivePower - lastPower) > 100 || item.ActivePower < lastPower||i==0)
                 {
                     lastPower = item.ActivePower;
                     continue;

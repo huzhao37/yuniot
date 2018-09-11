@@ -42,7 +42,7 @@ namespace Yunt.HIDC
             #endregion
 
             #region test
-            //DateTime dt = "2018-07-22 11:00:00".ToDateTime();
+            //DateTime dt = "2018-09-11 00:00:00".ToDateTime();
 
             //var x = HourStatisticsTask.Test(dt, "WDD-P001-CY000021");
 
@@ -52,31 +52,31 @@ namespace Yunt.HIDC
             #endregion
 
             #region recovery
-            try
-            {
-                DateTime start = "2018-09-2 7:00:00".ToDateTime(), end = "2018-09-3 10:00:00".ToDateTime();
-                // HourStatisticsTask.UpdatePowers(start,end);
-                //HourStatisticsTask.UpdateRunLoads(start, end);
-                HourStatisticsTask.RecoveryTask(start, end);
-                //HourStatisticsTask.RecoveryTask("2018-06-25 13:00:00".ToDateTime());
-                //HourStatisticsTask.RecoveryTask("2018-07-06 12:00:00".ToDateTime());
-                Common.Logger.Error("所有恢复完毕！");
-            }
-            catch (Exception ex)
-            {
-                Common.Logger.Exception(ex);
-            }
-            Console.ReadKey();
+            //try
+            //{
+            //    DateTime start = "2018-06-20 10:00:00".ToDateTime(), end = "2018-09-07 7:00:00".ToDateTime();
+            //    // HourStatisticsTask.UpdatePowers(start,end);
+            //    //HourStatisticsTask.UpdateRunLoads(start, end);
+            //    HourStatisticsTask.RecoveryTask(start, end);
+            //    //HourStatisticsTask.RecoveryTask("2018-06-25 13:00:00".ToDateTime());
+            //    //HourStatisticsTask.RecoveryTask("2018-07-06 12:00:00".ToDateTime());
+            //    Common.Logger.Error("所有恢复完毕！");
+            //}
+            //catch (Exception ex)
+            //{
+            //    Common.Logger.Exception(ex);
+            //}
+            //Console.ReadKey();
             #endregion
 
-            //while (true)
-            //{
-            //    if (sched?.IsShutdown ?? false)
-            //        break;
-            //    if (sched == null)
-            //        Start();
-            //    Thread.Sleep(60 * 1000);
-            //}
+            while (true)
+            {
+                if (sched?.IsShutdown ?? false)
+                    break;
+                if (sched == null)
+                    Start();
+                Thread.Sleep(60 * 1000);
+            }
         }
         public static async Task Start()
         {
@@ -89,7 +89,7 @@ namespace Yunt.HIDC
             var trigger = TriggerBuilder.Create()
                     .WithIdentity("hourTrigger", "group2")
                     .StartNow()
-                    .WithCronSchedule("0 0 * * * ? *")
+                    .WithCronSchedule("0 3 * * * ? *")
                     .Build();
 
             await sched.ScheduleJob(job, trigger);
