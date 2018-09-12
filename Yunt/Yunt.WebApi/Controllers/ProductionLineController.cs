@@ -215,7 +215,7 @@ namespace Yunt.WebApi.Controllers
                 //历史某一天
                 else
                 {
-                    datas = _productionLineRepository.MotorShiftHours(motor, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
+                    datas = _productionLineRepository.MotorShiftHours(motor, startT, endT, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
                     // var source = datas?.Where(e => e.RunningTime > 0)??null;
                     //if (source == null || !source.Any()) return resp;
                     //resp.AvgLoadStall = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
@@ -349,7 +349,7 @@ namespace Yunt.WebApi.Controllers
                 //历史某一天
                 else
                 {
-                    datas = _productionLineRepository.MotorShiftHours(motor, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
+                    datas = _productionLineRepository.MotorShiftHours(motor,startT,endT, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
                     var series = _productionLineRepository.GetMotorSeries(datas, motor);
                     var details = _productionLineRepository.GetMotorHistoryDetails(datas, motor);
                     return new { details, series };
