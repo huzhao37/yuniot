@@ -256,23 +256,32 @@ namespace Yunt.WebApi.Controllers
             finishCys.ForEach(cy =>
            {
                List<dynamic> list;
-                //var list = _conveyorByDayRepository.GetEntities(e => e.Time >= startT &&
-                //          e.Time <= endT && e.MotorId.Equals(cy.MotorId))?.ToList();
+               //var list = _conveyorByDayRepository.GetEntities(e => e.Time >= startT &&
+               //          e.Time <= endT && e.MotorId.Equals(cy.MotorId))?.ToList();
 
-                if ((startT == endT) && (startT == now))
+               if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) || (start == end && start.Hour == DateTime.Now.Hour)
+                    || ((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour || start.Hour < Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date == end.Date))
                {
-                   list = _productionLineRepository.MotorShiftHours(cy,Startup.ShiftStartHour)?.ToList();
-               }
-                //历史某一天
-                else if (startT == endT)
-               {
-                   list = _productionLineRepository.MotorShiftHours(cy, Startup.ShiftStartHour)?.ToList();
+                   // float instantLoadStall=
+                   //当天
+                   if ((start == end && start.Hour == DateTime.Now.Hour))
+                   {
+                       list = _productionLineRepository.MotorShiftHours(cy, Startup.ShiftStartHour)?.ToList();
+                       //resp.AvgLoadStall = _productionLineRepository.MotorIntantLoadStall(motor);
+                   }
+                   //历史某一天
+                   else
+                   {
+                       list = _productionLineRepository.MotorShiftHours(cy, startT, endT, Startup.ShiftStartHour)?.ToList();
+                       // var source = datas?.Where(e => e.RunningTime > 0)??null;
+                       //if (source == null || !source.Any()) return resp;
+                       //resp.AvgLoadStall = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
+                   }
                }
                else
                {
-                   list = _productionLineRepository.MotorShifts(cy,startT, endT,Startup.ShiftStartHour,Startup.ShiftEndHour )?.ToList();
+                   list = _productionLineRepository.MotorShifts(cy, startT, endT, Startup.ShiftStartHour, Startup.ShiftEndHour)?.ToList();
                }
-
                float outPut = 0;
                if (list != null && list.Any())
                {
