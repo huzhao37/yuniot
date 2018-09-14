@@ -547,7 +547,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                     return;
                 }
                 var weightSum = MathF.Round(hourData?.Sum(e => e.AccumulativeWeight) ?? 0, 2);
-                var source = hourData.Where(e => e.RunningTime > 0);
+                var source = hourData?.Where(e => e.RunningTime > 0);
                 if (source == null || !source.Any())
                 {
                     datas.Add(new ConveyorByDay

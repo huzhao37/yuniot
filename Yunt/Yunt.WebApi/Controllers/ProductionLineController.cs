@@ -246,7 +246,7 @@ namespace Yunt.WebApi.Controllers
                 resp.SeriesData.Add(new SeriesData()
                 {
                     Output = d.AccumulativeWeight,
-                    RunningTime = d.RunningTime,
+                    RunningTime = d.RunningTime,                   
                     UnixTime = d.Time
                 });
             }
@@ -277,22 +277,36 @@ namespace Yunt.WebApi.Controllers
                        //if (source == null || !source.Any()) return resp;
                        //resp.AvgLoadStall = MathF.Round(source.Average(e => (float)e.LoadStall), 3);
                    }
+                   float outPut = 0;
+                   if (list != null && list.Any())
+                   {
+                       outPut = MathF.Round(list.Sum(e => (float)e.AccumulativeWeight), 2);
+                   }
+                   resp.FinishCy.Add(new FinishCy()
+                   {
+                       MotorId = cy.MotorId,
+                       MotorName = cy.Name,
+                       Output = outPut
+                   });
                }
                else
                {
-                   list = _productionLineRepository.MotorShifts(cy, startT, endT, Startup.ShiftStartHour, Startup.ShiftEndHour)?.ToList();
+                   //list = _productionLineRepository.MotorShifts(cy, startT, endT, Startup.ShiftStartHour, Startup.ShiftEndHour)?.ToList();
+                   var data = _conveyorByHourRepository.GetEntities(e => e.Time >= startT &&
+                                        e.Time <= endT && e.MotorId.Equals(cy.MotorId))?.OrderBy(e => e.Time)?.ToList();
+                   float outPut = 0;
+                   if (data != null && data.Any())
+                   {
+                       outPut = MathF.Round(data.Sum(e => (float)e.AccumulativeWeight), 2);
+                   }
+                   resp.FinishCy.Add(new FinishCy()
+                   {
+                       MotorId = cy.MotorId,
+                       MotorName = cy.Name,
+                       Output = outPut
+                   });
                }
-               float outPut = 0;
-               if (list != null && list.Any())
-               {
-                   outPut = MathF.Round(list.Sum(e => (float)e.AccumulativeWeight), 2);
-               }
-               resp.FinishCy.Add(new FinishCy()
-               {
-                   MotorId = cy.MotorId,
-                   MotorName = cy.Name,
-                   Output = outPut
-               });
+        
            });
 
             return resp;

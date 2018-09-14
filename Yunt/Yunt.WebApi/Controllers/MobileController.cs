@@ -92,14 +92,23 @@ namespace Yunt.WebApi.Controllers
                 //历史2班次以上
                 else
                 {
-                    //var datas= _conveyorByHourRepository.GetHistoryShiftSomeData(motor, startT, endT, Startup.ShiftStartHour, Startup.ShiftEndHour);
-                    var datas = _conveyorByHourRepository.GetEntities(e => e.Time >= startT &&
-                                      e.Time <= endT && e.MotorId.Equals(motor.MotorId))?.OrderBy(e => e.Time)?.ToList();
+                    var datas = _conveyorByHourRepository.GetHistoryShiftSomeData(motor, startT, endT, Startup.ShiftStartHour, Startup.ShiftEndHour);
+                    //var datas = _conveyorByHourRepository.GetEntities(e => e.Time >= startT &&
+                    //                  e.Time <= endT && e.MotorId.Equals(motor.MotorId))?.OrderBy(e => e.Time)?.ToList();
+                    var source = datas.Where(e => e.RunningTime > 0);
+                    if(source==null||!source.Any())
+                        return new ConveyorOutlineModel
+                        {
+                            Output = 0f,
+                            InstantOutput = 0f,
+                            Load = 0f,
+                            RunningTime = 0f
+                        };
                     return new ConveyorOutlineModel
                     {
                         Output = MathF.Round(datas?.Sum(e => e.AccumulativeWeight) ?? 0f, 2),
-                        InstantOutput = MathF.Round(datas?.Average(e => e.AvgInstantWeight) ?? 0f, 2),
-                        Load = MathF.Round(datas?.Average(e => e.LoadStall) ?? 0f, 3),
+                        InstantOutput = MathF.Round(source?.Average(e => e.AvgInstantWeight) ?? 0f, 2),
+                        Load = MathF.Round(source?.Average(e => e.LoadStall) ?? 0f, 3),
                         RunningTime = MathF.Round(datas?.Sum(e => e.RunningTime) ?? 0f, 2)
                     };
                 }
@@ -229,10 +238,10 @@ namespace Yunt.WebApi.Controllers
                             var source = datas.Where(e => e.RunningTime > 0);
                             resData.Add(new ConveyorChartModel
                             {
-                                y = MathF.Round(source?.Sum(e => e.AccumulativeWeight) ?? 0f, 2),
+                                y = MathF.Round(datas?.Sum(e => e.AccumulativeWeight) ?? 0f, 2),
                                 InstantWeight = MathF.Round(source?.Average(e => e.AvgInstantWeight) ?? 0f, 2),
                                 MotorLoad = MathF.Round(source?.Average(e => e.LoadStall) ?? 0f, 3),
-                                RunningTime = MathF.Round(source?.Average(e => e.RunningTime) ?? 0f, 2),
+                                RunningTime = MathF.Round(datas?.Average(e => e.RunningTime) ?? 0f, 2),
                                 name = motor.Name
                             });
                         }
