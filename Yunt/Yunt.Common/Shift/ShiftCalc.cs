@@ -10,7 +10,7 @@ namespace Yunt.Common.Shift
         /// 班次必须是24小时一个
         /// </summary>
         /// <param name="start">精确至小时</param>
-        /// <param name="end">精确至小时</param>
+        /// <param name="end">精确至小时(包含)</param>
         /// <param name="shiftStartHour">班次起始小时时间</param>
         /// <param name="shiftEndHour">班次结束小时时间</param>
         /// <returns>起始和结束时间</returns>

@@ -522,11 +522,15 @@ namespace Yunt.Device.Repository.EF.Repositories
             times.ForEach(t=> {
                 var st = t.Item1.Time().Date;var et = t.Item2.Time().Date;
                 var time = t.Item1.Time().Date.TimeSpan();
-                var specHour = t.Item1.Time().AddHours(1).TimeSpan();
+                var specHour = t.Item2.Time().AddHours(1).TimeSpan();
                 if (st.CompareTo(et) == 0&& t.Item1.Time().Hour<shiftStart)//同一自然日的情况
                     time = st.AddDays(-1).TimeSpan();
+                //var endTime2 = t.Item2.Time();              
+                //if (t.Item2 != shiftEnd)
+                //    endTime2 = endTime2.AddHours(1);
+                //var endUnix = endTime2.TimeSpan();
                 var hourData =t.Item1==t.Item2? GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= t.Item1 && e.Time < specHour)?.ToList():
-                            GetEntities( e => e.MotorId.Equals(motor.MotorId) && e.Time >= t.Item1 && e.Time < t.Item2)?.ToList();
+                            GetEntities( e => e.MotorId.Equals(motor.MotorId) && e.Time >= t.Item1 && e.Time < specHour)?.ToList();
                 if (hourData == null || !hourData.Any())
                 {
                     datas.Add(new ConveyorByDay
