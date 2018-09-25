@@ -105,7 +105,7 @@ namespace Yunt.WebApi.Controllers
                             var wareHouseId = y.Key;
                             var list2 = y?.ToList();
                             if (list2 != null && list2.Any())
-                            {
+                            {                                                            
                                 var remains = list2.Sum(e => e.Remains);
                                 var sparePartsTypeName = spares.Where(e => e.Id == sparePartTypeId)?.FirstOrDefault()?.Name;
                                 var wareHousesName = wareHouses.Where(e => e.Id == wareHouseId)?.FirstOrDefault()?.Name;
@@ -116,7 +116,7 @@ namespace Yunt.WebApi.Controllers
                                     Remains = remains,
                                     SparePartsTypeName = sparePartsTypeName,
                                     WareHousesName = wareHousesName,
-
+                                    RemainsBY=list2
                                 });
 
 

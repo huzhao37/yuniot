@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -177,8 +178,7 @@ namespace Yunt.WebApi.Controllers
             try
             {
                 var motors =
-                       _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId) && e.IsBeltWeight
-                       && !e.IsMainBeltWeight)?.ToList();
+                       _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId) && e.IsBeltWeight)?.ToList();
                 if (motors == null || !motors.Any()) return resData;
                 var start = value.startDatetime.ToDateTime();
                 var end = value.endDatetime.ToDateTime();
@@ -232,20 +232,19 @@ namespace Yunt.WebApi.Controllers
                     motors.ForEach(motor =>
                     {
                         var datas = _conveyorByHourRepository.GetEntities(e => e.Time >= startT &&
-                                        e.Time <= endT && e.MotorId.Equals(motor.MotorId))?.OrderBy(e => e.Time)?.ToList();
+                                        e.Time <= endT && e.MotorId.Equals(motor.MotorId))?.OrderBy(e => e.Time)?.ToList();                    
                         if (datas != null && datas.Any())
                         {
-                            var source = datas.Where(e => e.RunningTime > 0);
+                            //var source = datas.Where(e => e.RunningTime > 0);
                             resData.Add(new ConveyorChartModel
                             {
                                 y = MathF.Round(datas?.Sum(e => e.AccumulativeWeight) ?? 0f, 2),
-                                InstantWeight = MathF.Round(source?.Average(e => e.AvgInstantWeight) ?? 0f, 2),
-                                MotorLoad = MathF.Round(source?.Average(e => e.LoadStall) ?? 0f, 3),
+                                InstantWeight = MathF.Round(datas?.Average(e => e.AvgInstantWeight) ?? 0f, 2),
+                                MotorLoad = MathF.Round(datas?.Average(e => e.LoadStall) ?? 0f, 3),
                                 RunningTime = MathF.Round(datas?.Average(e => e.RunningTime) ?? 0f, 2),
                                 name = motor.Name
                             });
-                        }
-
+                        }                       
                     });
                     return resData;
                 }
@@ -331,17 +330,19 @@ namespace Yunt.WebApi.Controllers
         [EnableCors("any")]
         [HttpPost]
         [Route("RecentMainconveyorOuputs")]
-        public ConveyorChartDataModel RecentMainconveyorOuputs([FromBody]RequestModel value)
+        public List<ConveyorChartDataModel> RecentMainconveyorOuputs([FromBody]RequestModel value)
         {
-            var resData = new ConveyorChartDataModel();
-
+            
+            List<ConveyorChartDataModel> htdata = new List<ConveyorChartDataModel>();
             #region bus
 
             try
             {
-                var motor =
-                    _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId) && e.IsMainBeltWeight)?.FirstOrDefault();
-                if (motor == null) return resData;
+                //var motor =
+                //    _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId) && e.IsMainBeltWeight)?.FirstOrDefault();
+                var motors =
+                   _motorRepository.GetEntities(e => e.ProductionLineId.Equals(value.lineId) && e.IsBeltWeight)?.ToList();
+                if (motors == null) return htdata;
                 var start = value.startDatetime.ToDateTime();
                 var end = value.endDatetime.ToDateTime();
                 long endTime = end.TimeSpan(), startTime = start.TimeSpan();
@@ -352,24 +353,29 @@ namespace Yunt.WebApi.Controllers
                     //今班次
                     if (start == end && start.Hour == DateTime.Now.Hour)
                     {
-                        return resData;
+                        return htdata;
                     }
                     //历史某一班次
                     else
                     {
-                        return resData;
+                        return htdata;
                     }
                 }
                 //历史2班次以上
                 else
                 {
-                    var datas = _conveyorByHourRepository.GetHistoryShiftSomeData(motor, startTime, endTime, Startup.ShiftStartHour, Startup.ShiftEndHour)?.ToList();
-                    if (datas == null || !datas.Any()) return resData;
-                    var xList = datas.Select(e => e.Time.Time().ToShortDateString());
-                    resData.xAxis = new xAxisModel() { categories = xList };
-                    var yList = datas.Select(e => e.AccumulativeWeight);
-                    resData.series = new List<seriesModel>() { new seriesModel() { name = motor.Name, data = yList } };
-                    return resData;
+                    motors.ForEach(motor =>
+                    {
+                        var resData = new ConveyorChartDataModel();
+                        var datas = _conveyorByHourRepository.GetHistoryShiftSomeData(motor, startTime, endTime, Startup.ShiftStartHour, Startup.ShiftEndHour)?.ToList();
+                        //if (datas == null || !datas.Any()) return resData;
+                        var xList = datas.Select(e => e.Time.Time().ToShortDateString());
+                        resData.xAxis = new xAxisModel() { categories = xList };
+                        var yList = datas.Select(e => e.AccumulativeWeight);
+                        resData.series = new List<seriesModel>() { new seriesModel() { name = motor.Name, data = yList } };
+                        htdata.Add(resData);
+                    });
+                    return htdata;
                 }
                 #region obselete
                 ////最近15日数据
@@ -398,7 +404,7 @@ namespace Yunt.WebApi.Controllers
             catch (Exception e)
             {
                 Logger.Exception(e);
-                return resData;
+                return htdata;
             }
 
             #endregion

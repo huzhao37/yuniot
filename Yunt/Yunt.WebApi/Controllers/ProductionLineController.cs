@@ -20,6 +20,7 @@ using Yunt.Device.Domain.MapModel;
 using Microsoft.AspNetCore.Cors;
 using Yunt.Device.Domain.Model;
 using System.Diagnostics;
+using System.Collections;
 
 namespace Yunt.WebApi.Controllers
 {
@@ -311,6 +312,82 @@ namespace Yunt.WebApi.Controllers
 
             return resp;
         }
+
+
+        [HttpGet]
+        [EnableCors("any")]
+        [Route("MainSeriesData")]
+        public dynamic MainSeriesData(string productionlineId, DateTime start, DateTime end)
+        {
+            List<object> list = new List<object>();
+            long startT = start.TimeSpan(), endT = end.TimeSpan();
+            var motors = 
+                       _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) && e.IsBeltWeight
+                       && !e.IsMainBeltWeight)?.ToList();
+            if (motors == null) return list;         
+            motors.ForEach(m => {
+                var now = DateTime.Now.Date.TimeSpan();
+                List<dynamic> datas=null;               
+                if (m.MotorId == "WDD-P001-CY000054" || m.MotorId == "WDD-P001-CY000046" || m.MotorId == "WDD-P001-CY000019" || m.MotorId == "WDD-P001-CY000041")
+                {
+                    List<Motor> listcy = new List<Motor>();
+                    listcy.Add(m);
+                    if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) || (start == end && start.Hour == DateTime.Now.Hour)
+                         || ((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour || start.Hour < Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date == end.Date))
+                    {
+
+                        //当天
+                        if ((start == end && start.Hour == DateTime.Now.Hour))
+                        {
+                            datas = _productionLineRepository.MotorShiftHours(m, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
+                            
+                        }
+                        //历史某一天
+                        else
+                        {
+                            datas = _productionLineRepository.MotorShiftHours(m, startT, endT, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
+                        }
+                    }
+
+                    else
+                    {
+                        datas = _productionLineRepository.MotorShifts(m, startT, endT, Startup.ShiftStartHour, Startup.ShiftEndHour)?.OrderBy(e => (long)e.Time)?.ToList();
+                    }
+                    float outPut = 0;
+                    float sumRunningTime = 0;
+                    if (datas != null && datas.Any())
+                    {
+                        outPut = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2);
+                        sumRunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2);
+
+                    }
+                    var source = new List<dynamic>();
+                    datas.ForEach(e =>
+                    {
+                        source.Add(new
+                        {
+                            Output = e.AccumulativeWeight,
+                            RunningTime = e.RunningTime,
+                            UnixTime = e.Time
+                        });
+
+                    });
+                    var source2 = new List<dynamic>();
+                    source2.Add(new
+                    {
+                        sumoutPut = outPut,
+                        sumRunningTime = sumRunningTime
+                    });
+                    Hashtable htdata = new Hashtable();
+                    
+                    list.Add(source);
+                    list.Add(source2);
+                }
+            });
+            return list;
+        }
+
+
 
         // GET: api/ProductionLine
         [HttpGet]
