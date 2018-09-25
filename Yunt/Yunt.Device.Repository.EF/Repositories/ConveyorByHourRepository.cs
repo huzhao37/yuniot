@@ -518,15 +518,27 @@ namespace Yunt.Device.Repository.EF.Repositories
             DateTime startTime = start.Time(), endTime = end.Time();
             var times= ShiftCalc.GetTimesByShift(startTime, endTime, shiftStart, shiftEnd);
             if (times == null || !times.Any())
-                return null;
+                return null;            
             times.ForEach(t=> {
                 var st = t.Item1.Time().Date;var et = t.Item2.Time().Date;
-                var time = t.Item1.Time().Date.TimeSpan();
-                var specHour = t.Item1.Time().AddHours(1).TimeSpan();
+               // var time = t.Item1.Time().Date.TimeSpan();
+                var time = t.Item1.Time().TimeSpan();
+                var specHour = t.Item2.Time().AddHours(1).TimeSpan();
                 if (st.CompareTo(et) == 0&& t.Item1.Time().Hour<shiftStart)//同一自然日的情况
                     time = st.AddDays(-1).TimeSpan();
+
+                if (datas.Count == 0)
+                {
+                    var retime = time.Time();
+                    retime = retime.Date;
+                    time = retime.AddHours(+8).TimeSpan();
+                }
+                //var endTime2 = t.Item2.Time();              
+                //if (t.Item2 != shiftEnd)
+                //    endTime2 = endTime2.AddHours(1);
+                //var endUnix = endTime2.TimeSpan();
                 var hourData =t.Item1==t.Item2? GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= t.Item1 && e.Time < specHour)?.ToList():
-                            GetEntities( e => e.MotorId.Equals(motor.MotorId) && e.Time >= t.Item1 && e.Time < t.Item2)?.ToList();
+                            GetEntities( e => e.MotorId.Equals(motor.MotorId) && e.Time >= t.Item1 && e.Time < specHour)?.ToList();
                 if (hourData == null || !hourData.Any())
                 {
                     datas.Add(new ConveyorByDay
@@ -543,7 +555,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                     return;
                 }
                 var weightSum = MathF.Round(hourData?.Sum(e => e.AccumulativeWeight) ?? 0, 2);
-                var source = hourData.Where(e => e.RunningTime > 0);
+                var source = hourData?.Where(e => e.RunningTime > 0);
                 if (source == null || !source.Any())
                 {
                     datas.Add(new ConveyorByDay
@@ -559,6 +571,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                     });
                     return;
                 }
+                           
                 datas.Add(new ConveyorByDay
                 {
                     MotorId = motor.MotorId,
@@ -567,7 +580,7 @@ namespace Yunt.Device.Repository.EF.Repositories
                     RunningTime = MathF.Round(source?.Sum(e => e.RunningTime) ?? 0, 2),
                     //负荷 = 累计重量/额定产量 (单位: 吨/小时);
                     LoadStall = MathF.Round(source?.Average(e => e.LoadStall) ?? 0, 3),
-                    Time= time
+                    Time = time
 
                 });
             });

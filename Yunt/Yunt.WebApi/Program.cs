@@ -32,7 +32,7 @@ namespace Yunt.WebApi
          //    });
          //}
          )
-         .UseUrls("http://*:5201")
+         .UseUrls("http://*:5200")
          .UseContentRoot(Directory.GetCurrentDirectory())
          .ConfigureLogging((hostingContext, logging) =>
          {

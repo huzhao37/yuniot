@@ -2671,7 +2671,7 @@ namespace Yunt.Device.Repository.EF.Services
                 case "CY":
                     var specHour = end.Time().AddHours(1).TimeSpan();
                     return startUnix==end? _cyByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < specHour)?.ToList():
-                            _cyByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end)?.ToList();
+                            _cyByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time <=end)?.ToList();
                 case "MF":
                     return _mfByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < endUnix).ToList();
                 case "JC":
