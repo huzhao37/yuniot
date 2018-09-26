@@ -339,7 +339,7 @@ namespace Yunt.WebApi.Controllers
                         if ((start == end && start.Hour == DateTime.Now.Hour))
                         {
                             datas = _productionLineRepository.MotorShiftHours(m, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
-                            
+                             
                         }
                         //历史某一天
                         else
