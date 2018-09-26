@@ -47,7 +47,7 @@ namespace Yunt.IDC.Task
         /// </summary>
         public static void Start()
         {
-            #region 预热instancedata-3个月数据
+            #region 预热instancedata-7 days数据
             //DateTime start = "2018-06-19 00:00:00".ToDateTime(), end = "2018-07-04 0:0:00".ToDateTime();
             //var motors = MotorRepository.GetEntities(e => e.ProductionLineId.Equals("WDD-P001"))?.ToList();
             //if (motors?.Any() ?? true)

@@ -36,7 +36,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// 统计该小时的振动筛数据;
         /// </summary>
         /// <param name="motor">设备</param>
-        /// <param name="isExceed">是否超过3个月的数据范围</param>
+        /// <param name="isExceed">是否超过7 days的数据范围</param>
         /// <param name="dt">查询时间,精确到小时</param>
         /// <returns></returns>
         public HVibByHour GetByMotor(Motor motor, bool isExceed, DateTime dt)

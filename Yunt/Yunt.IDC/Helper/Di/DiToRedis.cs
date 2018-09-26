@@ -87,7 +87,7 @@ namespace Yunt.IDC.Helper
             {
                 var form = forms[i];
                 form.Value = DiNormalize.ConvertToNormal(form, values);
-                //数字量存储redis-3个月
+                //数字量存储redis-7 days
                 if (form.MotorId.IsNullOrWhiteSpace() || form.MotorId.Equals("0"))
                     form.MotorId = "WDD-P001";
                 System.Threading.Tasks.Task.Factory.StartNew(() =>

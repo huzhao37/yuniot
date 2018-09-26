@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <None Remove="App.config" />
-    <None Remove="appsettings.json" />
   </ItemGroup>
 
   <ItemGroup>

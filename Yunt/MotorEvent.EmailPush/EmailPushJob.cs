@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using Microsoft.Extensions.Configuration;
 using MotorEvent.EmailPush.Models;
 using NewLife.Log;
 using Quartz;
@@ -33,6 +35,8 @@ namespace MotorEvent.EmailPush
         /// 发布的版本号
         /// </summary>
         public override int Version => 1;
+
+        private static string[] MailList;
         protected override void ExcuteJob(IJobExecutionContext context, CancellationTokenSource cancellationSource)
         {
             Start();
@@ -41,9 +45,8 @@ namespace MotorEvent.EmailPush
         private static void Start()
         {
             XTrace.Log.Info("mail push start ...");
-            
-            #region mail push
 
+            #region mail push       
             var now = DateTime.Now;
             //if (!(now.Hour == 8 && now.Minute == 55))
             //    return;
@@ -76,8 +79,8 @@ namespace MotorEvent.EmailPush
                 mailBody = content,
                 isbodyHtml = true,    //是否是HTML
                 host = "smtp.exmail.qq.com",//如果是QQ邮箱则：smtp:qq.com,依次类推
-                mailToArray = new string[] { "wubo@unitoon.cn", "xuzh@unitoon.cn", "yujf@unitoon.cn","dongb@unitoon.cn",
-                "huangdb@unitoon.cn", "lic@unitoon.cn"
+                mailToArray = new string[] { "wubo@unitoon.cn", "xuzh@unitoon.cn", "yujf@unitoon.cn","yujf@sari.ac.cn","dongb@unitoon.cn",
+                "huangdb@unitoon.cn", "lic@unitoon.cn","liumm@unitoon.cn"
                 //"zhaoh@unitoon.cn"
                 },//接收者邮件集合
                 mailCcArray = new string[] { "zhaoh@unitoon.cn" }//抄送者邮件集合
