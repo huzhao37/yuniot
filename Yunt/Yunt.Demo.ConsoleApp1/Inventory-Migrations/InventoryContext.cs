@@ -37,7 +37,7 @@ namespace Yunt.Demo.ConsoleApp1
             modelBuilder.Entity<InHouse>().Property(u => u.Description).HasMaxLength(50);
             modelBuilder.Entity<InHouse>().Property(u => u.FactoryInfo).HasMaxLength(50);
             modelBuilder.Entity<InHouse>().Property(u => u.InOperator).HasMaxLength(10);
-          //  modelBuilder.Entity<InHouse>().Property(u => u.BatchNo).HasMaxLength(20).IsRequired();
+            modelBuilder.Entity<InHouse>().Property(u => u.ModelNo).HasMaxLength(25);
             modelBuilder.Entity<OutHouse>().Property(u => u.SparePartsTypeId).IsRequired();
             modelBuilder.Entity<OutHouse>().Property(u => u.WareHousesId).IsRequired();
 
