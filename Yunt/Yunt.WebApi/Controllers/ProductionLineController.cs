@@ -372,15 +372,26 @@ namespace Yunt.WebApi.Controllers
                         });                       
 
                     });
-                    msd.Total.Add(new Total
+                    if (outPut != 0)
                     {
-                        SumOutPut = outPut,
-                        SumRunningTime = sumRunningTime,
-                        AvgActivePower = ActivePowers/ outPut
-                    });
+                        msd.Total.Add(new Total
+                        {
+                            SumOutPut = outPut,
+                            SumRunningTime = sumRunningTime,
+                            AvgActivePower = ActivePowers / outPut
+                        });
+                    }
+                    else
+                    {
+                        msd.Total.Add(new Total
+                        {
+                            SumOutPut = outPut,
+                            SumRunningTime = sumRunningTime,
+                            AvgActivePower = 0
+                        });
+                    }                    
                     msd.MotorName = m.Name;
                     list.Add(msd);
-                    
                 }
             });
             return list;

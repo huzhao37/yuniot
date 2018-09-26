@@ -62,7 +62,7 @@ namespace Yunt.WebApi.Controllers
                 var end = value.endDatetime.ToDateTime();
                 long startT = start.TimeSpan(), endT = end.TimeSpan();
                 //同一班次
-                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour)||(start==end&&start.Hour==DateTime.Now.Hour)
+                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) || (start == end && start.Hour == DateTime.Now.Hour)
                      || ((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour || start.Hour < Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date == end.Date))
                 {
                     //今班次
@@ -97,7 +97,7 @@ namespace Yunt.WebApi.Controllers
                     //var datas = _conveyorByHourRepository.GetEntities(e => e.Time >= startT &&
                     //                  e.Time <= endT && e.MotorId.Equals(motor.MotorId))?.OrderBy(e => e.Time)?.ToList();
                     var source = datas.Where(e => e.RunningTime > 0);
-                    if(source==null||!source.Any())
+                    if (source == null || !source.Any())
                         return new ConveyorOutlineModel
                         {
                             Output = 0f,
@@ -184,7 +184,7 @@ namespace Yunt.WebApi.Controllers
                 var end = value.endDatetime.ToDateTime();
                 long startT = start.TimeSpan(), endT = end.TimeSpan();
                 //同一班次
-                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour)|| (start == end && start.Hour == DateTime.Now.Hour)
+                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) || (start == end && start.Hour == DateTime.Now.Hour)
                      || ((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour || start.Hour < Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date == end.Date))
                 {
                     //今班次
@@ -232,19 +232,19 @@ namespace Yunt.WebApi.Controllers
                     motors.ForEach(motor =>
                     {
                         var datas = _conveyorByHourRepository.GetEntities(e => e.Time >= startT &&
-                                        e.Time <= endT && e.MotorId.Equals(motor.MotorId))?.OrderBy(e => e.Time)?.ToList();                    
+                                        e.Time <= endT && e.MotorId.Equals(motor.MotorId))?.OrderBy(e => e.Time)?.ToList();
                         if (datas != null && datas.Any())
                         {
-                            //var source = datas.Where(e => e.RunningTime > 0);
+                            var source = datas.Where(e => e.RunningTime > 0);
                             resData.Add(new ConveyorChartModel
                             {
                                 y = MathF.Round(datas?.Sum(e => e.AccumulativeWeight) ?? 0f, 2),
-                                InstantWeight = MathF.Round(datas?.Average(e => e.AvgInstantWeight) ?? 0f, 2),
-                                MotorLoad = MathF.Round(datas?.Average(e => e.LoadStall) ?? 0f, 3),
-                                RunningTime = MathF.Round(datas?.Average(e => e.RunningTime) ?? 0f, 2),
+                                InstantWeight = (source == null || !source.Any()) ? 0f : MathF.Round(source?.Average(e => e.AvgInstantWeight) ?? 0f, 2),
+                                MotorLoad = (source == null || !source.Any()) ? 0f : MathF.Round(source?.Average(e => e.LoadStall) ?? 0f, 3),
+                                RunningTime = MathF.Round(datas?.Sum(e => e.RunningTime) ?? 0f, 2),
                                 name = motor.Name
                             });
-                        }                       
+                        }
                     });
                     return resData;
                 }
@@ -332,7 +332,7 @@ namespace Yunt.WebApi.Controllers
         [Route("RecentMainconveyorOuputs")]
         public List<ConveyorChartDataModel> RecentMainconveyorOuputs([FromBody]RequestModel value)
         {
-            
+
             List<ConveyorChartDataModel> htdata = new List<ConveyorChartDataModel>();
             #region bus
 
@@ -347,7 +347,7 @@ namespace Yunt.WebApi.Controllers
                 var end = value.endDatetime.ToDateTime();
                 long endTime = end.TimeSpan(), startTime = start.TimeSpan();
                 //同一班次
-                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour)|| (start == end && start.Hour == DateTime.Now.Hour)
+                if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) || (start == end && start.Hour == DateTime.Now.Hour)
                      || ((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour || start.Hour < Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date == end.Date))
                 {
                     //今班次
@@ -487,26 +487,26 @@ namespace Yunt.WebApi.Controllers
             if (motor == null) return resData;
             List<dynamic> datas;
             //同一班次
-            if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour)|| (start == end && start.Hour == DateTime.Now.Hour)
-                ||((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour|| start.Hour <Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date==end.Date))
+            if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) || (start == end && start.Hour == DateTime.Now.Hour)
+                || ((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour || start.Hour < Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date == end.Date))
             {
                 //今班次
                 if ((start == end && start.Hour == DateTime.Now.Hour))
                 {
-                    datas = _productionLineRepository.MotorShiftHours(motor,Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
+                    datas = _productionLineRepository.MotorShiftHours(motor, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
                     return _productionLineRepository.GetMobileMotorDetails(datas, motor, true);
                 }
                 //历史某一班次
                 else
                 {
-                    datas = _productionLineRepository.MotorShiftHours(motor, startT,endT, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
+                    datas = _productionLineRepository.MotorShiftHours(motor, startT, endT, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
                     return _productionLineRepository.GetMobileMotorDetails(datas, motor, false);
                 }
             }
             //历史2班次以上
             else
             {
-                datas = _productionLineRepository.MotorShifts(motor,startT, endT, Startup.ShiftStartHour, Startup.ShiftEndHour)?.OrderBy(e => (long)e.Time)?.ToList();
+                datas = _productionLineRepository.MotorShifts(motor, startT, endT, Startup.ShiftStartHour, Startup.ShiftEndHour)?.OrderBy(e => (long)e.Time)?.ToList();
                 return _productionLineRepository.GetMobileMotorDetails(datas, motor, false);
             }
 
