@@ -549,7 +549,8 @@ namespace Yunt.Device.Repository.EF.Repositories
                         RunningTime =0,
                         //负荷 = 累计重量/额定产量 (单位: 吨/小时);
                         LoadStall =0,
-                        Time = time
+                        Time = time,
+                       
 
                     });
                     return;
@@ -566,12 +567,12 @@ namespace Yunt.Device.Repository.EF.Repositories
                         RunningTime = 0,
                         //负荷 = 累计重量/额定产量 (单位: 吨/小时);
                         LoadStall = 0,
-                        Time = time
-
+                        Time = time,
+                        ActivePower = 0
                     });
                     return;
                 }
-                           
+
                 datas.Add(new ConveyorByDay
                 {
                     MotorId = motor.MotorId,
@@ -580,8 +581,8 @@ namespace Yunt.Device.Repository.EF.Repositories
                     RunningTime = MathF.Round(source?.Sum(e => e.RunningTime) ?? 0, 2),
                     //负荷 = 累计重量/额定产量 (单位: 吨/小时);
                     LoadStall = MathF.Round(source?.Average(e => e.LoadStall) ?? 0, 3),
-                    Time = time
-
+                    Time = time,
+                    ActivePower = MathF.Round(source?.Sum(e => e.ActivePower) ?? 0, 3)
                 });
             });
           

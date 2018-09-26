@@ -1900,7 +1900,6 @@ namespace Yunt.Device.Repository.EF.Services
             }
         }
 
-
         #endregion
 
         #region version 18.07.17

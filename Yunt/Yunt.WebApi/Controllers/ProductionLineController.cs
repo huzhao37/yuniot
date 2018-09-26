@@ -319,19 +319,18 @@ namespace Yunt.WebApi.Controllers
         [Route("MainSeriesData")]
         public dynamic MainSeriesData(string productionlineId, DateTime start, DateTime end)
         {
-            List<object> list = new List<object>();
+            List<MainSeriesData> list = new List<MainSeriesData>();
             long startT = start.TimeSpan(), endT = end.TimeSpan();
             var motors = 
                        _motorRepository.GetEntities(e => e.ProductionLineId.Equals(productionlineId) && e.IsBeltWeight
                        && !e.IsMainBeltWeight)?.ToList();
             if (motors == null) return list;         
-            motors.ForEach(m => {
-                var now = DateTime.Now.Date.TimeSpan();
+            motors.ForEach(m => {                
                 List<dynamic> datas=null;               
                 if (m.MotorId == "WDD-P001-CY000054" || m.MotorId == "WDD-P001-CY000046" || m.MotorId == "WDD-P001-CY000019" || m.MotorId == "WDD-P001-CY000041")
                 {
-                    List<Motor> listcy = new List<Motor>();
-                    listcy.Add(m);
+                    var msd = new MainSeriesData();
+                    var now = DateTime.Now.Date.TimeSpan();                   
                     if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) || (start == end && start.Hour == DateTime.Now.Hour)
                          || ((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour || start.Hour < Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date == end.Date))
                     {
@@ -355,33 +354,33 @@ namespace Yunt.WebApi.Controllers
                     }
                     float outPut = 0;
                     float sumRunningTime = 0;
+                    var ActivePowers = MathF.Round(datas.Sum(e => (float)e.ActivePower), 2);
                     if (datas != null && datas.Any())
                     {
                         outPut = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2);
-                        sumRunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2);
+                        sumRunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2);                       
 
                     }
                     var source = new List<dynamic>();
                     datas.ForEach(e =>
                     {
-                        source.Add(new
+                        msd.SeriesDatas.Add(new SeriesDatas
                         {
                             Output = e.AccumulativeWeight,
                             RunningTime = e.RunningTime,
                             UnixTime = e.Time
-                        });
+                        });                       
 
                     });
-                    var source2 = new List<dynamic>();
-                    source2.Add(new
+                    msd.Total.Add(new Total
                     {
-                        sumoutPut = outPut,
-                        sumRunningTime = sumRunningTime
+                        SumOutPut = outPut,
+                        SumRunningTime = sumRunningTime,
+                        AvgActivePower = ActivePowers/ outPut
                     });
-                    Hashtable htdata = new Hashtable();
+                    msd.MotorName = m.Name;
+                    list.Add(msd);
                     
-                    list.Add(source);
-                    list.Add(source2);
                 }
             });
             return list;
