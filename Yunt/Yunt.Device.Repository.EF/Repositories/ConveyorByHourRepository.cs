@@ -405,7 +405,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         {
             var data=_cyRep.GetLatestRecord(motor.MotorId);
             if (data != null)
-                return data.InstantWeight * motor.StandValue == 0 ? 0 :MathF.Round(data.InstantWeight / motor.StandValue,3);
+                return data.Current_B * motor.StandValue == 0 ? 0 :MathF.Round(data.Current_B / motor.StandValue,3);
             return 0;
         }
 
