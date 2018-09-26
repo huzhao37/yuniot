@@ -84,8 +84,8 @@ namespace Yunt.IDC
                 #endregion
 
                 //RecoveryTask.Update();
-                CacheTask.Start();
-                //MqDealTask.Start();
+                //CacheTask.Start();
+                MqDealTask.Start();
             }
             catch (Exception e)
             {

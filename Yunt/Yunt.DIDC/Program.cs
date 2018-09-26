@@ -45,7 +45,7 @@ namespace Yunt.DIDC
             #region recovery
             try
             {
-                DateTime start = "2018-09-2 0:00:00".ToDateTime(), end = "2018-09-2 0:00:00".ToDateTime();
+                DateTime start = "2018-09-22 0:00:00".ToDateTime(), end = "2018-09-23 0:00:00".ToDateTime();
                 //DayStatisticsTask.UpdatePowers("2018-06-20 00:00:00".ToDateTime());
                 //DayStatisticsTask.UpdatePowers("2018-06-25 00:00:00".ToDateTime());
                 //DayStatisticsTask.UpdatePowers("2018-07-06 00:00:00".ToDateTime());
@@ -69,14 +69,14 @@ namespace Yunt.DIDC
             //DayStatisticsTask.Test("WDD-P001-CC000001", new DateTime(2018, 7, 25));
             #endregion
 
-            while (true)
-            {
-                if (Sched?.IsShutdown ?? false)
-                    break;
-                if (Sched == null)
-                    Start();
-                Thread.Sleep(60 * 1000);
-            }
+            //while (true)
+            //{
+            //    if (Sched?.IsShutdown ?? false)
+            //        break;
+            //    if (Sched == null)
+            //        Start();
+            //    Thread.Sleep(60 * 1000);
+            //}
         }
         public static async Task Start()
         {
