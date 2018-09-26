@@ -258,31 +258,31 @@ namespace Yunt.WebApiV2.Controllers
         [EnableCors("any")]
         [Route("MotorDetails")]
         [HttpPost]
-        public dynamic MotorDetail([FromBody]RequestModel value)
+        //public dynamic MotorDetail([FromBody]RequestModel value)
         {
-            var resData = new MotorChartDataModel();
-            //long startT = start.TimeSpan(), endT = end.TimeSpan();
-            long  startT = value.startDatetime.ToDateTime().TimeSpan();
-            long endT = value.endDatetime.ToDateTime().TimeSpan();
+            //var resData = new MotorChartDataModel();
+            ////long startT = start.TimeSpan(), endT = end.TimeSpan();
+            //long  startT = value.startDatetime.ToDateTime().TimeSpan();
+            //long endT = value.endDatetime.ToDateTime().TimeSpan();
             
-            var motor = _motorRepository.GetEntities(e => e.MotorId.Equals(value.motorId))?.FirstOrDefault();
-            if (motor == null) return resData;
-            List<dynamic> datas;
-            //当天
-            var now = DateTime.Now.Date.TimeSpan();
-            if ((startT == endT) && (startT == now))
-            {
-                datas = _productionLineRepository.MotorHours(motor)?.OrderBy(e => (long)e.Time)?.ToList();
-                return _productionLineRepository.GetMobileMotorDetails(datas, motor);
-            }
-            //历史某一天
-            if (startT == endT)
-            {
-                datas = _productionLineRepository.MotorHours(motor, startT)?.OrderBy(e => (long)e.Time)?.ToList();
-                return _productionLineRepository.GetMobileMotorDetails(datas, motor);
-            }
-            datas = _productionLineRepository.MotorDays(startT, endT, motor)?.OrderBy(e => (long)e.Time)?.ToList();
-            return _productionLineRepository.GetMobileMotorDetails(datas, motor);
+            //var motor = _motorRepository.GetEntities(e => e.MotorId.Equals(value.motorId))?.FirstOrDefault();
+            //if (motor == null) return resData;
+            //List<dynamic> datas;
+            ////当天
+            //var now = DateTime.Now.Date.TimeSpan();
+            //if ((startT == endT) && (startT == now))
+            //{
+            //    datas = _productionLineRepository.MotorHours(motor)?.OrderBy(e => (long)e.Time)?.ToList();
+            //    return _productionLineRepository.GetMobileMotorDetails(datas, motor);
+            //}
+            ////历史某一天
+            //if (startT == endT)
+            //{
+            //    datas = _productionLineRepository.MotorHours(motor, startT)?.OrderBy(e => (long)e.Time)?.ToList();
+            //    return _productionLineRepository.GetMobileMotorDetails(datas, motor);
+            //}
+            //datas = _productionLineRepository.MotorDays(startT, endT, motor)?.OrderBy(e => (long)e.Time)?.ToList();
+            //return _productionLineRepository.GetMobileMotorDetails(datas, motor);
         }
 
         #endregion
