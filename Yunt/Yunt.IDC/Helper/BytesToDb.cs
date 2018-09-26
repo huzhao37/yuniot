@@ -344,7 +344,7 @@ namespace Yunt.IDC.Helper
                         continue;
                     info?.SetValue(obj, Convert.ToSingle(Math.Round((decimal)form.Value, 2)));//保留两位小数
                 }
-                //数字量存储redis-3个月
+                //数字量存储redis-1w
                 if (form.BitDesc.Equals("数字量"))
                 {
                     form.Value = values[(int)form.Index];

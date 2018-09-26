@@ -395,7 +395,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         /// </summary>
         /// <param name="motorId"></param>
         ///  <param name="time"></param>
-        /// <param name="isExceed">是否超出3 months数据</param>
+        /// <param name="isExceed">是否超出7 days数据</param>
         /// <param name="where"></param>
         /// <param name="order"></param>
         /// <returns></returns>

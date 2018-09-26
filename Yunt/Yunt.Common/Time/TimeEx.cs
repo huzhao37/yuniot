@@ -62,13 +62,13 @@ namespace Yunt.Common
         #endregion
 
         /// <summary>
-        /// redis key 过期时长（到现在为止间隔3个月）
+        /// redis key 过期时长（到现在为止间隔1周）
         /// </summary>
         /// <param name="time"></param>
         /// <returns></returns>
         public static long Expire(this long time)
         {
-            return Convert.ToInt64(Math.Abs(time.Time().Date.AddMonths(3).Subtract(DateTime.Now.Date).TotalSeconds));
+            return Convert.ToInt64(Math.Abs(time.Time().Date.AddDays(7).Subtract(DateTime.Now.Date).TotalSeconds));
         }
 
         /// <summary>

@@ -390,7 +390,7 @@ namespace Yunt.IDA.Tasks
                             var weigh = accumlateWeigh[i].Value;
                             if (i == 0)
                             {
-                                last = (float)weigh;
+                                last = weigh;
                                 continue;
                             }                         
                             //跑偏

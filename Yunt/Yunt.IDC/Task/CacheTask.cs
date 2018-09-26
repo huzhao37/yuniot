@@ -42,9 +42,9 @@ namespace Yunt.IDC.Task
         /// </summary>
         public static void Start()
         {
-            #region 预热instancedata-3个月数据
+            #region 预热instancedata-7 days数据
             var motors = MotorRepository.GetEntities(e => e.ProductionLineId.Equals("WDD-P001"))?.ToList();
-            DateTime start = "2018-06-20 00:00:00".ToDateTime(), end = "2018-07-20 0:0:00".ToDateTime();
+            DateTime start = "2018-09-21 00:00:00".ToDateTime(), end = "2018-09-27 0:0:00".ToDateTime();
             //var motors = MotorRepository.GetEntities(e => e.ProductionLineId.Equals("WDD-P001"))?.ToList();
             //if (motors?.Any() ?? true)
             //{
@@ -65,8 +65,8 @@ namespace Yunt.IDC.Task
                 {
                     motors.ForEach(e =>
                     {
-                        var rel = ProductionLineRepository.DelCache(e, time);
-                        if (rel > 0)
+                        //var rel = ProductionLineRepository.DelCache(e, time);
+                        //if (rel > 0)
                         {
                             var results = ProductionLineRepository.PreCache(e, time);
                             Logger.Info($"[{time}]_{e.MotorId}:初始化{results}个记录...");

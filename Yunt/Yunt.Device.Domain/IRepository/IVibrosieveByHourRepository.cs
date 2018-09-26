@@ -17,7 +17,7 @@ namespace Yunt.Device.Domain.IRepository
         /// 统计该小时的振动筛数据;
         /// </summary>
         /// <param name="motor">设备</param>
-        /// <param name="isExceed">是否超出3 months数据范围</param>
+        /// <param name="isExceed">是否超出7 days数据范围</param>
         /// <param name="dt">查询时间,精确到小时</param>
         /// <returns></returns>
         VibrosieveByHour GetByMotor(Motor motor, bool isExceed, DateTime dt);
