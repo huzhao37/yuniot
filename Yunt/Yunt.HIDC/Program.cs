@@ -54,7 +54,7 @@ namespace Yunt.HIDC
             #region recovery
             try
             {
-                DateTime start = "2018-09-24 0:00:00".ToDateTime(), end = "2018-09-26 10:00:00".ToDateTime();
+                DateTime start = "2018-09-22 0:00:00".ToDateTime(), end = "2018-09-23 23:00:00".ToDateTime();
                 // HourStatisticsTask.UpdatePowers(start,end);
                 //HourStatisticsTask.UpdateRunLoads(start, end);
                 HourStatisticsTask.RecoveryTask(start, end);
