@@ -523,8 +523,8 @@ namespace Yunt.Device.Repository.EF.Services
                     {
                         AvgInstantWeight = lastRecord?.InstantWeight ?? 0,
                         AvgCurrent = lastRecord?.Current_B ?? 0,
-                        LoadStall = (lastRecord?.InstantWeight ?? 0) * motor.StandValue == 0 ? 0 :
-                                                MathF.Round(lastRecord.InstantWeight / motor.StandValue, 3),
+                        LoadStall = (lastRecord?.Current_B ?? 0) * motor.StandValue == 0 ? 0 :
+                                                MathF.Round(lastRecord.Current_B / motor.StandValue, 3),
                     };
                 case "MF":
                     lastRecord = _mfRep.GetLatestRecord(motor.MotorId);
@@ -1374,8 +1374,8 @@ namespace Yunt.Device.Repository.EF.Services
                     if (isInstant)
                     {
                         lastRecord = _cyRep.GetLatestRecord(motor.MotorId);
-                        loadStall = lastRecord == null ? 0 : (lastRecord.InstantWeight * motor.StandValue == 0 ? 0 :
-                                            MathF.Round(lastRecord.InstantWeight / motor.StandValue, 3));
+                        loadStall = lastRecord == null ? 0 : (lastRecord.Current_B * motor.StandValue == 0 ? 0 :
+                                            MathF.Round(lastRecord.Current_B / motor.StandValue, 3));
                         return new
                         {
                             outline = new

@@ -105,5 +105,13 @@ namespace Yunt.Inventory.Domain.Model
         [DisplayName("时间")]
         [ProtoMember(11)]
         public long Time { get; set; }
+
+        /// <summary>
+        /// 型号
+        /// </summary>
+        [DataMember]
+        [DisplayName("型号")]
+        [ProtoMember(12)]
+        public string ModelNo { get; set; }
     }
 }

@@ -927,8 +927,6 @@ namespace Yunt.WebApi.Controllers
             return new { TotalPower = totalPower, AvgPower = avgPower, Powers = powers };
         }
 
-
-
         #endregion
 
         //test

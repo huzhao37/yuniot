@@ -64,6 +64,8 @@ namespace Yunt.WebApi.Controllers
                         WareHousesName = wareHousesName,
                         d.UnitPrice,
                         d.WareHousesId,
+                        d.ModelNo,
+                        d.Description
                     });
                 });
                 //var source = InHouse.Froms(datas, spares, wareHouses);
@@ -169,7 +171,8 @@ namespace Yunt.WebApi.Controllers
                         d.InTime,
                         d.FactoryInfo,
                         d.Description,
-                        d.Remains
+                        d.Remains,
+                        d.ModelNo
                     });
 
                 });
