@@ -32,20 +32,6 @@ namespace Dtsc.NodeService
 
         private static bool _isStop = false;
 
-        //string IWin32Service.ServiceName => "Dtsc.Node";
-        //void IWin32Service.Start(string[] startupArguments, ServiceStoppedCallback serviceStoppedCallback)
-        //{
-        //    StartService();
-        //}
-
-        //void IWin32Service.Stop()
-        //{
-        //    _isStop = true;
-        //    _timer?.Dispose();
-        //    _performanceTimer?.Dispose();
-        //    Environment.Exit(0);
-        //}
-
 
         public static void StartService()
         {
@@ -65,7 +51,8 @@ namespace Dtsc.NodeService
                 services.AddSingleton<IConfiguration>(configuration);
                 Logger.Create(configuration, new LoggerFactory(), "Dtsc.NodeService");
                 var redisConn = configuration.GetSection("AppSettings").GetSection("Dtsc").GetValue<string>("RedisConn", "127.0.0.1");
-                var redisPwd = configuration.GetSection("AppSettings").GetSection("Dtsc").GetValue<string>("RedisPwd", "6379");
+                var redisPort = configuration.GetSection("AppSettings").GetSection("Dtsc").GetValue<int>("RedisPort", 6379);
+                var redisPwd = configuration.GetSection("AppSettings").GetSection("Dtsc").GetValue<string>("RedisPwd", "Unitoon2018");
                 var nodeId = configuration.GetSection("AppSettings").GetValue<int>("NodeId", 0);
                 JobHelper.JobPath = configuration.GetSection("AppSettings").GetValue<string>("JobPath", "\\Yunt.Jobs");
                 XTrace.Log.Level = (LogLevel)configuration.GetSection("AppSettings").GetValue<int>("LogLevel", 3);
@@ -86,7 +73,7 @@ namespace Dtsc.NodeService
 
                 services.AddDefaultRedisCache(option =>
                 {
-                    option.RedisServer.Add(new HostItem() { Host = redisConn });
+                    option.RedisServer.Add(new HostItem() { Host = redisConn+":"+ redisPort });
                     option.SingleMode = true;
                     option.Password = redisPwd;
                 });
@@ -99,7 +86,7 @@ namespace Dtsc.NodeService
 
                 #endregion
 
-                var ip = HostHelper.GetExternalIp();
+                var ip = HostHelper.GetExtenalIpAddress();
                 var node = TbNode.Find("ID", nodeId);
                 if (node != null)
                 {

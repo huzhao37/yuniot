@@ -47,7 +47,6 @@ namespace Yunt.WebApi
             var builder = new ConfigurationBuilder()
                   .SetBasePath(currentDirectory)
                   .AddJsonFile("appsettings.json", true, reloadOnChange: true);
-
             var configuration = builder.Build();
             services.AddSingleton<IConfiguration>(configuration);
             //Logger.Create(configuration, new LoggerFactory(), "Yunt.WebApi");

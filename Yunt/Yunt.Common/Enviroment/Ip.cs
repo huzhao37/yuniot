@@ -11,6 +11,28 @@ namespace Yunt.Common.Enviroment
     public class HostHelper
 
     {
+        /// <summary>
+        /// 获取外网ip地址
+        /// </summary>
+        public static string GetExtenalIpAddress()
+        {
+            String url = "http://hijoyusers.joymeng.com:8100/test/getNameByOtherIp";
+            string IP = "未获取到外网ip";
+            try
+            {
+                //从网址中获取本机ip数据  
+                System.Net.WebClient client = new System.Net.WebClient();
+                client.Encoding = System.Text.Encoding.Default;
+                string str = client.DownloadString(url);
+                client.Dispose();
+
+                if (!str.Equals("")) IP = str;
+                else IP = "";//GetExtenalIpAddress_0();
+            }
+            catch (Exception) { }
+
+            return IP;
+        }
         /// <summary>  
         /// 获取外网ip地址  
         /// </summary>  
