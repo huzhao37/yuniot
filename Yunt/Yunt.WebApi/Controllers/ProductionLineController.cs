@@ -334,7 +334,6 @@ namespace Yunt.WebApi.Controllers
                     if ((end.Subtract(start).TotalHours <= 24 && start.Hour >= Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) || (start == end && start.Hour == DateTime.Now.Hour)
                          || ((start.Hour >= Startup.ShiftStartHour && end.Hour >= Startup.ShiftEndHour || start.Hour < Startup.ShiftStartHour && end.Hour < Startup.ShiftEndHour) && start.Date == end.Date))
                     {
-
                         //当天
                         if ((start == end && start.Hour == DateTime.Now.Hour))
                         {
@@ -347,7 +346,6 @@ namespace Yunt.WebApi.Controllers
                             datas = _productionLineRepository.MotorShiftHours(m, startT, endT, Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
                         }
                     }
-
                     else
                     {
                         datas = _productionLineRepository.MotorShifts(m, startT, endT, Startup.ShiftStartHour, Startup.ShiftEndHour)?.OrderBy(e => (long)e.Time)?.ToList();
@@ -359,7 +357,6 @@ namespace Yunt.WebApi.Controllers
                     {
                         outPut = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight), 2);
                         sumRunningTime = MathF.Round(datas.Sum(e => (float)e.RunningTime), 2);                       
-
                     }
                     var source = new List<dynamic>();
                     datas.ForEach(e =>
@@ -370,26 +367,13 @@ namespace Yunt.WebApi.Controllers
                             RunningTime = e.RunningTime,
                             UnixTime = e.Time
                         });                       
-
                     });
-                    if (outPut != 0)
+                    msd.Total.Add(new Total
                     {
-                        msd.Total.Add(new Total
-                        {
-                            SumOutPut = outPut,
-                            SumRunningTime = sumRunningTime,
-                            AvgActivePower = ActivePowers / outPut
-                        });
-                    }
-                    else
-                    {
-                        msd.Total.Add(new Total
-                        {
-                            SumOutPut = outPut,
-                            SumRunningTime = sumRunningTime,
-                            AvgActivePower = 0
-                        });
-                    }                    
+                        SumOutPut = (outPut != 0)? outPut:0f,
+                        SumRunningTime = sumRunningTime,
+                        AvgActivePower = (outPut != 0) ? ActivePowers / outPut:0f
+                    });                                      
                     msd.MotorName = m.Name;
                     list.Add(msd);
                 }
