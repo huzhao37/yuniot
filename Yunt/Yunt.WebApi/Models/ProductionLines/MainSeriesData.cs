@@ -5,14 +5,17 @@ using System.Threading.Tasks;
 
 namespace Yunt.WebApi.Models.ProductionLines
 {
+    /// <summary>
+    /// 成品皮带历史数据
+    /// </summary>
     public class MainSeriesData
     {
         public MainSeriesData()
         {
             SeriesDatas = new List<SeriesDatas>();
-
             Total = new List<Total>();
         }
+        public string MotorID { set; get; }
         public string MotorName { get; set; }
         public List<SeriesDatas> SeriesDatas { get; set; }
 

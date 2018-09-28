@@ -313,7 +313,7 @@ namespace Yunt.WebApi.Controllers
             return resp;
         }
 
-
+        // GET: api/ProductionLine
         [HttpGet]
         [EnableCors("any")]
         [Route("MainSeriesData")]
@@ -375,6 +375,7 @@ namespace Yunt.WebApi.Controllers
                         AvgActivePower = (outPut != 0) ? ActivePowers / outPut:0f
                     });                                      
                     msd.MotorName = m.Name;
+                    msd.MotorID = m.MotorId;
                     list.Add(msd);
                 }
             });
@@ -563,11 +564,11 @@ namespace Yunt.WebApi.Controllers
                        }
                        else
                        {
-                           mainCyList = _productionLineRepository.MotorDays(startTime, endTime, mainCy)?.ToList();
-                           cy1List = _productionLineRepository.MotorDays(startTime, endTime, finishCy1)?.ToList();
-                           cy2List = _productionLineRepository.MotorDays(startTime, endTime, finishCy2)?.ToList();
-                           cy3List = _productionLineRepository.MotorDays(startTime, endTime, finishCy3)?.ToList();
-                           cy4List = _productionLineRepository.MotorDays(startTime, endTime, finishCy4)?.ToList();
+                           mainCyList = _productionLineRepository.MotorShifts(mainCy,startTime, endTime,Startup.ShiftStartHour ,Startup.ShiftEndHour)?.ToList();
+                           cy1List = _productionLineRepository.MotorShifts(finishCy1, startTime, endTime, Startup.ShiftStartHour, Startup.ShiftEndHour)?.ToList();
+                           cy2List = _productionLineRepository.MotorShifts(finishCy2, startTime, endTime, Startup.ShiftStartHour, Startup.ShiftEndHour)?.ToList();
+                           cy3List = _productionLineRepository.MotorShifts(finishCy3, startTime, endTime, Startup.ShiftStartHour, Startup.ShiftEndHour)?.ToList();
+                           cy4List = _productionLineRepository.MotorShifts(finishCy4, startTime, endTime, Startup.ShiftStartHour, Startup.ShiftEndHour)?.ToList();
                        }
                        if (mainCyList != null && mainCyList.Any())
                            resp.Add(new
@@ -905,8 +906,9 @@ namespace Yunt.WebApi.Controllers
             var now = DateTime.Now.Date.TimeSpan();
             if ((startT == endT) && (startT == now))
             {
-                powers = _productionLineRepository.CalcMotorPowers(allMotors);
-                totalPower = MathF.Round(powers.Sum(e => e.ActivePower), 2);
+               
+                powers = _productionLineRepository.CalcMotorPowers(allMotors); 
+                 totalPower = MathF.Round(powers.Sum(e => e.ActivePower), 2);
                 avgPower = totalPower;
                 return new { TotalPower = totalPower, AvgPower = avgPower, Powers = powers };
             }

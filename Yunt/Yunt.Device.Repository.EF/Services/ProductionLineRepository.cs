@@ -1188,7 +1188,7 @@ namespace Yunt.Device.Repository.EF.Services
             {
                 if (motor.MotorTypeId.EqualIgnoreCase("IC"))
                 {
-                    var datas = MotorHours(motor);
+                    var datas = MotorShiftHours(motor, 8);
                     var times = new List<long>();
                     for (int i = 0; i < length; i++)
                     {
@@ -1203,7 +1203,7 @@ namespace Yunt.Device.Repository.EF.Services
                 }
                 else
                 {
-                    var datas = MotorHours(motor);
+                    var datas = MotorShiftHours(motor, 8);
                     var times = new List<long>();
                     for (int i = 0; i < length; i++)
                     {
