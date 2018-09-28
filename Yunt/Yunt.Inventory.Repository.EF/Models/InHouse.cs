@@ -108,9 +108,9 @@ namespace Yunt.Inventory.Repository.EF.Models
         /// <summary>
         /// 型号
         /// </summary>
-        [DataMember]
-        [DisplayName("型号")]
-        [ProtoMember(12)]
-        public string ModelNo { get; set; }
+        //[DataMember]
+        //[DisplayName("型号")]
+        //[ProtoMember(12)]
+        //public string ModelNo { get; set; }
     }
 }

@@ -19,7 +19,7 @@ namespace Yunt.Inventory.Repository.EF.Mappings
             entity.Property(m => m.SparePartsTypeId).IsRequired();
             //entity.Property(m => m.BatchNo).IsRequired();
             entity.Property(m => m.WareHousesId).IsRequired();
-            entity.Property(m => m.ModelNo).HasMaxLength(25);
+            //entity.Property(m => m.ModelNo).HasMaxLength(25);
         }
     }
 }
