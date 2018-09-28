@@ -225,7 +225,7 @@ namespace Yunt.Device.Repository.EF.Repositories
         }
 #endregion
 
-#region assitant method
+        #region assitant method
         /// <summary>
         ///恢复该小时内所有的数据;
         /// </summary>
