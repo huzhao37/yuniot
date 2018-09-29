@@ -54,26 +54,7 @@ namespace Yunt.Device.Repository.EF.Repositories
 
             var start = dt.Date.AddHours(dt.Hour);
             var end = start.AddHours(1);
-           // var dt3 = start.AddHours(-1);
-
-            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();//, dt3Unix=dt3.TimeSpan();
-            //上一个小时的最后一条记录;
-            //var x = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= dt3Unix &&
-            //  e.Time < startUnix, e => e.Time);
-#if DEBUG
-            //var lastRecord = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) && e.Time >= dt3Unix &&
-            // e.Time < startUnix, e => e.Time)?.LastOrDefault();
-
-            //var lastRecord2 = _cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId)&&e.ActivePower>0f && e.Time >= dt3Unix &&
-            //e.Time < startUnix, e => e.Time)?.LastOrDefault();
-#else
-            //var lastRecord = _cyRep.GetEntities(motor.MotorId, dt3, isExceed, e => e.Time >= dt3Unix &&
-            //e.Time < startUnix, e => e.Time)?.LastOrDefault();
-
-            // var lastRecord2 = _cyRep.GetEntities(motor.MotorId, dt3, isExceed, e => e.ActivePower>0f &&e.Time >= dt3Unix &&
-            //e.Time < startUnix, e => e.Time)?.LastOrDefault();
-#endif
-
+            long startUnix = start.TimeSpan(), endUnix = end.TimeSpan();
 #if DEBUG
             var originalDatas = motor.IsBeltWeight?_cyRep.GetFromSqlDb(e => e.MotorId.Equals(motor.MotorId) &&
                                                                        e.AccumulativeWeight > 0f && e.Time >= startUnix &&
@@ -86,74 +67,39 @@ namespace Yunt.Device.Repository.EF.Repositories
                                e.Time <=endUnix, e => e.Time)?.ToList();
 #else
             var originalDatas = motor.IsBeltWeight?_cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
-                                                                       e.Time < endUnix &&
+                                                                       e.Time <= endUnix &&
                                                                        e.AccumulativeWeight > 0f, e => e.Time)?.ToList()
                                 :_cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
-                                                                       e.Time < endUnix, e => e.Time)?.ToList();
+                                                                       e.Time <= endUnix, e => e.Time)?.ToList();
             var originalDatas2 = _cyRep.GetEntities(motor.MotorId, dt, isExceed, e => e.Time >= startUnix &&
-                                                                       e.Time < endUnix &&
+                                                                       e.Time <= endUnix &&
                                                                        e.ActivePower > 0f, e => e.Time)?.ToList(); 
 #endif
-
             var length = originalDatas?.Count() ?? 0;
             var length2 = originalDatas2?.Count() ?? 0;
-
-            float lastWeight = 0;
-            float weightSum = 0;
 
             if (!(originalDatas?.Any()??false) && !(originalDatas2?.Any() ?? false)) return new ConveyorByHour
             {
                 Time = startUnix,
                 MotorId = motor.MotorId,
             };
-
-            var first = !(originalDatas?.Any() ?? false) ? new Conveyor()
-            {
-                Time = startUnix,
-                MotorId = motor.MotorId,
-            } : originalDatas[0];
-
-            var first2 = !(originalDatas2?.Any() ?? false) ? new Conveyor()
-            {
-                Time = startUnix,
-                MotorId = motor.MotorId,
-            } : originalDatas2[0];
-            //获取上一个有效累计称重的值      
-            //if (lastRecord != null && lastRecord.AccumulativeWeight != -1 &&
-            //    first.AccumulativeWeight - lastRecord.AccumulativeWeight <=10*600 &&
-            //    first.AccumulativeWeight - lastRecord.AccumulativeWeight >= 0)
-            //{
-            //    lastWeight = lastRecord.AccumulativeWeight;
-            //}
-
-            #region 计算产量
-            double lastPower = 0;
-            double powerSum = 0;
-            //获取上一个有效电能的值      
-            //if (lastRecord2 != null && lastRecord2.ActivePower >0 &&
-            //   first2.ActivePower - lastRecord2.ActivePower >= 0)
-            //{
-            //    lastPower = lastRecord2.ActivePower;
-            //}
-
-            #endregion
+            float lastWeight = 0;
+            float weightSum = 0;       
             if (motor.IsBeltWeight)
                 for (var i = 0; i < length; i++)
                 {
                     var cy = originalDatas[i];//cy.AccumulativeWeight == -1 &&               
-                    if (cy.AccumulativeWeight < lastWeight || Math.Abs(cy.AccumulativeWeight - lastWeight) > 100|| i == 0) //比上次小，认作清零,或者比上次多出100t以上
+                    if ( Math.Abs(cy.AccumulativeWeight - lastWeight) > 100|| i == 0) //比上次小，认作清零,或者比上次多出100t以上//cy.AccumulativeWeight < lastWeight ||
                     {
                         lastWeight = cy.AccumulativeWeight;
                         continue;
                     }
-                    //瞬时重量为负数时，统计按照零计算;
-                    //if (cy.InstantWeight < 0)
-                    //    cy.InstantWeight = 0;
                     float sub = cy.AccumulativeWeight - lastWeight;
                     lastWeight = cy.AccumulativeWeight;
                     weightSum += sub;
                 }
-
+            double lastPower = 0;
+            double powerSum = 0;
             for (var i = 0; i < length2; i++)
             {
                 var cy = originalDatas2[i]; //cy.ActivePower == -1      

@@ -686,7 +686,7 @@
           "build/netstandard2.0/NETStandard.Library.targets": {}
         }
       },
-      "NewLife.Core/7.0.6722.39740": {
+      "NewLife.Core/7.3.6839.35284": {
         "type": "package",
         "compile": {
           "lib/netstandard2.0/NewLife.Core.dll": {}
@@ -695,10 +695,10 @@
           "lib/netstandard2.0/NewLife.Core.dll": {}
         }
       },
-      "NewLife.XCode/9.7.6722.39741": {
+      "NewLife.XCode/9.9.6839.35285": {
         "type": "package",
         "dependencies": {
-          "NewLife.Core": "7.0.6722.39740"
+          "NewLife.Core": "7.3.6839.35284"
         },
         "compile": {
           "lib/netstandard2.0/XCode.dll": {}
@@ -2574,7 +2574,7 @@
           "Microsoft.Extensions.Logging.Console": "2.0.2",
           "Microsoft.Extensions.Logging.Debug": "2.0.2",
           "Microsoft.Extensions.Logging.EventSource": "2.0.2",
-          "NewLife.Core": "7.0.6712.2419",
+          "NewLife.Core": "7.3.6839.35284",
           "SharpCompress": "0.20.0",
           "protobuf-net": "2.3.7"
         },
@@ -2631,7 +2631,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.1",
         "dependencies": {
-          "NewLife.XCode": "9.7.6722.39741",
+          "NewLife.XCode": "9.9.6839.35285",
           "Quartz": "3.0.4",
           "Yunt.Common": "1.0.0",
           "Yunt.Dtsc.Domain": "1.0.0"
@@ -2647,7 +2647,7 @@
         "type": "project",
         "framework": ".NETCoreApp,Version=v2.1",
         "dependencies": {
-          "NewLife.XCode": "9.7.6722.39741"
+          "NewLife.XCode": "9.9.6839.35285"
         },
         "compile": {
           "bin/placeholder/Yunt.Dtsc.Domain.dll": {}
@@ -3773,11 +3773,12 @@
         "netstandard.library.nuspec"
       ]
     },
-    "NewLife.Core/7.0.6722.39740": {
-      "sha512": "7xnjQB8m6sbjWdnJ0Rf5M7x1Guda5r72Zm5Ubpgmc09NvKvXdtbIGbRnAbtHwl1FObDC1eypRSrKna6zlFfXrA==",
+    "NewLife.Core/7.3.6839.35284": {
+      "sha512": "n2HG+xsTBLyzDM3zWooVwr/28fjBJcQnZ1CZUawoRIRzDVFuMBZaLrAUqTwQmoVLk+cjbczoyHLqcKgrxwESkw==",
       "type": "package",
-      "path": "newlife.core/7.0.6722.39740",
+      "path": "newlife.core/7.3.6839.35284",
       "files": [
+        ".signature.p7s",
         "lib/net20/NewLife.Core.dll",
         "lib/net20/NewLife.Core.pdb",
         "lib/net20/NewLife.Core.xml",
@@ -3790,15 +3791,16 @@
         "lib/netstandard2.0/NewLife.Core.dll",
         "lib/netstandard2.0/NewLife.Core.pdb",
         "lib/netstandard2.0/NewLife.Core.xml",
-        "newlife.core.7.0.6722.39740.nupkg.sha512",
+        "newlife.core.7.3.6839.35284.nupkg.sha512",
         "newlife.core.nuspec"
       ]
     },
-    "NewLife.XCode/9.7.6722.39741": {
-      "sha512": "Kc8i8LcaWehPDtpTazrb5KXBwg9nOi1Fm+yNQ3Br7rfp4T+vws7P3251Zs/hda5QwiGAbepcSmoDy7ics9UgQQ==",
+    "NewLife.XCode/9.9.6839.35285": {
+      "sha512": "vbIMqPZWx+I7xA4vDdlduIAA6mjjSx/7RZqQH1ZBees9c+c3Fwoml7ib5DR5FaGfl/KwxE/moI/cw1DoBwqH0A==",
       "type": "package",
-      "path": "newlife.xcode/9.7.6722.39741",
+      "path": "newlife.xcode/9.9.6839.35285",
       "files": [
+        ".signature.p7s",
         "content/Build.tt",
         "content/Model.xml",
         "lib/net20/XCode.dll",
@@ -3813,7 +3815,7 @@
         "lib/netstandard2.0/XCode.dll",
         "lib/netstandard2.0/XCode.pdb",
         "lib/netstandard2.0/XCode.xml",
-        "newlife.xcode.9.7.6722.39741.nupkg.sha512",
+        "newlife.xcode.9.9.6839.35285.nupkg.sha512",
         "newlife.xcode.nuspec",
         "tools/install.ps1"
       ]
