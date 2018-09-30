@@ -64,7 +64,7 @@ namespace Yunt.WebApi.Controllers
                         WareHousesName = wareHousesName,
                         d.UnitPrice,
                         d.WareHousesId,
-                        //d.ModelNo,
+                        d.ModelNo,
                         d.Description
                     });
                 });
@@ -172,7 +172,7 @@ namespace Yunt.WebApi.Controllers
                         d.FactoryInfo,
                         d.Description,
                         d.Remains,
-                       // d.ModelNo
+                        d.ModelNo
                     });
 
                 });

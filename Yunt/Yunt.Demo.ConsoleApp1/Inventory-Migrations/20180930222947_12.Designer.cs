@@ -12,9 +12,10 @@ using Yunt.Demo.ConsoleApp1;
 namespace Yunt.Demo.ConsoleApp1.Migrations
 {
     [DbContext(typeof(InventoryContext))]
-    partial class InventoryContextModelSnapshot : ModelSnapshot
+    [Migration("20180930222947_12")]
+    partial class _12
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

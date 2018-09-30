@@ -52,31 +52,31 @@ namespace Yunt.HIDC
             #endregion
 
             #region recovery
-            try
-            {
-                DateTime start = "2018-09-22 0:00:00".ToDateTime(), end = "2018-09-23 23:00:00".ToDateTime();
-                // HourStatisticsTask.UpdatePowers(start,end);
-                //HourStatisticsTask.UpdateRunLoads(start, end);
-                HourStatisticsTask.RecoveryTask(start, end);
-                //HourStatisticsTask.RecoveryTask("2018-06-25 13:00:00".ToDateTime());
-                //HourStatisticsTask.RecoveryTask("2018-07-06 12:00:00".ToDateTime());
-                Common.Logger.Error("所有恢复完毕！");
-            }
-            catch (Exception ex)
-            {
-                Common.Logger.Exception(ex);
-            }
-            Console.ReadKey();
+            //try
+            //{
+            //    DateTime start = "2018-09-22 0:00:00".ToDateTime(), end = "2018-09-23 23:00:00".ToDateTime();
+            //    // HourStatisticsTask.UpdatePowers(start,end);
+            //    //HourStatisticsTask.UpdateRunLoads(start, end);
+            //    HourStatisticsTask.RecoveryTask(start, end);
+            //    //HourStatisticsTask.RecoveryTask("2018-06-25 13:00:00".ToDateTime());
+            //    //HourStatisticsTask.RecoveryTask("2018-07-06 12:00:00".ToDateTime());
+            //    Common.Logger.Error("所有恢复完毕！");
+            //}
+            //catch (Exception ex)
+            //{
+            //    Common.Logger.Exception(ex);
+            //}
+            //Console.ReadKey();
             #endregion
 
-            //while (true)
-            //{
-            //    if (sched?.IsShutdown ?? false)
-            //        break;
-            //    if (sched == null)
-            //        Start();
-            //    Thread.Sleep(60 * 1000);
-            //}
+            while (true)
+            {
+                if (sched?.IsShutdown ?? false)
+                    break;
+                if (sched == null)
+                    Start();
+                Thread.Sleep(60 * 1000);
+            }
         }
         public static async Task Start()
         {

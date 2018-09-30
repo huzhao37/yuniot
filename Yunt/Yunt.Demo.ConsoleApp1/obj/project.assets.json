@@ -4974,10 +4974,12 @@
       ]
     },
     "System.Diagnostics.Process/4.3.0": {
-      "sha512": "J0wOX07+QASQblsfxmIMFc9Iq7KTXYL3zs2G/Xc704Ylv3NpuVdo6gij6V3PGiptTxqsK0K7CdXenRvKUnkA2g==",
+      "sha512": "vM5w13QUnU7Xm4NZm0jeyga5TOjl8Qn9y4nPzKbd9vzrTRRtqf0OZk4uHcsH5SQzstkw6aU3eMRCpNRjfV5DDA==",
       "type": "package",
       "path": "system.diagnostics.process/4.3.0",
       "files": [
+        "System.Diagnostics.Process.4.3.0.nupkg.sha512",
+        "System.Diagnostics.Process.nuspec",
         "ThirdPartyNotices.txt",
         "dotnet_library_license.txt",
         "lib/MonoAndroid10/_._",
@@ -5023,9 +5025,7 @@
         "runtimes/win/lib/net46/System.Diagnostics.Process.dll",
         "runtimes/win/lib/net461/System.Diagnostics.Process.dll",
         "runtimes/win/lib/netstandard1.4/System.Diagnostics.Process.dll",
-        "runtimes/win7/lib/netcore50/_._",
-        "system.diagnostics.process.4.3.0.nupkg.sha512",
-        "system.diagnostics.process.nuspec"
+        "runtimes/win7/lib/netcore50/_._"
       ]
     },
     "System.Diagnostics.Tools/4.3.0": {
@@ -8301,59 +8301,59 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\U\\.nuget\\packages\\": {},
+    "C:\\Users\\zhaoh\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\2018\\YT\\Yunt\\Yunt.Demo.ConsoleApp1\\Yunt.Demo.ConsoleApp1.csproj",
+      "projectUniqueName": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.ConsoleApp1\\Yunt.Demo.ConsoleApp1.csproj",
       "projectName": "Yunt.Demo.ConsoleApp1",
-      "projectPath": "E:\\2018\\YT\\Yunt\\Yunt.Demo.ConsoleApp1\\Yunt.Demo.ConsoleApp1.csproj",
-      "packagesPath": "C:\\Users\\U\\.nuget\\packages\\",
-      "outputPath": "E:\\2018\\YT\\Yunt\\Yunt.Demo.ConsoleApp1\\obj\\",
+      "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.ConsoleApp1\\Yunt.Demo.ConsoleApp1.csproj",
+      "packagesPath": "C:\\Users\\zhaoh\\.nuget\\packages\\",
+      "outputPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Demo.ConsoleApp1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\U\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\zhaoh\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.1"
       ],
       "sources": {
-        "http://10.1.5.102:8000/nuget": {},
-        "http://packagesource": {},
-        "https://api.nuget.org/v3/index.json": {}
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {},
+        "https://www.nuget.org/api/v2/": {}
       },
       "frameworks": {
         "netcoreapp2.1": {
           "projectReferences": {
-            "E:\\2018\\YT\\Yunt\\Yunt.Analysis.Repository.EF\\Yunt.Analysis.Repository.EF.csproj": {
-              "projectPath": "E:\\2018\\YT\\Yunt\\Yunt.Analysis.Repository.EF\\Yunt.Analysis.Repository.EF.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Analysis.Repository.EF\\Yunt.Analysis.Repository.EF.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Analysis.Repository.EF\\Yunt.Analysis.Repository.EF.csproj"
             },
-            "E:\\2018\\YT\\Yunt\\Yunt.Auth.Repository.EF\\Yunt.Auth.Repository.EF.csproj": {
-              "projectPath": "E:\\2018\\YT\\Yunt\\Yunt.Auth.Repository.EF\\Yunt.Auth.Repository.EF.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Auth.Repository.EF\\Yunt.Auth.Repository.EF.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Auth.Repository.EF\\Yunt.Auth.Repository.EF.csproj"
             },
-            "E:\\2018\\YT\\Yunt\\Yunt.Common\\Yunt.Common.csproj": {
-              "projectPath": "E:\\2018\\YT\\Yunt\\Yunt.Common\\Yunt.Common.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Common\\Yunt.Common.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Common\\Yunt.Common.csproj"
             },
-            "E:\\2018\\YT\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj": {
-              "projectPath": "E:\\2018\\YT\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Device.Repository.EF\\Yunt.Device.Repository.EF.csproj"
             },
-            "E:\\2018\\YT\\Yunt\\Yunt.Dtsc.Core\\Yunt.Dtsc.Core.csproj": {
-              "projectPath": "E:\\2018\\YT\\Yunt\\Yunt.Dtsc.Core\\Yunt.Dtsc.Core.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Core\\Yunt.Dtsc.Core.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Core\\Yunt.Dtsc.Core.csproj"
             },
-            "E:\\2018\\YT\\Yunt\\Yunt.Dtsc.Domain\\Yunt.Dtsc.Domain.csproj": {
-              "projectPath": "E:\\2018\\YT\\Yunt\\Yunt.Dtsc.Domain\\Yunt.Dtsc.Domain.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Domain\\Yunt.Dtsc.Domain.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Dtsc.Domain\\Yunt.Dtsc.Domain.csproj"
             },
-            "E:\\2018\\YT\\Yunt\\Yunt.Inventory.Repository.EF\\Yunt.Inventory.Repository.EF.csproj": {
-              "projectPath": "E:\\2018\\YT\\Yunt\\Yunt.Inventory.Repository.EF\\Yunt.Inventory.Repository.EF.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Inventory.Repository.EF\\Yunt.Inventory.Repository.EF.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Inventory.Repository.EF\\Yunt.Inventory.Repository.EF.csproj"
             },
-            "E:\\2018\\YT\\Yunt\\Yunt.Xml.Repository.EF\\Yunt.Xml.Repository.EF.csproj": {
-              "projectPath": "E:\\2018\\YT\\Yunt\\Yunt.Xml.Repository.EF\\Yunt.Xml.Repository.EF.csproj"
+            "G:\\2018\\Yunt\\Yunt\\Yunt.Xml.Repository.EF\\Yunt.Xml.Repository.EF.csproj": {
+              "projectPath": "G:\\2018\\Yunt\\Yunt\\Yunt.Xml.Repository.EF\\Yunt.Xml.Repository.EF.csproj"
             }
           }
         }
