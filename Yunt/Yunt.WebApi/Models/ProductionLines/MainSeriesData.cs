@@ -13,18 +13,9 @@ namespace Yunt.WebApi.Models.ProductionLines
         public MainSeriesData()
         {
             SeriesDatas = new List<SeriesDatas>();
-            Total = new List<Total>();
         }
         public string MotorID { set; get; }
         public string MotorName { get; set; }
-        public List<SeriesDatas> SeriesDatas { get; set; }
-
-        public List<Total> Total { get; set; }
-        
-
-    }
-    public class Total
-    {
         /// <summary>
         /// 总运行时间
         /// </summary>
@@ -38,8 +29,13 @@ namespace Yunt.WebApi.Models.ProductionLines
         /// <summary>
         /// 每吨耗电量
         /// </summary>
-        public float AvgActivePower { get; set; }      
+        public float AvgActivePower { get; set; }
+        public List<SeriesDatas> SeriesDatas { get; set; }
+        
+
     }
+  
+
 
     public class SeriesDatas
     {
@@ -49,14 +45,35 @@ namespace Yunt.WebApi.Models.ProductionLines
         public long UnixTime { get; set; }
 
         /// <summary>
-        /// 运行时间
-        /// </summary>
-        public float RunningTime { get; set; }
-
-        /// <summary>
         /// 产量
         /// </summary>
         public float Output { get; set; }
     }
+    public class Report
+    {
+        public Report()
+        {
+            Row = new List<Row>();
+            Detail = new List<Detail>();
+        }
+        public List<Detail> Detail { get; set; }
+        public List<Row> Row { get; set; }
+       
+    }
+    public class Row
+    {
+        public Row()
+        {
+            Detail = new List<Detail>();
+        }
+        public List<Detail> Detail { get; set; }
+        public DateTime Time { get; set; }
+    }
+    public class Detail
+    {
+        public float OutPut { get; set; }
+        public string Name { get; set; }
+    }
+ 
 
 }

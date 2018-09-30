@@ -212,6 +212,38 @@ namespace Yunt.Device.Domain.Services
         /// <param name="shiftEnd">班次结束小时时间（不包含）</param>
         /// <returns></returns>
         IEnumerable<dynamic> MotorShifts(Motor motor, long start, long end, int shiftStart, int shiftEnd);
+
+        /// <summary>
+        /// 计算当日产线耗电量明细
+        /// </summary>
+        /// <param name="motors"></param>
+        /// <returns></returns>
+        List<PowerCal> ShiftCalcMotorPowers(List<Motor> motors,int shiftStart);
+        /// <summary>
+        /// 计算历史区间内产线耗电量明细
+        /// </summary>
+        /// <param name="motors"></param>
+        /// <returns></returns>
+        List<PowerCal> ShiftCalcMotorPowers(List<Motor> motors, long start, long end, int shiftStart, int shiftEnd);
+
+        /// <summary>
+        /// 计算历史某一天产线耗电量明细
+        /// </summary>
+        /// <param name="motors"></param>
+        /// <returns></returns>
+        List<PowerCal> ShiftCalcMotorPowers(List<Motor> motors, long date, int shiftStart);
+
+        #endregion
+
+        #region 2018.9.29   powers
+        /// <summary>
+        /// 根据电机设备ID获取历史某一天电机设备详情(其中皮带机为班次)
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="date">日期或起始班次小时时间</param>
+        /// <param name="end">结束班次小时时间</param>
+        /// <returns></returns>
+         IEnumerable<dynamic> MotorShiftHours2(Motor motor, long date, long end, int shiftStart);
         #endregion
     }
 }

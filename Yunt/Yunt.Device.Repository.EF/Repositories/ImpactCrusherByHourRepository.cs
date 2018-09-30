@@ -16,6 +16,7 @@ using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using Yunt.Common.Shift;
 
 namespace Yunt.Device.Repository.EF.Repositories
 {
@@ -272,6 +273,75 @@ namespace Yunt.Device.Repository.EF.Repositories
         }
         #endregion
 
+        #region 2018.9.29 powers
+        /// <summary>
+        /// 获取历史某些班次的数据
+        /// </summary>
+        /// <param name="motor"></param>
+        ///  <param name="start">起始时间</param>
+        ///   <param name="end">结束时间</param>
+        ///  <param name="shiftStart">班次起始小时时间</param>
+        ///   <param name="shiftEnd">班次结束小时时间</param>
+        public IEnumerable<ImpactCrusherByDay> GetHistoryShiftSomeData(Motor motor, long start, long end, int shiftStart, int shiftEnd)
+        {
+            var datas = new List<ImpactCrusherByDay>();
+            DateTime startTime = start.Time(), endTime = end.Time();
+            var times = ShiftCalc.GetTimesByShift(startTime, endTime, shiftStart, shiftEnd);
+            if (times == null || !times.Any())
+                return null;
+            times.ForEach(t => {
+                var st = t.Item1.Time().Date; var et = t.Item2.Time().Date;
+                var time = t.Item1.Time().TimeSpan();
+                var specHour = t.Item2.Time().AddHours(1).TimeSpan();
+                if (st.CompareTo(et) == 0 && t.Item1.Time().Hour < shiftStart)//同一自然日的情况
+                    time = st.AddDays(-1).TimeSpan();
+
+                if (datas.Count == 0)
+                {
+                    var retime = time.Time();
+                    retime = retime.Date;
+                    time = retime.AddHours(+8).TimeSpan();
+                }
+                var hourData = t.Item1 == t.Item2 ? GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= t.Item1 && e.Time < specHour)?.ToList() :
+                            GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= t.Item1 && e.Time < specHour)?.ToList();
+                if (hourData == null || !hourData.Any())
+                {
+                    datas.Add(new ImpactCrusherByDay
+                    {
+                        MotorId = motor.MotorId,
+                        Motor1ActivePower = 0,
+                        Motor2ActivePower = 0,
+                        Time = time,
+
+
+                    });
+                    return;
+                }
+                var source = hourData?.Where(e => e.RunningTime > 0);
+                if (source == null || !source.Any())
+                {
+                    datas.Add(new ImpactCrusherByDay
+                    {
+                        MotorId = motor.MotorId,
+                        Time = time,
+                        Motor1ActivePower = 0,
+                        Motor2ActivePower = 0,
+                    });
+                    return;
+                }
+
+                datas.Add(new ImpactCrusherByDay
+                {
+                    MotorId = motor.MotorId,
+                    Time = time,
+                    Motor1ActivePower = MathF.Round(source?.Sum(e => e.Motor1ActivePower) ?? 0, 3),
+                    Motor2ActivePower = MathF.Round(source?.Sum(e => e.Motor2ActivePower) ?? 0, 3)
+                });
+            });
+
+            return datas;
+        }
+        #endregion
 
     }
 }

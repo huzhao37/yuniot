@@ -7,6 +7,7 @@ using System.Text;
 using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using Yunt.Common;
+using Yunt.Common.Shift;
 using Yunt.Device.Domain.IRepository;
 using Yunt.Device.Domain.MapModel;
 using Yunt.Device.Domain.Model;
@@ -1188,7 +1189,7 @@ namespace Yunt.Device.Repository.EF.Services
             {
                 if (motor.MotorTypeId.EqualIgnoreCase("IC"))
                 {
-                    var datas = MotorShiftHours(motor, 8);
+                    var datas = MotorHours(motor);
                     var times = new List<long>();
                     for (int i = 0; i < length; i++)
                     {
@@ -1203,7 +1204,7 @@ namespace Yunt.Device.Repository.EF.Services
                 }
                 else
                 {
-                    var datas = MotorShiftHours(motor, 8);
+                    var datas = MotorHours(motor);
                     var times = new List<long>();
                     for (int i = 0; i < length; i++)
                     {
@@ -1342,6 +1343,193 @@ namespace Yunt.Device.Repository.EF.Services
             }
             return resp;
         }
+
+
+        /// <summary>
+        /// 计算当日产线耗电量明细
+        /// </summary>
+        /// <param name="motors"></param>
+        /// <returns></returns>
+        public List<PowerCal> ShiftCalcMotorPowers(List<Motor> motors, int shiftStart)
+        {
+            var now = DateTime.Now.Date;
+            int length = (int)DateTime.Now.Subtract(now).TotalHours + 1;
+            if (motors == null || !motors.Any())
+                return null;
+            var resp = new List<PowerCal>();
+            var list = new List<PowerCal>();
+            motors.ForEach(motor =>
+            {
+                if (motor.MotorTypeId.EqualIgnoreCase("IC"))
+                {
+                    var datas = MotorShiftHours(motor,shiftStart);
+                    var times = new List<long>();
+                    for (int i = shiftStart; i < length; i++)
+                    {
+                        var time = now.AddHours(i).TimeSpan();
+                        times.Add(time);
+                        var d = datas.Select(e => new { e.Time, ActivePower = (e.Motor1ActivePower + e.Motor2ActivePower) })
+                                .Where(e => (long)e.Time == time);
+                        var t = d.FirstOrDefault();
+                        var item = new PowerCal { ActivePower = d.Any() ? t.ActivePower : 0f, Time = time };
+                        list.Add(item);
+                    }
+                }
+                else
+                {
+                    var datas = MotorShiftHours(motor, shiftStart);
+                    var times = new List<long>();
+                    for (int i = shiftStart; i < length; i++)
+                    {
+                        var time = now.AddHours(i).TimeSpan();
+                        times.Add(time);
+                        var d = datas.Select(e => new { e.Time, e.ActivePower })
+                                .Where(e => (long)e.Time == time);
+                        var t = d.FirstOrDefault();
+                        var item = new PowerCal { ActivePower = d.Any() ? t.ActivePower : 0f, Time = time };
+                        list.Add(item);
+                    }
+                }
+
+            });
+            var groups = list.GroupBy(e => e.Time);
+            foreach (var item in groups)
+            {
+                var time = item.Key;
+                var powerSum = MathF.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
+                resp.Add(new PowerCal { ActivePower = powerSum, Time = (long)time });
+            }
+            return resp;
+        }
+
+        /// <summary>
+        /// 计算历史区间内产线耗电量明细
+        /// </summary>
+        /// <param name="motors"></param>
+        /// <returns></returns>
+        public List<PowerCal> ShiftCalcMotorPowers(List<Motor> motors, long start, long end, int shiftStart,int shiftEnd)
+        {
+            
+            var hours = ShiftCalc.GetTimesByShift(start.Time(), end.Time(), shiftStart, shiftEnd);
+            var length = end.Time().Subtract(start.Time()).TotalDays / 1;
+            var endT = end.Time().AddMilliseconds(-1).TimeSpan();
+            var startT = start.Time().Date;
+            if (motors == null || !motors.Any())
+                return null;
+            var resp = new List<PowerCal>();
+            var list = new List<PowerCal>();
+            motors.ForEach(motor =>
+            {
+                if (motor.MotorTypeId.EqualIgnoreCase("IC"))
+                {
+                    var datas = MotorShifts2(motor,start, endT, shiftStart,shiftEnd);
+                    var times = new List<long>();
+                    hours.ForEach(t =>
+                    {
+                        times.Add(t.Item1);
+                        var d = datas.Select(e => new { e.Time, ActivePower = (e.Motor1ActivePower + e.Motor2ActivePower) })
+                                .Where(e => (long)e.Time == t.Item1);
+                        var a = d.FirstOrDefault();
+                        var item = new PowerCal { ActivePower = d.Any() ? a.ActivePower : 0f, Time = t.Item1 };
+                        list.Add(item);
+                    });
+                    //var times = new List<long>();
+                    //for (int i = 0; i < hours.Count; i++)
+                    //{
+                    //    var time2 = startT.AddHours(shiftStart);
+                    //    var time = time2.AddDays(i).TimeSpan();                        
+                    //    times.Add(time);
+                    //    var d = datas.Select(e => new { e.Time, ActivePower = (e.Motor1ActivePower + e.Motor2ActivePower) })
+                    //            .Where(e => (long)e.Time == time);
+                    //    var t = d.FirstOrDefault();
+                    //    var item = new PowerCal { ActivePower = d.Any() ? t.ActivePower : 0f, Time = time };
+                    //    list.Add(item);
+                    //}
+                }
+                else
+                {
+                    var datas = MotorShifts2(motor, start, endT, shiftStart, shiftEnd);
+                    var times = new List<long>();
+                    hours.ForEach(t =>
+                    {                       
+                        times.Add(t.Item1);
+                        var d = datas.Select(e => new { e.Time, e.ActivePower })
+                                .Where(e => (long)e.Time == t.Item1);
+                        var a = d.FirstOrDefault();
+                        var item = new PowerCal { ActivePower = d.Any() ? a.ActivePower : 0f, Time = t.Item1 };
+                        list.Add(item);
+                    });
+                }
+
+            });
+            var groups = list?.OrderBy(e => e.Time)?.GroupBy(e => e.Time);
+            if (groups != null && groups.Any())
+                foreach (var item in groups)
+                {
+                    var time = item.Key;
+                    var powerSum = MathF.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
+                    resp.Add(new PowerCal { ActivePower = powerSum, Time = (long)time });
+                }
+            return resp;
+        }
+
+        /// <summary>
+        /// 计算历史某一天产线耗电量明细
+        /// </summary>
+        /// <param name="motors"></param>
+        /// <returns></returns>
+        public List<PowerCal> ShiftCalcMotorPowers(List<Motor> motors, long date, int shiftStart)
+        {
+            long startUnix = date, endUnix = date.Time().AddDays(1).TimeSpan();
+            var dt = date.Time();
+            if (motors == null || !motors.Any())
+                return null;
+            var resp = new List<PowerCal>();
+            var list = new List<PowerCal>();
+            motors.ForEach(motor =>
+            {
+                if (motor.MotorTypeId.EqualIgnoreCase("IC"))
+                {
+                    var datas = MotorShiftHours2(motor, date, endUnix,shiftStart);
+                    var times = new List<long>();
+                    for (int i = 0; i < 24; i++)
+                    {
+                        var time = dt.AddHours(i).TimeSpan();
+                        times.Add(time);
+                        var d = datas.Select(e => new { e.Time, ActivePower = (e.Motor1ActivePower + e.Motor2ActivePower) })
+                                .Where(e => (long)e.Time == time);
+                        var t = d.FirstOrDefault();
+                        var item = new PowerCal { ActivePower = d.Any() ? t.ActivePower : 0f, Time = time };
+                        list.Add(item);
+                    }
+                }
+                else
+                {
+                    var datas = MotorShiftHours2(motor, date, endUnix, shiftStart);
+                    var times = new List<long>();
+                    for (int i = 0; i < 24; i++)
+                    {
+                        var time = dt.AddHours(i).TimeSpan();
+                        times.Add(time);
+                        var d = datas.Select(e => new { e.Time, e.ActivePower })
+                                .Where(e => (long)e.Time == time);
+                        var t = d.FirstOrDefault();
+                        var item = new PowerCal { ActivePower = d.Any() ? t.ActivePower : 0f, Time = time };
+                        list.Add(item);
+                    }
+                }
+
+            });
+            var groups = list.GroupBy(e => e.Time);
+            foreach (var item in groups)
+            {
+                var time = item.Key;
+                var powerSum = MathF.Round(item?.OrderBy(e => e.Time)?.ToList().Sum(e => (float)e.ActivePower) ?? 0, 2);
+                resp.Add(new PowerCal { ActivePower = powerSum, Time = (long)time });
+            }
+            return resp;
+        }
+
 
         /// <summary>
         /// 根据动态数据获取移动端设备详情
@@ -2779,6 +2967,126 @@ namespace Yunt.Device.Repository.EF.Services
             }
         }
 
+        #endregion
+
+        #region 2018.9.29   powers
+        /// <summary>
+        /// 根据电机设备ID获取历史某一天电机设备详情(其中皮带机为班次)
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="date">日期或起始班次小时时间</param>
+        /// <param name="end">结束班次小时时间</param>
+        /// <returns></returns>
+        public virtual IEnumerable<dynamic> MotorShiftHours2(Motor motor, long date, long end, int shiftStart)
+        {
+            long startUnix = date;//, endUnix = date.Time().AddDays(1).TimeSpan();
+            if (motor == null) return new List<dynamic>();
+            dynamic list = new List<dynamic>();
+            var specHour = end.Time().AddHours(1).TimeSpan();
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    return startUnix == end ? _cyByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < specHour)?.ToList() :
+                            _cyByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time <= end)?.ToList();
+                case "MF":
+                    return startUnix == end ? _mfByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < specHour).ToList():
+                        _mfByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end).ToList();
+                case "JC":
+                    return startUnix == end ? _jcByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < specHour).ToList() :
+                        _jcByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end).ToList();
+
+                case "CC":
+                    return startUnix == end ? _ccByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < specHour).ToList() :
+                        _ccByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end).ToList();
+
+                case "VC":
+                    return startUnix == end ? _vcByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < specHour).ToList() :
+                        _vcByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end).ToList();
+
+                case "VB":
+                    return startUnix == end ? _vbByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < specHour).ToList() :
+                         _vbByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end).ToList();
+
+                case "SCC":
+                    return startUnix == end ? _sccByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < specHour).ToList() :
+                        _sccByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end).ToList();
+
+                case "PUL":
+                    return startUnix == end ? _pulByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < specHour).ToList() :
+                        _pulByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end).ToList();
+
+                case "IC":
+                    return startUnix == end ? _icByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < specHour).ToList() :
+                        _icByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end).ToList();
+
+                case "HVB":
+                    return startUnix == end ? _hvbByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < specHour).ToList() :
+                         _hvbByHourRep.GetEntities(e => e.MotorId.Equals(motor.MotorId) && e.Time >= startUnix && e.Time < end).ToList();
+
+                default:
+                    return list;
+            }
+        }
+
+        /// <summary>
+        /// 根据电机设备ID和时间节点获取电机设备详情(不包括今天)(其中皮带机为班次)
+        /// </summary>
+        /// <param name="motor"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        /// <param name="shiftStart">班次起始小时时间</param>
+        /// <param name="shiftEnd">班次结束小时时间（不包含）</param>
+        /// <returns></returns>
+        public virtual IEnumerable<dynamic> MotorShifts2(Motor motor, long start, long end, int shiftStart, int shiftEnd)
+        {
+            if (motor == null) return new List<dynamic>();
+            dynamic list = new List<dynamic>();
+            switch (motor.MotorTypeId)
+            {
+                case "CY":
+                    list = _cyByHourRep.GetHistoryShiftSomeData(motor, start, end, shiftStart, shiftEnd)?.ToList(); 
+                    return list;
+                case "MF":
+                    list = _mfByHourRep.GetHistoryShiftSomeData(motor, start, end, shiftStart, shiftEnd)?.ToList();
+
+                    return list;
+
+                case "JC":
+                    list = _jcByHourRep.GetHistoryShiftSomeData(motor, start, end, shiftStart, shiftEnd)?.ToList();
+                    return list;
+
+                case "CC":
+                    list = _ccByHourRep.GetHistoryShiftSomeData(motor, start, end, shiftStart, shiftEnd)?.ToList();
+                    return list;
+
+                case "VC":
+                    list = _vcByHourRep.GetHistoryShiftSomeData(motor, start, end, shiftStart, shiftEnd)?.ToList();
+                    return list;
+
+                case "VB":
+                    list = _hvbByHourRep.GetHistoryShiftSomeData(motor, start, end, shiftStart, shiftEnd)?.ToList();
+                    return list;
+
+                case "SCC":
+                    //list = _cyByHourRep.GetHistoryShiftSomeData(motor, start, end, shiftStart, shiftEnd)?.ToList();
+                    return list;
+
+                case "PUL":
+                    list = _pulByHourRep.GetHistoryShiftSomeData(motor, start, end, shiftStart, shiftEnd)?.ToList();
+                    return list;
+
+                case "IC":
+                    list = _icByHourRep.GetHistoryShiftSomeData(motor, start, end, shiftStart, shiftEnd)?.ToList();
+                    return list;
+
+                case "HVB":
+                    list = _hvbByHourRep.GetHistoryShiftSomeData(motor, start, end, shiftStart, shiftEnd)?.ToList();
+                    return list;
+
+                default:
+                    return list;
+            }
+        }
         #endregion
     }
 }

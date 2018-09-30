@@ -63,5 +63,18 @@ namespace Yunt.Device.Domain.IRepository
         /// <param name="motorTypeId">设备类型</param>
         Task UpdateOthers(DateTime dt, string motorTypeId);
         #endregion
+
+        #region 2018.9.29 powers
+        /// <summary>
+        /// 获取历史某些班次的数据
+        /// </summary>
+        /// <param name="motor"></param>
+        ///  <param name="start">起始时间</param>
+        ///   <param name="end">结束时间</param>
+        ///  <param name="shiftStart">班次起始小时时间</param>
+        ///   <param name="shiftEnd">班次结束小时时间</param>
+        IEnumerable<ImpactCrusherByDay> GetHistoryShiftSomeData(Motor motor, long start, long end, int shiftStart, int shiftEnd);
+
+        #endregion
     }
 }
