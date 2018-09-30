@@ -973,8 +973,8 @@ namespace Yunt.WebApi.Controllers
                         //datas = _productionLineRepository.MotorShiftDetails(m,Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
                         if (datas != null && datas.Any())
                         {
-                            detail1.Add(new Detail() { Name = m.Name, OutPut = datas.Sum(e => (float)e.AccumulativeWeight) });
-                            detail2.Add(new Detail() { Name = m.Name, OutPut = datas.Sum(e => (float)e.AccumulativeWeight) });
+                            detail1.Add(new Detail() { Name = m.Name, OutPut = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight),2) });
+                            detail2.Add(new Detail() { Name = m.Name, OutPut = MathF.Round(datas.Sum(e => (float)e.AccumulativeWeight),2) });
                         }
 
                     });
@@ -997,8 +997,8 @@ namespace Yunt.WebApi.Controllers
                         datas = _productionLineRepository.MotorShiftHours(m, startT,endT,Startup.ShiftStartHour)?.OrderBy(e => (long)e.Time)?.ToList();
                         if (datas != null && datas.Any())
                         {
-                            detail1.Add(new Detail() { Name = m.Name, OutPut = datas.Sum(e => (float)e.AccumulativeWeight) });
-                            detail2.Add(new Detail() { Name = m.Name, OutPut = datas.Sum(e => (float)e.AccumulativeWeight) });
+                            detail1.Add(new Detail() { Name = m.Name, OutPut = MathF.Round( datas.Sum(e => (float)e.AccumulativeWeight),2) });
+                            detail2.Add(new Detail() { Name = m.Name, OutPut = MathF.Round( datas.Sum(e => (float)e.AccumulativeWeight),2) });
                         }
 
                     });
@@ -1031,9 +1031,9 @@ namespace Yunt.WebApi.Controllers
                                 Time = ((long)d.Time).Time()
                             });
                         });
-                        detail2.Add(new Detail() { Name = m.Name, OutPut = datas.Sum(e => (float)e.AccumulativeWeight) });
+                        //detail2.Add(new Detail() { Name = m.Name, OutPut = datas.Sum(e => (float)e.AccumulativeWeight) });
+                        detail2.Add(new Detail() { Name = m.Name, OutPut = MathF.Round( datas.Sum(e => (float)e.AccumulativeWeight),2) });
                     }
-
                 });
                 foreach (var row in rows.GroupBy(e => e.Time))
                 {
