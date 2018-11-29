@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using NewLife.Log;
 using NewLife.Serialization;
 using Quartz;
 using Quartz.Impl;
@@ -67,7 +68,7 @@ namespace Yunt.Dtsc.Core
             StdSchedulerFactory.GetDefaultScheduler(cancel.Token).Result.ScheduleJob(jobDetail, jobTrigger, cancel.Token);
             StdSchedulerFactory.GetDefaultScheduler(cancel.Token).Result.Start(cancel.Token);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Logger.Info($"->任务模块{name}-{job.Version}被装载...");
+            XTrace.Log.Info($"->任务模块{name}-{job.Version}被装载...");
         }
 
         /// <summary>
@@ -84,14 +85,14 @@ namespace Yunt.Dtsc.Core
             var name = job.Name;//tmp.JobName;
             if (!Dictionary.ContainsKey(name))
             {
-                Logger.Warn($"->任务模块{name}-{job.Version}不存在");
+                XTrace.Log.Warn($"->任务模块{name}-{job.Version}不存在");
                 return;
             }
 
             var jobKey = Dictionary[name];
             StdSchedulerFactory.GetDefaultScheduler(cancel.Token).Result.DeleteJob(jobKey, cancel.Token);
             Dictionary.Remove(name);
-            Logger.Info($"->任务模块{name}-{job.Version}被删除...");
+            XTrace.Log.Info($"->任务模块{name}-{job.Version}被删除...");
         }
         /// <summary>
         /// 从Job队列中暂停类型
@@ -107,12 +108,12 @@ namespace Yunt.Dtsc.Core
             var name = job.Name;//tmp.JobName;
             if (!Dictionary.ContainsKey(name))
             {
-                Logger.Warn($"->任务模块{name}-{job.Version}不存在");
+                XTrace.Log.Warn($"->任务模块{name}-{job.Version}不存在");
                 return;
             }
             var jobKey = Dictionary[name];
             StdSchedulerFactory.GetDefaultScheduler(cancel.Token).Result.PauseJob(jobKey, cancel.Token);
-            Logger.Info($"->任务模块{name}被暂停...");
+            XTrace.Log.Info($"->任务模块{name}被暂停...");
         }
         /// <summary>
         /// 从Job队列中恢复类型
@@ -129,11 +130,11 @@ namespace Yunt.Dtsc.Core
             var jobKey = Dictionary[name];
             if (!Dictionary.ContainsKey(name))
             {
-                Logger.Warn($"->任务模块{name}-{job.Version}不存在");
+                XTrace.Log.Warn($"->任务模块{name}-{job.Version}不存在");
                 return;
             }
             StdSchedulerFactory.GetDefaultScheduler(cancel.Token).Result.ResumeJob(jobKey, cancel.Token);
-            Logger.Info($"->任务模块{name}被恢复启动...");
+            XTrace.Log.Info($"->任务模块{name}被恢复启动...");
         }
         /// <summary>
         /// 删除压缩文件
@@ -185,7 +186,7 @@ namespace Yunt.Dtsc.Core
                 return null;
             var path = Path.GetFullPath(JobPath) + "\\" + job.NodeID + "\\" + jobid + "\\" + job.Name + ".dll";
             if (!File.Exists(path))
-                Logger.Error($"请检查{job.Name}是否为实际的任务名称");
+                XTrace.Log.Error($"请检查{job.Name}是否为实际的任务名称");
             try
             {
                 using (var fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Read))
@@ -207,7 +208,7 @@ namespace Yunt.Dtsc.Core
                     Msg = $"Warn:{e.Message}"
                 }.SaveAsync();
 
-                Logger.Warn(e.Message);
+                XTrace.Log.Warn(e.Message);
                 using (var fs = new FileStream(path, FileMode.OpenOrCreate, FileAccess.Read))
                 {
                     var asm = Assembly.Load(fs.ReadBytes());

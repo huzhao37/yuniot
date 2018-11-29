@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using Quartz;
-using Yunt.Common;
-using Yunt.Dtsc.Core;
-using Yunt.Dtsc.Domain.Model;
+using gbat.Common;
+using gbat.Dtsc.Core;
+using gbat.Dtsc.Domain.Model;
 
-namespace Yunt.Demo.SendEmail
+namespace gbat.Demo.SendEmail
 {
     /// <summary>
     /// 发送消息

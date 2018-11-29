@@ -18,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using NewLife.Reflection;
 using Yunt.Auth.Domain.BaseModel;
 using Yunt.Auth.Domain.IRepository;
+using Yunt.Redis;
 
 namespace Yunt.Auth.Repository.EF
 {

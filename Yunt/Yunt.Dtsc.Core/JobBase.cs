@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using NewLife.Log;
 using Quartz;
 using Quartz.Impl;
 using Yunt.Common;
@@ -71,7 +72,7 @@ namespace Yunt.Dtsc.Core
                 JobID = TbJob.Find("Name", JobName)?.ID ?? 0,
                 Msg = ($"Warn:excute time out，has canceled，wait for next operate...")
             }.SaveAsync();
-            Logger.Warn(JobName + " excute time out，has canceled，wait for next operate...");
+            XTrace.Log.Warn(JobName + " excute time out，has canceled，wait for next operate...");
         }
 
         #endregion Methods
@@ -84,11 +85,11 @@ namespace Yunt.Dtsc.Core
             try
             {
                 timer = new Timer(CancelOperation, null, JobTimeout, Timeout.Infinite);
-                Logger.Info("{0} Start Excute", context.JobDetail.Key.Name);
+                XTrace.Log.Info("{0} Start Excute", context.JobDetail.Key.Name);
                 if (context.JobDetail.JobDataMap != null)
                 {
                     foreach (var pa in context.JobDetail.JobDataMap)
-                        Logger.Info($"JobDataMap，key：{pa.Key}，value：{pa.Value}");
+                        XTrace.Log.Info($"JobDataMap，key：{pa.Key}，value：{pa.Value}");
                 }
                 var jobId = context.JobDetail.JobDataMap?["jobid"];
                 if (jobId != null)
@@ -125,5 +126,6 @@ namespace Yunt.Dtsc.Core
         }
 
         #endregion
+
     }
 }

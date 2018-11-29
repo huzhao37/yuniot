@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace Yunt.Demo.ConsoleApp1
+namespace gbat.Demo.ConsoleApp1
 {
    public class AppSetting
     {

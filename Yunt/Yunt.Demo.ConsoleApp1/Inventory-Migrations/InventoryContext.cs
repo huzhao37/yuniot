@@ -5,11 +5,11 @@ using System.Reflection;
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Yunt.Common;
-using Yunt.Inventory.Repository.EF.Mappings;
-using Yunt.Inventory.Repository.EF.Models;
+using gbat.Common;
+using gbat.Inventory.Repository.EF.Mappings;
+using gbat.Inventory.Repository.EF.Models;
 
-namespace Yunt.Demo.ConsoleApp1
+namespace gbat.Demo.ConsoleApp1
 {
    public class InventoryContext : DbContext
     {
@@ -67,7 +67,7 @@ namespace Yunt.Demo.ConsoleApp1
         public InventoryContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<InventoryContext>();
-            optionsBuilder.UseMySql("server=rm-wz9mrn9kj0lt0r0i18o.mysql.rds.aliyuncs.com;port=3306;database=yunt_inventory;uid=wdd;pwd=Unitoon2018;");
+            optionsBuilder.UseMySql("server=127.0.0.1;port=3306;database=gbat_inventory;uid=wdd;pwd=******;");
 
             return new InventoryContext(optionsBuilder.Options);
         }

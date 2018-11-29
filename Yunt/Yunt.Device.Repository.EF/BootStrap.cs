@@ -19,6 +19,7 @@ using Yunt.Redis;
 using Yunt.Common;
 using Microsoft.Extensions.Configuration;
 using Yunt.Device.Domain.Model.IdModel;
+using Yunt.Redis;
 
 namespace Yunt.Device.Repository.EF
 {

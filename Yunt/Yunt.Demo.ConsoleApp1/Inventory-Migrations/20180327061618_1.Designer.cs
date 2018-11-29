@@ -6,10 +6,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
-using Yunt.Common;
-using Yunt.Demo.ConsoleApp1;
+using gbat.Common;
+using gbat.Demo.ConsoleApp1;
 
-namespace Yunt.Demo.ConsoleApp1.Migrations
+namespace gbat.Demo.ConsoleApp1.Migrations
 {
     [DbContext(typeof(InventoryContext))]
     [Migration("20180327061618_1")]
@@ -22,7 +22,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                 .HasAnnotation("MySql:ValueGenerationStrategy", MySqlValueGenerationStrategy.IdentityColumn)
                 .HasAnnotation("ProductVersion", "2.0.1-rtm-125");
 
-            modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.IdModel.SparePartsIdFactories", b =>
+            modelBuilder.Entity("gbat.Inventory.Repository.EF.Models.IdModel.SparePartsIdFactories", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -38,7 +38,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.ToTable("SparePartsIdFactories");
                 });
 
-            modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.InventoryAlarmInfo", b =>
+            modelBuilder.Entity("gbat.Inventory.Repository.EF.Models.InventoryAlarmInfo", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -54,7 +54,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.ToTable("InventoryAlarmInfo");
                 });
 
-            modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.SpareParts", b =>
+            modelBuilder.Entity("gbat.Inventory.Repository.EF.Models.SpareParts", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -90,7 +90,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.ToTable("SpareParts");
                 });
 
-            modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.SparePartsType", b =>
+            modelBuilder.Entity("gbat.Inventory.Repository.EF.Models.SparePartsType", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();
@@ -108,7 +108,7 @@ namespace Yunt.Demo.ConsoleApp1.Migrations
                     b.ToTable("SparePartsType");
                 });
 
-            modelBuilder.Entity("Yunt.Inventory.Repository.EF.Models.WareHouses", b =>
+            modelBuilder.Entity("gbat.Inventory.Repository.EF.Models.WareHouses", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd();

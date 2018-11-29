@@ -19,15 +19,15 @@ using NewLife;
 using NewLife.Log;
 using Quartz;
 using Quartz.Impl;
-//using Yunt.Auth.Domain.IRepository;
-using Yunt.Common;
-using Yunt.Dtsc.Core;
-using Yunt.Dtsc.Domain.Model;
-//using Yunt.Device.Domain.IRepository;
-//using Yunt.Device.Domain.Model;
-//using Yunt.Redis;
-//using Yunt.Redis.Config;
-namespace Yunt.Demo.ConsoleApp1
+//using gbat.Auth.Domain.IRepository;
+using gbat.Common;
+using gbat.Dtsc.Core;
+using gbat.Dtsc.Domain.Model;
+//using gbat.Device.Domain.IRepository;
+//using gbat.Device.Domain.Model;
+//using gbat.Redis;
+//using gbat.Redis.Config;
+namespace gbat.Demo.ConsoleApp1
 {
     class Program
     {
@@ -91,7 +91,7 @@ namespace Yunt.Demo.ConsoleApp1
 
             var watcher = new FileSystemWatcher
             {
-                Path = Path.GetFullPath(".\\..\\Yunt.Jobs"),
+                Path = Path.GetFullPath(".\\..\\gbat.Jobs"),
                 NotifyFilter = NotifyFilters.Attributes |
                                NotifyFilters.CreationTime |
                                NotifyFilters.DirectoryName |
@@ -178,7 +178,7 @@ namespace Yunt.Demo.ConsoleApp1
 
             #region mysql test
 
-            //var dbconn = new yunt_testContext();
+            //var dbconn = new gbat_testContext();
             #region add test
 
             //var count = 10_000;
@@ -319,7 +319,7 @@ namespace Yunt.Demo.ConsoleApp1
 
             //services.AddAutoMapper();
 
-            //var contextOptions = new DbContextOptionsBuilder().UseMySql("server=10.1.5.25;port=3306;database=yunt_test;uid=root;pwd=unitoon2017;").Options;
+            //var contextOptions = new DbContextOptionsBuilder().UseMySql("server=10.1.5.25;port=3306;database=gbat_test;uid=root;pwd=unitoon2017;").Options;
             //services.AddSingleton(contextOptions)
             //  .AddTransient<TaskManagerContext>();
             //services.AddTransient<ITaskRepositoryBase<AggregateRoot>, TaskRepositoryBase<AggregateRoot, BaseModel>>();
@@ -363,12 +363,12 @@ namespace Yunt.Demo.ConsoleApp1
 
             #endregion
 
-            #region yunt-redis register
+            #region gbat-redis register
 
 
             //var tbService = ServiceProviderServiceExtensions.GetService<ITbCategoryRepository>(serviceProvider);
 
-            //redis.Set("yunty", new Auth.Domain.Model.TbCategory() { Categoryname = "test1", Categorycreatetime = DateTime.Now }, DataType.Protobuf);
+            //redis.Set("gbaty", new Auth.Domain.Model.TbCategory() { Categoryname = "test1", Categorycreatetime = DateTime.Now }, DataType.Protobuf);
             // tbService.Insert(new Auth.Domain.Model.TbCategory() { Categoryname = "test1" });
 
             #endregion

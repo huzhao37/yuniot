@@ -27,7 +27,7 @@ namespace Yunt.Auth.Repository.EF.Repositories
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-               // optionsBuilder.UseMySql("server=10.1.5.25;port=3306;database=yunt_test;uid=root;pwd=unitoon2017;");
+               // optionsBuilder.UseMySql("server=10.1.5.25;port=3306;database=Yunt_test;uid=root;pwd=unitoon2017;");
             }
         }
 
